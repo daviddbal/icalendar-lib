@@ -2,30 +2,24 @@ package net.balsoftware.properties;
 
 import java.net.URI;
 import java.time.Duration;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import net.balsoftware.VElement;
-import net.balsoftware.properties.component.recurrence.rrule.RecurrenceRuleValue;
-import net.balsoftware.utilities.DateTimeUtilities;
+//import net.balsoftware.properties.component.recurrence.rrule.RecurrenceRuleValue;
+//import net.balsoftware.utilities.DateTimeUtilities;
+import net.balsoftware.utilities.StringConverter;
 import net.balsoftware.utilities.StringConverters;
 
 public enum ValueType
@@ -89,48 +83,48 @@ public enum ValueType
 //            };
         }
     },
-    DATE ("DATE", Arrays.asList(LocalDate.class))
-    {
-        @Override
-        public <T> StringConverter<T> getConverter()
-        {
-            return new StringConverter<T>()
-            {
-                @Override
-                public String toString(T object)
-                {
-                    return DateTimeUtilities.temporalToString((LocalDate) object);
-                }
-
-                @Override
-                public T fromString(String string)
-                {
-                         return (T) LocalDate.parse(string, DateTimeUtilities.LOCAL_DATE_FORMATTER);
-                }
-            };
-        }
-    },
-    DATE_TIME ("DATE-TIME", Arrays.asList(LocalDateTime.class, ZonedDateTime.class))
-    {
-        @Override
-        public <T> StringConverter<T> getConverter()
-        {
-            return new StringConverter<T>()
-            {
-                @Override
-                public String toString(T object)
-                {
-                    return DateTimeUtilities.temporalToString((Temporal) object);
-                }
-
-                @Override
-                public T fromString(String string)
-                {
-                    return (T) DateTimeUtilities.temporalFromString(string);
-                }
-            };
-        }
-    },
+//    DATE ("DATE", Arrays.asList(LocalDate.class))
+//    {
+//        @Override
+//        public <T> StringConverter<T> getConverter()
+//        {
+//            return new StringConverter<T>()
+//            {
+//                @Override
+//                public String toString(T object)
+//                {
+//                    return DateTimeUtilities.temporalToString((LocalDate) object);
+//                }
+//
+//                @Override
+//                public T fromString(String string)
+//                {
+//                         return (T) LocalDate.parse(string, DateTimeUtilities.LOCAL_DATE_FORMATTER);
+//                }
+//            };
+//        }
+//    },
+//    DATE_TIME ("DATE-TIME", Arrays.asList(LocalDateTime.class, ZonedDateTime.class))
+//    {
+//        @Override
+//        public <T> StringConverter<T> getConverter()
+//        {
+//            return new StringConverter<T>()
+//            {
+//                @Override
+//                public String toString(T object)
+//                {
+//                    return DateTimeUtilities.temporalToString((Temporal) object);
+//                }
+//
+//                @Override
+//                public T fromString(String string)
+//                {
+//                    return (T) DateTimeUtilities.temporalFromString(string);
+//                }
+//            };
+//        }
+//    },
     DURATION ("DURATION", Arrays.asList(Duration.class, Period.class))
     {
         @Override
@@ -230,39 +224,39 @@ public enum ValueType
             };
         }
     },
-    RECURRENCE_RULE ("RECUR", Arrays.asList(RecurrenceRuleValue.class))
-    {
-        @Override
-        public <T> StringConverter<T> getConverter()
-        {
-            return new StringConverter<T>()
-            {
-                @Override
-                public String toString(T object)
-                {
-                    return ((VElement) object).toContent();
-                }
-
-                @Override
-                public T fromString(String string)
-                {
-                    return (T) RecurrenceRuleValue.parse(string);
-                }
-            };
-        }
-        
-        @Override
-        public <T> List<String> createErrorList(T value)
-        {
-            if (value != null)
-            {
-                return ((RecurrenceRuleValue) value).errors();
-            } else
-            {
-                return Collections.emptyList();
-            }
-        }
-    },
+//    RECURRENCE_RULE ("RECUR", Arrays.asList(RecurrenceRuleValue.class))
+//    {
+//        @Override
+//        public <T> StringConverter<T> getConverter()
+//        {
+//            return new StringConverter<T>()
+//            {
+//                @Override
+//                public String toString(T object)
+//                {
+//                    return ((VElement) object).toString();
+//                }
+//
+//                @Override
+//                public T fromString(String string)
+//                {
+//                    return (T) RecurrenceRuleValue.parse(string);
+//                }
+//            };
+//        }
+//        
+//        @Override
+//        public <T> List<String> createErrorList(T value)
+//        {
+//            if (value != null)
+//            {
+//                return ((RecurrenceRuleValue) value).errors();
+//            } else
+//            {
+//                return Collections.emptyList();
+//            }
+//        }
+//    },
     /* Note: This string converter is only acceptable for values converted to Stings
      * without any additional processing.  For properties with TEXT value that is stored
      * as any type other than String, this converter MUST be replaced. (Use setConverter in

@@ -1,15 +1,15 @@
-package jfxtras.icalendarfx.parameter;
+package net.balsoftware.parameter;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import jfxtras.icalendarfx.parameters.AlternateText;
-import jfxtras.icalendarfx.parameters.CalendarUser;
-import jfxtras.icalendarfx.parameters.Delegatees;
-import jfxtras.icalendarfx.parameters.DirectoryEntry;
-import jfxtras.icalendarfx.parameters.FormatType;
-import jfxtras.icalendarfx.parameters.GroupMembership;
+import net.balsoftware.parameters.AlternateText;
+import net.balsoftware.parameters.CalendarUser;
+import net.balsoftware.parameters.Delegatees;
+import net.balsoftware.parameters.DirectoryEntry;
+import net.balsoftware.parameters.FormatType;
+import net.balsoftware.parameters.GroupMembership;
 
 public class ParseParameterTest
 {

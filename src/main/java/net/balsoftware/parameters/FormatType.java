@@ -1,6 +1,5 @@
 package net.balsoftware.parameters;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
@@ -34,11 +33,11 @@ public class FormatType extends ParameterBase<FormatType, String>
     {
         if (typeName == null)
         {
-            typeName = new SimpleStringProperty(this, ParameterType.FORMAT_TYPE.toString() + "_TYPE_NAME");
+//            typeName = new SimpleStringProperty(this, ParameterType.FORMAT_TYPE.toString() + "_TYPE_NAME");
         }
         if (subtypeName == null)
         {
-            subtypeName = new SimpleStringProperty(this, ParameterType.FORMAT_TYPE.toString() + "_SUBTYPE_NAME");
+//            subtypeName = new SimpleStringProperty(this, ParameterType.FORMAT_TYPE.toString() + "_SUBTYPE_NAME");
         }
 
         int slashIndex = value.indexOf('/');

@@ -1,11 +1,11 @@
-package jfxtras.icalendarfx.parameter;
+package net.balsoftware.parameter;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import jfxtras.icalendarfx.parameters.Relationship;
-import jfxtras.icalendarfx.parameters.Relationship.RelationshipType;
+import net.balsoftware.parameters.Relationship;
+import net.balsoftware.parameters.Relationship.RelationshipType;
 
 public class RelationshipTypeTest
 {

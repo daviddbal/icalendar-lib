@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import jfxtras.icalendarfx.parameters.AlternateText;
+import net.balsoftware.parameters.AlternateText;
 
 public class AlternateTextRepresentationTest
 {
@@ -13,6 +13,6 @@ public class AlternateTextRepresentationTest
     {
         String content = "\"cid:part1.0001@example.org\"";
         AlternateText p = AlternateText.parse(content);
-        assertEquals(p.name() + "=" + content, p.toContent());
+        assertEquals(p.name() + "=" + content, p.toString());
     }
 }

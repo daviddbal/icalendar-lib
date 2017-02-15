@@ -3,7 +3,6 @@ package net.balsoftware.content;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.ObjectProperty;
-import net.balsoftware.utilities.Orderer;
 
 public class SingleLineContent extends ContentLineBase
 {
@@ -25,8 +24,8 @@ public class SingleLineContent extends ContentLineBase
     {
         StringBuilder builder = new StringBuilder(builderSize);
         builder.append(name.get());
-        String elements = orderer().childrenUnmodifiable().stream()
-                .map(c -> c.toContent())
+        String elements = orderer.childrenUnmodifiable().stream()
+                .map(c -> c.toString())
                 .collect(Collectors.joining(";"));
         if (! elements.isEmpty())
         {

@@ -3,8 +3,6 @@ package net.balsoftware.parameters;
 import java.net.URI;
 import java.util.List;
 
-import net.balsoftware.properties.component.relationship.Attendee;
-
 /**
  * DELEGATED-FROM
  * Delegators
@@ -18,7 +16,6 @@ import net.balsoftware.properties.component.relationship.Attendee;
  *  jdoe@example.com
  * 
  * @author David Bal
- * @see Attendee
  */
 public class Delegators extends ParameterBase<Delegators, List<URI>>
 {

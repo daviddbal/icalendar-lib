@@ -3,10 +3,8 @@ package net.balsoftware.parameters;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.util.StringConverter;
 import net.balsoftware.VParent;
+import net.balsoftware.utilities.StringConverter;
 
 /**
  * Base class of all iCalendar Parameters.  Parameters can't have children.

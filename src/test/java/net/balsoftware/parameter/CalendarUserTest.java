@@ -1,11 +1,11 @@
-package jfxtras.icalendarfx.parameter;
+package net.balsoftware.parameter;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import jfxtras.icalendarfx.parameters.CalendarUser;
-import jfxtras.icalendarfx.parameters.CalendarUser.CalendarUserType;
+import net.balsoftware.parameters.CalendarUser;
+import net.balsoftware.parameters.CalendarUser.CalendarUserType;
 
 public class CalendarUserTest
 {

@@ -2,9 +2,6 @@ package net.balsoftware.parameters;
 
 import java.net.URI;
 
-import net.balsoftware.properties.component.relationship.Attendee;
-import net.balsoftware.properties.component.relationship.Organizer;
-
 /**
  * DIR
  * Directory Entry Reference
@@ -18,8 +15,6 @@ import net.balsoftware.properties.component.relationship.Organizer;
  *  c=US???(cn=Jim%20Dolittle)":mailto:jimdo@example.com
  * 
  * @author David Bal
- * @see Attendee
- * @see Organizer
  *
  */
 public class DirectoryEntry extends ParameterBase<DirectoryEntry, URI>

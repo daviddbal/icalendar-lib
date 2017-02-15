@@ -1,11 +1,11 @@
-package jfxtras.icalendarfx.parameter;
+package net.balsoftware.parameter;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import jfxtras.icalendarfx.parameters.ParticipationRole;
-import jfxtras.icalendarfx.parameters.ParticipationRole.ParticipationRoleType;
+import net.balsoftware.parameters.ParticipationRole;
+import net.balsoftware.parameters.ParticipationRole.ParticipationRoleType;
 
 public class ParticipationRoleTest
 {

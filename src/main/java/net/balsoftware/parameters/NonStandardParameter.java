@@ -46,7 +46,7 @@ public class NonStandardParameter extends ParameterBase<NonStandardParameter, St
     }
     
     @Override
-    public String toContent()
+    public String toString()
     {
         return (getValue() != null) ? name() + "=" + getValue() : null;
     }

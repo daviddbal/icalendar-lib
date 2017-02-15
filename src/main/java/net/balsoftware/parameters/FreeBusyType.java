@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.balsoftware.parameters.FreeBusyType.FreeBusyTypeEnum;
-import net.balsoftware.properties.component.time.FreeBusyTime;
 
 /**
  * FBTYPE

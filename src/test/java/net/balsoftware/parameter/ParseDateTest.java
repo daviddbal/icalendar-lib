@@ -1,4 +1,4 @@
-package jfxtras.icalendarfx.parameter;
+package net.balsoftware.parameter;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,7 +10,7 @@ import java.time.temporal.Temporal;
 
 import org.junit.Test;
 
-import jfxtras.icalendarfx.utilities.DateTimeUtilities;
+import net.balsoftware.utilities.DateTimeUtilities;
 
 public class ParseDateTest
 {

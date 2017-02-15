@@ -1,11 +1,11 @@
-package jfxtras.icalendarfx.parameter;
+package net.balsoftware.parameter;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import jfxtras.icalendarfx.parameters.ValueParameter;
-import jfxtras.icalendarfx.properties.ValueType;
+import net.balsoftware.parameters.ValueParameter;
+import net.balsoftware.properties.ValueType;
 
 public class ValueTypeTest
 {

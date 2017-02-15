@@ -8,8 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.util.StringConverter;
-
 public class StringConverters
 {
     public static StringConverter<String> defaultStringConverterWithQuotes()

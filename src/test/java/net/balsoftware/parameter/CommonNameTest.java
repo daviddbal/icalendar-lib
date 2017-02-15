@@ -1,10 +1,10 @@
-package jfxtras.icalendarfx.parameter;
+package net.balsoftware.parameter;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import jfxtras.icalendarfx.parameters.CommonName;
+import net.balsoftware.parameters.CommonName;
 
 public class CommonNameTest
 {
@@ -13,7 +13,7 @@ public class CommonNameTest
     {
         CommonName parameter = CommonName.parse("David Bal");
         String expectedContent = "CN=David Bal";
-        assertEquals(expectedContent, parameter.toContent());
+        assertEquals(expectedContent, parameter.toString());
     }
     
     @Test // tests String as value
@@ -21,6 +21,6 @@ public class CommonNameTest
     {
         CommonName parameter = CommonName.parse("\"John Smith\"");
         String expectedContent = "CN=John Smith";
-        assertEquals(expectedContent, parameter.toContent());
+        assertEquals(expectedContent, parameter.toString());
     }
 }

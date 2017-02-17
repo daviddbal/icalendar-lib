@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.balsoftware.VElement;
+import net.balsoftware.parameters.CalendarUser.CalendarUserType;
+import net.balsoftware.properties.PropAttendee;
 import net.balsoftware.properties.Property;
 import net.balsoftware.utilities.StringConverter;
 import net.balsoftware.utilities.StringConverters;
@@ -84,50 +86,50 @@ public enum ParameterType
         {
             return (StringConverter<T>) StringConverters.defaultStringConverterWithQuotes();
         }
+    },
+    // in property ATTENDEE
+    CALENDAR_USER_TYPE ("CUTYPE", CalendarUser.class) {
+        @Override
+        public void parse(Property<?> property, String content)
+        {
+            PropAttendee<?> castProperty = (PropAttendee<?>) property;
+            castProperty.setCalendarUser(CalendarUser.parse(content));
+        }
+
+        @Override
+        public Parameter<?> getParameter(Property<?> parent)
+        {
+            PropAttendee<?> castProperty = (PropAttendee<?>) parent;
+            return castProperty.getCalendarUser();
+        }
+
+        @Override
+        public <T> StringConverter<T> getConverter()
+        {
+            return new StringConverter<T>()
+            {
+                @Override
+                public String toString(T object)
+                {
+                    return ((CalendarUserType) object).toString();
+                }
+
+                @Override
+                public T fromString(String string)
+                {
+                    return (T) CalendarUserType.valueOfWithUnknown(string.toUpperCase());
+                }
+            };
+        }
+        
+        @Override
+        public void copyParameter(Parameter<?> child, Property<?> destination)
+        {
+            PropAttendee<?> castDestination = (PropAttendee<?>) destination;
+            CalendarUser parameterCopy = new CalendarUser((CalendarUser) child);
+            castDestination.setCalendarUser(parameterCopy);
+        }
 //    }
-//    // in property ATTENDEE
-//    CALENDAR_USER_TYPE ("CUTYPE", CalendarUser.class) {
-//        @Override
-//        public void parse(Property<?> property, String content)
-//        {
-//            PropAttendee<?> castProperty = (PropAttendee<?>) property;
-//            castProperty.setCalendarUser(CalendarUser.parse(content));
-//        }
-//
-//        @Override
-//        public Parameter<?> getParameter(Property<?> parent)
-//        {
-//            PropAttendee<?> castProperty = (PropAttendee<?>) parent;
-//            return castProperty.getCalendarUser();
-//        }
-//
-//        @Override
-//        public <T> StringConverter<T> getConverter()
-//        {
-//            return new StringConverter<T>()
-//            {
-//                @Override
-//                public String toString(T object)
-//                {
-//                    return ((CalendarUserType) object).toString();
-//                }
-//
-//                @Override
-//                public T fromString(String string)
-//                {
-//                    return (T) CalendarUserType.valueOfWithUnknown(string.toUpperCase());
-//                }
-//            };
-//        }
-//        
-//        @Override
-//        public void copyParameter(Parameter<?> child, Property<?> destination)
-//        {
-//            PropAttendee<?> castDestination = (PropAttendee<?>) destination;
-//            CalendarUser parameterCopy = new CalendarUser((CalendarUser) child);
-//            castDestination.setCalendarUser(parameterCopy);
-//        }
-//    },
 //    // in property ATTENDEE
 //    DELEGATORS ("DELEGATED-FROM", Delegators.class) {
 //        @Override

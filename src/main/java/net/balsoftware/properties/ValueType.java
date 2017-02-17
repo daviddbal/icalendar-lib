@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javafx.util.converter.DefaultStringConverter;
-import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.IntegerStringConverter;
+import net.balsoftware.utilities.DefaultStringConverter;
+import net.balsoftware.utilities.DoubleStringConverter;
+import net.balsoftware.utilities.IntegerStringConverter;
 //import net.balsoftware.properties.component.recurrence.rrule.RecurrenceRuleValue;
 //import net.balsoftware.utilities.DateTimeUtilities;
 import net.balsoftware.utilities.StringConverter;
@@ -58,29 +58,6 @@ public enum ValueType
         public <T> StringConverter<T> getConverter()
         {
             return (StringConverter<T>) StringConverters.uriConverterNoQuotes();
-//            return new StringConverter<T>()
-//            {
-//                @Override
-//                public String toString(T object)
-//                {
-//                    return object.toString();
-//                }
-//
-//                @Override
-//                public T fromString(String string)
-//                {
-//                    try
-//                    {
-//                        return (T) new URI(string);
-//                    } catch (URISyntaxException e)
-//                    {
-//                        // do nada
-////                        throw e;
-////                        e.printStackTrace();
-//                    }
-//                    return null;
-//                }
-//            };
         }
     },
 //    DATE ("DATE", Arrays.asList(LocalDate.class))
@@ -164,20 +141,6 @@ public enum ValueType
         public <T> StringConverter<T> getConverter()
         {
             return (StringConverter<T>) new DoubleStringConverter();
-//            return new StringConverter<T>()
-//            {
-//                @Override
-//                public String toString(T object)
-//                {
-//                    return object.toString();
-//                }
-//
-//                @Override
-//                public T fromString(String string)
-//                {
-//                    return (T) new Double(Double.parseDouble(string));
-//                }
-//            };
         }
     },
     INTEGER ("INTEGER", Arrays.asList(Integer.class))
@@ -186,20 +149,6 @@ public enum ValueType
         public <T> StringConverter<T> getConverter()
         {
             return (StringConverter<T>) new IntegerStringConverter();
-//            return new StringConverter<T>()
-//            {
-//                @Override
-//                public String toString(T object)
-//                {
-//                    return object.toString();
-//                }
-//
-//                @Override
-//                public T fromString(String string)
-//                {
-//                    return (T) new Integer(Integer.parseInt(string));
-//                }
-//            };
         }
     },
     PERIOD ("PERIOD", Arrays.asList(List.class))

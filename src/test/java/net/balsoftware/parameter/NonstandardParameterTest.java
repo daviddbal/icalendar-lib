@@ -13,7 +13,7 @@ public class NonstandardParameterTest
     {
         String content = "X-PARAM=STRING";
         NonStandardParameter parameter = NonStandardParameter.parse(content);
-        assertEquals(content, parameter.toContent());
+        assertEquals(content, parameter.toString());
         assertEquals("X-PARAM", parameter.name());
     }
 

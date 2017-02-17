@@ -17,8 +17,6 @@ import net.balsoftware.properties.ValueType;
  */
 public class ValueParameter extends ParameterEnumBasedWithUnknown<ValueParameter, ValueType>
 {
-//    private String unknownValue;
-    
     public ValueParameter(ValueParameter source)
     {
         super(source);
@@ -33,17 +31,6 @@ public class ValueParameter extends ParameterEnumBasedWithUnknown<ValueParameter
     {
         super();
     }
-    
-//    @Override
-//    public List<String> parseContent(String content)
-//    {
-//        setValue(ValueType.enumFromName(content));
-//        if (getValue() == ValueType.UNKNOWN)
-//        {
-//            unknownValue = content;
-//        }
-//        return errors();
-//    } 
 
     public static ValueParameter parse(String content)
     {

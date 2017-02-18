@@ -1,6 +1,5 @@
 package net.balsoftware.properties;
 
-import javafx.beans.property.ObjectProperty;
 import net.balsoftware.parameters.CalendarUser;
 import net.balsoftware.parameters.Delegatees;
 import net.balsoftware.parameters.Delegators;
@@ -32,7 +31,6 @@ public interface PropAttendee<U> extends PropCalendarUser<U>
      * ATTENDEE;CUTYPE=GROUP:mailto:ietf-calsch@example.org
      */
     CalendarUser getCalendarUser();
-    ObjectProperty<CalendarUser> calendarUserProperty();
     void setCalendarUser(CalendarUser calendarUser);  
 
     /**
@@ -48,7 +46,6 @@ public interface PropAttendee<U> extends PropCalendarUser<U>
      *  jdoe@example.com
      */
     Delegators getDelegators();
-    ObjectProperty<Delegators> delegatorsProperty();
     void setDelegators(Delegators delegators);
 
     /**
@@ -65,7 +62,6 @@ public interface PropAttendee<U> extends PropCalendarUser<U>
      * 
      */
     Delegatees getDelegatees();
-    ObjectProperty<Delegatees> delegateesProperty();
     void setDelegatees(Delegatees delegatees);
     
     /**
@@ -81,7 +77,6 @@ public interface PropAttendee<U> extends PropCalendarUser<U>
      * 
      */
     GroupMembership getGroupMembership();
-    ObjectProperty<GroupMembership> groupMembershipProperty();
     void setGroupMembership(GroupMembership groupMembership);
     
     /**
@@ -95,7 +90,6 @@ public interface PropAttendee<U> extends PropCalendarUser<U>
      * ATTENDEE;RSVP=TRUE:mailto:jsmith@example.com
      */
     RSVP getRSVP();
-    ObjectProperty<RSVP> rsvpProperty();
     void setRSVP(RSVP rsvp);
     
     /**
@@ -109,7 +103,6 @@ public interface PropAttendee<U> extends PropCalendarUser<U>
      * ATTENDEE;PARTSTAT=DECLINED:mailto:jsmith@example.com
      */
     ParticipationStatus getParticipationStatus();
-    ObjectProperty<ParticipationStatus> participationStatusProperty();
     void setParticipationStatus(ParticipationStatus participation); 
 
     /**
@@ -123,6 +116,5 @@ public interface PropAttendee<U> extends PropCalendarUser<U>
      * ATTENDEE;ROLE=CHAIR:mailto:mrbig@example.com
      */
     ParticipationRole getParticipationRole();
-    ObjectProperty<ParticipationRole> participationRoleProperty();
     void setParticipationRole(ParticipationRole participationRole);
 }

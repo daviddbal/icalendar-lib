@@ -152,7 +152,7 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
      *  The enumerated type of the property.
      *  Some essential methods are in the enumerated type.
      */
-    protected PropertyType propertyType()
+    public PropertyType propertyType()
     {
     	return propertyType;
 	}

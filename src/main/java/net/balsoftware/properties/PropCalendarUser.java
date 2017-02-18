@@ -1,6 +1,5 @@
 package net.balsoftware.properties;
 
-import javafx.beans.property.ObjectProperty;
 import net.balsoftware.parameters.CommonName;
 import net.balsoftware.parameters.DirectoryEntry;
 import net.balsoftware.parameters.SentBy;
@@ -46,7 +45,6 @@ public interface PropCalendarUser<T> extends PropLanguage<T>
      * ORGANIZER;CN="John Smith":mailto:jsmith@example.com
      */
     CommonName getCommonName();
-    ObjectProperty<CommonName> commonNameProperty();
     void setCommonName(CommonName commonName);  
 
     /**
@@ -62,7 +60,6 @@ public interface PropCalendarUser<T> extends PropLanguage<T>
      *  c=US???(cn=Jim%20Dolittle)":mailto:jimdo@example.com
      */
     DirectoryEntry getDirectoryEntryReference();
-    ObjectProperty<DirectoryEntry> directoryEntryReferenceProperty();
     void setDirectoryEntryReference(DirectoryEntry directoryEntryReference);
     
     /**
@@ -77,6 +74,5 @@ public interface PropCalendarUser<T> extends PropLanguage<T>
      *  jsmith@example.com
      */
     SentBy getSentBy();
-    ObjectProperty<SentBy> sentByProperty();
     void setSentBy(SentBy sentBy);
 }

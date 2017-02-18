@@ -1,6 +1,5 @@
 package net.balsoftware.properties;
 
-import javafx.beans.property.ObjectProperty;
 import net.balsoftware.parameters.FreeBusyType;
 
 public interface PropFreeBusy<T> extends Property<T>
@@ -14,6 +13,5 @@ public interface PropFreeBusy<T> extends Property<T>
      * Values can be = "FBTYPE" "=" ("FREE" / "BUSY" / "BUSY-UNAVAILABLE" / "BUSY-TENTATIVE"
      */
     FreeBusyType getFreeBusyType();
-    ObjectProperty<FreeBusyType> freeBusyTypeProperty();
     void setFreeBusyType(FreeBusyType freeBusyType);
 }

@@ -1,6 +1,5 @@
 package net.balsoftware.properties;
 
-import javafx.beans.property.ObjectProperty;
 import net.balsoftware.parameters.TimeZoneIdentifierParameter;
 import net.balsoftware.properties.component.misc.UnknownProperty;
 
@@ -18,16 +17,6 @@ public interface PropDateTime<T> extends Property<T>
     /*
      * default Time Zone methods are overridden by classes that require them
      */
-    default TimeZoneIdentifierParameter getTimeZoneIdentifier()
-    {
-        return null;
-    }
-    default ObjectProperty<TimeZoneIdentifierParameter> timeZoneIdentifierProperty()
-    {
-        return null;
-    }
-    default void setTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier)
-    {
-        // do nothing - not implemented
-    }
+    TimeZoneIdentifierParameter getTimeZoneIdentifier();
+    void setTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier);
 }

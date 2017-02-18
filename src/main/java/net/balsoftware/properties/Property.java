@@ -2,8 +2,6 @@ package net.balsoftware.properties;
 
 import java.util.List;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.collections.ObservableList;
 import net.balsoftware.VChild;
 import net.balsoftware.VParent;
 import net.balsoftware.parameters.NonStandardParameter;
@@ -18,7 +16,7 @@ import net.balsoftware.parameters.ValueParameter;
  *
  * @param <T> - type of value stored in Property
  */
-public interface Property<T> extends VParent, VChild, Comparable<Property<T>>
+public interface Property<T> extends VParent, VChild
 {    
     /**
      * The value of the property.

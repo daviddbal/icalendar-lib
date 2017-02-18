@@ -2,11 +2,8 @@ package net.balsoftware.properties.component.relationship;
 
 import java.net.URI;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import net.balsoftware.parameters.CommonName;
 import net.balsoftware.parameters.DirectoryEntry;
-import net.balsoftware.parameters.ParameterType;
 import net.balsoftware.parameters.SentBy;
 import net.balsoftware.properties.PropBaseLanguage;
 import net.balsoftware.properties.PropCalendarUser;
@@ -46,20 +43,10 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
      * ORGANIZER;CN="John Smith":mailto:jsmith@example.com
      */
     @Override
-    public CommonName getCommonName() { return (commonName == null) ? null : commonName.get(); }
+    public CommonName getCommonName() { return commonName; }
+    private CommonName commonName;
     @Override
-    public ObjectProperty<CommonName> commonNameProperty()
-    {
-        if (commonName == null)
-        {
-            commonName = new SimpleObjectProperty<>(this, ParameterType.COMMON_NAME.toString());
-            orderer().registerSortOrderProperty(commonName);
-        }
-        return commonName;
-    }
-    private ObjectProperty<CommonName> commonName;
-    @Override
-    public void setCommonName(CommonName commonName) { commonNameProperty().set(commonName); }
+    public void setCommonName(CommonName commonName) { this.commonName = commonName; }
     public void setCommonName(String content) { setCommonName(CommonName.parse(content)); }
     public U withCommonName(CommonName commonName) { setCommonName(commonName); return (U) this; }
     public U withCommonName(String content) { setCommonName(content); return (U) this; }    
@@ -77,27 +64,11 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
      *  c=US???(cn=Jim%20Dolittle)":mailto:jimdo@example.com
      */
     @Override
-    public DirectoryEntry getDirectoryEntryReference() { return (directoryEntryReference == null) ? null : directoryEntryReference.get(); }
-    @Override
-    public ObjectProperty<DirectoryEntry> directoryEntryReferenceProperty()
-    {
-        if (directoryEntryReference == null)
-        {
-            directoryEntryReference = new SimpleObjectProperty<>(this, ParameterType.COMMON_NAME.toString());
-            orderer().registerSortOrderProperty(directoryEntryReference);
-        }
-        return directoryEntryReference;
-    }
-    private ObjectProperty<DirectoryEntry> directoryEntryReference;
-    @Override
-    public void setDirectoryEntryReference(DirectoryEntry directoryEntryReference)
-    {
-        if (directoryEntryReference != null)
-        {
-            directoryEntryReferenceProperty().set(directoryEntryReference);
-        }
-    }
+    public DirectoryEntry getDirectoryEntryReference() { return directoryEntryReference; }
+    private DirectoryEntry directoryEntryReference;
     public void setDirectoryEntryReference(String content) { setDirectoryEntryReference(DirectoryEntry.parse(content)); }
+    @Override
+    public void setDirectoryEntryReference(DirectoryEntry directoryEntryReference) { this.directoryEntryReference = directoryEntryReference; }
     public U withDirectoryEntryReference(DirectoryEntry directoryEntryReference) { setDirectoryEntryReference(directoryEntryReference); return (U) this; }
     public U withDirectoryEntryReference(URI uri) { setDirectoryEntryReference(new DirectoryEntry(uri)); return (U) this; }
     public U withDirectoryEntryReference(String content) { setDirectoryEntryReference(content); return (U) this; }
@@ -114,27 +85,11 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
      *  jsmith@example.com
      */
     @Override
-    public SentBy getSentBy() { return (sentBy == null) ? null : sentBy.get(); }
-    @Override
-    public ObjectProperty<SentBy> sentByProperty()
-    {
-        if (sentBy == null)
-        {
-            sentBy = new SimpleObjectProperty<>(this, ParameterType.SENT_BY.toString());
-            orderer().registerSortOrderProperty(sentBy);
-        }
-        return sentBy;
-    }
-    private ObjectProperty<SentBy> sentBy;
-    @Override
-    public void setSentBy(SentBy sentBy)
-    {
-        if (sentBy != null)
-        {
-            sentByProperty().set(sentBy);
-        }
-    }
+    public SentBy getSentBy() { return sentBy; }
+    private SentBy sentBy;
     public void setSentBy(String content) { setSentBy(SentBy.parse(content)); }
+    @Override
+    public void setSentBy(SentBy sentBy) { this.sentBy = sentBy; }
     public U withSentBy(SentBy sentBy) { setSentBy(sentBy); return (U) this; }
     public U withSentBy(URI uri) { setSentBy(new SentBy(uri)); return (U) this; }
     public U withSentBy(String content) { setSentBy(content); return (U) this; }    
@@ -143,11 +98,6 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
     /*
      * CONSTRUCTORS
      */    
-//    protected PropertyBaseCalendarUser(String contentLine)
-//    {
-//        super(contentLine);
-//    }
-
     // copy constructor
     public PropertyBaseCalendarUser(PropertyBaseCalendarUser<T,U> property)
     {

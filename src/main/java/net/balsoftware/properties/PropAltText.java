@@ -1,12 +1,8 @@
 package net.balsoftware.properties;
 
-import javafx.beans.property.ObjectProperty;
+import javax.annotation.Resources;
+
 import net.balsoftware.parameters.AlternateText;
-import net.balsoftware.properties.component.descriptive.Comment;
-import net.balsoftware.properties.component.descriptive.Description;
-import net.balsoftware.properties.component.descriptive.Location;
-import net.balsoftware.properties.component.descriptive.Resources;
-import net.balsoftware.properties.component.descriptive.Summary;
 import net.balsoftware.properties.component.relationship.Contact;
 
 /**
@@ -60,6 +56,5 @@ public interface PropAltText<T> extends PropLanguage<T>
      * </html>
      */
     AlternateText getAlternateText();
-    ObjectProperty<AlternateText> alternateTextProperty();
     void setAlternateText(AlternateText alternateText);
 }

@@ -1,6 +1,5 @@
 package net.balsoftware.properties;
 
-import javafx.beans.property.ObjectProperty;
 import net.balsoftware.parameters.Encoding;
 import net.balsoftware.parameters.FormatType;
 
@@ -12,7 +11,6 @@ public interface PropAttachment<T> extends Property<T>
      * specify the content type of a referenced object.
      */
     FormatType getFormatType();
-    ObjectProperty<FormatType> formatTypeProperty();
     void setFormatType(FormatType formatType);
     
     /**
@@ -27,6 +25,5 @@ public interface PropAttachment<T> extends Property<T>
      * encoding parameter MUST be specified with the value" ;ENCODING=BASE64".
      */
     Encoding getEncoding();
-    ObjectProperty<Encoding> encodingProperty();
     void setEncoding(Encoding encoding);
 }

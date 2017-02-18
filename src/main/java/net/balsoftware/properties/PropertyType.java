@@ -1,32 +1,19 @@
 package net.balsoftware.properties;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resources;
-import javax.sound.midi.Sequence;
-
-import org.junit.experimental.categories.Categories;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.layout.Priority;
-import junit.runner.Version;
 import net.balsoftware.VChild;
 import net.balsoftware.VElement;
 import net.balsoftware.VParent;
+import net.balsoftware.components.VCommon;
 import net.balsoftware.components.VComponent;
+import net.balsoftware.components.VComponentBase;
 import net.balsoftware.parameters.ParameterType;
-import net.balsoftware.properties.component.relationship.Attendee;
-import net.balsoftware.properties.component.relationship.Contact;
-import net.balsoftware.properties.component.relationship.Organizer;
-import net.balsoftware.properties.component.relationship.RecurrenceId;
-import net.balsoftware.properties.component.relationship.RelatedTo;
-import net.balsoftware.properties.component.relationship.UniformResourceLocator;
-import net.balsoftware.properties.component.relationship.UniqueIdentifier;
+import net.balsoftware.properties.component.descriptive.Summary;
+import net.balsoftware.properties.component.misc.NonStandardProperty;
 
 
 /**
@@ -915,37 +902,38 @@ public enum PropertyType
         @Override
         public VChild parse(VParent vParent, String propertyContent)
         {
-            VCommon<?> castComponent = (VCommon<?>) vParent;
-            final ObservableList<NonStandardProperty> list;
-            if (castComponent.getNonStandard() == null)
-            {
-                list = FXCollections.observableArrayList();
-                castComponent.setNonStandard(list);
-            } else
-            {
-                list = castComponent.getNonStandard();
-            }
-            NonStandardProperty child = NonStandardProperty.parse(propertyContent);
-            list.add(child);
-            return child;
+//            VCommon<?> castComponent = (VCommon<?>) vParent;
+//            final ObservableList<NonStandardProperty> list;
+//            if (castComponent.getNonStandard() == null)
+//            {
+//                list = FXCollections.observableArrayList();
+//                castComponent.setNonStandard(list);
+//            } else
+//            {
+//                list = castComponent.getNonStandard();
+//            }
+//            NonStandardProperty child = NonStandardProperty.parse(propertyContent);
+//            list.add(child);
+//            return child;
+        	throw new RuntimeException("not implemented");
         }
 
         @Override
         public void copyProperty(Property<?> childSource, VComponent destination)
         {
-            VCommon<?> castDestination = (VCommon<?>) destination;
-            final ObservableList<NonStandardProperty> list;
-            if (castDestination.getNonStandard() == null)
-            {
-                list = FXCollections.observableArrayList();
-                castDestination.setNonStandard(list);
-            } else
-            {
-                list = castDestination.getNonStandard();
-            }
-            list.add(new NonStandardProperty((NonStandardProperty) childSource));
+//            VCommon<?> castDestination = (VCommon<?>) destination;
+//            final ObservableList<NonStandardProperty> list;
+//            if (castDestination.getNonStandard() == null)
+//            {
+//                list = FXCollections.observableArrayList();
+//                castDestination.setNonStandard(list);
+//            } else
+//            {
+//                list = castDestination.getNonStandard();
+//            }
+//            list.add(new NonStandardProperty((NonStandardProperty) childSource));
         }
-    }
+    },
 //    // Relationship
 //    ORGANIZER ("ORGANIZER", // name
 //            Arrays.asList(ValueType.CALENDAR_USER_ADDRESS), // valid property value types, first is default
@@ -1400,7 +1388,7 @@ public enum PropertyType
 //            Status propertyCopy = new Status((Status) childSource);
 //            castDestination.setStatus(propertyCopy);
 //        }
-    },
+//    },
     // Descriptive
     SUMMARY ("SUMMARY", // property name
             Arrays.asList(ValueType.TEXT), // valid property value types, first is default

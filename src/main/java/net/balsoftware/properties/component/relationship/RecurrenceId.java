@@ -2,12 +2,9 @@ package net.balsoftware.properties.component.relationship;
 
 import java.time.temporal.Temporal;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import net.balsoftware.components.VEvent;
-import net.balsoftware.components.VJournal;
-import net.balsoftware.components.VTodo;
-import net.balsoftware.parameters.ParameterType;
+//import net.balsoftware.components.VEvent;
+//import net.balsoftware.components.VJournal;
+//import net.balsoftware.components.VTodo;
 import net.balsoftware.parameters.Range;
 import net.balsoftware.parameters.Range.RangeType;
 import net.balsoftware.properties.PropBaseDateTime;
@@ -58,26 +55,10 @@ public class RecurrenceId extends PropBaseDateTime<Temporal, RecurrenceId> imple
      *
      */
     @Override
-    public Range getRange() { return (range == null) ? null : range.get(); }
+    public Range getRange() { return range; }
+    private Range range;
     @Override
-    public ObjectProperty<Range> rangeProperty()
-    {
-        if (range == null)
-        {
-            range = new SimpleObjectProperty<>(this, ParameterType.RECURRENCE_IDENTIFIER_RANGE.toString());
-            orderer().registerSortOrderProperty(range);
-        }
-        return range;
-    }
-    private ObjectProperty<Range> range;
-    @Override
-    public void setRange(Range range)
-    {
-        if (range != null)
-        {
-            rangeProperty().set(range);
-        }
-    }
+    public void setRange(Range range) { this.range = range; }
     public void setRange(String value) { setRange(new Range(value)); }
     public RecurrenceId withRange(Range altrep) { setRange(altrep); return this; }
     public RecurrenceId withRange(RangeType value) { setRange(new Range(value)); return this; }

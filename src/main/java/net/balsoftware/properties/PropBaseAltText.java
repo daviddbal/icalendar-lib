@@ -2,16 +2,15 @@ package net.balsoftware.properties;
 
 import java.net.URI;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javax.annotation.Resources;
+
 import javafx.util.StringConverter;
 import net.balsoftware.parameters.AlternateText;
-import net.balsoftware.parameters.ParameterType;
-import net.balsoftware.properties.component.descriptive.Comment;
-import net.balsoftware.properties.component.descriptive.Description;
-import net.balsoftware.properties.component.descriptive.Location;
-import net.balsoftware.properties.component.descriptive.Resources;
-import net.balsoftware.properties.component.descriptive.Summary;
+//import net.balsoftware.properties.component.descriptive.Comment;
+//import net.balsoftware.properties.component.descriptive.Description;
+//import net.balsoftware.properties.component.descriptive.Location;
+//import net.balsoftware.properties.component.descriptive.Resources;
+//import net.balsoftware.properties.component.descriptive.Summary;
 import net.balsoftware.properties.component.relationship.Contact;
 
 /**
@@ -63,20 +62,10 @@ public abstract class PropBaseAltText<T,U> extends PropBaseLanguage<T,U> impleme
      * </html>
      */
     @Override
-    public AlternateText getAlternateText() { return (alternateText == null) ? null : alternateText.get(); }
+    public AlternateText getAlternateText() { return alternateText; }
+    private AlternateText alternateText;
     @Override
-    public ObjectProperty<AlternateText> alternateTextProperty()
-    {
-        if (alternateText == null)
-        {
-            alternateText = new SimpleObjectProperty<>(this, ParameterType.ALTERNATE_TEXT_REPRESENTATION.toString());
-            orderer().registerSortOrderProperty(alternateText);
-        }
-        return alternateText;
-    }
-    private ObjectProperty<AlternateText> alternateText;
-    @Override
-    public void setAlternateText(AlternateText alternateText) { alternateTextProperty().set(alternateText); }
+    public void setAlternateText(AlternateText alternateText) { this.alternateText = alternateText; }
     public void setAlternateText(String value) { setAlternateText(AlternateText.parse(value)); }
     public U withAlternateText(AlternateText altrep) { setAlternateText(altrep); return (U) this; }
     public U withAlternateText(URI value) { setAlternateText(new AlternateText(value)); return (U) this; }

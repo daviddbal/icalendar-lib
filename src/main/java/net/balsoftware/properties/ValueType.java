@@ -2,12 +2,16 @@ package net.balsoftware.properties;
 
 import java.net.URI;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -60,48 +64,48 @@ public enum ValueType
             return (StringConverter<T>) StringConverters.uriConverterNoQuotes();
         }
     },
-//    DATE ("DATE", Arrays.asList(LocalDate.class))
-//    {
-//        @Override
-//        public <T> StringConverter<T> getConverter()
-//        {
-//            return new StringConverter<T>()
-//            {
-//                @Override
-//                public String toString(T object)
-//                {
-//                    return DateTimeUtilities.temporalToString((LocalDate) object);
-//                }
-//
-//                @Override
-//                public T fromString(String string)
-//                {
-//                         return (T) LocalDate.parse(string, DateTimeUtilities.LOCAL_DATE_FORMATTER);
-//                }
-//            };
-//        }
-//    },
-//    DATE_TIME ("DATE-TIME", Arrays.asList(LocalDateTime.class, ZonedDateTime.class))
-//    {
-//        @Override
-//        public <T> StringConverter<T> getConverter()
-//        {
-//            return new StringConverter<T>()
-//            {
-//                @Override
-//                public String toString(T object)
-//                {
-//                    return DateTimeUtilities.temporalToString((Temporal) object);
-//                }
-//
-//                @Override
-//                public T fromString(String string)
-//                {
-//                    return (T) DateTimeUtilities.temporalFromString(string);
-//                }
-//            };
-//        }
-//    },
+    DATE ("DATE", Arrays.asList(LocalDate.class))
+    {
+        @Override
+        public <T> StringConverter<T> getConverter()
+        {
+            return new StringConverter<T>()
+            {
+                @Override
+                public String toString(T object)
+                {
+                    return DateTimeUtilities.temporalToString((LocalDate) object);
+                }
+
+                @Override
+                public T fromString(String string)
+                {
+                         return (T) LocalDate.parse(string, DateTimeUtilities.LOCAL_DATE_FORMATTER);
+                }
+            };
+        }
+    },
+    DATE_TIME ("DATE-TIME", Arrays.asList(LocalDateTime.class, ZonedDateTime.class))
+    {
+        @Override
+        public <T> StringConverter<T> getConverter()
+        {
+            return new StringConverter<T>()
+            {
+                @Override
+                public String toString(T object)
+                {
+                    return DateTimeUtilities.temporalToString((Temporal) object);
+                }
+
+                @Override
+                public T fromString(String string)
+                {
+                    return (T) DateTimeUtilities.temporalFromString(string);
+                }
+            };
+        }
+    },
     DURATION ("DURATION", Arrays.asList(Duration.class, Period.class))
     {
         @Override

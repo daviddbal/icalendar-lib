@@ -9,14 +9,12 @@ import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.List;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import net.balsoftware.parameters.ParameterType;
 import net.balsoftware.parameters.TimeZoneIdentifierParameter;
 import net.balsoftware.parameters.ValueParameter;
 import net.balsoftware.properties.component.relationship.RecurrenceId;
-import net.balsoftware.properties.component.time.DateTimeEnd;
-import net.balsoftware.properties.component.time.DateTimeStart;
+//import net.balsoftware.properties.component.time.DateTimeEnd;
+//import net.balsoftware.properties.component.time.DateTimeStart;
 
 /**
  * Abstract class for all non-UTC date-time classes
@@ -44,24 +42,14 @@ public abstract class PropBaseDateTime<T, U> extends PropertyBase<T,U> implement
      * DTSTART;TZID=America/New_York:19980119T020000
      */
     @Override
-    public TimeZoneIdentifierParameter getTimeZoneIdentifier() { return (timeZoneIdentifier == null) ? null : timeZoneIdentifier.get(); }
-    @Override
-    public ObjectProperty<TimeZoneIdentifierParameter> timeZoneIdentifierProperty()
-    {
-        if (timeZoneIdentifier == null)
-        {
-            timeZoneIdentifier = new SimpleObjectProperty<>(this, ParameterType.TIME_ZONE_IDENTIFIER.toString());
-            orderer().registerSortOrderProperty(timeZoneIdentifier);
-        }
-        return timeZoneIdentifier;
-    }
-    private ObjectProperty<TimeZoneIdentifierParameter> timeZoneIdentifier;
+    public TimeZoneIdentifierParameter getTimeZoneIdentifier() { return timeZoneIdentifier; }
+    private TimeZoneIdentifierParameter timeZoneIdentifier;
     @Override
     public void setTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier)
     {
         if ((anElement == null) || (anElement instanceof ZonedDateTime))
         {
-            timeZoneIdentifierProperty().set(timeZoneIdentifier);
+            this.timeZoneIdentifier = timeZoneIdentifier;
         } else
         {
             throw new DateTimeException(ParameterType.TIME_ZONE_IDENTIFIER.toString() + " can't be set for date-time of type " + getValue().getClass().getSimpleName());

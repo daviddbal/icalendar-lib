@@ -1,8 +1,8 @@
 package net.balsoftware.properties;
 
-import javafx.beans.property.ObjectProperty;
+import org.junit.experimental.categories.Categories;
+
 import net.balsoftware.parameters.Language;
-import net.balsoftware.properties.component.descriptive.Categories;
 import net.balsoftware.properties.component.timezone.TimeZoneName;
 
 /**
@@ -28,6 +28,5 @@ public interface PropLanguage<T> extends Property<T>
      */
 
     Language getLanguage();
-    ObjectProperty<Language> languageProperty();
     void setLanguage(Language language);
 }

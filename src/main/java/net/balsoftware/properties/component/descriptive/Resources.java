@@ -1,15 +1,16 @@
 package net.balsoftware.properties.component.descriptive;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.util.StringConverter;
-import net.balsoftware.components.VEvent;
-import net.balsoftware.components.VTodo;
+//import net.balsoftware.components.VEvent;
+//import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropBaseAltText;
 import net.balsoftware.properties.ValueType;
+import net.balsoftware.utilities.StringConverter;
 
 /**
  * RESOURCES
@@ -28,12 +29,12 @@ import net.balsoftware.properties.ValueType;
  * @see VEvent
  * @see VTodo
  */
-public class Resources extends PropBaseAltText<ObservableList<String>, Resources>
+public class Resources extends PropBaseAltText<List<String>, Resources>
 {
-    private final static StringConverter<ObservableList<String>> CONVERTER = new StringConverter<ObservableList<String>>()
+    private final static StringConverter<List<String>> CONVERTER = new StringConverter<List<String>>()
     {
         @Override
-        public String toString(ObservableList<String> object)
+        public String toString(List<String> object)
         {
             return object.stream()
                     .map(v -> ValueType.TEXT.getConverter().toString(v)) // escape special characters
@@ -41,16 +42,16 @@ public class Resources extends PropBaseAltText<ObservableList<String>, Resources
         }
 
         @Override
-        public ObservableList<String> fromString(String string)
+        public List<String> fromString(String string)
         {
-            return FXCollections.observableArrayList(Arrays.stream(string.replace("\\,", "~~").split(",")) // change comma escape sequence to avoid splitting by it
+            return new ArrayList<>(Arrays.stream(string.replace("\\,", "~~").split(",")) // change comma escape sequence to avoid splitting by it
                     .map(s -> s.replace("~~", "\\,"))
                     .map(v -> (String) ValueType.TEXT.getConverter().fromString(v)) // unescape special characters
                     .collect(Collectors.toList()));
         }
     };
 
-    public Resources(ObservableList<String> values)
+    public Resources(List<String> values)
     {
         this();
         setValue(values);
@@ -61,7 +62,7 @@ public class Resources extends PropBaseAltText<ObservableList<String>, Resources
     public Resources(String...values)
     {
         this();
-        setValue(FXCollections.observableArrayList(values));
+        setValue(new ArrayList<>(Arrays.asList(values)));
     }
     
     public Resources(Resources source)
@@ -89,8 +90,8 @@ public class Resources extends PropBaseAltText<ObservableList<String>, Resources
     }
     
     @Override
-    protected ObservableList<String> copyValue(ObservableList<String> source)
+    protected List<String> copyValue(List<String> source)
     {
-        return FXCollections.observableArrayList(source);
+        return new ArrayList<String>(source);
     }
 }

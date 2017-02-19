@@ -3,12 +3,12 @@ package net.balsoftware.properties.component.descriptive;
 import java.util.HashMap;
 import java.util.Map;
 
-import javafx.util.StringConverter;
-import net.balsoftware.components.VEvent;
-import net.balsoftware.components.VJournal;
-import net.balsoftware.components.VTodo;
+//import net.balsoftware.components.VEvent;
+//import net.balsoftware.components.VJournal;
+//import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropertyBase;
 import net.balsoftware.properties.component.descriptive.Status.StatusType;
+import net.balsoftware.utilities.StringConverter;
 
 /**
  * STATUS

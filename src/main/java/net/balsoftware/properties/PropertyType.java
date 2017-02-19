@@ -11,6 +11,7 @@ import net.balsoftware.VParent;
 import net.balsoftware.components.VCommon;
 import net.balsoftware.components.VComponent;
 import net.balsoftware.components.VComponentBase;
+import net.balsoftware.components.VDescribable;
 import net.balsoftware.parameters.ParameterType;
 import net.balsoftware.properties.component.descriptive.Summary;
 import net.balsoftware.properties.component.misc.NonStandardProperty;

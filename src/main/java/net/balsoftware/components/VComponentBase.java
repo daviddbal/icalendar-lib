@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import net.balsoftware.VElement;
 import net.balsoftware.VParent;
 import net.balsoftware.VParentBase;
-import net.balsoftware.content.MultiLineContent;
 import net.balsoftware.properties.Property;
 import net.balsoftware.properties.PropertyType;
 import net.balsoftware.utilities.ICalendarUtilities;
@@ -69,9 +68,9 @@ public abstract class VComponentBase extends VParentBase implements VComponent
 //        };
 //    }
     
-    final private String componentName;
-    @Override
-    public String name() { return componentName; }
+//    final private String componentName;
+//    @Override
+//    public String name() { return componentName; }
 
     /*
      * CONSTRUCTORS
@@ -81,12 +80,12 @@ public abstract class VComponentBase extends VParentBase implements VComponent
      */
     VComponentBase()
     {
-        componentName = CalendarComponent.enumFromClass(this.getClass()).toString();
-        setContentLineGenerator(new MultiLineContent(
-                orderer(),
-                FIRST_LINE_PREFIX + componentName,
-                LAST_LINE_PREFIX + componentName,
-                400));
+//        componentName = CalendarComponent.enumFromClass(this.getClass()).toString();
+//        setContentLineGenerator(new MultiLineContent(
+//                orderer(),
+//                FIRST_LINE_PREFIX + componentName,
+//                LAST_LINE_PREFIX + componentName,
+//                400));
     }
     
     /**
@@ -239,11 +238,7 @@ public abstract class VComponentBase extends VParentBase implements VComponent
      * 
      * @param subcomponent
      */
-    void addSubcomponent(VComponent subcomponent) { }
-            
-    @Override
-    public String toString()
-    {
-        return super.toString() + System.lineSeparator() + toContent();
+    void addSubcomponent(VComponent subcomponent)
+    { // no opp by default
     }
 }

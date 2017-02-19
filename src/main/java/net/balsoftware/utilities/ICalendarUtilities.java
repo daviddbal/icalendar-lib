@@ -168,4 +168,32 @@ public final class ICalendarUtilities
             return builder;
         }
     }
+    
+    /**
+     * Returns index where property name ends - after first ';' or ':'
+     */
+    public static int getPropertyNameIndex(String propertyLine)
+    {
+        if ((propertyLine == null) || (propertyLine.length() == 0))
+        {
+            return 0;
+        }
+        int propertyNameEnd;
+        for (propertyNameEnd=0; propertyNameEnd<propertyLine.length(); propertyNameEnd++)
+        {
+            if ((propertyLine.charAt(propertyNameEnd) == ';') || (propertyLine.charAt(propertyNameEnd) == ':'))
+            {
+                break;
+            }
+        }
+        if (propertyNameEnd < propertyLine.length())
+        {
+            return propertyNameEnd;
+//            return propertyLine.substring(0, propertyNameEnd);
+        } else
+        {
+            return -1; // no name
+//            throw new IllegalArgumentException("Illegal property line.  No value after name:" + propertyLine);
+        }
+    }
 }

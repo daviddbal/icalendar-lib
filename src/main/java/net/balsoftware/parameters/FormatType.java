@@ -1,6 +1,6 @@
 package net.balsoftware.parameters;
 
-import javafx.beans.property.StringProperty;
+import net.balsoftware.properties.component.descriptive.Attachment;
 
 /**
  * Format Type
@@ -17,29 +17,26 @@ import javafx.beans.property.StringProperty;
  */
 public class FormatType extends ParameterBase<FormatType, String>
 {
-    public String getTypeName() { return typeName.get(); }
-    StringProperty typeNameProperty() { return typeName; }
-    private StringProperty typeName;
-    public void setTypeName(String typeName) { this.typeName.set(typeName); }
+    public String getTypeName() { return typeName; }
+    private String typeName;
+    public void setTypeName(String typeName)
+    {
+    	this.typeName = typeName;
+    	buildNewValue();
+	}
 
-    public String getSubtypeName() { return subtypeName.get(); }
-    StringProperty subtypeNameProperty() { return subtypeName; }
-    private StringProperty subtypeName;
-    public void setSubtypeName(String subtypeName) { this.subtypeName.set(subtypeName); }
+    public String getSubtypeName() { return subtypeName; }
+    private String subtypeName;
+    public void setSubtypeName(String subtypeName)
+    {
+    	this.subtypeName = subtypeName;
+    	buildNewValue();
+	}
 
     // capture type and subtype names
     @Override
     public void setValue(String value)
     {
-        if (typeName == null)
-        {
-//            typeName = new SimpleStringProperty(this, ParameterType.FORMAT_TYPE.toString() + "_TYPE_NAME");
-        }
-        if (subtypeName == null)
-        {
-//            subtypeName = new SimpleStringProperty(this, ParameterType.FORMAT_TYPE.toString() + "_SUBTYPE_NAME");
-        }
-
         int slashIndex = value.indexOf('/');
         if (slashIndex > 0)
         {
@@ -50,6 +47,15 @@ public class FormatType extends ParameterBase<FormatType, String>
         {
             throw new IllegalArgumentException(getClass().getSimpleName() + " requires both type-name / subtype-name as defined in RFC4288");
         }
+    }
+    
+	private void buildNewValue()
+    {
+		if ((getTypeName() != null) && (getSubtypeName() != null))
+		{
+			String newValue = getTypeName() + "/" + getSubtypeName();
+			super.setValue(newValue);
+		}
     }
 
     /*

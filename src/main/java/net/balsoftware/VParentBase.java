@@ -5,8 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.util.Callback;
 import net.balsoftware.content.ContentLineStrategy;
+import net.balsoftware.content.Orderer;
+import net.balsoftware.utilities.Callback;
 
 /**
  * <p>Base class for parent calendar components.</p>

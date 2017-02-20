@@ -16,8 +16,10 @@ import net.balsoftware.parameters.ParticipationStatus.ParticipationStatusType;
 import net.balsoftware.parameters.Range.RangeType;
 import net.balsoftware.parameters.Relationship.RelationshipType;
 import net.balsoftware.properties.PropAlarmTrigger;
+import net.balsoftware.properties.PropAltText;
 import net.balsoftware.properties.PropAttachment;
 import net.balsoftware.properties.PropAttendee;
+import net.balsoftware.properties.PropBaseAltText;
 import net.balsoftware.properties.PropBaseLanguage;
 import net.balsoftware.properties.PropDateTime;
 import net.balsoftware.properties.PropFreeBusy;
@@ -49,31 +51,29 @@ public enum ParameterType
         @Override
         public void parse(Property<?> property, String content)
         {
-//            PropBaseAltText<?,?> castProperty = (PropBaseAltText<?, ?>) property;
-//            castProperty.setAlternateText(AlternateText.parse(content));
+            PropBaseAltText<?,?> castProperty = (PropBaseAltText<?, ?>) property;
+            castProperty.setAlternateText(AlternateText.parse(content));
         }
 
         @Override
         public Parameter<?> getParameter(Property<?> parent)
         {
-        	return null;
-//            PropAltText<?> castProperty = (PropAltText<?>) parent;
-//            return castProperty.getAlternateText();
+            PropAltText<?> castProperty = (PropAltText<?>) parent;
+            return castProperty.getAlternateText();
         }
         
         @Override
         public <T> StringConverter<T> getConverter()
         {
-        	return null;
-//            return (StringConverter<T>) StringConverters.uriConverterWithQuotes();
+            return (StringConverter<T>) StringConverters.uriConverterWithQuotes();
         }
 
         @Override
         public void copyParameter(Parameter<?> child, Property<?> destination)
         {
-//            PropBaseAltText<?,?> castDestination = (PropBaseAltText<?,?>) destination;
-//            AlternateText parameterCopy = new AlternateText((AlternateText) child);
-//            castDestination.setAlternateText(parameterCopy);
+            PropBaseAltText<?,?> castDestination = (PropBaseAltText<?,?>) destination;
+            AlternateText parameterCopy = new AlternateText((AlternateText) child);
+            castDestination.setAlternateText(parameterCopy);
         }
     },
     // in properties ATTENDEE, ORGANIZER
@@ -81,24 +81,23 @@ public enum ParameterType
         @Override
         public void parse(Property<?> property, String content)
         {
-//            PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) property;
-//            castProperty.setCommonName(CommonName.parse(content));
+            PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) property;
+            castProperty.setCommonName(CommonName.parse(content));
         }
 
         @Override
         public Parameter<?> getParameter(Property<?> parent)
         {
-			return null;
-//            PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) parent;
-//            return castProperty.getCommonName();
+            PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) parent;
+            return castProperty.getCommonName();
         }
 
         @Override
         public void copyParameter(Parameter<?> child, Property<?> destination)
         {
-//            PropertyBaseCalendarUser<?,?> castDestination = (PropertyBaseCalendarUser<?,?>) destination;
-//            CommonName parameterCopy = new CommonName((CommonName) child);
-//            castDestination.setCommonName(parameterCopy);
+            PropertyBaseCalendarUser<?,?> castDestination = (PropertyBaseCalendarUser<?,?>) destination;
+            CommonName parameterCopy = new CommonName((CommonName) child);
+            castDestination.setCommonName(parameterCopy);
         }
 
         @Override

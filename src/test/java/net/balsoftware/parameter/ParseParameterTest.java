@@ -64,4 +64,15 @@ public class ParseParameterTest
         assertEquals("application", parameter.getTypeName());
         assertEquals("msword", parameter.getSubtypeName());
     }
+    
+    @Test // tests two-value parameter
+    public void canChangeFormatType()
+    {
+        FormatType parameter = FormatType.parse("application/msword");
+        parameter.setSubtypeName("newapp");
+        String expectedContent = "FMTTYPE=application/newapp";
+        assertEquals(expectedContent, parameter.toString());
+        assertEquals("application", parameter.getTypeName());
+        assertEquals("newapp", parameter.getSubtypeName());
+    }
 }

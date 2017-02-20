@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import net.balsoftware.VChild;
 //import net.balsoftware.CalendarComponent;
 import net.balsoftware.VElement;
 import net.balsoftware.VParent;
@@ -52,7 +53,13 @@ public abstract class VComponentBase extends VParentBase implements VComponent
             } 
         });
     }
-        
+
+    @Override
+    public List<VChild> childrenUnmodifiable()
+    {
+    	// TODO - include list-based properties somehow
+    }
+    
 //    @Override
 //    protected Callback<VChild, Void> copyIntoCallback()
 //    {        

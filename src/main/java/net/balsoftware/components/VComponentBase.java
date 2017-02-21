@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import net.balsoftware.CalendarComponent;
 import net.balsoftware.VChild;
 //import net.balsoftware.CalendarComponent;
 import net.balsoftware.VElement;
@@ -53,10 +54,14 @@ public abstract class VComponentBase extends VParentBase implements VComponent
             } 
         });
     }
+    
+    private CalendarComponent componentType;
 
     @Override
     public List<VChild> childrenUnmodifiable()
     {
+    	componentType.propertyGetters();
+    	throw new RuntimeException("not implemented");
     	// TODO - include list-based properties somehow
     }
     

@@ -1,9 +1,11 @@
 package net.balsoftware.properties;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import net.balsoftware.VChild;
 import net.balsoftware.VElement;
@@ -888,6 +890,7 @@ public enum PropertyType
 //    },
     // Miscellaneous
     NON_STANDARD ("X-", // property name begins with X- prefix
+//    		collectGetters(NonStandardProperty.class),
             Arrays.asList(ValueType.values()), // valid property value types, first is default (any value allowed)
             Arrays.asList(ParameterType.values()), // all parameters allowed
 //            Arrays.asList(ParameterType.VALUE_DATA_TYPES, ParameterType.NON_STANDARD, ParameterType.LANGUAGE), // allowed parameters (RFC 5545 says only IANA, non-standard, and language property parameters can be specified on this property, but examples of other parameters are in RFC 5545, so I am allowing all parameters)
@@ -1392,6 +1395,7 @@ public enum PropertyType
 //    },
     // Descriptive
     SUMMARY ("SUMMARY", // property name
+//    		collectGetters(Summary.class),
             Arrays.asList(ValueType.TEXT), // valid property value types, first is default
             Arrays.asList(ParameterType.ALTERNATE_TEXT_REPRESENTATION, ParameterType.LANGUAGE,
                     ParameterType.VALUE_DATA_TYPES, ParameterType.NON_STANDARD), // allowed parameters
@@ -1420,6 +1424,7 @@ public enum PropertyType
             Summary propertyCopy = new Summary((Summary) childSource);
             castDestination.setSummary(propertyCopy);
         }
+        
 //    },
 //    // Date and Time
 //    TIME_TRANSPARENCY ("TRANSP", // property name
@@ -1752,7 +1757,16 @@ public enum PropertyType
 //        {
 //            throw new RuntimeException(toString() + " is a calendar property.  It can't be a component property.");
 //        }
+
     };
+	
+	private static List<Method> collectGetters(Class<?> clazz)
+	{
+		return Arrays.stream(clazz.getMethods())
+			.filter(c -> VChild.class.isAssignableFrom(c.getReturnType()))
+			.filter(m -> m.getName().startsWith("get"))
+			.collect(Collectors.toList());
+	}
     
     private static Map<String, PropertyType> enumFromNameMap = makeEnumFromNameMap();
     private static Map<String, PropertyType> makeEnumFromNameMap()
@@ -1813,10 +1827,21 @@ public enum PropertyType
     private List<ParameterType> allowedParameters;
     public List<ParameterType> allowedParameters() { return allowedParameters; }
     
-    PropertyType(String name, List<ValueType> valueTypes, List<ParameterType> allowedParameters, Class<? extends Property> myClass)
+    private List<Method> getters;
+    public List<Method> childGetters() { return getters; }
+    /*
+     * CONSTRUCTOR
+     */
+    PropertyType(
+    		String name, 
+//    		List<Method> getters,
+    		List<ValueType> valueTypes, 
+    		List<ParameterType> allowedParameters,
+    		Class<? extends Property> myClass)
     {
         this.allowedParameters = allowedParameters;
         this.name = name;
+        this.getters = collectGetters(myClass);
         this.valueTypes = valueTypes;
         this.myClass = myClass;
     }

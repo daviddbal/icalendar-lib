@@ -1,4 +1,4 @@
-package jfxtras.icalendarfx.property;
+package net.balsoftware.component.property;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

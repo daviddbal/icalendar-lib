@@ -10,8 +10,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import junit.runner.Version;
+import net.balsoftware.VChild;
 import net.balsoftware.VParent;
 import net.balsoftware.VParentBase;
+import net.balsoftware.content.SingleLineContent;
 import net.balsoftware.parameters.NonStandardParameter;
 import net.balsoftware.parameters.Parameter;
 import net.balsoftware.parameters.ParameterType;
@@ -56,6 +58,13 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     {
     	return myParent;
 	}
+    
+//    protected List<VChild> childrenCache; // need to invalidate when a new child is set (turn to null to invalidate)
+    @Override
+    public List<VChild> childrenUnmodifiable()
+    {
+    	return childrenUnmodifiable(propertyType().childGetters());
+    }
     
     /**
      * PROPERTY VALUE
@@ -366,6 +375,10 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
         {
             setPropertyName(propertyType.toString());
         }
+        contentLineGenerator  = new SingleLineContent(
+                orderer,
+                name(),
+                50);
     }
 
     public PropertyBase(Class<T> valueClass, String contentLine)

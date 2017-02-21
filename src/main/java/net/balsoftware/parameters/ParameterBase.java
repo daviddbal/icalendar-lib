@@ -38,6 +38,7 @@ abstract public class ParameterBase<U,T> implements Parameter<T>
     public void setValue(T value)
     {
         this.value = value;
+//        getParent().invalidateChildrenList();
     }
     public U withValue(T value)
     {

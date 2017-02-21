@@ -1,5 +1,7 @@
 package net.balsoftware.properties.component.descriptive;
 
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VTodo;
 //import net.balsoftware.components.VAlarm;
 //import net.balsoftware.components.VEvent;
 //import net.balsoftware.components.VJournal;
@@ -65,8 +67,8 @@ import net.balsoftware.properties.PropBaseAltText;
   RFC 5545                       iCalendar                  September 2009
  */
 public class Summary extends PropBaseAltText<String, Summary>
-{
-    /** Create deep copy of source Summary */
+{	
+	/** Create deep copy of source Summary */
     public Summary(Summary source)
     {
         super(source);

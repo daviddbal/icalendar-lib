@@ -2,16 +2,14 @@ package net.balsoftware.content;
 
 import java.util.stream.Collectors;
 
-import javafx.beans.property.ObjectProperty;
-
 public class SingleLineContent extends ContentLineBase
 {
     final private int builderSize;
-    final private ObjectProperty<String> name;
+    final private String name;
     
     public SingleLineContent(
             Orderer orderer,
-            ObjectProperty<String> name,
+            String name,
             int builderSize)
     {
         super(orderer);
@@ -23,7 +21,7 @@ public class SingleLineContent extends ContentLineBase
     public String execute()
     {
         StringBuilder builder = new StringBuilder(builderSize);
-        builder.append(name.get());
+        builder.append(name);
         String elements = orderer.childrenUnmodifiable().stream()
                 .map(c -> c.toString())
                 .collect(Collectors.joining(";"));

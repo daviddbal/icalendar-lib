@@ -59,14 +59,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     	return myParent;
 	}
     
-//    protected List<VChild> childrenCache; // need to invalidate when a new child is set (turn to null to invalidate)
-//    @Override
-//    public List<VChild> childrenUnmodifiable()
-//    {
-//    	return orderer.childrenUnmodifiable();
-////    	return childrenUnmodifiable(propertyType().childGetters());
-//    }
-    
     /**
      * PROPERTY VALUE
      * 
@@ -370,6 +362,7 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     protected PropertyBase()
     {
         propertyType = PropertyType.enumFromClass(getClass());
+        System.out.println("propertyType:" + propertyType);
         if (propertyType != PropertyType.NON_STANDARD)
         {
             setPropertyName(propertyType.toString());
@@ -395,7 +388,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
         this();
         setConverter(source.getConverter());
         source.copyInto(this);
-//        copyChildrenFrom(source);
         T valueCopy = copyValue(source.getValue());
         setValue(valueCopy);
         setPropertyName(source.name());
@@ -498,16 +490,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
                         }
                     }
                 }
-                // else if ((entry.getKey() != null) && (entry.getValue() != null))
-//                { // unknown parameter - store as String in other parameter
-//                    if ((IANAParameter.getRegisteredIANAParameters() != null) && IANAParameter.getRegisteredIANAParameters().contains(entry.getKey()))
-//                    {
-//                        ParameterType.IANA_PARAMETER.parse(this, entry.getKey() + "=" + entry.getValue());
-//                    } else
-//                    {
-//                        // ignore unrecognized parameter (RFC 5545, 3.2 Property Parameters, page 14)
-//                    }
-//                } // if parameter doesn't contain both a key and a value it is ignored
             });
         
         if (! isValid())
@@ -546,7 +528,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
         {
             errors.addAll(createErrorList);
         }
-//        orderer().elementSortOrderMap().forEach((key, value) -> errors.addAll(key.errors()));
         return errors;
     }
     

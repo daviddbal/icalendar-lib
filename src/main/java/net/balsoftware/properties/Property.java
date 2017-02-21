@@ -53,15 +53,4 @@ public interface Property<T> extends VParent, VChild
      */
     List<NonStandardParameter> getNonStandard();
     void setNonStandard(List<NonStandardParameter> nonStandardParams);
-       
-//    /**
-//     * Returns the enumerated type for the property as it would appear in the iCalendar content line
-//     * Examples:
-//     * DESCRIPTION
-//     * UID
-//     * PRODID
-//     * 
-//     * @return - the property type
-//     */
-//    PropertyType propertyType();
 }

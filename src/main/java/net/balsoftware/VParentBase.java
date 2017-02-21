@@ -1,17 +1,12 @@
 package net.balsoftware;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import net.balsoftware.content.ContentLineStrategy;
 import net.balsoftware.content.Orderer;
-import net.balsoftware.content.OrdererBase;
 import net.balsoftware.utilities.Callback;
 
 /**
@@ -30,9 +25,23 @@ public abstract class VParentBase implements VParent
     /*
      * HANDLE SORT ORDER FOR CHILD ELEMENTS
      */
-    protected Orderer orderer = new OrdererBase(this);
-//    /** Return the {@link Orderer} for this {@link VParent} */
+    protected Orderer orderer;
+    /** Return the {@link Orderer} for this {@link VParent} */
 //    public Orderer orderer() { return orderer; }
+    
+	@Override
+	public void orderChild(VChild addedChild)
+	{
+		System.out.println("add:" + addedChild.getClass());
+		orderer.addChild(addedChild);
+	}
+
+	@Override
+	public void orderChild(int index, VChild addedChild)
+	{
+		System.out.println("add:" + addedChild.getClass() + " at " + index);
+		orderer.addChild(index, addedChild);
+	}
     
     /* Strategy to build iCalendar content lines */
     protected ContentLineStrategy contentLineGenerator;
@@ -48,33 +57,38 @@ public abstract class VParentBase implements VParent
     {
         throw new RuntimeException("Can't copy children.  copyChildCallback isn't overridden in subclass." + this.getClass());
     };
-
-    protected List<VChild> childrenUnmodifiable(List<Method> childrenGetters)
+    
+    public List<VChild> childrenUnmodifiable()
     {
-    	return Collections.unmodifiableList(childrenGetters
-    		.stream()
-    		.map(m -> {
-				try {
-					return m.invoke(this);
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					e.printStackTrace();
-				}
-				return null;
-			})
-    		.filter(p -> p != null)
-    		.flatMap(p -> 
-    		{
-    			if (p instanceof List)
-    			{
-    				return ((List<VChild>) p).stream();
-    			} else
-    			{
-    				return Arrays.stream(new VChild[]{ (VChild) p });
-    			}
-    		})
-    		.collect(Collectors.toList())
-		);
+    	return orderer.childrenUnmodifiable();
     }
+
+//    protected List<VChild> childrenUnmodifiable(List<Method> childrenGetters)
+//    {
+//    	return Collections.unmodifiableList(childrenGetters
+//    		.stream()
+//    		.map(m -> {
+//				try {
+//					return m.invoke(this);
+//				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//					e.printStackTrace();
+//				}
+//				return null;
+//			})
+//    		.filter(p -> p != null)
+//    		.flatMap(p -> 
+//    		{
+//    			if (p instanceof List)
+//    			{
+//    				return ((List<VChild>) p).stream();
+//    			} else
+//    			{
+//    				return Arrays.stream(new VChild[]{ (VChild) p });
+//    			}
+//    		})
+//    		.collect(Collectors.toList())
+//		);
+//    }
     
 //    /** Copy parameters, properties, and subcomponents from source into this component,
 //    * essentially making a copy of source 

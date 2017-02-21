@@ -10,9 +10,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import junit.runner.Version;
-import net.balsoftware.VChild;
 import net.balsoftware.VParent;
 import net.balsoftware.VParentBase;
+import net.balsoftware.content.OrdererBase;
 import net.balsoftware.content.SingleLineContent;
 import net.balsoftware.parameters.NonStandardParameter;
 import net.balsoftware.parameters.Parameter;
@@ -60,11 +60,12 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
 	}
     
 //    protected List<VChild> childrenCache; // need to invalidate when a new child is set (turn to null to invalidate)
-    @Override
-    public List<VChild> childrenUnmodifiable()
-    {
-    	return childrenUnmodifiable(propertyType().childGetters());
-    }
+//    @Override
+//    public List<VChild> childrenUnmodifiable()
+//    {
+//    	return orderer.childrenUnmodifiable();
+////    	return childrenUnmodifiable(propertyType().childGetters());
+//    }
     
     /**
      * PROPERTY VALUE
@@ -368,13 +369,12 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     
     protected PropertyBase()
     {
-//        orderer().registerSortOrderProperty(valueTypeProperty());
         propertyType = PropertyType.enumFromClass(getClass());
-        // test propertyType.toString()
         if (propertyType != PropertyType.NON_STANDARD)
         {
             setPropertyName(propertyType.toString());
         }
+        orderer = new OrdererBase(this, propertyType.childGetters());
         contentLineGenerator  = new SingleLineContent(
                 orderer,
                 name(),
@@ -427,7 +427,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
         // perform tests, make changes if necessary
         final String propertyValue;
         List<Integer> indices = new ArrayList<>();
-//        System.out.println("content222:" + contentLine + " " + this.getClass().getSimpleName());
         indices.add(unfoldedContent.indexOf(':'));
         indices.add(unfoldedContent.indexOf(';'));
         Optional<Integer> hasPropertyName = indices

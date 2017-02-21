@@ -26,7 +26,6 @@ public class SummaryTest
     {
         String content = "SUMMARY;ALTREP=\"cid:part1.0001@example.org\";LANGUAGE=en:Department Party";
         Summary madeProperty = Summary.parse(content);
-        System.out.println(madeProperty.toString());
         assertEquals(content, madeProperty.toString());
         Summary expectedProperty = Summary.parse("Department Party")
                 .withAlternateText("cid:part1.0001@example.org")
@@ -39,9 +38,12 @@ public class SummaryTest
     {
         String content = "SUMMARY;LANGUAGE=en;ALTREP=\"cid:part1.0001@example.org\":Department Party";
         Summary property1 = Summary.parse(content);
+        System.out.println(property1.toString());
         Summary property2 = new Summary(property1);
         assertEquals(property2, property1);
         assertFalse(property2 == property1);
+        System.out.println(property2.toString());
+        assertEquals(content, property1.toString());
         assertEquals(content, property2.toString());
     }
     
@@ -53,5 +55,17 @@ public class SummaryTest
         property1.setLanguage((Language) null);
         Summary expectedProperty = Summary.parse("SUMMARY:Department Party");
         assertEquals(expectedProperty, property1);
-    }    
+    }
+    
+//    @Test
+//    public void canFindGetters()
+//    {
+//        List<String> madeGetters = PropertyType.SUMMARY.childGetters()
+//        	.stream()
+//        	.map(m -> m.getName())
+//        	.collect(Collectors.toList());
+//        List<String> expectedGetters = Arrays.asList("getAlternateText", "getLanguage", "getValueType");
+//        assertEquals(expectedGetters, madeGetters);
+//    }
+    
 }

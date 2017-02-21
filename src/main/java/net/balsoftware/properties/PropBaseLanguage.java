@@ -33,7 +33,11 @@ public abstract class PropBaseLanguage<T,U> extends PropertyBase<T,U> implements
     public Language getLanguage() { return language; }
     private Language language;
     @Override
-    public void setLanguage(Language language) { this.language = language; }
+    public void setLanguage(Language language)
+    {
+    	this.language = language;
+    	orderer.addChild(language);
+	}
     public void setLanguage(String value) { setLanguage(Language.parse(value)); }
     public U withLanguage(Language language) { setLanguage(language); return (U) this; }
     public U withLanguage(String content) { ParameterType.LANGUAGE.parse(this, content); return (U) this; }    

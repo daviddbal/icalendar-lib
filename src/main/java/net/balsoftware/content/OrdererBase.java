@@ -1,6 +1,10 @@
 package net.balsoftware.content;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +32,7 @@ import net.balsoftware.properties.PropertyBase;
 public class OrdererBase implements Orderer
 {
     final private VParent parent;
+    final private List<Method> childGetters;
     
     private List<VChild> orderedChildren = new ArrayList<>();
 
@@ -35,16 +40,18 @@ public class OrdererBase implements Orderer
      * CONSTRUCTOR
      */
     /** Create an {@link OrdererBase} for the {@link VParent} parameter */
-    public OrdererBase(VParent aParent)
+    public OrdererBase(VParent aParent, List<Method> childGetters)
     {
         this.parent = aParent;
+        this.childGetters = childGetters;
     }
 
 	@Override
 	public List<VChild> childrenUnmodifiable()
 	{
 		List<VChild> allChildren = new ArrayList<>(orderedChildren);
-		parent.childrenUnmodifiable()
+		// add unordered children
+		unorderedChildren(parent, childGetters)
 				.stream()
 				.filter(c -> ! orderedChildren.contains(c))
 				.forEach(unorderedChild -> 
@@ -65,6 +72,33 @@ public class OrdererBase implements Orderer
 				});
 		return allChildren;
 	}
+	
+    private List<VChild> unorderedChildren(VParent parent, List<Method> childGetters)
+    {
+    	return Collections.unmodifiableList(childGetters
+    		.stream()
+    		.map(m -> {
+				try {
+					return m.invoke(parent);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
+				return null;
+			})
+    		.filter(p -> p != null)
+    		.flatMap(p -> 
+    		{
+    			if (p instanceof List)
+    			{
+    				return ((List<VChild>) p).stream();
+    			} else
+    			{
+    				return Arrays.stream(new VChild[]{ (VChild) p });
+    			}
+    		})
+    		.collect(Collectors.toList())
+		);
+    }
 
 	@Override
 	public void addChild(VChild addedChild)
@@ -73,13 +107,13 @@ public class OrdererBase implements Orderer
 		{
 			orderedChildren.add(addedChild);
 		};
+		addedChild.setParent(parent);
 	}
 
 	@Override
 	public void addChild(int index, VChild addedChild)
 	{
 		orderedChildren.add(index, addedChild);
+		addedChild.setParent(parent);
 	}
-    
-
 }

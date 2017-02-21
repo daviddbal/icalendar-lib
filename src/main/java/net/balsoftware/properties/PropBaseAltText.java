@@ -6,6 +6,7 @@ import javax.annotation.Resources;
 
 import javafx.util.StringConverter;
 import net.balsoftware.parameters.AlternateText;
+import net.balsoftware.properties.component.descriptive.Summary;
 //import net.balsoftware.properties.component.descriptive.Comment;
 //import net.balsoftware.properties.component.descriptive.Description;
 //import net.balsoftware.properties.component.descriptive.Location;
@@ -65,7 +66,11 @@ public abstract class PropBaseAltText<T,U> extends PropBaseLanguage<T,U> impleme
     public AlternateText getAlternateText() { return alternateText; }
     private AlternateText alternateText;
     @Override
-    public void setAlternateText(AlternateText alternateText) { this.alternateText = alternateText; }
+    public void setAlternateText(AlternateText alternateText)
+    {
+    	this.alternateText = alternateText;
+    	orderer.addChild(alternateText);
+	}
     public void setAlternateText(String value) { setAlternateText(AlternateText.parse(value)); }
     public U withAlternateText(AlternateText altrep) { setAlternateText(altrep); return (U) this; }
     public U withAlternateText(URI value) { setAlternateText(new AlternateText(value)); return (U) this; }

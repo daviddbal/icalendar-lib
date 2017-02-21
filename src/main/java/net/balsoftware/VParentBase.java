@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import net.balsoftware.content.ContentLineStrategy;
 import net.balsoftware.content.Orderer;
-import net.balsoftware.utilities.Callback;
 
 /**
  * <p>Base class for parent calendar components.</p>
@@ -27,81 +26,28 @@ public abstract class VParentBase implements VParent
      */
     protected Orderer orderer;
     /** Return the {@link Orderer} for this {@link VParent} */
-//    public Orderer orderer() { return orderer; }
     
 	@Override
 	public void orderChild(VChild addedChild)
 	{
 		System.out.println("add:" + addedChild.getClass());
-		orderer.addChild(addedChild);
+		orderer.orderChild(null, addedChild);
 	}
 
 	@Override
 	public void orderChild(int index, VChild addedChild)
 	{
 		System.out.println("add:" + addedChild.getClass() + " at " + index);
-		orderer.addChild(index, addedChild);
+		orderer.orderChild(index, null, addedChild);
 	}
     
     /* Strategy to build iCalendar content lines */
     protected ContentLineStrategy contentLineGenerator;
-    protected void setContentLineGenerator(ContentLineStrategy contentLineGenerator)
-    {
-        this.contentLineGenerator = contentLineGenerator;
-    }
-    
-    /** Strategy to copy subclass's children
-     * This method MUST be overridden in subclasses */
-    @Deprecated
-    protected Callback<VChild, Void> copyIntoCallback()
-    {
-        throw new RuntimeException("Can't copy children.  copyChildCallback isn't overridden in subclass." + this.getClass());
-    };
-    
+        
     public List<VChild> childrenUnmodifiable()
     {
     	return orderer.childrenUnmodifiable();
     }
-
-//    protected List<VChild> childrenUnmodifiable(List<Method> childrenGetters)
-//    {
-//    	return Collections.unmodifiableList(childrenGetters
-//    		.stream()
-//    		.map(m -> {
-//				try {
-//					return m.invoke(this);
-//				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//					e.printStackTrace();
-//				}
-//				return null;
-//			})
-//    		.filter(p -> p != null)
-//    		.flatMap(p -> 
-//    		{
-//    			if (p instanceof List)
-//    			{
-//    				return ((List<VChild>) p).stream();
-//    			} else
-//    			{
-//    				return Arrays.stream(new VChild[]{ (VChild) p });
-//    			}
-//    		})
-//    		.collect(Collectors.toList())
-//		);
-//    }
-    
-//    /** Copy parameters, properties, and subcomponents from source into this component,
-//    * essentially making a copy of source 
-//    * 
-//    * Note: this method only overwrites properties found in source.  If there are properties in
-//    * this component that are not present in source then those will remain unchanged.
-//    * */
-//    @Override
-//    @Deprecated
-//    public void copyChildrenFrom(VParent source)
-//    {
-//        source.childrenUnmodifiable().forEach((e) -> copyIntoCallback().call(e));
-//    }
     
     @Override
     public void copyInto(VParent destination)

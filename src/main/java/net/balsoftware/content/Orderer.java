@@ -18,9 +18,9 @@ public interface Orderer
 	List<VChild> childrenUnmodifiable();
 
 	/** Add the next child to the list */
-	void addChild(VChild addedChild);
+	void orderChild(VChild oldChild, VChild newChild);
 	
 	/** Add the child to particular index in the list */
-	void addChild(int index, VChild addedChild);
+	void orderChild(int index, VChild oldChild, VChild newChild);
 
 }

@@ -101,19 +101,49 @@ public class OrdererBase implements Orderer
     }
 
 	@Override
-	public void addChild(VChild addedChild)
+	public void orderChild(VChild oldChild, VChild newChild)
 	{
-		if (! orderedChildren.contains(addedChild))
+		if (oldChild == null)
 		{
-			orderedChildren.add(addedChild);
-		};
-		addedChild.setParent(parent);
+			if (! orderedChildren.contains(newChild))
+			{
+				orderedChildren.add(newChild);
+				newChild.setParent(parent);
+			}
+		} else
+		{
+			int index = orderedChildren.indexOf(oldChild);
+			orderedChildren.remove(oldChild);
+			if (newChild != null)
+			{
+				if (index >= 0)
+				{
+					orderedChildren.add(index, newChild);
+				} else
+				{
+					orderedChildren.add(newChild);				
+				}
+			}
+		}
 	}
 
 	@Override
-	public void addChild(int index, VChild addedChild)
+	public void orderChild(int index, VChild oldChild, VChild newChild)
 	{
-		orderedChildren.add(index, addedChild);
-		addedChild.setParent(parent);
+		if (oldChild == null)
+		{
+			if (! orderedChildren.contains(newChild))
+			{
+				orderedChildren.add(newChild);
+				newChild.setParent(parent);
+			}
+		} else
+		{
+			orderedChildren.remove(oldChild);
+			if (newChild != null)
+			{
+				orderedChildren.add(index, newChild);
+			}
+		}
 	}
 }

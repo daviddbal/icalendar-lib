@@ -4,10 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.descriptive.Description;
 
@@ -74,28 +71,10 @@ public class VJournal extends VDisplayable<VJournal>
      *  
      *  VJournal can have multiple description properties.
      */
-    public ObjectProperty<ObservableList<Description>> descriptionsProperty()
-    {
-        if (descriptions == null)
-        {
-            descriptions = new SimpleObjectProperty<>(this, PropertyType.DESCRIPTION.toString());
-        }
-        return descriptions;
-    }
-    public ObservableList<Description> getDescriptions() { return (descriptions == null) ? null : descriptions.get(); }
-    private ObjectProperty<ObservableList<Description>> descriptions;
-    public void setDescriptions(ObservableList<Description> descriptions)
-    {
-        if (descriptions != null)
-        {
-            orderer().registerSortOrderProperty(descriptions);
-        } else
-        {
-            orderer().unregisterSortOrderProperty(this.descriptions.get());
-        }
-        descriptionsProperty().set(descriptions);
-    }
-    public VJournal withDescriptions(ObservableList<Description> descriptions) { setDescriptions(descriptions); return this; }
+    public List<Description> getDescriptions() { return descriptions; }
+    private List<Description> descriptions;
+    public void setDescriptions(List<Description> descriptions) { this.descriptions = descriptions; }
+    public VJournal withDescriptions(List<Description> descriptions) { setDescriptions(descriptions); return this; }
     public VJournal withDescriptions(String...descriptions)
     {
         Arrays.stream(descriptions).forEach(c -> PropertyType.DESCRIPTION.parse(this, c));

@@ -1,13 +1,13 @@
 package net.balsoftware.properties;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
 import junit.runner.Version;
 import net.balsoftware.VCalendar;
 import net.balsoftware.VChild;
@@ -35,6 +35,9 @@ import net.balsoftware.components.VRepeatable;
 import net.balsoftware.components.VTimeZone;
 import net.balsoftware.components.VTodo;
 import net.balsoftware.parameters.ParameterType;
+import net.balsoftware.properties.calendar.CalendarScale;
+import net.balsoftware.properties.calendar.ProductIdentifier;
+import net.balsoftware.properties.component.alarm.Action;
 import net.balsoftware.properties.component.alarm.RepeatCount;
 import net.balsoftware.properties.component.alarm.Trigger;
 import net.balsoftware.properties.component.change.DateTimeCreated;
@@ -42,8 +45,10 @@ import net.balsoftware.properties.component.change.DateTimeStamp;
 import net.balsoftware.properties.component.change.LastModified;
 import net.balsoftware.properties.component.change.Sequence;
 import net.balsoftware.properties.component.descriptive.Attachment;
+import net.balsoftware.properties.component.descriptive.Categories;
 import net.balsoftware.properties.component.descriptive.Classification;
 import net.balsoftware.properties.component.descriptive.Comment;
+import net.balsoftware.properties.component.descriptive.Description;
 import net.balsoftware.properties.component.descriptive.GeographicPosition;
 import net.balsoftware.properties.component.descriptive.PercentComplete;
 import net.balsoftware.properties.component.descriptive.Summary;
@@ -142,7 +147,7 @@ public enum PropertyType
             final List<Attachment<?>> list;
             if (castComponent.getAttachments() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setAttachments(list);
             } else
             {
@@ -160,7 +165,7 @@ public enum PropertyType
             final List<Attachment<?>> list;
             if (castDestination.getAttachments() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setAttachments(list);
             } else
             {
@@ -193,7 +198,7 @@ public enum PropertyType
             final List<Attendee> list;
             if (castComponent.getAttendees() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setAttendees(list);
             } else
             {
@@ -211,7 +216,7 @@ public enum PropertyType
             final List<Attendee> list;
             if (castDestination.getAttendees() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setAttendees(list);
             } else
             {
@@ -264,7 +269,7 @@ public enum PropertyType
             final List<Categories> list;
             if (castComponent.getCategories() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setCategories(list);
             } else
             {
@@ -282,7 +287,7 @@ public enum PropertyType
             final List<Categories> list;
             if (castDestination.getCategories() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setCategories(list);
             } else
             {
@@ -342,7 +347,7 @@ public enum PropertyType
             final List<Comment> list;
             if (castComponent.getComments() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setComments(list);
             } else
             {
@@ -360,7 +365,7 @@ public enum PropertyType
             final List<Comment> list;
             if (castDestination.getComments() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setComments(list);
             } else
             {
@@ -404,7 +409,7 @@ public enum PropertyType
                 final List<Contact> list;
                 if (castComponent.getContacts() == null)
                 {
-                    list = FXCollections.observableArrayList();
+                    list = new ArrayList<>();
                     castComponent.setContacts(list);
                 } else
                 {
@@ -429,7 +434,7 @@ public enum PropertyType
                 final List<Contact> list;
                 if (castDestination.getContacts() == null)
                 {
-                    list = FXCollections.observableArrayList();
+                    list = new ArrayList<>();
                     castDestination.setContacts(list);
                 } else
                 {
@@ -660,7 +665,7 @@ public enum PropertyType
                 final List<Description> list;
                 if (castComponent.getDescriptions() == null)
                 {
-                    list = FXCollections.observableArrayList();
+                    list = new ArrayList<>();
                     castComponent.setDescriptions(list);
                 } else
                 {
@@ -690,7 +695,7 @@ public enum PropertyType
                 final List<Description> list;
                 if (castDestination.getDescriptions() == null)
                 {
-                    list = FXCollections.observableArrayList();
+                    list = new ArrayList<>();
                     castDestination.setDescriptions(list);
                 } else
                 {
@@ -765,7 +770,7 @@ public enum PropertyType
             final List<ExceptionDates> list;
             if (castComponent.getExceptionDates() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setExceptionDates(list);
             } else
             {
@@ -788,7 +793,7 @@ public enum PropertyType
             final List<ExceptionDates> list;
             if (castDestination.getExceptionDates() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setExceptionDates(list);
             } else
             {
@@ -964,7 +969,7 @@ public enum PropertyType
 //            final List<NonStandardProperty> list;
 //            if (castComponent.getNonStandard() == null)
 //            {
-//                list = FXCollections.observableArrayList();
+//                list = new ArrayList<>();
 //                castComponent.setNonStandard(list);
 //            } else
 //            {
@@ -983,7 +988,7 @@ public enum PropertyType
 //            final List<NonStandardProperty> list;
 //            if (castDestination.getNonStandard() == null)
 //            {
-//                list = FXCollections.observableArrayList();
+//                list = new ArrayList<>();
 //                castDestination.setNonStandard(list);
 //            } else
 //            {
@@ -1127,7 +1132,7 @@ public enum PropertyType
             final List<RecurrenceDates> list;
             if (castComponent.getRecurrenceDates() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setRecurrenceDates(list);
             } else
             {
@@ -1145,7 +1150,7 @@ public enum PropertyType
             final List<RecurrenceDates> list;
             if (castDestination.getRecurrenceDates() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setRecurrenceDates(list);
             } else
             {
@@ -1235,7 +1240,7 @@ public enum PropertyType
             final List<RelatedTo> list;
             if (castComponent.getRelatedTo() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setRelatedTo(list);
             } else
             {
@@ -1253,7 +1258,7 @@ public enum PropertyType
             final List<RelatedTo> list;
             if (castDestination.getRelatedTo() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setRelatedTo(list);
             } else
             {
@@ -1312,7 +1317,7 @@ public enum PropertyType
             final List<RequestStatus> list;
             if (castComponent.getRequestStatus() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setRequestStatus(list);
             } else
             {
@@ -1330,7 +1335,7 @@ public enum PropertyType
             final List<RequestStatus> list;
             if (castDestination.getRequestStatus() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setRequestStatus(list);
             } else
             {
@@ -1360,7 +1365,7 @@ public enum PropertyType
             final List<Resources> list;
             if (castComponent.getResources() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setResources(list);
             } else
             {
@@ -1378,7 +1383,7 @@ public enum PropertyType
             final List<Resources> list;
             if (castDestination.getResources() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setResources(list);
             } else
             {
@@ -1565,7 +1570,7 @@ public enum PropertyType
             final List<TimeZoneName> list;
             if (castComponent.getTimeZoneNames() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castComponent.setTimeZoneNames(list);
             } else
             {
@@ -1583,7 +1588,7 @@ public enum PropertyType
             final List<TimeZoneName> list;
             if (castDestination.getTimeZoneNames() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 castDestination.setTimeZoneNames(list);
             } else
             {

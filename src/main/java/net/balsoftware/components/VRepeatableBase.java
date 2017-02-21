@@ -1,14 +1,9 @@
 package net.balsoftware.components;
 
-import java.time.DateTimeException;
 import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.stream.Stream;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ObservableList;
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.properties.component.recurrence.RecurrenceRuleCache;
@@ -36,35 +31,10 @@ public abstract class VRepeatableBase<T> extends VPrimary<T> implements VRepeata
      * NOTE: DOESN'T CURRENTLY SUPPORT PERIOD VALUE TYPE
      * */
     @Override
-    public ObjectProperty<ObservableList<RecurrenceDates>> recurrenceDatesProperty()
-    {
-        if (recurrenceDates == null)
-        {
-            recurrenceDates = new SimpleObjectProperty<>(this, PropertyType.RECURRENCE_DATE_TIMES.toString());
-        }
-        return recurrenceDates;
-    }
+    public List<RecurrenceDates> getRecurrenceDates() { return recurrenceDates; }
+    private List<RecurrenceDates> recurrenceDates;
     @Override
-    public ObservableList<RecurrenceDates> getRecurrenceDates()
-    {
-        return (recurrenceDates == null) ? null : recurrenceDates.get();
-    }
-    private ObjectProperty<ObservableList<RecurrenceDates>> recurrenceDates;
-    @Override
-    public void setRecurrenceDates(ObservableList<RecurrenceDates> recurrenceDates)
-    {
-        if (recurrenceDates != null)
-        {
-            orderer().registerSortOrderProperty(recurrenceDates);
-            recurrenceDates.addListener(getRecurrencesConsistencyWithDateTimeStartListener());
-            String error = checkRecurrencesConsistency(recurrenceDates);
-            if (error != null) throw new DateTimeException(error);
-        } else
-        {
-            orderer().unregisterSortOrderProperty(recurrenceDatesProperty().get());
-        }
-        recurrenceDatesProperty().set(recurrenceDates);
-    }
+    public void setRecurrenceDates(List<RecurrenceDates> recurrenceDates) { this.recurrenceDates = recurrenceDates; }
 
     /**
      * RRULE, Recurrence Rule
@@ -77,28 +47,16 @@ public abstract class VRepeatableBase<T> extends VPrimary<T> implements VRepeata
      * RRULE:FREQ=DAILY;COUNT=10
      * RRULE:FREQ=WEEKLY;UNTIL=19971007T000000Z;WKST=SU;BYDAY=TU,TH
      */
-    @Override public ObjectProperty<RecurrenceRule> recurrenceRuleProperty()
-    {
-        if (recurrenceRule == null)
-        {
-            recurrenceRule = new SimpleObjectProperty<>(this, PropertyType.UNIQUE_IDENTIFIER.toString());
-            orderer().registerSortOrderProperty(recurrenceRule);
-        }
-        return recurrenceRule;
-    }
     @Override
-    public RecurrenceRule getRecurrenceRule() { return (recurrenceRule == null) ? null : recurrenceRuleProperty().get(); }
-    private ObjectProperty<RecurrenceRule> recurrenceRule;
-    
+    public RecurrenceRule getRecurrenceRule() { return recurrenceRule; }
+    private RecurrenceRule recurrenceRule;
+	@Override
+	public void setRecurrenceRule(RecurrenceRule recurrenceRule) { this.recurrenceRule = recurrenceRule; }
+
     /*
      * CONSTRUCTORS
      */
     VRepeatableBase() { }
-    
-//    VComponentRepeatableBase(String contentLines)
-//    {
-//        super(contentLines);
-//    }    
     
     public VRepeatableBase(StandardOrDaylight<T> source)
     {

@@ -1,6 +1,5 @@
 package net.balsoftware.components;
 
-import javafx.beans.property.ObjectProperty;
 import net.balsoftware.properties.component.descriptive.Description;
 import net.balsoftware.properties.component.descriptive.Summary;
 
@@ -32,22 +31,9 @@ public interface VDescribable2<T> extends VDescribable<T>
      *
      * <p>Note: Only {@link VJournal} allows multiple instances of DESCRIPTION</p>
      */
-    ObjectProperty<Description> descriptionProperty();
     Description getDescription();
-    default void setDescription(Description description) { descriptionProperty().set(description); }
-    default void setDescription(String description)
-    {
-        if (description == null)
-        {
-            descriptionProperty().set(null);
-        } else if (getDescription() == null)
-        {
-            setDescription(Description.parse(description));
-        } else
-        {
-            getDescription().setValue(description);
-        }
-    }
+    void setDescription(Description description);
+    default void setDescription(String description) { Description.parse(description); }
     /**
      * Sets the value of the {@link Description}
      * 

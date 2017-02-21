@@ -1,12 +1,11 @@
 package net.balsoftware.components;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.beans.property.ListProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.properties.component.relationship.Attendee;
 
 /**
@@ -31,15 +30,14 @@ public interface VAttendee<T> extends VComponent
      *  </ul>
      *  </p>
      */
-    ListProperty<Attendee> attendeesProperty();
-    ObservableList<Attendee> getAttendees();
-    void setAttendees(ObservableList<Attendee> properties);
+    List<Attendee> getAttendees();
+    void setAttendees(List<Attendee> properties);
     /**
      *  Sets the value of the {@link #attendeesProperty()} }
      *  
      *  @return - this class for chaining
      */
-    default T withAttendees(ObservableList<Attendee> attendees)
+    default T withAttendees(List<Attendee> attendees)
     {
         setAttendees(attendees);
         return (T) this;
@@ -51,7 +49,7 @@ public interface VAttendee<T> extends VComponent
      */    
     default T withAttendees(Attendee...attendees)
     {
-        setAttendees(FXCollections.observableArrayList(attendees));
+        setAttendees(new ArrayList<>(Arrays.asList(attendees)));
         return (T) this;
     }
     /**

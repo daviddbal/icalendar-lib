@@ -7,9 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,53 +48,17 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      * ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=Jane Doe
      *  :mailto:jdoe@example.com
      */
+    private List<Attendee> attendees;
     @Override
-    public ListProperty<Attendee> attendeesProperty()
-    {
-        if (attendees == null)
-        {
-            attendees = new SimpleListProperty<>(this, PropertyType.ATTENDEE.toString());
-        }
-        return attendees;
-    }
-    private ListProperty<Attendee> attendees;
+    public List<Attendee> getAttendees() { return attendees; }
     @Override
-    public ObservableList<Attendee> getAttendees()
-    {
-        return (attendees == null) ? null : attendees.get();
-    }
-    @Override
-    public void setAttendees(ObservableList<Attendee> attendees)
-    {
-        if (attendees != null)
-        {
-            if ((this.attendees != null) && (this.attendees.get() != null))
-            {
-                // replace sort order in new list
-                orderer().replaceList(attendeesProperty().get(), attendees);
-            }
-            orderer().registerSortOrderProperty(attendees);
-        } else
-        {
-            orderer().unregisterSortOrderProperty(attendeesProperty().get());
-        }
-        attendeesProperty().set(attendees);
-    }
+    public void setAttendees(List<Attendee> attendees) { this.attendees = attendees; }
     
     /**
      * DTSTAMP: Date-Time Stamp, from RFC 5545 iCalendar 3.8.7.2 page 137
      * This property specifies the date and time that the instance of the
      * iCalendar object was created
      */
-    public ObjectProperty<DateTimeStamp> dateTimeStampProperty()
-    {
-        if (dateTimeStamp == null)
-        {
-            dateTimeStamp = new SimpleObjectProperty<>(this, PropertyType.DATE_TIME_STAMP.toString());
-            orderer().registerSortOrderProperty(dateTimeStamp);
-        }
-        return dateTimeStamp;
-    }
     private ObjectProperty<DateTimeStamp> dateTimeStamp;
     public DateTimeStamp getDateTimeStamp() { return dateTimeStampProperty().get(); }
     public void setDateTimeStamp(String dtStamp)

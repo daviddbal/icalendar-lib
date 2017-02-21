@@ -1,12 +1,10 @@
 package net.balsoftware.components;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.properties.component.descriptive.Attachment;
 import net.balsoftware.properties.component.descriptive.Summary;
 
@@ -34,15 +32,14 @@ public interface VDescribable<T> extends VComponent
      *</ul>
      *</p>
      */
-    ObjectProperty<ObservableList<Attachment<?>>> attachmentsProperty();
-    ObservableList<Attachment<?>> getAttachments();
-    void setAttachments(ObservableList<Attachment<?>> properties);
+    List<Attachment<?>> getAttachments();
+    void setAttachments(List<Attachment<?>> properties);
     /**
      * Sets the value of the {@link #attachmentsProperty()}.
      * 
      * @return - this class for chaining
      */
-    default T withAttachments(ObservableList<Attachment<?>> attachments)
+    default T withAttachments(List<Attachment<?>> attachments)
     {
         setAttachments(attachments);
         return (T) this;
@@ -58,7 +55,7 @@ public interface VDescribable<T> extends VComponent
         List<Attachment<?>> a = Arrays.stream(attachments)
                 .map(c -> Attachment.parse(c))
                 .collect(Collectors.toList());
-        setAttachments(FXCollections.observableArrayList(a));
+        setAttachments(a);
         return (T) this;
     }
     /**
@@ -68,7 +65,7 @@ public interface VDescribable<T> extends VComponent
      */
     default T withAttachments(Attachment<?>...attachments)
     {
-        setAttachments(FXCollections.observableArrayList(attachments));
+        setAttachments(new ArrayList<>(Arrays.asList(attachments)));
         return (T) this;
     }
     
@@ -81,16 +78,12 @@ public interface VDescribable<T> extends VComponent
      *</ul>
      *</p>
      */
-    ObjectProperty<Summary> summaryProperty();
     Summary getSummary();
     default void setSummary(String summary)
     {
         setSummary(Summary.parse(summary));
     }
-    default void setSummary(Summary summary)
-    {
-        summaryProperty().set(summary);
-    }
+    void setSummary(Summary summary);
     /**
      * Sets the value of the {@link #summaryProperty()}
      * 

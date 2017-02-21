@@ -80,9 +80,9 @@ public abstract class VComponentBase extends VParentBase implements VComponent
 //        };
 //    }
     
-//    final private String componentName;
-//    @Override
-//    public String name() { return componentName; }
+    final private String componentName;
+    @Override
+    public String name() { return componentName; }
 
     /*
      * CONSTRUCTORS
@@ -92,7 +92,7 @@ public abstract class VComponentBase extends VParentBase implements VComponent
      */
     VComponentBase()
     {
-//        componentName = CalendarComponent.enumFromClass(this.getClass()).toString();
+        componentName = CalendarComponent.enumFromClass(this.getClass()).toString();
 //        setContentLineGenerator(new MultiLineContent(
 //                orderer(),
 //                FIRST_LINE_PREFIX + componentName,

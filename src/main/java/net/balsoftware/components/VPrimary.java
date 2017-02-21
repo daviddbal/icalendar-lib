@@ -2,19 +2,13 @@ package net.balsoftware.components;
 
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.descriptive.Comment;
 import net.balsoftware.properties.component.time.DateTimeStart;
-import net.balsoftware.utilities.DateTimeUtilities;
 
 /**
  * Components with the following properties:
@@ -41,54 +35,25 @@ public abstract class VPrimary<T> extends VCommon<T>
          As a matter of fact\, the venue for the meeting ought to be at
          their site. - - John
      * */
-    public ListProperty<Comment> commentsProperty()
-    {
-        if (comments == null)
-        {
-            comments = new SimpleListProperty<>(this, PropertyType.COMMENT.toString());
-        }
-        return comments;
-    }
-    public ObservableList<Comment> getComments()
-    {
-        return (comments == null) ? null : comments.get();
-    }
-    private ListProperty<Comment> comments;
-    public void setComments(ObservableList<Comment> comments)
-    {
-        if (comments != null)
-        {
-            if (this.comments != null)
-            {
-                // replace sort order in new list
-                orderer().replaceList(this.comments.get(), comments);
-            }
-            orderer().registerSortOrderProperty(comments);
-        } else
-        {
-            orderer().unregisterSortOrderProperty(commentsProperty().get());
-        }
-        commentsProperty().set(comments);
-    }
-    public T withComments(ObservableList<Comment> comments)
+    public List<Comment> getComments() { return comments; }
+    private List<Comment> comments;
+    public void setComments(List<Comment> comments) { this.comments = comments; }
+    public T withComments(List<Comment> comments)
     {
         setComments(comments);
         return (T) this;
     }
     public T withComments(String...comments)
     {
-        Arrays.stream(comments).forEach(c -> PropertyType.COMMENT.parse(this, c));
+        List<Comment> list = Arrays.stream(comments)
+                .map(c -> Comment.parse(c))
+                .collect(Collectors.toList());
+        setComments(list);
         return (T) this;
     }
     public T withComments(Comment...comments)
     {
-        if (getComments() == null)
-        {
-            setComments(FXCollections.observableArrayList(comments));
-        } else
-        {
-            getComments().addAll(comments);
-        }
+    	setComments(new ArrayList<>(Arrays.asList(comments)));
         return (T) this;
     }
     
@@ -98,59 +63,15 @@ public abstract class VPrimary<T> extends VCommon<T>
      * start date/times of the repeating events.
      * Can contain either a LocalDate (DATE) or LocalDateTime (DATE-TIME)
      */
-    public ObjectProperty<DateTimeStart> dateTimeStartProperty()
-    {
-        if (dateTimeStart == null)
-        {
-            dateTimeStart = new SimpleObjectProperty<>(this, PropertyType.DATE_TIME_START.toString());
-            orderer().registerSortOrderProperty(dateTimeStart);
-            dateTimeStart.addListener((obs, oldValue, newValue) ->
-            {
-                if (oldValue == null) // only check consistency when first assignment
-                {
-                    dateTimeStartListenerHook();
-                }
-            });
-        }
-        return dateTimeStart;
-    }
-    
     // hook to be overridden in subclasses
+    @Deprecated // is this needed?
     void dateTimeStartListenerHook() { }
     
-    public DateTimeStart getDateTimeStart() { return (dateTimeStart == null) ? null : dateTimeStartProperty().get(); }
-    private ObjectProperty<DateTimeStart> dateTimeStart;
-    public void setDateTimeStart(DateTimeStart dtStart)
-    {
-        dateTimeStartProperty().set(dtStart);
-    }
-    public void setDateTimeStart(String dtStart)
-    {
-//        if (getDateTimeStart() == null)
-//        {
-            setDateTimeStart(DateTimeStart.parse(dtStart));
-//        } else
-//        {
-//            DateTimeStart temp = DateTimeStart.parse(dtStart);
-//            if (temp.getValue().getClass().equals(getDateTimeStart().getValue().getClass()))
-//            {
-//                getDateTimeStart().setValue(temp.getValue());
-//            } else
-//            {
-//                setDateTimeStart(temp);
-//            }
-//        }
-    }
-    public void setDateTimeStart(Temporal temporal)
-    {
-//        if (getDateTimeStart() == null)
-//        {
-        setDateTimeStart(new DateTimeStart(temporal));
-//        } else
-//        {
-//            getDateTimeStart().setValue(temporal);
-//        }
-    }
+    public DateTimeStart getDateTimeStart() { return dateTimeStart; }
+    private DateTimeStart dateTimeStart;
+    public void setDateTimeStart(DateTimeStart dtStart) { this.dateTimeStart = dtStart; }
+    public void setDateTimeStart(String dtStart) { setDateTimeStart(DateTimeStart.parse(dtStart)); }
+    public void setDateTimeStart(Temporal temporal) { setDateTimeStart(new DateTimeStart(temporal)); }
     public T withDateTimeStart(DateTimeStart dtStart)
     {
         setDateTimeStart(dtStart);
@@ -182,14 +103,4 @@ public abstract class VPrimary<T> extends VCommon<T>
     {
         super(source);
     }
-    
-    /**
-     * Sorts VComponents by DTSTART date/time
-     */
-    public final static Comparator<? super VPrimary<?>> DTSTART_COMPARATOR = (v1, v2) -> 
-    {
-        Temporal t1 = v1.getDateTimeStart().getValue();
-        Temporal t2 = v2.getDateTimeStart().getValue();
-        return DateTimeUtilities.TEMPORAL_COMPARATOR2.compare(t1, t2);
-    };
 }

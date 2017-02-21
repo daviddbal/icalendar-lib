@@ -6,16 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.ObservableList;
 import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.alarm.Action;
+import net.balsoftware.properties.component.alarm.Action.ActionType;
 import net.balsoftware.properties.component.alarm.RepeatCount;
 import net.balsoftware.properties.component.alarm.Trigger;
-import net.balsoftware.properties.component.alarm.Action.ActionType;
 import net.balsoftware.properties.component.descriptive.Attachment;
 import net.balsoftware.properties.component.descriptive.Description;
 import net.balsoftware.properties.component.descriptive.Summary;
@@ -230,19 +225,10 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
      * </ul>
      * </p>
      */
-    public ObjectProperty<Action> actionProperty()
-    {
-        if (action == null)
-        {
-            action = new SimpleObjectProperty<>(this, PropertyType.ACTION.toString());
-            orderer().registerSortOrderProperty(action);
-        }
-        return action;
-    }
-    private ObjectProperty<Action> action;
-    public Action getAction() { return actionProperty().get(); }
+    private Action action;
+    public Action getAction() { return action; }
     public void setAction(String action) { setAction(Action.parse(action)); }
-    public void setAction(Action action) { actionProperty().set(action); }
+    public void setAction(Action action) { this.action = action; }
     public void setAction(ActionType action) { setAction(new Action(action)); }
     /**
      * Sets the value of the {@link #actionProperty()}
@@ -283,30 +269,11 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
      * ATTENDEE;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=Jane Doe
      *  :mailto:jdoe@example.com
      */
+    private List<Attendee> attendees;
     @Override
-    public ListProperty<Attendee> attendeesProperty()
-    {
-        if (attendees == null)
-        {
-            attendees = new SimpleListProperty<>(this, PropertyType.ATTENDEE.toString());
-        }
-        return attendees;
-    }
-    private ListProperty<Attendee> attendees;
+    public List<Attendee> getAttendees() { return attendees; }
     @Override
-    public ObservableList<Attendee> getAttendees() { return (attendees == null) ? null : attendees.get(); }
-    @Override
-    public void setAttendees(ObservableList<Attendee> attendees)
-    {
-        if (attendees != null)
-        {
-            orderer().registerSortOrderProperty(attendees);
-        } else
-        {
-            orderer().unregisterSortOrderProperty(this.attendees.get());
-        }
-        attendeesProperty().set(attendees);
-    }
+    public void setAttendees(List<Attendee> attendees) { this.attendees = attendees; }
     
     /*
      * DESCRIPTION
@@ -323,18 +290,9 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
      * Note: Only VJournal allows multiple instances of DESCRIPTION
      */
     @Override
-    public ObjectProperty<Description> descriptionProperty()
-    {
-        if (description == null)
-        {
-            description = new SimpleObjectProperty<>(this, PropertyType.DESCRIPTION.toString());
-            orderer().registerSortOrderProperty(description);
-        }
-        return description;
-    }
-    @Override
-    public Description getDescription() { return (description == null) ? null : description.get(); }
-    private ObjectProperty<Description> description;
+    public Description getDescription() { return description; }
+    private Description description;
+    public void setDescription(Description description) { this.description = description; }
     
     /*
      * DURATION
@@ -344,16 +302,11 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
      * Example:
      * DURATION:PT15M
      * */
-    @Override public ObjectProperty<DurationProp> durationProperty()
-    {
-        if (duration == null)
-        {
-            duration = new SimpleObjectProperty<>(this, PropertyType.DURATION.toString());
-            orderer().registerSortOrderProperty(duration);
-        }
-        return duration;
-    }
-    private ObjectProperty<DurationProp> duration;
+    private DurationProp duration;
+	@Override
+	public DurationProp getDuration() { return duration; }
+	@Override
+	public void setDuration(DurationProp duration) { this.duration = duration; }
     
     /**
      * <p>This property defines the number of times the alarm should
@@ -371,18 +324,9 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
      * DURATION:PT5M
      * </p>
      */
-    public ObjectProperty<RepeatCount> repeatCountProperty()
-    {
-        if (repeatCount == null)
-        {
-            repeatCount = new SimpleObjectProperty<>(this, PropertyType.ACTION.toString());
-            orderer().registerSortOrderProperty(repeatCount);
-        }
-        return repeatCount;
-    }
-    private ObjectProperty<RepeatCount> repeatCount;
-    public RepeatCount getRepeatCount() { return (repeatCount == null) ? null : repeatCount.get(); }
-    public void setRepeatCount(RepeatCount repeatCount) { repeatCountProperty().set(repeatCount); }
+    private RepeatCount repeatCount;
+    public RepeatCount getRepeatCount() { return repeatCount; }
+    public void setRepeatCount(RepeatCount repeatCount) { this.repeatCount = repeatCount; }
     public void setRepeatCount(int repeatCount) { setRepeatCount(new RepeatCount(repeatCount)); }
     public void setRepeatCount(String repeatCount) { setRepeatCount(RepeatCount.parse(repeatCount)); }
     /** Sets the value of the {@link #repeatCountProperty()}
@@ -413,19 +357,10 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
      * </ul>
      * </p>
      */
-    public ObjectProperty<Trigger<?>> triggerProperty()
-    {
-        if (trigger == null)
-        {
-            trigger = new SimpleObjectProperty<>(this, PropertyType.ACTION.toString());
-            orderer().registerSortOrderProperty(trigger);
-        }
-        return trigger;
-    }
-    private ObjectProperty<Trigger<?>> trigger;
-    public Trigger<?> getTrigger() { return triggerProperty().get(); }
+    private Trigger<?> trigger;
+    public Trigger<?> getTrigger() { return trigger; }
     public void setTrigger(String trigger) { PropertyType.TRIGGER.parse(this, trigger); }
-    public void setTrigger(Trigger<?> trigger) { triggerProperty().set(trigger); }
+    public void setTrigger(Trigger<?> trigger) { this.trigger = trigger; }
     public void setTrigger(Duration trigger) { setTrigger(new Trigger<Duration>(trigger)); }
     public void setTrigger(ZonedDateTime trigger) { setTrigger(new Trigger<ZonedDateTime>(trigger)); }
     /** Sets the value of the {@link #triggerProperty()}
@@ -512,4 +447,10 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
         component.parseContent(contentLines);
         return component;
     }
+
+	@Override
+	public void setSummary(Summary summary) {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("not implemented");
+	}
 }

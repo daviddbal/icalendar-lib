@@ -14,11 +14,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.recurrence.PropertyBaseRecurrence;
 import net.balsoftware.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.properties.component.recurrence.RecurrenceRule;
@@ -26,8 +21,8 @@ import net.balsoftware.properties.component.recurrence.RecurrenceRuleCache;
 import net.balsoftware.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.properties.component.time.DateTimeStart;
 import net.balsoftware.utilities.DateTimeUtilities;
-import net.balsoftware.utilities.ICalendarUtilities;
 import net.balsoftware.utilities.DateTimeUtilities.DateTimeType;
+import net.balsoftware.utilities.ICalendarUtilities;
 
 /**
  * Contains following properties:
@@ -56,76 +51,35 @@ public interface VRepeatable<T> extends VComponent
      * RDATE;VALUE=DATE:19970101,19970120,19970217,19970421
      *  19970526,19970704,19970901,19971014,19971128,19971129,1997122
      */
-    ObjectProperty<ObservableList<RecurrenceDates>> recurrenceDatesProperty();
-    ObservableList<RecurrenceDates> getRecurrenceDates();
-    void setRecurrenceDates(ObservableList<RecurrenceDates> recurrences);
-    default T withRecurrenceDates(ObservableList<RecurrenceDates> recurrenceDates)
+    List<RecurrenceDates> getRecurrenceDates();
+    void setRecurrenceDates(List<RecurrenceDates> recurrences);
+    default T withRecurrenceDates(List<RecurrenceDates> recurrenceDates)
     {
         setRecurrenceDates(recurrenceDates);
         return (T) this;
     }
     default T withRecurrenceDates(String...recurrenceDates)
     {
-        Arrays.stream(recurrenceDates).forEach(s -> PropertyType.RECURRENCE_DATE_TIMES.parse(this, s));
+        List<RecurrenceDates> list = Arrays.stream(recurrenceDates)
+                .map(c -> RecurrenceDates.parse(c))
+                .collect(Collectors.toList());
+        setRecurrenceDates(list);
         return (T) this;
     }
     default T withRecurrenceDates(Temporal...recurrenceDates)
     {
-        if (recurrenceDates.length > 0)
-        {
-            final ObservableList<RecurrenceDates> list;
-            if (getRecurrenceDates() == null)
-            {
-                list = FXCollections.observableArrayList();
-                setRecurrenceDates(list);
-            } else
-            {
-                list = getRecurrenceDates();
-            }
-            list.add(new RecurrenceDates(recurrenceDates));
-        }
+        List<RecurrenceDates> list = Arrays.stream(recurrenceDates)
+                .map(c -> new RecurrenceDates(c))
+                .collect(Collectors.toList());
+        setRecurrenceDates(list);
         return (T) this;
     }
     default T withRecurrenceDates(RecurrenceDates...recurrenceDates)
     {
-        if (getRecurrenceDates() == null)
-        {
-            setRecurrenceDates(FXCollections.observableArrayList());
-            Arrays.stream(recurrenceDates).forEach(r -> getRecurrenceDates().add(r)); // add one at a time to ensure date-time type compliance
-        } else
-        {
-            getRecurrenceDates().addAll(recurrenceDates);
-        }
+    	setRecurrenceDates(new ArrayList<>(Arrays.asList(recurrenceDates)));
         return (T) this;
     }
     
-    /** Ensures new recurrence values match previously added ones.  Also ensures recurrence
-     * value match DateTimeStart.  Should be called after dateTimeEndProperty() 
-     * @param exceptions */
-    default ListChangeListener<PropertyBaseRecurrence<?>> getRecurrencesConsistencyWithDateTimeStartListener()
-    {
-        return (ListChangeListener.Change<? extends PropertyBaseRecurrence<?>> change) ->
-        {
-            ObservableList<? extends PropertyBaseRecurrence<?>> list = change.getList();
-            while (change.next())
-            {
-                if (change.wasAdded())
-                {
-                    List<? extends PropertyBaseRecurrence<?>> changeList = change.getAddedSubList();
-                    Temporal firstRecurrence = list.get(0).getValue().iterator().next();
-                    // check consistency with previous recurrence values
-                    String errors = changeList.stream()
-                        .map(r -> checkPotentialRecurrencesConsistency(change.getList(), r))
-                        .filter(s -> s != null)
-                        .collect(Collectors.joining(System.lineSeparator()));
-                    if (! errors.isEmpty())
-                    {
-                        throw new DateTimeException(errors);
-                    }
-                }
-            }
-        };
-    }
     /**
      * Determines if recurrence objects are valid.  They are valid if the date-time types are the same and matches
      * DateTimeStart.  This should be run when a change occurs to the recurrences list and when the recurrences
@@ -165,46 +119,7 @@ public interface VRepeatable<T> extends VComponent
         }
         return null;
     }
-    
-    /**
-     * <p>Determines if recurrence objects are valid.  They are valid if the date-time types are the same and matches
-     * DateTimeStart.  This should be run when a change occurs to the recurrences list and when the recurrences
-     * Observable list is set.</p>
-     * 
-     * <p>Uses first recurrence in list as firstRecurrence value.</p>
-     * 
-     * Also works for exceptions.
-     * @param <U>
-     * 
-     * @param list - list of recurrence objects to be tested.
-     * @return - true is valid, throws exception otherwise
-     */
-//    static boolean checkRecurrencesConsistency(List<? extends PropertyBaseRecurrence<?>> list, PropertyBaseRecurrence<?> testObj)
-//    {
-//        if ((list == null) || (list.isEmpty()))
-//        {
-//            return true;
-//        }
-//        Temporal firstRecurrence = list.get(0).getValue().iterator().next();
-//        if (firstRecurrence == null)
-//        {
-//            return true;
-//        }
-//        DateTimeType firstDateTimeTypeType = DateTimeUtilities.DateTimeType.of(firstRecurrence);
-//        Optional<DateTimeType> badType = testObj.getValue().stream()
-//                .map(t -> DateTimeUtilities.DateTimeType.of(t))
-////                .peek(t -> System.out.println("ttt:" + firstDateTimeTypeType + " " + t))
-//                .filter(y -> ! y.equals(firstDateTimeTypeType))
-//                .findAny();
-////        System.out.println("bad:" + badType);
-//        if (badType.isPresent())
-//        {
-//            throw new DateTimeException("Added recurrences DateTimeType " + badType.get() +
-//                    " doesn't match previous recurrences DateTimeType " + firstDateTimeTypeType);            
-//        }
-//        return true;
-//    }
-    
+        
     static String checkPotentialRecurrencesConsistency(List<? extends PropertyBaseRecurrence<?>> list, PropertyBaseRecurrence<?> testObj)
     {
         if ((list == null) || (list.isEmpty()))
@@ -258,35 +173,21 @@ public interface VRepeatable<T> extends VComponent
      * RRULE:FREQ=DAILY;COUNT=10
      * RRULE:FREQ=WEEKLY;UNTIL=19971007T000000Z;WKST=SU;BYDAY=TU,TH
      */
-    ObjectProperty<RecurrenceRule> recurrenceRuleProperty();
     RecurrenceRule getRecurrenceRule();
-    default void setRecurrenceRule(RecurrenceRule recurrenceRule) { recurrenceRuleProperty().set(recurrenceRule); }
+    void setRecurrenceRule(RecurrenceRule recurrenceRule);
     default void setRecurrenceRule(RecurrenceRuleValue rrule)
     {
-        if (getRecurrenceRule() == null && rrule != null)
-        {
-            setRecurrenceRule(new RecurrenceRule(rrule));
-        } else
-        {
-            if (rrule == null)
-            {
-                recurrenceRuleProperty().set(null);
-            } else
-            {
-                getRecurrenceRule().setValue(rrule);                
-            }
-        }
+    	if (rrule == null)
+    	{
+    		setRecurrenceRule((RecurrenceRule) null);
+    	} else
+    	{
+    		setRecurrenceRule(new RecurrenceRule(rrule));
+    	}
     }
     default void setRecurrenceRule(String rrule)
     {
-        if (getRecurrenceRule() == null)
-        {
-            setRecurrenceRule(RecurrenceRule.parse(rrule));
-        } else
-        {
-            RecurrenceRule temp = RecurrenceRule.parse(rrule);
-            getRecurrenceRule().setValue(temp.getValue());
-        }
+    	setRecurrenceRule(RecurrenceRule.parse(rrule));
     }
     default T withRecurrenceRule(String rrule)
     {

@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javafx.util.Pair;
 import net.balsoftware.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.properties.component.recurrence.rrule.Count;
 import net.balsoftware.properties.component.recurrence.rrule.FrequencyType;
@@ -27,6 +26,7 @@ import net.balsoftware.properties.component.recurrence.rrule.WeekStart;
 import net.balsoftware.properties.component.recurrence.rrule.byxxx.ByDay;
 import net.balsoftware.properties.component.recurrence.rrule.byxxx.ByMonth;
 import net.balsoftware.utilities.ICalendarUtilities;
+import net.balsoftware.utilities.Pair;
 
 public class RecurrenceRuleTest
 {    

@@ -7,12 +7,12 @@ import java.util.List;
 
 import org.junit.Test;
 
-import javafx.util.Pair;
 import net.balsoftware.parameters.ValueParameter;
 import net.balsoftware.properties.ValueType;
 import net.balsoftware.properties.component.descriptive.Summary;
 import net.balsoftware.properties.component.misc.NonStandardProperty;
 import net.balsoftware.utilities.ICalendarUtilities;
+import net.balsoftware.utilities.Pair;
 
 public class GeneralPropertyTest
 {
@@ -95,7 +95,7 @@ public class GeneralPropertyTest
     {
         String content = "X-MYPROP:1";
         NonStandardProperty madeProperty = NonStandardProperty.parse(content);
-        madeProperty.valueTypeProperty().set(new ValueParameter(ValueType.INTEGER));
+        madeProperty.setValueType(new ValueParameter(ValueType.INTEGER));
         assertEquals(1, madeProperty.getValue());
     }
     

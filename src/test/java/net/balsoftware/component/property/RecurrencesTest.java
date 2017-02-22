@@ -11,6 +11,7 @@ import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,11 +19,10 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
-import javafx.util.Pair;
 import net.balsoftware.components.VEvent;
 import net.balsoftware.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.utilities.ICalendarUtilities;
+import net.balsoftware.utilities.Pair;
 
 public class RecurrencesTest
 {    
@@ -64,11 +64,11 @@ public class RecurrencesTest
     public void canMakeRecurrences1()
     {
         RecurrenceDates property = new RecurrenceDates(
-                FXCollections.observableSet(LocalDateTime.of(2015, 11, 12, 10, 0)
-                     , LocalDateTime.of(2015, 11, 14, 12, 0)));
-        ObservableSet<LocalDateTime> expectedDates = FXCollections.observableSet(
                 LocalDateTime.of(2015, 11, 12, 10, 0)
-                , LocalDateTime.of(2015, 11, 14, 12, 0) );
+                     , LocalDateTime.of(2015, 11, 14, 12, 0));
+        Set<LocalDateTime> expectedDates = new LinkedHashSet<>(Arrays.asList(
+                LocalDateTime.of(2015, 11, 12, 10, 0)
+                , LocalDateTime.of(2015, 11, 14, 12, 0) ));
         assertEquals(expectedDates, property.getValue());
         assertEquals("RDATE:20151112T100000,20151114T120000", property.toString());
     }

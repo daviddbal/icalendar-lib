@@ -1913,6 +1913,7 @@ public enum PropertyType
     abstract public Object getProperty(VComponent vComponent);
 
     /** Parses string and sets property.  Called by {@link VComponentBase#parseContent()} */
+    @Deprecated // use parse method from class
     abstract public VChild parse(VParent vParent, String propertyContent);
 //    abstract public VChild parse(VParent vParent, String propertyContent);
 

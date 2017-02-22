@@ -2,17 +2,14 @@ package net.balsoftware.components;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.VChild;
 import net.balsoftware.VParent;
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.change.LastModified;
 import net.balsoftware.properties.component.timezone.TimeZoneIdentifier;
 import net.balsoftware.properties.component.timezone.TimeZoneURL;
@@ -276,29 +273,17 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
      * @see StandardTime
      *
      */
-    public ObservableList<StandardOrDaylight<?>> getStandardOrDaylight() { return standardOrDaylight; }
-    private ObservableList<StandardOrDaylight<?>> standardOrDaylight;
-    public void setStandardOrDaylight(ObservableList<StandardOrDaylight<?>> standardOrDaylight)
+    public List<StandardOrDaylight<?>> getStandardOrDaylight() { return standardOrDaylight; }
+    private List<StandardOrDaylight<?>> standardOrDaylight;
+    public void setStandardOrDaylight(List<StandardOrDaylight<?>> standardOrDaylight){ this.standardOrDaylight = standardOrDaylight; }
+    public VTimeZone withStandardOrDaylight(List<StandardOrDaylight<?>> standardOrDaylight)
     {
-        if (standardOrDaylight != null)
-        {
-            orderer().registerSortOrderProperty(standardOrDaylight);
-        } else
-        {
-            orderer().unregisterSortOrderProperty(this.standardOrDaylight);
-        }
-        this.standardOrDaylight = standardOrDaylight;
-    }
-    public VTimeZone withStandardOrDaylight(ObservableList<StandardOrDaylight<?>> standardOrDaylight) { setStandardOrDaylight(standardOrDaylight); return this; }
+    	setStandardOrDaylight(standardOrDaylight);
+    	return this;
+	}
     public VTimeZone withStandardOrDaylight(StandardOrDaylight<?>...standardOrDaylight)
     {
-        if (getStandardOrDaylight() == null)
-        {
-            setStandardOrDaylight(FXCollections.observableArrayList(standardOrDaylight));
-        } else
-        {
-            getStandardOrDaylight().addAll(standardOrDaylight);
-        }
+    	setStandardOrDaylight(new ArrayList<>(Arrays.asList(standardOrDaylight)));
         return this;
     }
     
@@ -318,19 +303,10 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     * Example:
     * LAST-MODIFIED:19960817T133000Z
     */
+    private LastModified lastModified;
     @Override
-    public ObjectProperty<LastModified> dateTimeLastModifiedProperty()
-    {
-        if (lastModified == null)
-        {
-            lastModified = new SimpleObjectProperty<>(this, PropertyType.LAST_MODIFIED.toString());
-            orderer().registerSortOrderProperty(lastModified);
-        }
-        return lastModified;
-    }
-    @Override
-    public LastModified getDateTimeLastModified() { return (lastModified == null) ? null : dateTimeLastModifiedProperty().get(); }
-    private ObjectProperty<LastModified> lastModified;
+    public LastModified getDateTimeLastModified() { return lastModified; }
+    public void setDateTimeLastModified(LastModified lastModified) { this.lastModified = lastModified; }
     
     /**
      * TZID
@@ -347,21 +323,20 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
      * EXAMPLE:
      * TZID:America/Los_Angeles
      */
-    public ObjectProperty<TimeZoneIdentifier> timeZoneIdentifierProperty()
-    {
-        if (timeZoneIdentifier == null)
-        {
-            timeZoneIdentifier = new SimpleObjectProperty<>(this, PropertyType.TIME_ZONE_IDENTIFIER.toString());
-            orderer().registerSortOrderProperty(timeZoneIdentifier);
-        }
-        return timeZoneIdentifier;
-    }
-    private ObjectProperty<TimeZoneIdentifier> timeZoneIdentifier;
-    public TimeZoneIdentifier getTimeZoneIdentifier() { return timeZoneIdentifierProperty().get(); }
-    public void setTimeZoneIdentifier(TimeZoneIdentifier timeZoneIdentifier) { timeZoneIdentifierProperty().set(timeZoneIdentifier); }
+    private TimeZoneIdentifier timeZoneIdentifier;
+    public TimeZoneIdentifier getTimeZoneIdentifier() { return timeZoneIdentifier; }
+    public void setTimeZoneIdentifier(TimeZoneIdentifier timeZoneIdentifier) { this.timeZoneIdentifier = timeZoneIdentifier; }
     public void setTimeZoneIdentifier(String timeZoneIdentifier) { setTimeZoneIdentifier(TimeZoneIdentifier.parse(timeZoneIdentifier)); }
-    public VTimeZone withTimeZoneIdentifier(TimeZoneIdentifier timeZoneIdentifier) { setTimeZoneIdentifier(timeZoneIdentifier); return this; }
-    public VTimeZone withTimeZoneIdentifier(String timeZoneIdentifier) { PropertyType.TIME_ZONE_IDENTIFIER.parse(this, timeZoneIdentifier); return this; }
+    public VTimeZone withTimeZoneIdentifier(TimeZoneIdentifier timeZoneIdentifier)
+    { 
+    	setTimeZoneIdentifier(timeZoneIdentifier);
+    	return this;
+	}
+    public VTimeZone withTimeZoneIdentifier(String timeZoneIdentifier)
+    {
+    	setTimeZoneIdentifier(timeZoneIdentifier);
+    	return this;
+	}
 
     /**
      * TZURL
@@ -375,23 +350,26 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
      * EXAMPLES:
      * TZURL:http://timezones.example.org/tz/America-Los_Angeles.ics
      */
-    public ObjectProperty<TimeZoneURL> timeZoneURLProperty()
-    {
-        if (timeZoneURL == null)
-        {
-            timeZoneURL = new SimpleObjectProperty<>(this, PropertyType.TIME_ZONE_IDENTIFIER.toString());
-            orderer().registerSortOrderProperty(timeZoneURL);
-        }
-        return timeZoneURL;
-    }
-    private ObjectProperty<TimeZoneURL> timeZoneURL;
-    public TimeZoneURL getTimeZoneURL() { return timeZoneURLProperty().get(); }
-    public void setTimeZoneURL(TimeZoneURL timeZoneURL) { timeZoneURLProperty().set(timeZoneURL); }
+    private TimeZoneURL timeZoneURL;
+    public TimeZoneURL getTimeZoneURL() { return timeZoneURL; }
+    public void setTimeZoneURL(TimeZoneURL timeZoneURL) { this.timeZoneURL = timeZoneURL; }
     public void setTimeZoneURL(String timeZoneURL) { setTimeZoneURL(TimeZoneURL.parse(timeZoneURL)); }
-    public void setTimeZoneURL(URI timeZoneURL) { timeZoneURLProperty().set(new TimeZoneURL(timeZoneURL)); }
-    public VTimeZone withTimeZoneURL(TimeZoneURL timeZoneURL) { setTimeZoneURL(timeZoneURL); return this; }
-    public VTimeZone withTimeZoneURL(URI timeZoneURL) { setTimeZoneURL(new TimeZoneURL(timeZoneURL)); return this; }
-    public VTimeZone withTimeZoneURL(String timeZoneURL) { PropertyType.TIME_ZONE_URL.parse(this, timeZoneURL); return this; }
+    public void setTimeZoneURL(URI timeZoneURL) { setTimeZoneURL(new TimeZoneURL(timeZoneURL)); }
+    public VTimeZone withTimeZoneURL(TimeZoneURL timeZoneURL)
+    {
+    	setTimeZoneURL(timeZoneURL);
+    	return this;
+	}
+    public VTimeZone withTimeZoneURL(URI timeZoneURL)
+    {
+    	setTimeZoneURL(new TimeZoneURL(timeZoneURL));
+    	return this;
+	}
+    public VTimeZone withTimeZoneURL(String timeZoneURL)
+    {
+    	setTimeZoneURL(timeZoneURL);
+    	return this;
+    }
 
     
     /*
@@ -399,19 +377,11 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
      */
     public VTimeZone() { super(); }
     
-//    public VTimeZone(String contentLines)
-//    {
-//        super(contentLines);
-//    }
-    
     public VTimeZone(VTimeZone source)
     {
         super(source);
     }
     
-//    @Override
-//    public Reviser newRevisor() { return new ReviserVTimeZone(this); }
-
     @Override
     public List<String> errors()
     {
@@ -435,7 +405,7 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     {
         if (subcomponent instanceof StandardOrDaylight<?>)
         {
-            final ObservableList<StandardOrDaylight<?>> list;
+            final List<StandardOrDaylight<?>> list;
             if (getStandardOrDaylight() == null)
             {
                 list = FXCollections.observableArrayList();
@@ -481,36 +451,6 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
             });
         }
     }
-    
-//    /** copy STANDARD and DAYLIGHT subcomponents */
-//    @Override
-//    public void copyChildrenFrom(VParent source)
-//    {
-//        super.copyChildrenFrom(source);
-//        VTimeZone castSource = (VTimeZone) source;
-//        if (castSource.getStandardOrDaylight() != null)
-//        {
-//            if (getStandardOrDaylight() == null)
-//            {
-//                setStandardOrDaylight(FXCollections.observableArrayList());
-//            }
-//            castSource.getStandardOrDaylight().forEach(a -> 
-//            {
-//                final StandardOrDaylight<?> newComponent;
-//                if (a instanceof StandardTime)
-//                {
-//                    newComponent = new StandardTime((StandardTime) a);
-//                } else if (a instanceof DaylightSavingTime)
-//                {
-//                    newComponent = new DaylightSavingTime((DaylightSavingTime) a);                    
-//                } else
-//                {
-//                    throw new IllegalArgumentException("Unsupported time zone subcomponent class:" + a.getClass());
-//                }
-//                getStandardOrDaylight().add(newComponent);
-//            });
-//        }
-//    }
     
     @Override // include STANDARD or DAYLIGHT Subcomponents
     public boolean equals(Object obj)

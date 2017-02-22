@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import net.balsoftware.VCalendar;
 import net.balsoftware.VChild;
@@ -80,6 +79,7 @@ import net.balsoftware.properties.component.timezone.TimeZoneName;
 import net.balsoftware.properties.component.timezone.TimeZoneOffsetFrom;
 import net.balsoftware.properties.component.timezone.TimeZoneOffsetTo;
 import net.balsoftware.properties.component.timezone.TimeZoneURL;
+import net.balsoftware.utilities.ICalendarUtilities;
 
 
 /**
@@ -1820,15 +1820,7 @@ public enum PropertyType
             throw new RuntimeException(toString() + " is a calendar property.  It can't be a component property.");
         }
     };
-	
-	private static List<Method> collectGetters(Class<?> clazz)
-	{
-		return Arrays.stream(clazz.getMethods())
-			.filter(c -> VChild.class.isAssignableFrom(c.getReturnType()))
-			.filter(m -> m.getName().startsWith("get"))
-			.collect(Collectors.toList());
-	}
-    
+	    
     private static Map<String, PropertyType> enumFromNameMap = makeEnumFromNameMap();
     private static Map<String, PropertyType> makeEnumFromNameMap()
     {
@@ -1902,7 +1894,7 @@ public enum PropertyType
     {
         this.allowedParameters = allowedParameters;
         this.name = name;
-        this.getters = collectGetters(myClass);
+        this.getters = ICalendarUtilities.collectGetters(myClass);
         this.valueTypes = valueTypes;
         this.myClass = myClass;
     }

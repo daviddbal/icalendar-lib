@@ -13,6 +13,8 @@ import net.balsoftware.parameters.ParameterType;
 import net.balsoftware.parameters.TimeZoneIdentifierParameter;
 import net.balsoftware.parameters.ValueParameter;
 import net.balsoftware.properties.component.relationship.RecurrenceId;
+import net.balsoftware.properties.component.time.DateTimeEnd;
+import net.balsoftware.properties.component.time.DateTimeStart;
 //import net.balsoftware.properties.component.time.DateTimeEnd;
 //import net.balsoftware.properties.component.time.DateTimeStart;
 
@@ -49,6 +51,7 @@ public abstract class PropBaseDateTime<T, U> extends PropertyBase<T,U> implement
     {
         if ((anElement == null) || (anElement instanceof ZonedDateTime))
         {
+        	orderer.orderChild(this.timeZoneIdentifier, timeZoneIdentifier);
             this.timeZoneIdentifier = timeZoneIdentifier;
         } else
         {

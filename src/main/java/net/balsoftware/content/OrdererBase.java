@@ -14,6 +14,7 @@ import net.balsoftware.VChild;
 import net.balsoftware.VParent;
 import net.balsoftware.components.VComponentBase;
 import net.balsoftware.properties.PropertyBase;
+import net.balsoftware.properties.component.recurrence.rrule.RecurrenceRuleValue;
 //import net.balsoftware.properties.component.recurrence.rrule.RecurrenceRuleValue;
 
 
@@ -103,6 +104,7 @@ public class OrdererBase implements Orderer
 	@Override
 	public void orderChild(VChild oldChild, VChild newChild)
 	{
+		System.out.println("adding:" + newChild);
 		if (oldChild == null)
 		{
 			if (! orderedChildren.contains(newChild))

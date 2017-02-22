@@ -18,6 +18,8 @@ import net.balsoftware.parameters.NonStandardParameter;
 import net.balsoftware.parameters.Parameter;
 import net.balsoftware.parameters.ParameterType;
 import net.balsoftware.parameters.ValueParameter;
+import net.balsoftware.properties.calendar.CalendarScale;
+import net.balsoftware.properties.calendar.ProductIdentifier;
 //import net.balsoftware.properties.calendar.CalendarScale;
 //import net.balsoftware.properties.calendar.Method;
 //import net.balsoftware.properties.calendar.ProductIdentifier;
@@ -362,7 +364,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     protected PropertyBase()
     {
         propertyType = PropertyType.enumFromClass(getClass());
-        System.out.println("propertyType:" + propertyType);
         if (propertyType != PropertyType.NON_STANDARD)
         {
             setPropertyName(propertyType.toString());

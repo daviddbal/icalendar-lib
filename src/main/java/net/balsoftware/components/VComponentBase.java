@@ -14,6 +14,8 @@ import net.balsoftware.VChild;
 import net.balsoftware.VElement;
 import net.balsoftware.VParent;
 import net.balsoftware.VParentBase;
+import net.balsoftware.content.MultiLineContent;
+import net.balsoftware.content.OrdererBase;
 import net.balsoftware.properties.Property;
 import net.balsoftware.properties.PropertyType;
 import net.balsoftware.utilities.ICalendarUtilities;
@@ -56,6 +58,8 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     }
     
     private CalendarComponent componentType;
+    @Override
+    public String name() { return componentType.toString(); }
 
     @Override
     public List<VChild> childrenUnmodifiable()
@@ -64,25 +68,6 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     	throw new RuntimeException("not implemented");
     	// TODO - include list-based properties somehow
     }
-    
-//    @Override
-//    protected Callback<VChild, Void> copyIntoCallback()
-//    {        
-//        return (childSource) ->
-//        {
-//            PropertyType type = PropertyType.enumFromClass(childSource.getClass());
-//            if (type != null)
-//            { /* Note: if type is null then element is a subcomponent such as a VALARM, STANDARD or DAYLIGHT
-//               * and copying happens in overridden version of this method in subclasses */
-//                type.copyProperty((Property<?>) childSource, this);
-//            }
-//            return null;
-//        };
-//    }
-    
-    final private String componentName;
-    @Override
-    public String name() { return componentName; }
 
     /*
      * CONSTRUCTORS
@@ -92,12 +77,13 @@ public abstract class VComponentBase extends VParentBase implements VComponent
      */
     VComponentBase()
     {
-        componentName = CalendarComponent.enumFromClass(this.getClass()).toString();
-//        setContentLineGenerator(new MultiLineContent(
-//                orderer(),
-//                FIRST_LINE_PREFIX + componentName,
-//                LAST_LINE_PREFIX + componentName,
-//                400));
+    	componentType = CalendarComponent.enumFromClass(this.getClass());
+        orderer = new OrdererBase(this, componentType.childGetters());
+        contentLineGenerator = new MultiLineContent(
+                orderer,
+                FIRST_LINE_PREFIX + name(),
+                LAST_LINE_PREFIX + name(),
+                400);
     }
     
     /**

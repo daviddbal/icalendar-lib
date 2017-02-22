@@ -46,7 +46,11 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
     public CommonName getCommonName() { return commonName; }
     private CommonName commonName;
     @Override
-    public void setCommonName(CommonName commonName) { this.commonName = commonName; }
+    public void setCommonName(CommonName commonName)
+    {
+    	orderer.orderChild(this.commonName, commonName);
+    	this.commonName = commonName;
+	}
     public void setCommonName(String content) { setCommonName(CommonName.parse(content)); }
     public U withCommonName(CommonName commonName) { setCommonName(commonName); return (U) this; }
     public U withCommonName(String content) { setCommonName(content); return (U) this; }    
@@ -68,7 +72,11 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
     private DirectoryEntry directoryEntryReference;
     public void setDirectoryEntryReference(String content) { setDirectoryEntryReference(DirectoryEntry.parse(content)); }
     @Override
-    public void setDirectoryEntryReference(DirectoryEntry directoryEntryReference) { this.directoryEntryReference = directoryEntryReference; }
+    public void setDirectoryEntryReference(DirectoryEntry directoryEntryReference)
+    {
+    	orderer.orderChild(this.directoryEntryReference, directoryEntryReference);
+    	this.directoryEntryReference = directoryEntryReference;
+	}
     public U withDirectoryEntryReference(DirectoryEntry directoryEntryReference) { setDirectoryEntryReference(directoryEntryReference); return (U) this; }
     public U withDirectoryEntryReference(URI uri) { setDirectoryEntryReference(new DirectoryEntry(uri)); return (U) this; }
     public U withDirectoryEntryReference(String content) { setDirectoryEntryReference(content); return (U) this; }
@@ -89,7 +97,11 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
     private SentBy sentBy;
     public void setSentBy(String content) { setSentBy(SentBy.parse(content)); }
     @Override
-    public void setSentBy(SentBy sentBy) { this.sentBy = sentBy; }
+    public void setSentBy(SentBy sentBy)
+    {
+    	orderer.orderChild(this.sentBy, sentBy);
+    	this.sentBy = sentBy;
+	}
     public U withSentBy(SentBy sentBy) { setSentBy(sentBy); return (U) this; }
     public U withSentBy(URI uri) { setSentBy(new SentBy(uri)); return (U) this; }
     public U withSentBy(String content) { setSentBy(content); return (U) this; }    

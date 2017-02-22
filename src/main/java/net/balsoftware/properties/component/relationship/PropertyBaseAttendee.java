@@ -41,7 +41,11 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     public CalendarUser getCalendarUser() { return calendarUser; }
     private CalendarUser calendarUser;
     @Override
-    public void setCalendarUser(CalendarUser calendarUser) { this.calendarUser = calendarUser; }
+    public void setCalendarUser(CalendarUser calendarUser)
+    {
+    	orderer.orderChild(this.calendarUser, calendarUser);
+    	this.calendarUser = calendarUser;
+	}
     public void setCalendarUser(String value) { setCalendarUser(CalendarUser.parse(value)); }
     public U withCalendarUser(CalendarUser calendarUser) { setCalendarUser(calendarUser); return (U) this; }
     public U withCalendarUser(CalendarUserType calendarUser) { setCalendarUser(new CalendarUser(calendarUser)); return (U) this; }
@@ -63,7 +67,11 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     public Delegators getDelegators() { return delegators; }
     private Delegators delegators;
     @Override
-    public void setDelegators(Delegators delegators) { this.delegators = delegators; }
+    public void setDelegators(Delegators delegators)
+    {
+    	orderer.orderChild(this.delegators, delegators);
+    	this.delegators = delegators;
+	}
     public void setDelegators(String content) { setDelegators(Delegators.parse(content)); }
     public U withDelegators(Delegators delegators) { setDelegators(delegators); return (U) this; }
     public U withDelegators(List<URI> delegators) { setDelegators(new Delegators(delegators)); return (U) this; }
@@ -86,7 +94,11 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     public Delegatees getDelegatees() { return delegatees; }
     private Delegatees delegatees;
     @Override
-    public void setDelegatees(Delegatees delegatees) { this.delegatees = delegatees; }
+    public void setDelegatees(Delegatees delegatees)
+    {
+    	orderer.orderChild(this.delegatees, delegatees);
+    	this.delegatees = delegatees;
+	}
     public void setDelegatees(String content) { setDelegatees(Delegatees.parse(content)); }
     public U withDelegatees(Delegatees delegatees) { setDelegatees(delegatees); return (U) this; }
     public U withDelegatees(List<URI> values) { setDelegatees(new Delegatees(values)); return (U) this; }
@@ -108,7 +120,11 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     public GroupMembership getGroupMembership() { return groupMembership; }
     private GroupMembership groupMembership;
     @Override
-    public void setGroupMembership(GroupMembership groupMembership) { this.groupMembership = groupMembership; }
+    public void setGroupMembership(GroupMembership groupMembership)
+    {
+    	orderer.orderChild(this.groupMembership, groupMembership);
+    	this.groupMembership = groupMembership;
+	}
     public void setGroupMembership(String content) { setGroupMembership(GroupMembership.parse(content)); }
     public U withGroupMembership(GroupMembership groupMembership) { setGroupMembership(groupMembership); return (U) this; }
     public U withGroupMembership(List<URI> values) { setGroupMembership(new GroupMembership(values)); return (U) this; }
@@ -128,7 +144,11 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     public RSVP getRSVP() { return rsvp; }
     private RSVP rsvp;
     @Override
-    public void setRSVP(RSVP rsvp) { this.rsvp = rsvp; }
+    public void setRSVP(RSVP rsvp)
+    {
+    	orderer.orderChild(this.rsvp, rsvp);
+    	this.rsvp = rsvp;
+	}
     public void setRSVP(String content) { setRSVP(RSVP.parse(content)); }
     public U withRSVP(RSVP rsvp) { setRSVP(rsvp); return (U) this; }
     public U withRSVP(Boolean rsvp) { setRSVP(new RSVP(rsvp)); return (U) this; }
@@ -148,7 +168,11 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     public ParticipationStatus getParticipationStatus() { return participationStatus; }
     private ParticipationStatus participationStatus;
     @Override
-    public void setParticipationStatus(ParticipationStatus participationStatus) { this.participationStatus = participationStatus; }
+    public void setParticipationStatus(ParticipationStatus participationStatus)
+    {
+    	orderer.orderChild(this.participationStatus, participationStatus);
+    	this.participationStatus = participationStatus;
+	}
     public void setParticipationStatus(String content) { setParticipationStatus(ParticipationStatus.parse(content)); }
     public U withParticipationStatus(ParticipationStatus participationStatus) { setParticipationStatus(participationStatus); return (U) this; }
     public U withParticipationStatus(ParticipationStatusType participationStatus) { setParticipationStatus(new ParticipationStatus(participationStatus)); return (U) this; }
@@ -168,7 +192,11 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     public ParticipationRole getParticipationRole() { return participationRole; }
     private ParticipationRole participationRole;
     @Override
-    public void setParticipationRole(ParticipationRole participationRole) { this.participationRole = participationRole; }
+    public void setParticipationRole(ParticipationRole participationRole)
+    {
+    	orderer.orderChild(this.participationRole, participationRole);
+    	this.participationRole = participationRole;
+	}
     public void setParticipationRole(String content) { setParticipationRole(ParticipationRole.parse(content)); }
     public U withParticipationRole(ParticipationRole participationRole) { setParticipationRole(participationRole); return (U) this; }
     public U withParticipationRole(ParticipationRoleType participationRole) { setParticipationRole(new ParticipationRole(participationRole)); return (U) this; }

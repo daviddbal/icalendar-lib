@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.balsoftware.components.VComponent;
 import net.balsoftware.components.VComponentBase;
 import net.balsoftware.components.VEvent;
 import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropertyType;
+import net.balsoftware.utilities.ICalendarUtilities;
 
 /**
  * <p>Enumerated type containing all the {@link VChild} elements that can be in a {@link VCalendar}</p>
@@ -26,7 +28,7 @@ public enum CalendarComponent
             VEvent.class)
     {
 //        @Override
-//        public VElement parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
+//        public VComponent parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
 //        {
 //            VEvent e = new VEvent();
 //            e.parseContent(unfoldedLines);
@@ -61,7 +63,7 @@ public enum CalendarComponent
             VTodo.class)
     {
 //        @Override
-//        public VElement parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
+//        public VComponent parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
 //        {
 //            VTodo e = new VTodo();
 //            e.parseContent(unfoldedLines);
@@ -100,10 +102,10 @@ public enum CalendarComponent
     }
     
     // Map to match up class to enum
-    private static Map<Class<? extends VElement>, CalendarComponent> enumFromClassMap = makeEnumFromClassMap();
-    private static Map<Class<? extends VElement>, CalendarComponent> makeEnumFromClassMap()
+    private static Map<Class<? extends VComponent>, CalendarComponent> enumFromClassMap = makeEnumFromClassMap();
+    private static Map<Class<? extends VComponent>, CalendarComponent> makeEnumFromClassMap()
     {
-        Map<Class<? extends VElement>, CalendarComponent> map = new HashMap<>();
+        Map<Class<? extends VComponent>, CalendarComponent> map = new HashMap<>();
         CalendarComponent[] values = CalendarComponent.values();
         for (int i=0; i<values.length; i++)
         {
@@ -112,13 +114,16 @@ public enum CalendarComponent
         return map;
     }
     /** get enum from map */
-    public static CalendarComponent enumFromClass(Class<? extends VElement> myClass)
+    public static CalendarComponent enumFromClass(Class<? extends VComponent> myClass)
     {
         return enumFromClassMap.get(myClass);
     }
     
-    private Class<? extends VElement> myClass;
-    public Class<? extends VElement> getElementClass() { return myClass; }
+    /*
+     * FIELDS
+     */
+    private Class<? extends VComponent> myClass;
+    public Class<? extends VComponent> getElementClass() { return myClass; }
     
     private String name;
     @Override
@@ -127,24 +132,23 @@ public enum CalendarComponent
     private List<PropertyType> allowedProperties;
     public List<PropertyType> allowedProperties() { return allowedProperties; }
 
-//    private boolean isCalendarElement;
-//    public boolean isCalendarElement() { return isCalendarElement; }
+    private List<Method> getters;
+    public List<Method> childGetters() { return getters; }
     
     /*
      * CONSTRUCTOR
      */
-    CalendarComponent(String name, Class<? extends VElement> myClass)
+    CalendarComponent(String name, Class<? extends VComponent> myClass)
     {
         this.name = name;
-//        this.allowedProperties = allowedProperties;
-//        this.isCalendarElement = isCalendarElement;
+        this.getters = ICalendarUtilities.collectGetters(myClass);
         this.myClass = myClass;
     }
 
 //    abstract public List<? extends VComponent> getComponents(VCalendar vCalendar);
 
     /** Parses string and sets property.  Called by {@link VComponentBase#parseContent()} */
-//    abstract public VElement parse(VCalendar vCalendar, Iterator<String> unfoldedLines);
+//    abstract public VComponent parse(VCalendar vCalendar, Iterator<String> unfoldedLines);
     
     abstract public void copyChild(VChild child, VCalendar destination);
 //    {

@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import net.balsoftware.parameters.GroupMembership;
 import net.balsoftware.parameters.CalendarUser.CalendarUserType;
+import net.balsoftware.parameters.GroupMembership;
 import net.balsoftware.parameters.ParticipationRole.ParticipationRoleType;
 import net.balsoftware.parameters.ParticipationStatus.ParticipationStatusType;
 import net.balsoftware.properties.component.relationship.Attendee;

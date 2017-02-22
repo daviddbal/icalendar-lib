@@ -1,13 +1,18 @@
 package net.balsoftware.utilities;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import net.balsoftware.VChild;
 
 /**
  * Static utility methods used throughout iCalendar
@@ -228,4 +233,12 @@ public final class ICalendarUtilities
     public static <T> Stream<T> takeWhile(Stream<T> stream, Predicate<? super T> predicate) {
        return StreamSupport.stream(takeWhile(stream.spliterator(), predicate), false);
     }
+    
+	public static List<Method> collectGetters(Class<?> clazz)
+	{
+		return Arrays.stream(clazz.getMethods())
+			.filter(c -> VChild.class.isAssignableFrom(c.getReturnType()))
+			.filter(m -> m.getName().startsWith("get"))
+			.collect(Collectors.toList());
+	}
 }

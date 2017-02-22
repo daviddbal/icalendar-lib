@@ -41,18 +41,10 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      * Note: Only VJournal allows multiple instances of DESCRIPTION
      */
     @Override
-    public ObjectProperty<Description> descriptionProperty()
-    {
-        if (description == null)
-        {
-            description = new SimpleObjectProperty<>(this, PropertyType.DESCRIPTION.toString());
-            orderer().registerSortOrderProperty(description);
-        }
-        return description;
-    }
+    public Description getDescription() { return description; }
+    private Description description;
     @Override
-    public Description getDescription() { return (description == null) ? null : descriptionProperty().get(); }
-    private ObjectProperty<Description> description;
+	public void setDescription(Description description) { this.description = description; }
 
     /** 
      * DURATION
@@ -62,48 +54,27 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      * Example:
      * DURATION:PT15M
      * */
+    private DurationProp duration;
     @Override
-    public ObjectProperty<DurationProp> durationProperty()
+	public void setDuration(DurationProp duration)
     {
-        if (duration == null)
+        if (duration != null)
         {
-            duration = new SimpleObjectProperty<>(this, PropertyType.DURATION.toString());
-            orderer().registerSortOrderProperty(duration);
-            duration.addListener((observable, oldValue, newValue) -> 
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime adjustedNow = now.plus(duration.getValue());
+            
+            if (adjustedNow.isBefore(now))
             {
-                if (newValue != null)
-                {
-                    LocalDateTime now = LocalDateTime.now();
-                    LocalDateTime adjustedNow = now.plus(newValue.getValue());
-                    
-                    if (adjustedNow.isBefore(now))
-                    {
-                        if (oldValue != null)
-                        {
-                            setDuration(oldValue);                        
-                        } else
-                        {
-                            setDuration((DurationProp) null);
-                        }
-                        throw new DateTimeException("DURATION is negative (" + newValue + "). DURATION MUST be positive.");
-                    }
-                }
-            });
-            duration.addListener((obs) ->
-            {
-                if (this instanceof VDateTimeEnd)
-                {
-                    DateTimeEnd dtend = ((VDateTimeEnd<T>) this).getDateTimeEnd();
-                    if ((dtend != null) && (getDuration() != null))
-                    {
-                        throw new DateTimeException("DURATION and DTEND can't both be set");
-                    }
-                }
-            });
+                throw new DateTimeException("DURATION is negative (" + duration + "). DURATION MUST be positive.");
+            }
         }
-        return duration;
+        DateTimeEnd dtend = ((VDateTimeEnd<T>) this).getDateTimeEnd();
+        if ((dtend != null) && (duration != null))
+        {
+            throw new DateTimeException("DURATION and DTEND can't both be set");
+        }
+        this.duration = duration;
     }
-    private ObjectProperty<DurationProp> duration;
     
     /**
      * GEO: Geographic Position
@@ -117,71 +88,29 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      * Example:
      * GEO:37.386013;-122.082932
      */
-    public ObjectProperty<GeographicPosition> geographicPositionProperty()
-    {
-        if (geographicPosition == null)
-        {
-            geographicPosition = new SimpleObjectProperty<>(this, PropertyType.GEOGRAPHIC_POSITION.toString());
-            orderer().registerSortOrderProperty(geographicPosition);
-        }
-        return geographicPosition;
-    }
-    private ObjectProperty<GeographicPosition> geographicPosition;
-    public GeographicPosition getGeographicPosition() { return geographicPositionProperty().get(); }
-    public void setGeographicPosition(GeographicPosition geographicPosition) { geographicPositionProperty().set(geographicPosition); }
-    public void setGeographicPosition(String geographicPosition)
-    {
-        if (getGeographicPosition() == null)
-        {
-            setGeographicPosition(GeographicPosition.parse(geographicPosition));
-        } else
-        {
-            getGeographicPosition().setValue(geographicPosition);
-        }
-    }
+    private GeographicPosition geographicPosition;
+    public GeographicPosition getGeographicPosition() { return geographicPosition; }
+    public void setGeographicPosition(GeographicPosition geographicPosition) { this.geographicPosition = geographicPosition; }
+    public void setGeographicPosition(String geographicPosition) { setGeographicPosition(GeographicPosition.parse(geographicPosition)); }
     public void setGeographicPosition(double latitude, double longitude)
     {
-        if (getGeographicPosition() == null)
-        {
-            setGeographicPosition(new GeographicPosition(latitude, longitude));
-        } else
-        {
-            getGeographicPosition().setLatitude(latitude);
-            getGeographicPosition().setLongitude(longitude);
-        }
+        getGeographicPosition().setLatitude(latitude);
+        getGeographicPosition().setLongitude(longitude);
     }
     public T withGeographicPosition(GeographicPosition geographicPosition)
     {
-        if (getGeographicPosition() == null)
-        {
-            setGeographicPosition(geographicPosition);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setGeographicPosition(geographicPosition);
+        return (T) this;
     }
     public T withGeographicPosition(String geographicPosition)
     {
-        if (getGeographicPosition() == null)
-        {
-            setGeographicPosition(geographicPosition);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setGeographicPosition(geographicPosition);
+        return (T) this;
     }
     public T withGeographicPosition(double latitude, double longitude)
     {
-        if (getGeographicPosition() == null)
-        {
-            setGeographicPosition(latitude, longitude);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setGeographicPosition(latitude, longitude);
+        return (T) this;
     }
 
     /**

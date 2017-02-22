@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import junit.runner.Version;
 import net.balsoftware.VCalendar;
 import net.balsoftware.VChild;
 import net.balsoftware.VElement;
@@ -37,6 +36,7 @@ import net.balsoftware.components.VTodo;
 import net.balsoftware.parameters.ParameterType;
 import net.balsoftware.properties.calendar.CalendarScale;
 import net.balsoftware.properties.calendar.ProductIdentifier;
+import net.balsoftware.properties.calendar.Version;
 import net.balsoftware.properties.component.alarm.Action;
 import net.balsoftware.properties.component.alarm.RepeatCount;
 import net.balsoftware.properties.component.alarm.Trigger;
@@ -50,7 +50,9 @@ import net.balsoftware.properties.component.descriptive.Classification;
 import net.balsoftware.properties.component.descriptive.Comment;
 import net.balsoftware.properties.component.descriptive.Description;
 import net.balsoftware.properties.component.descriptive.GeographicPosition;
+import net.balsoftware.properties.component.descriptive.Location;
 import net.balsoftware.properties.component.descriptive.PercentComplete;
+import net.balsoftware.properties.component.descriptive.Priority;
 import net.balsoftware.properties.component.descriptive.Summary;
 import net.balsoftware.properties.component.misc.NonStandardProperty;
 import net.balsoftware.properties.component.misc.RequestStatus;
@@ -927,7 +929,7 @@ public enum PropertyType
     METHOD ("METHOD" // property name
             , Arrays.asList(ValueType.TEXT) // valid property value types, first is default
             , Arrays.asList(ParameterType.VALUE_DATA_TYPES, ParameterType.NON_STANDARD) // allowed parameters
-            , Method.class) // property class
+            , net.balsoftware.properties.calendar.Method.class) // property class
     {
         @Override
         public Object getProperty(VComponent vComponent)

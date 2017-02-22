@@ -3,23 +3,21 @@ package net.balsoftware.components;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.util.Callback;
 import net.balsoftware.VElement;
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.change.DateTimeStamp;
 import net.balsoftware.properties.component.misc.RequestStatus;
 import net.balsoftware.properties.component.relationship.Attendee;
 import net.balsoftware.properties.component.relationship.Organizer;
 import net.balsoftware.properties.component.relationship.UniformResourceLocator;
 import net.balsoftware.properties.component.relationship.UniqueIdentifier;
+import net.balsoftware.utilities.Callback;
 import net.balsoftware.utilities.DateTimeUtilities;
 import net.balsoftware.utilities.UnfoldingStringIterator;
 
@@ -59,17 +57,11 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      * This property specifies the date and time that the instance of the
      * iCalendar object was created
      */
-    private ObjectProperty<DateTimeStamp> dateTimeStamp;
-    public DateTimeStamp getDateTimeStamp() { return dateTimeStampProperty().get(); }
-    public void setDateTimeStamp(String dtStamp)
-    {
-        setDateTimeStamp(DateTimeStamp.parse(dtStamp));
-    }
-    public void setDateTimeStamp(DateTimeStamp dtStamp) { dateTimeStampProperty().set(dtStamp); }
-    public void setDateTimeStamp(ZonedDateTime dtStamp)
-    {
-        setDateTimeStamp(new DateTimeStamp(dtStamp));
-    }
+    private DateTimeStamp dateTimeStamp;
+    public DateTimeStamp getDateTimeStamp() { return dateTimeStamp; }
+    public void setDateTimeStamp(String dtStamp) { setDateTimeStamp(DateTimeStamp.parse(dtStamp)); }
+    public void setDateTimeStamp(DateTimeStamp dtStamp) { this.dateTimeStamp = dtStamp; }
+    public void setDateTimeStamp(ZonedDateTime dtStamp) { setDateTimeStamp(new DateTimeStamp(dtStamp)); }
     public T withDateTimeStamp(ZonedDateTime dtStamp)
     {
         setDateTimeStamp(dtStamp);
@@ -94,50 +86,19 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      * Example:
      * ORGANIZER;CN=John Smith:mailto:jsmith@example.com
      */
-    public ObjectProperty<Organizer> organizerProperty()
-    {
-        if (organizer == null)
-        {
-            organizer = new SimpleObjectProperty<Organizer>(this, PropertyType.ORGANIZER.toString());
-            orderer().registerSortOrderProperty(organizer);
-        }
-        return organizer;
-    }
-    public Organizer getOrganizer() { return (organizer == null) ? null : organizerProperty().get(); }
-    private ObjectProperty<Organizer> organizer;
-    public void setOrganizer(Organizer organizer) { organizerProperty().set(organizer); }
-    public void setOrganizer(String organizer)
-    {
-        if (getOrganizer() == null)
-        {
-            setOrganizer(Organizer.parse(organizer));
-        } else
-        {
-            Organizer temp = Organizer.parse(organizer);
-            getOrganizer().setValue(temp.getValue());
-        }
-    }
+    public Organizer getOrganizer() { return organizer; }
+    private Organizer organizer;
+    public void setOrganizer(Organizer organizer) { this.organizer = organizer; }
+    public void setOrganizer(String organizer) { setOrganizer(Organizer.parse(organizer)); }
     public T withOrganizer(String organizer)
     {
-        if (getOrganizer() == null)
-        {
-            setOrganizer(organizer);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setOrganizer(organizer);
+        return (T) this;
     }
     public T withOrganizer(Organizer organizer)
     {
-        if (getOrganizer() == null)
-        {
-            setOrganizer(organizer);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setOrganizer(organizer);
+        return (T) this;
     }
 
     /**
@@ -151,54 +112,25 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      *  mailto:jsmith@example.com
      * 
      */
-    public ObjectProperty<ObservableList<RequestStatus>> requestStatusProperty()
-    {
-        if (requestStatus == null)
-        {
-            requestStatus = new SimpleObjectProperty<>(this, PropertyType.REQUEST_STATUS.toString());
-        }
-        return requestStatus;
-    }
-    public ObservableList<RequestStatus> getRequestStatus()
-    {
-        return (requestStatus == null) ? null : requestStatus.get();
-    }
-    private ObjectProperty<ObservableList<RequestStatus>> requestStatus;
-    public void setRequestStatus(ObservableList<RequestStatus> requestStatus)
-    {
-        if (requestStatus != null)
-        {
-            if ((this.requestStatus != null) && (this.requestStatus.get() != null))
-            {
-                // replace sort order in new list
-                orderer().replaceList(requestStatusProperty().get(), requestStatus);
-            }
-            orderer().registerSortOrderProperty(requestStatus);
-        } else
-        {
-            orderer().unregisterSortOrderProperty(requestStatusProperty().get());
-        }
-        requestStatusProperty().set(requestStatus);
-    }
-    public T withRequestStatus(ObservableList<RequestStatus> requestStatus)
+    public List<RequestStatus> getRequestStatus() { return requestStatus; }
+    private List<RequestStatus> requestStatus;
+    public void setRequestStatus(List<RequestStatus> requestStatus) { this.requestStatus = requestStatus; }
+    public T withRequestStatus(List<RequestStatus> requestStatus)
     {
         setRequestStatus(requestStatus);
         return (T) this;
     }
     public T withRequestStatus(String...requestStatus)
     {
-        Arrays.stream(requestStatus).forEach(c -> PropertyType.REQUEST_STATUS.parse(this, c));
+        List<RequestStatus> list = Arrays.stream(requestStatus)
+                .map(c -> RequestStatus.parse(c))
+                .collect(Collectors.toList());
+        setRequestStatus(list);
         return (T) this;
     }
     public T withRequestStatus(RequestStatus...requestStatus)
     {
-        if (getRequestStatus() == null)
-        {
-            setRequestStatus(FXCollections.observableArrayList(requestStatus));
-        } else
-        {
-            getRequestStatus().addAll(requestStatus);
-        }
+    	setRequestStatus(new ArrayList<>(Arrays.asList(requestStatus)));
         return (T) this;
     }
 
@@ -211,29 +143,10 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      * Example:
      * UID:19960401T080045Z-4000F192713-0052@example.com
      */
-    public ObjectProperty<UniqueIdentifier> uniqueIdentifierProperty()
-    {
-        if (uniqueIdentifier == null)
-        {
-            uniqueIdentifier = new SimpleObjectProperty<>(this, PropertyType.UNIQUE_IDENTIFIER.toString());
-            orderer().registerSortOrderProperty(uniqueIdentifier);
-        }
-        return uniqueIdentifier;
-    }
-    private ObjectProperty<UniqueIdentifier> uniqueIdentifier;
-    public UniqueIdentifier getUniqueIdentifier() { return uniqueIdentifierProperty().get(); }
-    public void setUniqueIdentifier(UniqueIdentifier uniqueIdentifier) { uniqueIdentifierProperty().set(uniqueIdentifier); }
-    public void setUniqueIdentifier(String uniqueIdentifier)
-    {
-        if (getUniqueIdentifier() == null)
-        {
-            setUniqueIdentifier(UniqueIdentifier.parse(uniqueIdentifier));
-        } else
-        {
-            UniqueIdentifier temp = UniqueIdentifier.parse(uniqueIdentifier);
-            getUniqueIdentifier().setValue(temp.getValue());
-        }
-    }
+    private UniqueIdentifier uniqueIdentifier;
+    public UniqueIdentifier getUniqueIdentifier() { return uniqueIdentifier; }
+    public void setUniqueIdentifier(UniqueIdentifier uniqueIdentifier) { this.uniqueIdentifier = uniqueIdentifier; }
+    public void setUniqueIdentifier(String uniqueIdentifier) { setUniqueIdentifier(UniqueIdentifier.parse(uniqueIdentifier)); }
     /** Set uniqueIdentifier by calling uidGeneratorCallback */
     public void setUniqueIdentifier() { setUniqueIdentifier(getUidGeneratorCallback().call(null)); }
     public T withUniqueIdentifier(String uniqueIdentifier)
@@ -289,62 +202,25 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      * Example:
      * URL:http://example.com/pub/calendars/jsmith/mytime.ics
      */
-    public ObjectProperty<UniformResourceLocator> uniformResourceLocatorProperty()
-    {
-        if (uniformResourceLocator == null)
-        {
-            uniformResourceLocator = new SimpleObjectProperty<>(this, PropertyType.UNIFORM_RESOURCE_LOCATOR.toString());
-            orderer().registerSortOrderProperty(uniformResourceLocator);
-        }
-        return uniformResourceLocator;
-    }
-    public UniformResourceLocator getUniformResourceLocator() { return (uniformResourceLocator == null) ? null : uniformResourceLocatorProperty().get(); }
-    private ObjectProperty<UniformResourceLocator> uniformResourceLocator;
-    public void setUniformResourceLocator(UniformResourceLocator url) { uniformResourceLocatorProperty().set(url); };
-    public void setUniformResourceLocator(String url)
-    {
-        if (getUniformResourceLocator() == null)
-        {
-            setUniformResourceLocator(UniformResourceLocator.parse(url));
-        } else
-        {
-            UniformResourceLocator temp = UniformResourceLocator.parse(url);
-            getUniformResourceLocator().setValue(temp.getValue());
-        }
-    }
+    public UniformResourceLocator getUniformResourceLocator() { return uniformResourceLocator; }
+    private UniformResourceLocator uniformResourceLocator;
+    public void setUniformResourceLocator(UniformResourceLocator url) { this.uniformResourceLocator = url; };
+    public void setUniformResourceLocator(String url) { setUniformResourceLocator(UniformResourceLocator.parse(url)); };
     public void setUniformResourceLocator(URI url) { setUniformResourceLocator(new UniformResourceLocator(url)); };
     public T withUniformResourceLocator(String url)
     {
-        if (getUniformResourceLocator() == null)
-        {
-            setUniformResourceLocator(url);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setUniformResourceLocator(url);
+        return (T) this;
     }
     public T withUniformResourceLocator(URI url)
     {
-        if (getUniformResourceLocator() == null)
-        {
-            setUniformResourceLocator(url);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setUniformResourceLocator(url);
+        return (T) this;
     }
     public T withUniformResourceLocator(UniformResourceLocator url)
     {
-        if (getUniformResourceLocator() == null)
-        {
-            setUniformResourceLocator(url);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setUniformResourceLocator(url);
+        return (T) this;
     }
     
     /*

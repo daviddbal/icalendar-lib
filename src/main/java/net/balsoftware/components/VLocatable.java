@@ -4,23 +4,22 @@ import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.VChild;
 import net.balsoftware.VParent;
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.descriptive.Description;
 import net.balsoftware.properties.component.descriptive.GeographicPosition;
 import net.balsoftware.properties.component.descriptive.Location;
 import net.balsoftware.properties.component.descriptive.Priority;
 import net.balsoftware.properties.component.descriptive.Resources;
+import net.balsoftware.properties.component.relationship.RelatedTo;
 import net.balsoftware.properties.component.time.DateTimeEnd;
 import net.balsoftware.properties.component.time.DurationProp;
 
@@ -55,6 +54,8 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      * DURATION:PT15M
      * */
     private DurationProp duration;
+	@Override
+	public DurationProp getDuration() { return duration; }
     @Override
 	public void setDuration(DurationProp duration)
     {
@@ -121,53 +122,19 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      * Example:
      * LOCATION:Conference Room - F123\, Bldg. 002
      */
-    public ObjectProperty<Location> locationProperty()
-    {
-        if (location == null)
-        {
-            location = new SimpleObjectProperty<>(this, PropertyType.LOCATION.toString());
-            orderer().registerSortOrderProperty(location);
-        }
-        return location;
-    }
-    private ObjectProperty<Location> location;
-    public Location getLocation() { return locationProperty().get(); }
-    public void setLocation(Location location) { locationProperty().set(location); }
-    public void setLocation(String location)
-    {
-        if (getLocation() == null)
-        {
-            setLocation(Location.parse(location));
-        } else
-        {
-            Location temp = Location.parse(location);
-            getLocation().setValue(temp.getValue());
-        }
-    }
+    private Location location;
+    public Location getLocation() { return location; }
+    public void setLocation(Location location) { this.location = location; }
+    public void setLocation(String location) { setLocation(Location.parse(location)); }
     public T withLocation(Location location)
     {
-        if (getLocation() == null)
-        {
-            setLocation(location);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setLocation(location);
+        return (T) this;
     }
     public T withLocation(String location)
     {
-        if (getLocation() == null)
-        {
-            if (location != null)
-            {
-                setLocation(location);
-            }
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setLocation(location);
+        return (T) this;
     }
 
     /**
@@ -179,71 +146,25 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      * Example: The following is an example of a property with the highest priority:
      * PRIORITY:1
      */
-    public ObjectProperty<Priority> priorityProperty()
-    {
-        if (priority == null)
-        {
-            priority = new SimpleObjectProperty<>(this, PropertyType.PRIORITY.toString());
-            orderer().registerSortOrderProperty(priority);
-        }
-        return priority;
-    }
-    private ObjectProperty<Priority> priority;
-    public Priority getPriority() { return priorityProperty().get(); }
-    public void setPriority(Priority priority) { priorityProperty().set(priority); }
-    public void setPriority(String priority)
-    {
-        if (getPriority() == null)
-        {
-            setPriority(Priority.parse(priority));
-        } else
-        {
-            Priority temp = Priority.parse(priority);
-            getPriority().setValue(temp.getValue());
-        }
-    }
-    public void setPriority(int priority)
-    {
-        if (getPriority() == null)
-        {
-            setPriority(new Priority(priority));
-        } else
-        {
-            getPriority().setValue(priority);
-        }
-    }
+    private Priority priority;
+    public Priority getPriority() { return priority; }
+    public void setPriority(Priority priority) { this.priority = priority; }
+    public void setPriority(String priority) { setPriority(Priority.parse(priority)); }
+    public void setPriority(int priority) { setPriority(new Priority(priority)); }
     public T withPriority(Priority priority)
     {
-        if (getPriority() == null)
-        {
-            setPriority(priority);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setPriority(priority);
+        return (T) this;
     }
     public T withPriority(String priority)
     {
-        if (getPriority() == null)
-        {
-            setPriority(priority);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setPriority(priority);
+        return (T) this;
     }
     public T withPriority(int priority)
     {
-        if (getPriority() == null)
-        {
-            setPriority(priority);
-            return (T) this;
-        } else
-        {
-            throw new IllegalArgumentException("Property can only occur once in the calendar component");
-        }
+        setPriority(priority);
+        return (T) this;
     }
     
     /**
@@ -256,54 +177,25 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      * RESOURCES:EASEL,PROJECTOR,VCR
      * RESOURCES;LANGUAGE=fr:Nettoyeur haute pression
      */
-    public ObjectProperty<ObservableList<Resources>> resourcesProperty()
-    {
-        if (resources == null)
-        {
-            resources = new SimpleObjectProperty<>(this, PropertyType.RESOURCES.toString());
-        }
-        return resources;
-    }
-    public ObservableList<Resources> getResources()
-    {
-        return (resources == null) ? null : resources.get();
-    }
-    private ObjectProperty<ObservableList<Resources>> resources;
-    public void setResources(ObservableList<Resources> resources)
-    {
-        if (resources != null)
-        {
-            if ((this.resources != null) && (this.resources.get() != null))
-            {
-                // replace sort order in new list
-                orderer().replaceList(resourcesProperty().get(), resources);
-            }
-            orderer().registerSortOrderProperty(resources);
-        } else
-        {
-            orderer().unregisterSortOrderProperty(recurrenceDatesProperty().get());
-        }
-        resourcesProperty().set(resources);
-    }
-    public T withResources(ObservableList<Resources> resources)
+    public List<Resources> getResources() { return resources; }
+    private List<Resources> resources;
+    public void setResources(List<Resources> resources) { this.resources = resources; }
+    public T withResources(List<Resources> resources)
     {
         setResources(resources);
         return (T) this;
     }
     public T withResources(String...resources)
     {
-        Arrays.stream(resources).forEach(c -> PropertyType.RESOURCES.parse(this, c));
+        List<RelatedTo> list = Arrays.stream(resources)
+                .map(c -> RelatedTo.parse(c))
+                .collect(Collectors.toList());
+        setRelatedTo(list);
         return (T) this;
     }
     public T withResources(Resources...resources)
     {
-        if (getResources() == null)
-        {
-            setResources(FXCollections.observableArrayList(resources));
-        } else
-        {
-            getResources().addAll(resources);
-        }
+    	setResources(new ArrayList<>(Arrays.asList(resources)));
         return (T) this;
     }
 
@@ -317,29 +209,13 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      * The "VALARM" calendar component MUST only appear within either a
      * "VEVENT" or "VTODO" calendar component.
      */
-    public ObservableList<VAlarm> getVAlarms() { return vAlarms; }
-    private ObservableList<VAlarm> vAlarms;
-    public void setVAlarms(ObservableList<VAlarm> vAlarms)
-    {
-        if (vAlarms != null)
-        {
-            orderer().registerSortOrderProperty(vAlarms);
-        } else
-        {
-            orderer().unregisterSortOrderProperty(this.vAlarms);
-        }
-        this.vAlarms = vAlarms;
-    }
-    public T withVAlarms(ObservableList<VAlarm> vAlarms) { setVAlarms(vAlarms); return (T) this; }
+    public List<VAlarm> getVAlarms() { return vAlarms; }
+    private List<VAlarm> vAlarms;
+    public void setVAlarms(List<VAlarm> vAlarms) { this.vAlarms = vAlarms; }
+    public T withVAlarms(List<VAlarm> vAlarms) { setVAlarms(vAlarms); return (T) this; }
     public T withVAlarms(VAlarm...vAlarms)
     {
-        if (getVAlarms() == null)
-        {
-            setVAlarms(FXCollections.observableArrayList(vAlarms));
-        } else
-        {
-            getVAlarms().addAll(vAlarms);
-        }
+    	setVAlarms(new ArrayList<>(Arrays.asList(vAlarms)));
         return (T) this;
     }
     
@@ -349,7 +225,7 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
                 .stream()
                 .map(c -> new VAlarm(c))
                 .toArray(size -> new VAlarm[size]);
-        ObservableList<VAlarm> properties = FXCollections.observableArrayList(collect);
+        List<VAlarm> properties = FXCollections.observableArrayList(collect);
         destination.setVAlarms(properties);
     }
     
@@ -368,7 +244,7 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     {
         if (subcomponent instanceof VAlarm)
         {
-            final ObservableList<VAlarm> list;
+            final List<VAlarm> list;
             if (getVAlarms() == null)
             {
                 list = FXCollections.observableArrayList();

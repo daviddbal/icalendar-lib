@@ -1,11 +1,11 @@
 package net.balsoftware.components;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.descriptive.Description;
 
 /**
@@ -77,18 +77,15 @@ public class VJournal extends VDisplayable<VJournal>
     public VJournal withDescriptions(List<Description> descriptions) { setDescriptions(descriptions); return this; }
     public VJournal withDescriptions(String...descriptions)
     {
-        Arrays.stream(descriptions).forEach(c -> PropertyType.DESCRIPTION.parse(this, c));
+        List<Description> list = Arrays.stream(descriptions)
+                .map(c -> Description.parse(c))
+                .collect(Collectors.toList());
+        setDescriptions(list);
         return this;
     }
     public VJournal withDescriptions(Description...descriptions)
     {
-        if (getDescriptions() == null)
-        {
-            setDescriptions(FXCollections.observableArrayList(descriptions));
-        } else
-        {
-            getDescriptions().addAll(descriptions);
-        }
+    	setDescriptions(new ArrayList<>(Arrays.asList(descriptions)));
         return this;
     }
     
@@ -97,19 +94,11 @@ public class VJournal extends VDisplayable<VJournal>
      */
     public VJournal() { super(); }
     
-//    public VJournal(String contentLines)
-//    {
-//        super(contentLines);
-//    }
-    
     /** Copy constructor */
     public VJournal(VJournal source)
     {
         super(source);
     }
-    
-//    @Override
-//    public Reviser newRevisor() { return new ReviserVJournal(this); }
     
     @Override
     public List<String> errors()
@@ -118,7 +107,6 @@ public class VJournal extends VDisplayable<VJournal>
     }
     
     /** Parse content lines into calendar component object */
-    @Deprecated // use simple factory
     public static VJournal parse(String contentLines)
     {
         VJournal component = new VJournal();

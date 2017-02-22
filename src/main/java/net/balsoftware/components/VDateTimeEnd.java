@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.beans.property.ObjectProperty;
 import net.balsoftware.properties.component.time.DateTimeEnd;
 import net.balsoftware.properties.component.time.DateTimeStart;
 import net.balsoftware.utilities.DateTimeUtilities;
@@ -34,29 +33,9 @@ public interface VDateTimeEnd<T> extends VComponent
      *<li>DTEND;VALUE=DATE:19980704
      *</ul>
      */
-    ObjectProperty<DateTimeEnd> dateTimeEndProperty();
     DateTimeEnd getDateTimeEnd();
-    default void setDateTimeEnd(String dtEnd)
-    {
-        if (getDateTimeEnd() == null)
-        {
-            setDateTimeEnd(DateTimeEnd.parse(dtEnd));
-        } else
-        {
-            DateTimeEnd temp = DateTimeEnd.parse(dtEnd);
-            if (temp.getValue().getClass().equals(getDateTimeEnd().getValue().getClass()))
-            {
-                getDateTimeEnd().setValue(temp.getValue());
-            } else
-            {
-                setDateTimeEnd(temp);
-            }
-        }
-    }
-    default void setDateTimeEnd(DateTimeEnd dtEnd)
-    {
-        dateTimeEndProperty().set(dtEnd);
-    }
+    void setDateTimeEnd(DateTimeEnd dtEnd);
+    default void setDateTimeEnd(String dtEnd) { setDateTimeEnd(DateTimeEnd.parse(dtEnd)); }
     default void setDateTimeEnd(Temporal temporal)
     {
         if ((getDateTimeEnd() == null) || ! getDateTimeEnd().getValue().getClass().equals(temporal.getClass()))
@@ -81,7 +60,8 @@ public interface VDateTimeEnd<T> extends VComponent
      * Sets the value of {@link #DateTimeEnd()}.
      * 
      * @return - this class for chaining
-     */    default T withDateTimeEnd(Temporal dtEnd)
+     */    
+    default T withDateTimeEnd(Temporal dtEnd)
     {
         setDateTimeEnd(dtEnd);
         return (T) this;

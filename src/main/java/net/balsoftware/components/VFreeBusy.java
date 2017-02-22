@@ -5,13 +5,11 @@ import java.time.temporal.TemporalAmount;
 import java.util.Collections;
 import java.util.List;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.util.Pair;
 import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.relationship.Contact;
 import net.balsoftware.properties.component.time.DateTimeEnd;
 import net.balsoftware.properties.component.time.FreeBusyTime;
+import net.balsoftware.utilities.Pair;
 
 /**
  * VFREEBUSY
@@ -105,19 +103,10 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
      *  c=US???(cn=Jim%20Dolittle)":Jim Dolittle\, ABC Industries\,
      *  +1-919-555-1234
      */
-    public ObjectProperty<Contact> contactProperty()
-    {
-        if (contact == null)
-        {
-            contact = new SimpleObjectProperty<>(this, PropertyType.CONTACT.toString());
-            orderer().registerSortOrderProperty(contact);
-        }
-        return contact;
-    }
-    private ObjectProperty<Contact> contact;
-    public Contact getContact() { return contactProperty().get(); }
+    private Contact contact;
+    public Contact getContact() { return contact; }
     public void setContact(String contact) { setContact(Contact.parse(contact)); }
-    public void setContact(Contact contact) { contactProperty().set(contact); }
+    public void setContact(Contact contact) { this.contact = contact; }
     public VFreeBusy withContact(Contact contact) { setContact(contact); return this; }
     public VFreeBusy withContact(String contact) { PropertyType.CONTACT.parse(this, contact); return this; }
     
@@ -134,19 +123,11 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
      * Example:
      * DTEND;VALUE=DATE:19980704
      */
-    @Override public ObjectProperty<DateTimeEnd> dateTimeEndProperty()
-    {
-        if (dateTimeEnd == null)
-        {
-            dateTimeEnd = new SimpleObjectProperty<>(this, PropertyType.DATE_TIME_END.toString());
-            orderer().registerSortOrderProperty(dateTimeEnd);
-            dateTimeEnd.addListener((observable, oldValue, newValue) -> checkDateTimeEndConsistency());
-        }
-        return dateTimeEnd;
-    }
+    
     @Override
-    public DateTimeEnd getDateTimeEnd() { return (dateTimeEnd == null) ? null : dateTimeEndProperty().get(); }
-    private ObjectProperty<DateTimeEnd> dateTimeEnd;
+    public DateTimeEnd getDateTimeEnd() { return dateTimeEnd; }
+    private DateTimeEnd dateTimeEnd;
+    public void setDateTimeEnd(DateTimeEnd dtEnd) { this.dateTimeEnd = dtEnd; }
     
     /**
      * FREEBUSY
@@ -171,20 +152,11 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
      *  ,19970308T230000Z/PT1H
      */
     // TODO - MAKE A LIST
-    public ObjectProperty<FreeBusyTime> freeBusyTimeProperty()
-    {
-        if (freeBusyTime == null)
-        {
-            freeBusyTime = new SimpleObjectProperty<>(this, PropertyType.FREE_BUSY_TIME.toString());
-            orderer().registerSortOrderProperty(freeBusyTime);
-        }
-        return freeBusyTime;
-    }
-    private ObjectProperty<FreeBusyTime> freeBusyTime;
-    public FreeBusyTime getFreeBusyTime() { return freeBusyTimeProperty().get(); }
+    private FreeBusyTime freeBusyTime;
+    public FreeBusyTime getFreeBusyTime() { return freeBusyTime; }
     public void setFreeBusyTime(String freeBusyTime) { setFreeBusyTime(FreeBusyTime.parse(freeBusyTime)); }
     public void setFreeBusyTime(List<Pair<ZonedDateTime, TemporalAmount>> freeBusyTime) { setFreeBusyTime(new FreeBusyTime(freeBusyTime)); }
-    public void setFreeBusyTime(FreeBusyTime freeBusyTime) { freeBusyTimeProperty().set(freeBusyTime); }
+    public void setFreeBusyTime(FreeBusyTime freeBusyTime) { this.freeBusyTime = freeBusyTime; }
     public VFreeBusy withFreeBusyTime(FreeBusyTime freeBusyTime) { setFreeBusyTime(freeBusyTime); return this; }
     public VFreeBusy withFreeBusyTime(List<Pair<ZonedDateTime, TemporalAmount>> freeBusyTime) { setFreeBusyTime(freeBusyTime); return this; }
     public VFreeBusy withFreeBusyTime(String freeBusyTime) { PropertyType.FREE_BUSY_TIME.parse(this, freeBusyTime); return this; }

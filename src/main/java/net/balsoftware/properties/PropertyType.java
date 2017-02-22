@@ -53,6 +53,8 @@ import net.balsoftware.properties.component.descriptive.GeographicPosition;
 import net.balsoftware.properties.component.descriptive.Location;
 import net.balsoftware.properties.component.descriptive.PercentComplete;
 import net.balsoftware.properties.component.descriptive.Priority;
+import net.balsoftware.properties.component.descriptive.Resources;
+import net.balsoftware.properties.component.descriptive.Status;
 import net.balsoftware.properties.component.descriptive.Summary;
 import net.balsoftware.properties.component.misc.NonStandardProperty;
 import net.balsoftware.properties.component.misc.RequestStatus;

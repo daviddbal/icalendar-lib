@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.balsoftware.components.VDisplayable;
+import net.balsoftware.properties.calendar.Version;
 
 /**
  * iCalendar Object
@@ -18,6 +19,11 @@ public class VCalendar
 {
 
 	public Map<String, List<VDisplayable<?>>> uidComponentsMap() {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("not implemented");
+	}
+
+	public void setVersion(Version child) {
 		// TODO Auto-generated method stub
 		throw new RuntimeException("not implemented");
 	}

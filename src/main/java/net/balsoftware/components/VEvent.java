@@ -1,6 +1,5 @@
 package net.balsoftware.components;
 
-import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
@@ -8,11 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.time.DateTimeEnd;
-import net.balsoftware.properties.component.time.DurationProp;
 import net.balsoftware.properties.component.time.TimeTransparency;
 import net.balsoftware.properties.component.time.TimeTransparency.TimeTransparencyType;
 import net.balsoftware.utilities.DateTimeUtilities;
@@ -96,69 +91,11 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
      * DTEND;VALUE=DATE:19980704
      */
     @Override
-    public ObjectProperty<DateTimeEnd> dateTimeEndProperty()
-    {
-        if (dateTimeEnd == null)
-        {
-            dateTimeEnd = new SimpleObjectProperty<>(this, PropertyType.DATE_TIME_END.toString());
-            orderer().registerSortOrderProperty(dateTimeEnd);
-            dateTimeEnd.addListener((observable, oldValue, newValue) -> 
-            {
-                try
-                {
-                    checkDateTimeEndConsistency();
-                } catch (DateTimeException e)
-                {
-                    System.out.println("old value back:" + oldValue);
-                    if (oldValue != null)
-                    {
-                        setDateTimeEnd(oldValue);                        
-                    } else
-                    {
-                        setDateTimeEnd((DateTimeEnd) null);
-                    }
-                    throw e;
-                }
-            });
-            dateTimeEnd.addListener((obs) ->
-            {
-                if ((getDateTimeEnd() != null) && (getDuration() != null))
-                {
-                    throw new DateTimeException("DURATION and DTEND can't both be set");
-                }            
-            });
-        }
-        return dateTimeEnd;
-    }
-    @Override
-    public DateTimeEnd getDateTimeEnd() { return (dateTimeEnd == null) ? null : dateTimeEndProperty().get(); }
-    private ObjectProperty<DateTimeEnd> dateTimeEnd;
-    
-//    @Override // this functionality is handled by DTEND listener (I hope)
-//    void dateTimeStartListenerHook()
-//    {
-//        super.dateTimeStartListenerHook();
-//        List<String> dtendError = VDateTimeEnd.errorsDateTimeEnd(this);
-//        if (! dtendError.isEmpty())
-//        {
-//            String errors = dtendError.stream().collect(Collectors.joining(System.lineSeparator()));
-//            throw new DateTimeException(errors);
-//        }
-//    }
-    
+    public DateTimeEnd getDateTimeEnd() { return dateTimeEnd; }
+    private DateTimeEnd dateTimeEnd;
+    public void setDateTimeEnd(DateTimeEnd dtEnd) { this.dateTimeEnd = dateTimeEnd; }
     /** add listener to Duration to ensure both DURATION and DTEND are not both set */
-    @Override public ObjectProperty<DurationProp> durationProperty()
-    {
-        ObjectProperty<DurationProp> duration = super.durationProperty();
-        duration.addListener((obs) ->
-        {
-            if ((getDateTimeEnd() != null) && (getDuration() != null))
-            {
-                throw new DateTimeException("DURATION and DTEND can't both be set");
-            }            
-        });
-        return duration;
-    }
+
 
     /**
      * TRANSP
@@ -172,32 +109,11 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
      * Example:
      * TRANSP:TRANSPARENT
      */
-    ObjectProperty<TimeTransparency> timeTransparencyProperty()
-    {
-        if (timeTransparency == null)
-        {
-            timeTransparency = new SimpleObjectProperty<>(this, PropertyType.TIME_TRANSPARENCY.toString());
-            orderer().registerSortOrderProperty(timeTransparency);
-        }
-        return timeTransparency;
-    }
-    private ObjectProperty<TimeTransparency> timeTransparency;
-    public TimeTransparency getTimeTransparency()
-    {
-        return timeTransparencyProperty().get();
-    }
-    public void setTimeTransparency(String timeTransparency)
-    {
-        setTimeTransparency(TimeTransparency.parse(timeTransparency));
-    }
-    public void setTimeTransparency(TimeTransparency timeTransparency)
-    {
-        timeTransparencyProperty().set(timeTransparency);
-    }
-    public void setTimeTransparency(TimeTransparencyType timeTransparency)
-    {
-        setTimeTransparency(new TimeTransparency(timeTransparency));
-    }
+    private TimeTransparency timeTransparency;
+    public TimeTransparency getTimeTransparency() { return timeTransparency; }
+    public void setTimeTransparency(String timeTransparency) { setTimeTransparency(TimeTransparency.parse(timeTransparency)); }
+    public void setTimeTransparency(TimeTransparency timeTransparency) { this.timeTransparency = timeTransparency; }
+    public void setTimeTransparency(TimeTransparencyType timeTransparency) { setTimeTransparency(new TimeTransparency(timeTransparency)); }
     public VEvent withTimeTransparency(TimeTransparency timeTransparency)
     {
         setTimeTransparency(timeTransparency);
@@ -210,7 +126,7 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     }
     public VEvent withTimeTransparency(String timeTransparency)
     {
-        PropertyType.TIME_TRANSPARENCY.parse(this, timeTransparency);
+    	setTimeTransparency(TimeTransparency.parse(timeTransparency));
         return this;
     }
     

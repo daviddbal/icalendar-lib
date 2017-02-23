@@ -12,14 +12,13 @@ import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
 import net.balsoftware.components.VEvent;
 import net.balsoftware.properties.component.recurrence.ExceptionDates;
 
@@ -31,7 +30,7 @@ public class ExceptionDatesTest
         String content = "EXDATE:20151112T100000,20151115T100000";
         ExceptionDates madeProperty = ExceptionDates.parse(LocalDateTime.class, content);
         assertEquals(content, madeProperty.toString());
-        ExceptionDates expectedProperty = new ExceptionDates(FXCollections.observableSet(LocalDateTime.of(2015, 11, 12, 10, 0), LocalDateTime.of(2015, 11, 15, 10, 0)));
+        ExceptionDates expectedProperty = new ExceptionDates(LocalDateTime.of(2015, 11, 12, 10, 0), LocalDateTime.of(2015, 11, 15, 10, 0));
         assertEquals(expectedProperty, madeProperty);
         
         List<LocalDateTime> expectedValues = new ArrayList<>(Arrays.asList(LocalDateTime.of(2015, 11, 12, 10, 0), LocalDateTime.of(2015, 11, 15, 10, 0)));
@@ -45,11 +44,11 @@ public class ExceptionDatesTest
         String content = "EXDATE:19960402T010000Z,19960403T010000Z,19960404T010000Z";
         ExceptionDates madeProperty = ExceptionDates.parse(content);
         assertEquals(content, madeProperty.toString());
-        ObservableSet<Temporal> observableSet = FXCollections.observableSet(
+        Set<Temporal> set = new HashSet<Temporal>( Arrays.asList(
                 ZonedDateTime.of(LocalDateTime.of(1996, 4, 2, 1, 0), ZoneId.of("Z")),
                 ZonedDateTime.of(LocalDateTime.of(1996, 4, 3, 1, 0), ZoneId.of("Z")),
-                ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("Z")) );
-        ExceptionDates expectedProperty = new ExceptionDates(observableSet);
+                ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("Z")) ));
+        ExceptionDates expectedProperty = new ExceptionDates(set);
         assertEquals(expectedProperty, madeProperty);
         
         Set<ZonedDateTime> expectedValues = new HashSet<>(Arrays.asList(
@@ -58,7 +57,7 @@ public class ExceptionDatesTest
                 ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("Z")) ));
         assertEquals(expectedValues, madeProperty.getValue());
         
-        observableSet.add(ZonedDateTime.of(LocalDateTime.of(1996, 4, 5, 1, 0), ZoneId.of("Z")));
+        set.add(ZonedDateTime.of(LocalDateTime.of(1996, 4, 5, 1, 0), ZoneId.of("Z")));
         assertEquals(4, expectedProperty.getValue().size());
     }
     
@@ -68,67 +67,57 @@ public class ExceptionDatesTest
         String content = "EXDATE;VALUE=DATE:20160402";
         ExceptionDates madeProperty = ExceptionDates.parse(LocalDate.class, content);
         assertEquals(content, madeProperty.toString());
-        ExceptionDates expectedProperty = new ExceptionDates(FXCollections.observableSet(
-                LocalDate.of(2016, 4, 2) ));
+        ExceptionDates expectedProperty = new ExceptionDates(
+                LocalDate.of(2016, 4, 2) );
         assertEquals(expectedProperty, madeProperty);
         
         Set<LocalDate> expectedValues = new HashSet<>(Arrays.asList( LocalDate.of(2016, 4, 2) ));
         assertEquals(expectedValues, madeProperty.getValue());
     }
 
-    @Test (expected = DateTimeException.class)
-    public void canCatchWrongTypeExceptions1()
+//    @Test (expected = DateTimeException.class)
+//    public void canCatchWrongTypeExceptions1()
+//    {
+//        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
+//        {
+//            throw (RuntimeException) e;
+//        });
+//        ExceptionDates e = ExceptionDates.parse("20160228T093000");
+//        e.getValue().add(LocalDateTime.of(2016, 4, 25, 1, 0));
+//        e.getValue().add(LocalDate.of(2016, 4, 25));
+////        System.out.println(e);
+////        e.errors().forEach(System.out::println);
+//        assertEquals(2, e.getValue().size());
+//    }
+    
+    @Test
+    public void canCatchWrongTypeInProperty()
     {
-        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
         ExceptionDates e = ExceptionDates.parse("20160228T093000");
+        System.out.println(e.childrenUnmodifiable().size());
         e.getValue().add(LocalDateTime.of(2016, 4, 25, 1, 0));
         e.getValue().add(LocalDate.of(2016, 4, 25));
-//        System.out.println(e);
-//        e.errors().forEach(System.out::println);
-        assertEquals(2, e.getValue().size());
+        assertEquals(1, e.errors().size());
+        String expectedMessage = "Recurrences DateTimeType \"DATE\" doesn't match previous recurrences DateTimeType \"DATE_WITH_LOCAL_TIME\"";
+        assertEquals(expectedMessage, e.errors().get(0));
     }
     
     @Test
-    public void canCatchWrongTypeExceptions9()
+    public void canCatchWrongTimeZone()
     {
-        ExceptionDates e = ExceptionDates.parse("20160228T093000");
-        // TODO - NEED TO CHECK INDIVIDUAL SETS
-        // ALSO NEED TO CHECK EACH SET TOO
-        e.getValue().add(LocalDateTime.of(2016, 4, 25, 1, 0));
-        e.getValue().add(LocalDate.of(2016, 4, 25));
-//        System.out.println(e);
-        e.childrenUnmodifiable().forEach(System.out::println);
-        e.errors().forEach(System.out::println);
-//        e.getValue().forEach(System.out::println);
-//        System.out.println(e.errors().size());
-        assertEquals(2, e.getValue().size());
-    }
-    
-    @Test (expected = DateTimeException.class)
-    public void canCatchWrongTypeExceptions2()
-    {
-        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
         ExceptionDates e = new ExceptionDates();
-        e.setValue(FXCollections.observableSet(ZonedDateTime.of(LocalDateTime.of(1996, 4, 2, 1, 0), ZoneId.of("America/Los_Angeles"))));
+        e.setValue(new LinkedHashSet<>(Arrays.asList(ZonedDateTime.of(LocalDateTime.of(1996, 4, 2, 1, 0), ZoneId.of("America/Los_Angeles")))));
         e.getValue().add(ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("America/Los_Angeles")));
         e.getValue().add(ZonedDateTime.of(LocalDateTime.of(1996, 4, 5, 1, 0), ZoneId.of("America/New_York")));
-        assertEquals(2, e.getValue().size());
+        assertEquals(1, e.errors().size());
+        String expectedMessage = "ZoneId \"America/New_York\" doesn't match previous ZoneId \"America/Los_Angeles\"";
+        assertEquals(expectedMessage, e.errors().get(0));        
     }
     
     @Test (expected = DateTimeException.class)
-    public void canCatchWrongExceptionType1()
+    public void canCatchWrongExceptionTypeInComponent()
     {
-        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
-        new VEvent().withExceptionDates(LocalDate.of(2016, 4, 27),
+        VEvent e = new VEvent().withExceptionDates(LocalDate.of(2016, 4, 27),
                 LocalDateTime.of(2016, 4, 27, 12, 0));
     }
     

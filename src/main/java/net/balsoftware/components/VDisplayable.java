@@ -188,7 +188,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public DateTimeCreated getDateTimeCreated() { return dateTimeCreated; }
     private DateTimeCreated dateTimeCreated;
     public void setDateTimeCreated(String dtCreated) { setDateTimeCreated(DateTimeCreated.parse(dtCreated)); }
-    public void setDateTimeCreated(DateTimeCreated dtCreated) { this.dateTimeCreated = dtCreated; }
+    public void setDateTimeCreated(DateTimeCreated dtCreated)
+    {
+    	orderer.orderChild(dateTimeCreated, dtCreated);
+    	this.dateTimeCreated = dtCreated;
+	}
     public void setDateTimeCreated(ZonedDateTime dtCreated) { setDateTimeCreated(new DateTimeCreated(dtCreated)); }
     public T withDateTimeCreated(ZonedDateTime dtCreated)
     {
@@ -218,12 +222,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private List<ExceptionDates> exceptionDates;
     public void setExceptionDates(List<ExceptionDates> exceptionDates)
     {
-//        if (exceptionDates != null)
-//        {
-//        	List<String> errors = PropertyType.EXCEPTION_DATE_TIMES.errors(this);
-//            System.out.println("errors:" + errors);
-//            if (! errors.isEmpty()) throw new DateTimeException(errors.toString());
-//        }
+//    	exceptionDates.forEach(e -> orderer.orderChild(null, e));
         this.exceptionDates = exceptionDates;
     }
     public T withExceptionDates(List<ExceptionDates> exceptions)
@@ -241,9 +240,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     }
     public T withExceptionDates(Temporal...exceptions)
     {
-        List<ExceptionDates> list = Arrays.stream(exceptions)
-                .map(t -> new ExceptionDates(t))
-                .collect(Collectors.toList()); 
+    	List<ExceptionDates> list = new ArrayList<>(Arrays.asList(new ExceptionDates(exceptions)));
     	setExceptionDates(list);
         return (T) this;
     }

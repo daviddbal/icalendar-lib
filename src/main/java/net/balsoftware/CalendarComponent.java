@@ -42,11 +42,11 @@ public enum CalendarComponent
         	throw new RuntimeException("not implemented");
         }
 
-		@Override
-		public List<Method> propertyGetters()
-		{
-        	throw new RuntimeException("not implemented");
-		}
+//		@Override
+//		public List<Method> propertyGetters()
+//		{
+//        	throw new RuntimeException("not implemented");
+//		}
     },
     VTODO ("VTODO",
 //            Arrays.asList(PropertyType.ATTACHMENT, PropertyType.ATTENDEE, PropertyType.CATEGORIES,
@@ -77,11 +77,11 @@ public enum CalendarComponent
         	throw new RuntimeException("not implemented");
         }
 
-		@Override
-		public List<Method> propertyGetters()
-		{
-        	throw new RuntimeException("not implemented");
-		}
+//		@Override
+//		public List<Method> propertyGetters()
+//		{
+//        	throw new RuntimeException("not implemented");
+//		}
     };
 
     // Map to match up name to enum
@@ -132,6 +132,7 @@ public enum CalendarComponent
     private List<PropertyType> allowedProperties;
     public List<PropertyType> allowedProperties() { return allowedProperties; }
 
+    // Getters stored here so they are made only once per class - maybe use static field in class instead
     private List<Method> getters;
     public List<Method> childGetters() { return getters; }
     
@@ -154,6 +155,6 @@ public enum CalendarComponent
 //    {
 //        throw new RuntimeException("not implemented");
 //    }
-    /** return's list of property getter methods */
-    abstract public List<Method> propertyGetters();
+//    /** return's list of property getter methods */
+//    abstract public List<Method> propertyGetters();
 }

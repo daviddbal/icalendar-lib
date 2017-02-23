@@ -63,6 +63,8 @@ public abstract class VParentBase implements VParent
     @Override
     public List<String> errors()
     {
+    	System.out.println("error parent:" + childrenUnmodifiable().size());
+    	childrenUnmodifiable().forEach(System.out::println);
         return childrenUnmodifiable().stream()
                 .flatMap(c -> c.errors().stream())
                 .collect(Collectors.toList());

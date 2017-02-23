@@ -1,6 +1,7 @@
 package net.balsoftware.components;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,7 +10,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.CalendarComponent;
-import net.balsoftware.VChild;
 //import net.balsoftware.CalendarComponent;
 import net.balsoftware.VElement;
 import net.balsoftware.VParent;
@@ -61,13 +61,13 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     @Override
     public String name() { return componentType.toString(); }
 
-    @Override
-    public List<VChild> childrenUnmodifiable()
-    {
-    	componentType.propertyGetters();
-    	throw new RuntimeException("not implemented");
-    	// TODO - include list-based properties somehow
-    }
+//    @Override
+//    public List<VChild> childrenUnmodifiable()
+//    {
+//    	componentType.childGetters();
+//    	throw new RuntimeException("not implemented");
+//    	// TODO - include list-based properties somehow
+//    }
 
     /*
      * CONSTRUCTORS
@@ -78,7 +78,43 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     VComponentBase()
     {
     	componentType = CalendarComponent.enumFromClass(this.getClass());
-        orderer = new OrdererBase(this, componentType.childGetters());
+    	List<Method> getters = componentType.childGetters();
+//    	List<Method> getters = ICalendarUtilities.collectGetters(getClass());
+//    	getters.forEach(System.out::println);
+    	
+//    	Class<? extends VComponentBase> clazz = getClass();
+//		List<Method> a = Arrays.stream(clazz.getMethods())
+//				.filter(c -> List.class.isAssignableFrom(c.getReturnType()))
+//				.filter(m -> m.getName().startsWith("get"))
+//				.peek(System.out::println)
+//				.peek(aa -> {
+//					Arrays.asList(aa.getGenericReturnType()).forEach(System.out::println);
+//					ParameterizedType p = (ParameterizedType) aa.getGenericReturnType();
+//					Type p0 = p.getActualTypeArguments()[0];
+//					
+//					String s = p0.getTypeName();
+//					int endIndex = s.indexOf("<");
+//					endIndex = endIndex < 0 ? s.length() : endIndex;
+//					s = s.substring(0, endIndex);
+//					try {
+//						Class as = Class.forName(s);
+//						System.out.println(("generic" + p0 + " " + VChild.class.isAssignableFrom(as)));
+//					} catch (ClassNotFoundException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+////					Class c = (Class) p0;
+////					System.out.println(c);
+////					System.out.println("generic:" + p0 + " " + VChild.class.isAssignableFrom((Class) p0) );
+////					try {
+////					Type persistentClass = ((ParameterizedType) aa.getReturnType().getGenericSuperclass())
+////							      .getActualTypeArguments()[0];
+////					System.out.println(persistentClass);
+////					} catch(Exception e) { }
+//				})
+//				.collect(Collectors.toList());
+    	
+        orderer = new OrdererBase(this, getters);
         contentLineGenerator = new MultiLineContent(
                 orderer,
                 FIRST_LINE_PREFIX + name(),

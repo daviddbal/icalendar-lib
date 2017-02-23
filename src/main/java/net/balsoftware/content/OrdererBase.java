@@ -35,6 +35,7 @@ public class OrdererBase implements Orderer
     final private VParent parent;
     final private List<Method> childGetters;
     
+    // TODO - SHOULD I USE A WEAK MAP??
     private List<VChild> orderedChildren = new ArrayList<>();
 
     /*

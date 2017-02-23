@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -41,9 +40,7 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
         {
             return object.stream()
                     .sorted(DateTimeUtilities.TEMPORAL_COMPARATOR)
-                    .peek(a -> System.out.println("here:" + a))
                     .map(t -> DateTimeUtilities.temporalToString(t))
-                    .peek(a -> System.out.println("here:" + a))
                     .collect(Collectors.joining(","));
         }
 
@@ -117,7 +114,8 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
     @Override
     public List<String> errors()
     {
-    	List<String> errors = new ArrayList<>();
+    	List<String> errors = super.errors();
+//    	List<String> errors = new ArrayList<>();
 //    	List<RecurrenceDates> recurrenceDates = component.getRecurrenceDates();
     	Set<Temporal> recurrenceDates = getValue();
     	
@@ -125,29 +123,18 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
     	if ((recurrenceDates != null) && (! recurrenceDates.isEmpty()))
 		{
         	Temporal sampleTemporal = recurrenceDates.stream()
-//            		.flatMap(r -> r.getValue().stream())
             		.findAny()
             		.get();
     		DateTimeType sampleType = DateTimeUtilities.DateTimeType.of(sampleTemporal);
-        	Optional<String> error1 = recurrenceDates
+        	Optional<DateTimeType> notMatchDateTimeType = recurrenceDates
         		.stream()
-//        		.flatMap(r -> r.getValue().stream())
-	        	.map(v ->
-	        	{
-	        		DateTimeType recurrenceType = DateTimeUtilities.DateTimeType.of(v);
-	        		if (! recurrenceType.equals(sampleType))
-	        		{
-	                    return "Recurrences DateTimeType " + recurrenceType +
-	                            " doesn't match previous recurrences DateTimeType " + sampleType;            
-	        		}
-	        		return null;
-	        	})
-	        	.filter(s -> s != null)
-	        	.findAny();
-        	
-        	if (error1.isPresent())
+        		.map(v -> DateTimeUtilities.DateTimeType.of(v))
+        		.filter(v -> ! v.equals(sampleType))
+        		.findAny();
+        	if (notMatchDateTimeType.isPresent())
         	{
-        		errors.add(error1.get());
+        		errors.add("Recurrences DateTimeType \"" + notMatchDateTimeType.get() +
+                        "\" doesn't match previous recurrences DateTimeType \"" + sampleType + "\"");
         	}
         	
 //        	// DTSTART check - DO IN COMPONENT ERROR TEST
@@ -162,15 +149,15 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
             if (sampleTemporal instanceof ZonedDateTime)
             {
                 ZoneId zone = ((ZonedDateTime) sampleTemporal).getZone();
-                boolean allZonesIdentical = recurrenceDates
+                Optional<ZoneId> notMatchZone = recurrenceDates
                         .stream()
-//                        .flatMap(r -> r.getValue().stream())
                         .map(t -> ((ZonedDateTime) t).getZone())
-                        .allMatch(z -> z.equals(zone));
-                if (! allZonesIdentical)
+                		.filter(z -> ! z.equals(zone))
+                		.findAny();
+                if (notMatchZone.isPresent())
                 {
-                	errors.add("ZoneId are not all identical");
-                }
+                	errors.add("ZoneId \"" + notMatchZone.get() + "\" doesn't match previous ZoneId \"" + zone + "\"");
+            	}
                 
             }
         }

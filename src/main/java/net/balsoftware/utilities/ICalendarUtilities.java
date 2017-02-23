@@ -1,6 +1,8 @@
 package net.balsoftware.utilities;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -237,7 +239,36 @@ public final class ICalendarUtilities
 	public static List<Method> collectGetters(Class<?> clazz)
 	{
 		return Arrays.stream(clazz.getMethods())
-			.filter(c -> VChild.class.isAssignableFrom(c.getReturnType()))
+			.filter(c -> 
+			{
+				Class<?> returnType = c.getReturnType();
+				if (returnType == Void.class)
+				{
+					return false;
+				}
+//				System.out.println("returnType:");
+				if (VChild.class.isAssignableFrom(returnType))
+				{
+					return true;
+				} else if  (List.class.isAssignableFrom(returnType))
+				{
+//					System.out.println(c);
+					ParameterizedType p = (ParameterizedType) c.getGenericReturnType();
+					Type p0 = p.getActualTypeArguments()[0];
+					String s = p0.getTypeName();
+					int endIndex = s.indexOf("<");
+					endIndex = endIndex < 0 ? s.length() : endIndex;
+					s = s.substring(0, endIndex);
+					try {
+						Class<?> clazz2 = Class.forName(s);
+						boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
+						return isListOfChildren;
+					} catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
+				}
+				return false; // shouldn't get here
+			})
 			.filter(m -> m.getName().startsWith("get"))
 			.collect(Collectors.toList());
 	}

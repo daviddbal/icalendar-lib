@@ -52,7 +52,7 @@ public class OrdererBase implements Orderer
 	public List<VChild> childrenUnmodifiable()
 	{
 //		childGetters.forEach(System.out::println);
-//		System.out.println("childUN:" + unorderedChildren(parent, childGetters).size());
+//		System.out.println("childUN:" + unorderedChildren(parent, childGetters).size() + " " + orderedChildren.size());
 		List<VChild> allChildren = new ArrayList<>(orderedChildren);
 		// add unordered children
 		unorderedChildren(parent, childGetters)
@@ -68,7 +68,7 @@ public class OrdererBase implements Orderer
 					if (! matchedChildren.isEmpty())
 					{
 						VChild lastMatchedChild = matchedChildren.get(matchedChildren.size()-1);
-						int index = allChildren.indexOf(lastMatchedChild);
+						int index = allChildren.indexOf(lastMatchedChild)+1;
 						allChildren.add(index, unorderedChild); // put after last matched child
 					} else
 					{
@@ -136,20 +136,6 @@ public class OrdererBase implements Orderer
 	@Override
 	public void orderChild(int index, VChild oldChild, VChild newChild)
 	{
-		if (oldChild == null)
-		{
-			if (! orderedChildren.contains(newChild))
-			{
-				orderedChildren.add(newChild);
-				newChild.setParent(parent);
-			}
-		} else
-		{
-			orderedChildren.remove(oldChild);
-			if (newChild != null)
-			{
-				orderedChildren.add(index, newChild);
-			}
-		}
+		orderedChildren.add(index, newChild);
 	}
 }

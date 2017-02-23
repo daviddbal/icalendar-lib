@@ -30,14 +30,14 @@ public abstract class VParentBase implements VParent
 	@Override
 	public void orderChild(VChild addedChild)
 	{
-		System.out.println("add:" + addedChild.getClass());
+//		System.out.println("add:" + addedChild.getClass());
 		orderer.orderChild(null, addedChild);
 	}
 
 	@Override
 	public void orderChild(int index, VChild addedChild)
 	{
-		System.out.println("add:" + addedChild.getClass() + " at " + index);
+//		System.out.println("add:" + addedChild.getClass() + " at " + index);
 		orderer.orderChild(index, null, addedChild);
 	}
     
@@ -63,12 +63,11 @@ public abstract class VParentBase implements VParent
     @Override
     public List<String> errors()
     {
-    	System.out.println("error parent:" + childrenUnmodifiable().size());
-    	childrenUnmodifiable().forEach(System.out::println);
         return childrenUnmodifiable().stream()
                 .flatMap(c -> c.errors().stream())
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public String toString()

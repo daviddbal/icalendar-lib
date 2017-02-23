@@ -222,7 +222,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private List<ExceptionDates> exceptionDates;
     public void setExceptionDates(List<ExceptionDates> exceptionDates)
     {
-//    	exceptionDates.forEach(e -> orderer.orderChild(null, e));
+    	exceptionDates.forEach(e -> orderer.orderChild(null, e));
         this.exceptionDates = exceptionDates;
     }
     public T withExceptionDates(List<ExceptionDates> exceptions)
@@ -508,7 +508,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
     public Summary getSummary() { return summary; }
     private Summary summary;
-    public void setSummary(Summary summary) { this.summary = summary; }
+    public void setSummary(Summary summary)
+    {
+    	orderer.orderChild(this.summary, summary);
+    	this.summary = summary;
+	}
 
     
     @Override

@@ -91,6 +91,19 @@ public class ExceptionDatesTest
 //    }
     
     @Test
+    public void canCatchWrongTypeInTwoProperty()
+    {
+        VEvent v = new VEvent().withExceptionDates(LocalDate.of(2016, 4, 27));
+        v.setSummary("here:");
+        ExceptionDates e2 = new ExceptionDates(LocalDateTime.of(2016, 4, 27, 12, 0));
+        v.getExceptionDates().add(e2);
+        v.orderChild(e2);
+        System.out.println("done");
+        System.out.println(v);
+//        assertEquals(4, v.errors().size()); // TODO - NEED errors in VDisplayable to check
+    }
+
+    @Test
     public void canCatchWrongTypeInProperty()
     {
         ExceptionDates e = ExceptionDates.parse("20160228T093000");

@@ -218,11 +218,12 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private List<ExceptionDates> exceptionDates;
     public void setExceptionDates(List<ExceptionDates> exceptionDates)
     {
-        if (exceptionDates != null)
-        {
-            String error = checkRecurrencesConsistency(exceptionDates);
-            if (error != null) throw new DateTimeException(error);
-        }
+//        if (exceptionDates != null)
+//        {
+//        	List<String> errors = PropertyType.EXCEPTION_DATE_TIMES.errors(this);
+//            System.out.println("errors:" + errors);
+//            if (! errors.isEmpty()) throw new DateTimeException(errors.toString());
+//        }
         this.exceptionDates = exceptionDates;
     }
     public T withExceptionDates(List<ExceptionDates> exceptions)
@@ -288,7 +289,13 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public List<RecurrenceDates> getRecurrenceDates() { return recurrenceDates; }
     private List<RecurrenceDates> recurrenceDates;
     @Override
-    public void setRecurrenceDates(List<RecurrenceDates> recurrenceDates) { this.recurrenceDates = recurrenceDates; }
+    public void setRecurrenceDates(List<RecurrenceDates> recurrenceDates)
+    {
+//    	List<String> errors = PropertyType.RECURRENCE_DATE_TIMES.errors(this);
+//        if (! errors.isEmpty()) throw new DateTimeException(errors.toString());
+//    	System.out.println("errors:" + errors);
+    	this.recurrenceDates = recurrenceDates;
+	}
 
     /**
      * RECURRENCE-ID: Recurrence Identifier

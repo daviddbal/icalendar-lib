@@ -1,11 +1,13 @@
 package net.balsoftware.properties;
 
 import java.lang.reflect.Method;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import net.balsoftware.VCalendar;
 import net.balsoftware.VChild;
@@ -58,6 +60,7 @@ import net.balsoftware.properties.component.descriptive.Summary;
 import net.balsoftware.properties.component.misc.NonStandardProperty;
 import net.balsoftware.properties.component.misc.RequestStatus;
 import net.balsoftware.properties.component.recurrence.ExceptionDates;
+import net.balsoftware.properties.component.recurrence.PropertyBaseRecurrence;
 import net.balsoftware.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.properties.component.relationship.Attendee;
@@ -79,6 +82,8 @@ import net.balsoftware.properties.component.timezone.TimeZoneName;
 import net.balsoftware.properties.component.timezone.TimeZoneOffsetFrom;
 import net.balsoftware.properties.component.timezone.TimeZoneOffsetTo;
 import net.balsoftware.properties.component.timezone.TimeZoneURL;
+import net.balsoftware.utilities.DateTimeUtilities;
+import net.balsoftware.utilities.DateTimeUtilities.DateTimeType;
 import net.balsoftware.utilities.ICalendarUtilities;
 
 
@@ -805,6 +810,13 @@ public enum PropertyType
             }
             list.add(new ExceptionDates((ExceptionDates) childSource));
         }
+
+		@Override
+		public List<String> errors(VParent vParent)
+		{
+			VDisplayable<?> castComponent = (VDisplayable<?>) vParent;
+			return errorCheckVDisplayable(castComponent.getExceptionDates(), castComponent.getDateTimeStart());
+		}
     },
     // Date and Time
     FREE_BUSY_TIME ("FREEBUSY", // property name
@@ -1915,4 +1927,59 @@ public enum PropertyType
     
     /** If property is required returns true, false otherwise */
     public boolean isRequired(VParent parent ) { return false; }
+    
+    public List<String> errors(VParent vParent)
+    {
+    	throw new RuntimeException("not implemented");
+    }
+    
+    
+    /*
+     * ERROR CHECKING METHODS
+     */
+    private static List<String> errorCheckVDisplayable(List<? extends PropertyBaseRecurrence<?>> values, DateTimeStart dtstart)
+    {
+    	List<String> errors = new ArrayList<>();
+//    	List<RecurrenceDates> recurrenceDates = component.getRecurrenceDates();
+    	List<? extends PropertyBaseRecurrence<?>> recurrenceDates = values;
+    	
+    	// error check - all Temporal types must be same
+    	if ((recurrenceDates != null) && (! recurrenceDates.isEmpty()))
+		{
+        	Temporal sampleTemporal = recurrenceDates.stream()
+            		.flatMap(r -> r.getValue().stream())
+            		.findAny()
+            		.get();
+    		DateTimeType sampleType = DateTimeUtilities.DateTimeType.of(sampleTemporal);
+        	Optional<String> error1 = recurrenceDates
+        		.stream()
+        		.flatMap(r -> r.getValue().stream())
+	        	.map(v ->
+	        	{
+	        		DateTimeType recurrenceType = DateTimeUtilities.DateTimeType.of(v);
+	        		if (! recurrenceType.equals(sampleType))
+	        		{
+	                    return "Recurrences DateTimeType " + recurrenceType +
+	                            " doesn't match previous recurrences DateTimeType " + sampleType;            
+	        		}
+	        		return null;
+	        	})
+	        	.filter(s -> s != null)
+	        	.findAny();
+        	
+        	if (error1.isPresent())
+        	{
+        		errors.add(error1.get());
+        	}
+        	
+        	// DTSTART check
+            DateTimeType dateTimeStartType = DateTimeUtilities.DateTimeType.of(dtstart.getValue());
+            if (sampleType != dateTimeStartType)
+            {
+                errors.add("Recurrences DateTimeType (" + sampleType +
+                        ") must be same as the DateTimeType of DateTimeStart (" + dateTimeStartType + ")");
+            }
+        }
+        return errors;
+    }
 }

@@ -68,7 +68,6 @@ public class AttachmentTest
         String contentLine = "ATTACH;FMTTYPE=text/plain;ENCODING=BASE64;VALUE=BINARY:TG9yZW";
         Attachment<String> property1 = new Attachment<String>(String.class, contentLine);
         Attachment<String> property2 = new Attachment<String>(property1);
-        System.out.println(property2.toString());
         assertEquals(property1, property2);
         assertFalse(property1 == property2);
     }

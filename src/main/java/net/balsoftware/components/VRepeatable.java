@@ -52,7 +52,7 @@ public interface VRepeatable<T> extends VComponent
      *  19970526,19970704,19970901,19971014,19971128,19971129,1997122
      */
     List<RecurrenceDates> getRecurrenceDates();
-    void setRecurrenceDates(List<RecurrenceDates> recurrences);
+    void setRecurrenceDates(List<RecurrenceDates> recurrenceDates);
     default T withRecurrenceDates(List<RecurrenceDates> recurrenceDates)
     {
         setRecurrenceDates(recurrenceDates);
@@ -94,12 +94,14 @@ public interface VRepeatable<T> extends VComponent
      */
     default String checkRecurrencesConsistency(List<? extends PropertyBaseRecurrence<?>> list)
     {
+    	System.out.println("list:" + list + " " + getDateTimeStart());
         if ((list == null) || list.isEmpty() || (getDateTimeStart() == null))
         {
             return null;
         }
 //        Temporal firstRecurrence = list.get(0).getValue().iterator().next();
         Temporal firstRecurrence = getDateTimeStart().getValue();
+    	System.out.println("firstRecurrence:" + firstRecurrence);
         if (firstRecurrence == null)
         {
             return null;
@@ -108,7 +110,7 @@ public interface VRepeatable<T> extends VComponent
         Optional<DateTimeType> nonMatchingType = list.stream()
                 .flatMap(p -> p.getValue().stream())
                 .map(t -> DateTimeUtilities.DateTimeType.of(t))
-//                .peek(t -> System.out.println("ttt:" + firstDateTimeTypeType + " " + t))
+                .peek(t -> System.out.println("ttt:" + dateTimeStartType + " " + t))
                 .filter(y -> ! y.equals(dateTimeStartType))
                 .findAny();
 //        System.out.println("bad:" + badType);

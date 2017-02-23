@@ -104,7 +104,7 @@ public class OrdererBase implements Orderer
 	@Override
 	public void orderChild(VChild oldChild, VChild newChild)
 	{
-		System.out.println("adding:" + newChild);
+//		System.out.println("adding:" + newChild);
 		if (oldChild == null)
 		{
 			if (! orderedChildren.contains(newChild))

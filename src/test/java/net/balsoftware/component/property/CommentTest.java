@@ -51,11 +51,9 @@ public class CommentTest
         String content = "COMMENT;LANGUAGE=en:Department Party";
         Comment property1 = Comment.parse(content);
         VEvent v = new VEvent().withComments(property1);
-        System.out.println(property1.getLanguage().getParent());
-        System.out.println(property1.getParent());
         assertTrue(v == property1.getParent());
         Comment propertyCopy = new Comment();
-       property1.copyInto(propertyCopy);
+        property1.copyInto(propertyCopy);
 //        propertyCopy.copyChildrenFrom(property1);
         assertEquals(propertyCopy, property1);
         v.getComments().add(propertyCopy);

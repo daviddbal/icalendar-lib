@@ -229,7 +229,8 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
             if (getPropertyValueString() != null)
             {
                 T newPropValue = getConverter().fromString(getPropertyValueString());
-                setValue(newPropValue);
+                this.value = newPropValue;
+//                setValue(newPropValue);
             }
         }
         
@@ -504,6 +505,7 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     @Override
     public List<String> errors()
     {
+    	// 	TODO - CONSIDER HAVING CHILDREN PRODUCE ERRORS
         List<String> errors = new ArrayList<>();
         if (getValue() == null)
         {
@@ -525,6 +527,7 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
             valueType = propertyType().allowedValueTypes().get(0);
         }
         List<String> createErrorList = valueType.createErrorList(getValue());
+        errors.addAll(propertyType.errors(getParent()));
         if (createErrorList != null)
         {
             errors.addAll(createErrorList);

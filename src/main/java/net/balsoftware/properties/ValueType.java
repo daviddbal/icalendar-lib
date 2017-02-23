@@ -84,7 +84,7 @@ public enum ValueType
                 @Override
                 public T fromString(String string)
                 {
-                         return (T) LocalDate.parse(string, DateTimeUtilities.LOCAL_DATE_FORMATTER);
+                     return (T) LocalDate.parse(string, DateTimeUtilities.LOCAL_DATE_FORMATTER);
                 }
             };
         }

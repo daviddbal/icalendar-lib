@@ -724,6 +724,9 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
             
             // Tests from Repeatable
             errors.addAll(VRepeatable.errorsRepeatable(this));
+            System.out.println("Testing exception dates");
+            errors.addAll(VRepeatable.errorsRecurrence(getExceptionDates(), getDateTimeStart()));
+            errors.addAll(VRepeatable.errorsRecurrence(getRecurrenceDates(), getDateTimeStart()));
         }
     
         return errors;

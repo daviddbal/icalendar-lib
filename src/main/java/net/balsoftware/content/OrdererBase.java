@@ -50,10 +50,13 @@ public class OrdererBase implements Orderer
 	@Override
 	public List<VChild> childrenUnmodifiable()
 	{
+//		childGetters.forEach(System.out::println);
+//		System.out.println("childUN:" + unorderedChildren(parent, childGetters).size());
 		List<VChild> allChildren = new ArrayList<>(orderedChildren);
 		// add unordered children
 		unorderedChildren(parent, childGetters)
 				.stream()
+//				.peek(System.out::println)
 				.filter(c -> ! orderedChildren.contains(c))
 				.forEach(unorderedChild -> 
 				{

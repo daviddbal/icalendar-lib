@@ -1,6 +1,8 @@
 package net.balsoftware.components;
 
 import java.time.DateTimeException;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -387,6 +389,68 @@ public interface VRepeatable<T> extends VComponent
                 break;
             default:
                 throw new RuntimeException("unsupported DateTimeType:" + startType);
+            }
+        }
+        return errors;
+    }
+    
+    static public List<String> errorsRecurrence(List<? extends PropertyBaseRecurrence<?>> dates, DateTimeStart dtstart)
+    {
+    	List<String> errors = new ArrayList<>();
+//    	List<RecurrenceDates> recurrenceDates = component.getRecurrenceDates();
+    	List<? extends PropertyBaseRecurrence<?>> recurrenceDates = dates;
+    	
+    	// error check - all Temporal types must be same
+    	if ((recurrenceDates != null) && (! recurrenceDates.isEmpty()))
+		{
+        	Temporal sampleTemporal = recurrenceDates.stream()
+            		.flatMap(r -> r.getValue().stream())
+            		.findAny()
+            		.get();
+    		DateTimeType sampleType = DateTimeUtilities.DateTimeType.of(sampleTemporal);
+        	Optional<String> error1 = recurrenceDates
+        		.stream()
+        		.flatMap(r -> r.getValue().stream())
+	        	.map(v ->
+	        	{
+	        		DateTimeType recurrenceType = DateTimeUtilities.DateTimeType.of(v);
+	        		if (! recurrenceType.equals(sampleType))
+	        		{
+	                    return "Recurrences DateTimeType " + recurrenceType +
+	                            " doesn't match previous recurrences DateTimeType " + sampleType;            
+	        		}
+	        		return null;
+	        	})
+	        	.filter(s -> s != null)
+	        	.findAny();
+        	
+        	if (error1.isPresent())
+        	{
+        		errors.add(error1.get());
+        	}
+        	
+        	// DTSTART check
+            DateTimeType dateTimeStartType = DateTimeUtilities.DateTimeType.of(dtstart.getValue());
+            if (sampleType != dateTimeStartType)
+            {
+                errors.add("Recurrences DateTimeType (" + sampleType +
+                        ") must be same as the DateTimeType of DateTimeStart (" + dateTimeStartType + ")");
+            }
+            
+            // ensure all ZoneId values are the same
+            if (sampleTemporal instanceof ZonedDateTime)
+            {
+                ZoneId zone = ((ZonedDateTime) sampleTemporal).getZone();
+                boolean allZonesIdentical = recurrenceDates
+                        .stream()
+                        .flatMap(r -> r.getValue().stream())
+                        .map(t -> ((ZonedDateTime) t).getZone())
+                        .allMatch(z -> z.equals(zone));
+                if (! allZonesIdentical)
+                {
+                	errors.add("ZoneId are not all identical");
+                }
+                
             }
         }
         return errors;

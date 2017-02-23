@@ -86,6 +86,24 @@ public class ExceptionDatesTest
         ExceptionDates e = ExceptionDates.parse("20160228T093000");
         e.getValue().add(LocalDateTime.of(2016, 4, 25, 1, 0));
         e.getValue().add(LocalDate.of(2016, 4, 25));
+//        System.out.println(e);
+//        e.errors().forEach(System.out::println);
+        assertEquals(2, e.getValue().size());
+    }
+    
+    @Test
+    public void canCatchWrongTypeExceptions9()
+    {
+        ExceptionDates e = ExceptionDates.parse("20160228T093000");
+        // TODO - NEED TO CHECK INDIVIDUAL SETS
+        // ALSO NEED TO CHECK EACH SET TOO
+        e.getValue().add(LocalDateTime.of(2016, 4, 25, 1, 0));
+        e.getValue().add(LocalDate.of(2016, 4, 25));
+//        System.out.println(e);
+        e.childrenUnmodifiable().forEach(System.out::println);
+        e.errors().forEach(System.out::println);
+//        e.getValue().forEach(System.out::println);
+//        System.out.println(e.errors().size());
         assertEquals(2, e.getValue().size());
     }
     

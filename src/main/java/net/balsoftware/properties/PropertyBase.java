@@ -505,12 +505,12 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     @Override
     public List<String> errors()
     {
-    	// 	TODO - CONSIDER HAVING CHILDREN PRODUCE ERRORS
         List<String> errors = new ArrayList<>();
         if (getValue() == null)
         {
             errors.add(name() + " value is null.  The property MUST have a value."); 
         }
+        
         final ValueType valueType;
         if (getValueType() != null)
         {
@@ -526,12 +526,16 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
             // use default valueType
             valueType = propertyType().allowedValueTypes().get(0);
         }
-        List<String> createErrorList = valueType.createErrorList(getValue());
-        errors.addAll(propertyType.errors(getParent()));
-        if (createErrorList != null)
+        
+        List<String> valueTypeErrorList = valueType.createErrorList(getValue());
+        if (valueTypeErrorList != null)
         {
-            errors.addAll(createErrorList);
+            errors.addAll(valueTypeErrorList);
         }
+        
+//        List<String> propertyErrors = propertyType.errors(getParent());
+//        propertyErrors.forEach(System.out::println);
+//        errors.addAll(propertyErrors);
         return errors;
     }
     

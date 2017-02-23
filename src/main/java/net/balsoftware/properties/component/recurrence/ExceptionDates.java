@@ -1,8 +1,8 @@
 package net.balsoftware.properties.component.recurrence;
 
 import java.time.temporal.Temporal;
+import java.util.Set;
 
-import javafx.collections.ObservableSet;
 import net.balsoftware.components.DaylightSavingTime;
 import net.balsoftware.components.StandardTime;
 import net.balsoftware.components.VEvent;
@@ -37,7 +37,7 @@ public class ExceptionDates extends PropertyBaseRecurrence<ExceptionDates>
         super(source);
     }
     
-    public ExceptionDates(ObservableSet<Temporal> value)
+    public ExceptionDates(Set<Temporal> value)
     {
         super(value);
     }

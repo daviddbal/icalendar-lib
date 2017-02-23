@@ -5,7 +5,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -28,8 +31,8 @@ import net.balsoftware.utilities.StringConverter;
  */
 public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Temporal>, U>
 {
-    private ZoneId zone;
-    private DateTimeType myType;
+//    private ZoneId zone;
+//    private DateTimeType myType;
     
     private final StringConverter<Set<Temporal>> CONVERTER = new StringConverter<Set<Temporal>>()
     {
@@ -37,8 +40,10 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
         public String toString(Set<Temporal> object)
         {
             return object.stream()
-                    .sorted()
+                    .sorted(DateTimeUtilities.TEMPORAL_COMPARATOR)
+                    .peek(a -> System.out.println("here:" + a))
                     .map(t -> DateTimeUtilities.temporalToString(t))
+                    .peek(a -> System.out.println("here:" + a))
                     .collect(Collectors.joining(","));
         }
 
@@ -90,44 +95,6 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
         super(source);
     }
 
-//    // Listen to additions to collection to ensure time zone is consistent
-//    private void setupListener()
-//    {
-//        if (! getValue().isEmpty())
-//        {
-//            Temporal sampleValue = getValue().iterator().next();
-//            myType = DateTimeType.of(sampleValue);
-//            SetChangeListener<Temporal> recurrenceListener = (SetChangeListener<Temporal>) (SetChangeListener.Change<? extends Temporal> change) ->
-//            {
-//                if (change.wasAdded())
-//                {
-//                    Temporal newTemporal = change.getElementAdded();
-//                    DateTimeType newType = DateTimeType.of(newTemporal);
-//                    if (newType != myType)
-//                    {
-//                        change.getSet().remove(newTemporal);
-//                        throw new DateTimeException("Can't add new element of type " + newType + ". New elements must match type of existing elements (" + myType + ")");
-//                    }
-//                    if (newTemporal instanceof ZonedDateTime)
-//                    {
-//                        ZoneId myZone = ((ZonedDateTime) newTemporal).getZone();
-//                        if (! myZone.equals(zone))
-//                        {
-//                            change.getSet().remove(newTemporal);
-//                            throw new DateTimeException("Can't add new element with ZoneId of " + myZone + ". New elements must match ZoneId of existing elements (" + zone + ")");
-//                        }
-//                    }
-//                }
-//            };
-//            getValue().addListener(recurrenceListener);
-//            if (sampleValue instanceof ZonedDateTime)
-//            {
-//                zone = ((ZonedDateTime) sampleValue).getZone();
-//            }
-//        }
-//
-//    }
-
     @Override
     public void setValue(Set<Temporal> value)
     {
@@ -146,25 +113,68 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
         super.setValue(value);
 //        setupListener();
     }
-    
+        
     @Override
-    public boolean isValid()
+    public List<String> errors()
     {
-        if (! getValue().isEmpty())
-        {
-            Temporal sampleValue = getValue().iterator().next();
+    	List<String> errors = new ArrayList<>();
+//    	List<RecurrenceDates> recurrenceDates = component.getRecurrenceDates();
+    	Set<Temporal> recurrenceDates = getValue();
+    	
+    	// error check - all Temporal types must be same
+    	if ((recurrenceDates != null) && (! recurrenceDates.isEmpty()))
+		{
+        	Temporal sampleTemporal = recurrenceDates.stream()
+//            		.flatMap(r -> r.getValue().stream())
+            		.findAny()
+            		.get();
+    		DateTimeType sampleType = DateTimeUtilities.DateTimeType.of(sampleTemporal);
+        	Optional<String> error1 = recurrenceDates
+        		.stream()
+//        		.flatMap(r -> r.getValue().stream())
+	        	.map(v ->
+	        	{
+	        		DateTimeType recurrenceType = DateTimeUtilities.DateTimeType.of(v);
+	        		if (! recurrenceType.equals(sampleType))
+	        		{
+	                    return "Recurrences DateTimeType " + recurrenceType +
+	                            " doesn't match previous recurrences DateTimeType " + sampleType;            
+	        		}
+	        		return null;
+	        	})
+	        	.filter(s -> s != null)
+	        	.findAny();
+        	
+        	if (error1.isPresent())
+        	{
+        		errors.add(error1.get());
+        	}
+        	
+//        	// DTSTART check - DO IN COMPONENT ERROR TEST
+//            DateTimeType dateTimeStartType = DateTimeUtilities.DateTimeType.of(dtstart.getValue());
+//            if (sampleType != dateTimeStartType)
+//            {
+//                errors.add("Recurrences DateTimeType (" + sampleType +
+//                        ") must be same as the DateTimeType of DateTimeStart (" + dateTimeStartType + ")");
+//            }
+            
             // ensure all ZoneId values are the same
-            if (sampleValue instanceof ZonedDateTime)
+            if (sampleTemporal instanceof ZonedDateTime)
             {
-                zone = ((ZonedDateTime) sampleValue).getZone();
-                boolean valuesMatchZone = getValue()
+                ZoneId zone = ((ZonedDateTime) sampleTemporal).getZone();
+                boolean allZonesIdentical = recurrenceDates
                         .stream()
+//                        .flatMap(r -> r.getValue().stream())
                         .map(t -> ((ZonedDateTime) t).getZone())
                         .allMatch(z -> z.equals(zone));
-                return valuesMatchZone && super.isValid();
+                if (! allZonesIdentical)
+                {
+                	errors.add("ZoneId are not all identical");
+                }
+                
             }
         }
-        return super.isValid();
+        return errors;
     }
         
     @Override

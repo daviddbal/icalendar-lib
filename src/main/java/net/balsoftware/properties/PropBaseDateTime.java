@@ -15,8 +15,6 @@ import net.balsoftware.parameters.ValueParameter;
 import net.balsoftware.properties.component.relationship.RecurrenceId;
 import net.balsoftware.properties.component.time.DateTimeEnd;
 import net.balsoftware.properties.component.time.DateTimeStart;
-//import net.balsoftware.properties.component.time.DateTimeEnd;
-//import net.balsoftware.properties.component.time.DateTimeStart;
 
 /**
  * Abstract class for all non-UTC date-time classes

@@ -523,12 +523,16 @@ public enum RRuleElementType
     private ChronoUnit chronoUnit;
     public ChronoUnit getChronoUnit() { return chronoUnit; }
     
+//    private List<Method> getters;
+//    public List<Method> childGetters() { return getters; }
+
     RRuleElementType(String name, Class<? extends RRuleElement<?>> myClass, int sortOrder, ChronoUnit chronoUnit)
     {
         this.name = name;
         this.myClass = myClass;
         this.sortOrder = sortOrder;
         this.chronoUnit = chronoUnit;
+//        this.getters = ICalendarUtilities.collectGetters(myClass);
     }
  
     /*

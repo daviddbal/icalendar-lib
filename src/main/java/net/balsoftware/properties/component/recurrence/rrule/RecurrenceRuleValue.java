@@ -1,5 +1,6 @@
 package net.balsoftware.properties.component.recurrence.rrule;
 
+import java.lang.reflect.Method;
 import java.time.DayOfWeek;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -20,6 +21,7 @@ import java.util.stream.StreamSupport;
 import net.balsoftware.VChild;
 import net.balsoftware.VParent;
 import net.balsoftware.VParentBase;
+import net.balsoftware.content.OrdererBase;
 import net.balsoftware.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.properties.component.recurrence.rrule.byxxx.ByDay;
 import net.balsoftware.properties.component.recurrence.rrule.byxxx.ByHour;
@@ -78,6 +80,8 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     
     private static final String NAME = "RRULE";
     @Override public String name() { return NAME; }
+    
+    private static List<Method> getters = ICalendarUtilities.collectGetters(RecurrenceRuleValue.class);
     
     /** 
      * BYxxx Rules
@@ -301,6 +305,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     
     public RecurrenceRuleValue()
     {
+    	orderer = new OrdererBase(this, getters);
 //        orderer.registerSortOrderProperty(frequencyProperty());
 //        byRules = FXCollections.observableArrayList();
 //        orderer().registerSortOrderProperty(byRules);

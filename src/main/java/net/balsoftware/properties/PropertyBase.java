@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import junit.runner.Version;
+import net.balsoftware.VChild;
 import net.balsoftware.VParent;
 import net.balsoftware.VParentBase;
 import net.balsoftware.content.OrdererBase;
@@ -463,7 +464,9 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
                     Object existingParemeter = parameterType.getParameter(this);
                     if (existingParemeter == null || existingParemeter instanceof List)
                     {
-                        parameterType.parse(this, entry.getKey() + "=" + entry.getValue());
+                        VChild child = parameterType.parse(this, entry.getKey() + "=" + entry.getValue());
+                        orderChild(child);
+                        // TODO - NEED TO ORDER CHILD PARAMETERS
                     } else
                     {
                         throw new IllegalArgumentException(parameterType + " can only occur once in a calendar component");

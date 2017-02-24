@@ -57,4 +57,11 @@ public class WeekStart extends RRuleElementBase<DayOfWeek, WeekStart>
         setValue(dayOfWeek);
         return errors();
     }
+    
+    public static WeekStart parse(String content)
+    {
+    	WeekStart element = new WeekStart();
+    	element.parseContent(content);
+        return element;
+    }
 }

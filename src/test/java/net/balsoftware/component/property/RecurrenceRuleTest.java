@@ -75,7 +75,6 @@ public class RecurrenceRuleTest
         RecurrenceRule madeProperty = RecurrenceRule.parse(content);
         RecurrenceRule expectedProperty = new RecurrenceRule(
                 new RecurrenceRuleValue()
-                //	 TODO - DO I WANT WITHBYRULES TO MAKE NEW LIST OR ADD TO EXISTING LIST?
                     .withByRule(new ByDay(new ByDay.ByDayPair(DayOfWeek.SUNDAY, -1)))
                     .withUntil("19730429T070000Z")
                     .withByRule(new ByMonth(Month.APRIL))

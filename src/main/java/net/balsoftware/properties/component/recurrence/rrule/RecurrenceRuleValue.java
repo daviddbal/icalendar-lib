@@ -315,7 +315,6 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     {
         this();
         source.copyInto(this);
-//        copyChildrenFrom(source);
     }
     
     /** Parse component from content line */
@@ -329,9 +328,8 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
                     RRuleElementType element = RRuleElementType.enumFromName(entry.getKey());
                     if (element != null)
                     {
-                        element.parse(this, entry.getValue());
-                        // TODO - NEED TO GET NEW CHILD FROM PARSE
-//                		orderChild(newChild);
+                        VChild newChild = element.parse(this, entry.getValue());
+                		orderChild(newChild);
                     } else
                     {
                         throw new IllegalArgumentException("Unsupported Recurrence Rule element: " + entry.getKey());                        

@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.balsoftware.VChild;
 import net.balsoftware.VElement;
 import net.balsoftware.parameters.ParameterType;
 import net.balsoftware.properties.component.recurrence.rrule.byxxx.ByDay;
@@ -28,12 +29,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.getFrequency() == null)
             {
-                recurrenceRule.setFrequency(Frequency.parse(content));
-
+                Frequency child = Frequency.parse(content);
+				recurrenceRule.setFrequency(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -61,11 +63,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.getInterval() == null)
             {
-                recurrenceRule.setInterval(Integer.parseInt(content));
+            	Interval child = Interval.parse(content);
+                recurrenceRule.setInterval(child);
+                return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -93,11 +97,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.getUntil() == null)
             {
-                recurrenceRule.setUntil(DateTimeUtilities.temporalFromString(content));                
+            	Until child = Until.parse(content);
+                recurrenceRule.setUntil(child);
+                return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -125,11 +131,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.getCount() == null)
             {
-                recurrenceRule.setCount(Integer.parseInt(content));
+            	Count child = Count.parse(content);
+                recurrenceRule.setCount(child);
+                return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -157,12 +165,14 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.getWeekStart() == null)
             {
                 DayOfWeek dayOfWeek = DateTimeUtilities.dayOfWeekFromAbbreviation(content);
-                recurrenceRule.setWeekStart(dayOfWeek);
+                WeekStart child = new WeekStart(dayOfWeek);
+                recurrenceRule.setWeekStart(child);
+                return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -190,11 +200,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.lookupByRule(ByMonth.class) == null)
             {
-                recurrenceRule.getByRules().add(ByMonth.parse(content));
+                ByMonth child = ByMonth.parse(content);
+				recurrenceRule.getByRules().add(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -222,11 +234,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.lookupByRule(ByWeekNumber.class) == null)
             {
-                recurrenceRule.getByRules().add(ByWeekNumber.parse(content));
+                ByWeekNumber child = ByWeekNumber.parse(content);
+				recurrenceRule.getByRules().add(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -254,11 +268,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.lookupByRule(ByYearDay.class) == null)
             {
-                recurrenceRule.getByRules().add(ByYearDay.parse(content));
+                ByYearDay child = ByYearDay.parse(content);
+				recurrenceRule.getByRules().add(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -286,11 +302,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.lookupByRule(ByMonthDay.class) == null)
             {
-                recurrenceRule.getByRules().add(ByMonthDay.parse(content));
+                ByMonthDay child = ByMonthDay.parse(content);
+				recurrenceRule.getByRules().add(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -318,11 +336,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.lookupByRule(ByDay.class) == null)
             {
-                recurrenceRule.getByRules().add(ByDay.parse(content));                
+                ByDay child = ByDay.parse(content);
+				recurrenceRule.getByRules().add(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -350,11 +370,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.lookupByRule(ByHour.class) == null)
             {
-                recurrenceRule.getByRules().add(ByHour.parse(content));
+                ByHour child = ByHour.parse(content);
+				recurrenceRule.getByRules().add(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -382,11 +404,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.lookupByRule(ByMinute.class) == null)
             {
-                recurrenceRule.getByRules().add(ByMinute.parse(content));
+                ByMinute child = ByMinute.parse(content);
+				recurrenceRule.getByRules().add(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -414,11 +438,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.lookupByRule(BySecond.class) == null)
             {
-                recurrenceRule.getByRules().add(BySecond.parse(content));
+                ByMinute child = BySecond.parse(content);
+				recurrenceRule.getByRules().add(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -446,11 +472,13 @@ public enum RRuleElementType
         }
 
         @Override
-        public void parse(RecurrenceRuleValue recurrenceRule, String content)
+        public VChild parse(RecurrenceRuleValue recurrenceRule, String content)
         {
             if (recurrenceRule.lookupByRule(BySetPosition.class) == null)
             {
-                recurrenceRule.getByRules().add(BySetPosition.parse(content));
+                BySetPosition child = BySetPosition.parse(content);
+				recurrenceRule.getByRules().add(child);
+				return child;
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -543,7 +571,7 @@ public enum RRuleElementType
     @Deprecated
     abstract public RRuleElement<?> getElement(RecurrenceRuleValue rrule);
     
-    abstract public void parse(RecurrenceRuleValue recurrenceRule, String content);
+    abstract public VChild parse(RecurrenceRuleValue recurrenceRule, String content);
     
     /** copies the associated element from the source RecurrenceRule to the destination RecurrenceRule */
 //    abstract public void copyElement(RecurrenceRule2 source, RecurrenceRule2 destination);

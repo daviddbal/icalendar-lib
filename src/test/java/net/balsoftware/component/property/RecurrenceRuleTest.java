@@ -204,7 +204,9 @@ public class RecurrenceRuleTest
             .withInterval(2));
         Temporal until2 = ZonedDateTime.of(LocalDateTime.of(2015, 11, 18, 23, 30), ZoneId.systemDefault()).withZoneSameInstant(ZoneId.of("Z"));
         property1.getValue().setUntil(until2); // use Temporal setter to test ability to remove reset property
+        assertEquals(3, property1.getValue().childrenUnmodifiable().size());
         property1.getValue().setUntil((Until) null);
+        assertEquals(2, property1.getValue().childrenUnmodifiable().size());
         RecurrenceRule expectedProperty = RecurrenceRule.parse("FREQ=DAILY;INTERVAL=2");
         assertEquals(expectedProperty, property1);
     }

@@ -99,7 +99,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     private List<ByRule<?>> byRules = new ArrayList<>();
     public void setByRules(List<ByRule<?>> byRules)
     {
-    	
+    	byRules.forEach(b -> orderChild(b));
     	this.byRules = byRules;
 	}
     public void setByRules(String...byRules)
@@ -128,7 +128,6 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     /** Return ByRule associated with class type */
     public ByRule<?> lookupByRule(Class<? extends ByRule<?>> byRuleClass)
     {
-//    	if (getByRules() == null) return null;
         Optional<ByRule<?>> rule = getByRules()
                 .stream()
                 .filter(r -> byRuleClass.isInstance(r))
@@ -148,7 +147,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public Count getCount() { return count; }
     public void setCount(Count count)
     {
-    	orderChild(count);
+    	orderer.orderChild(this.count, count);
     	this.count = count;
 	}
     public void setCount(int count) { setCount(new Count(count)); }
@@ -186,7 +185,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public Frequency getFrequency() { return frequency; }
     public void setFrequency(Frequency frequency)
     {
-    	orderChild(frequency);
+    	orderer.orderChild(this.frequency, frequency);
     	this.frequency = frequency;
 	}
     public void setFrequency(String frequency) { setFrequency(Frequency.parse(frequency)); }
@@ -223,7 +222,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public Interval getInterval() { return interval; }
     public void setInterval(Interval interval)
     {
-    	orderChild(interval);
+    	orderer.orderChild(this.interval, interval);
     	this.interval = interval;
 	}
     public void setInterval(Integer interval) { setInterval(new Interval(interval)); }
@@ -255,7 +254,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public Until getUntil() { return until; }
     public void setUntil(Until until)
     {
-    	orderChild(until);
+    	orderer.orderChild(this.until, until);
     	this.until = until;
 	}
     public void setUntil(Temporal until) { setUntil(new Until(until)); }
@@ -280,7 +279,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public WeekStart getWeekStart() { return weekStart; }
     public void setWeekStart(WeekStart weekStart)
     {
-    	orderChild(weekStart);
+    	orderer.orderChild(this.weekStart, weekStart);
     	this.weekStart = weekStart;
 	}
     public void setWeekStart(DayOfWeek weekStart) { setWeekStart(new WeekStart(weekStart)); }

@@ -144,10 +144,4 @@ public class OrdererBase implements Orderer
 	{
 		orderedChildren.add(index, newChild);
 	}
-	
-//	@Override
-//	public void orderChild(int index, VChild oldChild, VChild newChild)
-//	{
-//		orderedChildren.add(index, newChild);
-//	}
 }

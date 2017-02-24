@@ -30,14 +30,12 @@ public abstract class VParentBase implements VParent
 	@Override
 	public void orderChild(VChild addedChild)
 	{
-//		System.out.println("add:" + addedChild.getClass());
 		orderer.orderChild(addedChild);
 	}
 
 	@Override
 	public void orderChild(int index, VChild addedChild)
 	{
-//		System.out.println("add:" + addedChild.getClass() + " at " + index);
 		orderer.orderChild(index, addedChild);
 	}
     

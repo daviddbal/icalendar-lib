@@ -2,18 +2,20 @@ package net.balsoftware.content;
 
 import java.util.stream.Collectors;
 
+import net.balsoftware.utilities.Callback;
+
 public class SingleLineContent extends ContentLineBase
 {
     final private int builderSize;
-    final private String name;
+    final private Callback<Void,String> nameCallback;
     
     public SingleLineContent(
             Orderer orderer,
-            String name,
+            Callback<Void,String> nameCallback,
             int builderSize)
     {
         super(orderer);
-        this.name = name;
+        this.nameCallback = nameCallback;
         this.builderSize = builderSize;
     }
     
@@ -21,7 +23,7 @@ public class SingleLineContent extends ContentLineBase
     public String execute()
     {
         StringBuilder builder = new StringBuilder(builderSize);
-        builder.append(name);
+        builder.append(nameCallback.call(null));
         String elements = orderer.childrenUnmodifiable().stream()
                 .map(c -> c.toString())
                 .collect(Collectors.joining(";"));

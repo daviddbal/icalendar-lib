@@ -849,11 +849,11 @@ public enum ParameterType
         final ParameterType prop;
         // minimum property name is 2 characters
         boolean isLongEnough = parameterName.length() > 2;
-//        boolean isNonStanderd = (isLongEnough) ? parameterName.substring(0, ParameterType.NON_STANDARD.toString().length()).equals(ParameterType.NON_STANDARD.toString()) : false;
-//        if (isNonStanderd)
-//        {
-//            prop = ParameterType.NON_STANDARD;
-//        } else
+        boolean isNonStanderd = (isLongEnough) ? parameterName.substring(0, ParameterType.NON_STANDARD.toString().length()).equals(ParameterType.NON_STANDARD.toString()) : false;
+        if (isNonStanderd)
+        {
+            prop = ParameterType.NON_STANDARD;
+        } else
         {
             prop = enumFromNameMap.get(parameterName);   
         }

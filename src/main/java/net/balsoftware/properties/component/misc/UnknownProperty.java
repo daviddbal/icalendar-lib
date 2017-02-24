@@ -37,10 +37,6 @@ import net.balsoftware.properties.component.relationship.PropertyBaseAttendee;
 public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> implements PropAttendee<T>, PropAltText<T>,
     PropAttachment<T>, PropFreeBusy<T>, PropRecurrenceID<T>, PropDateTime<T>, PropAlarmTrigger<T>, PropRelationship<T>
 {
-//    private String propertyName;
-    // TODO - MOVE PROPERTY NAME HERE
-    // Override getter and add setter.  Other properties have constant property name.
-    
     /**
      * ALTREP : Alternate Text Representation
      * To specify an alternate text representation for the property value.
@@ -78,7 +74,11 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     public AlternateText getAlternateText() { return alternateText; }
     private AlternateText alternateText;
     @Override
-    public void setAlternateText(AlternateText alternateText) { this.alternateText = alternateText; }
+    public void setAlternateText(AlternateText alternateText)
+    {
+    	orderer.orderChild(this.alternateText, alternateText);
+    	this.alternateText = alternateText;
+	}
     public void setAlternateText(String value) { setAlternateText(AlternateText.parse(value)); }
     public U withAlternateText(AlternateText altrep) { setAlternateText(altrep); return (U) this; }
     public U withAlternateText(URI value) { setAlternateText(new AlternateText(value)); return (U) this; }
@@ -99,7 +99,11 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     public Encoding getEncoding() { return encoding; }
     private Encoding encoding;
     @Override
-    public void setEncoding(Encoding encoding) { this.encoding = encoding; }
+    public void setEncoding(Encoding encoding)
+    {
+    	orderer.orderChild(this.encoding, encoding);
+    	this.encoding = encoding;
+	}
     public U withEncoding(Encoding encoding) { setEncoding(encoding); return (U) this; }
     public U withEncoding(EncodingType encoding) { setEncoding(new Encoding(encoding)); return (U) this; }
 
@@ -115,7 +119,11 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     public FreeBusyType getFreeBusyType() { return freeBusyType; }
     private FreeBusyType freeBusyType;
     @Override
-    public void setFreeBusyType(FreeBusyType freeBusyType) { this.freeBusyType = freeBusyType; }
+    public void setFreeBusyType(FreeBusyType freeBusyType)
+    {
+    	orderer.orderChild(this.freeBusyType, freeBusyType);
+    	this.freeBusyType = freeBusyType;
+	}
     public void setFreeBusyType(FreeBusyTypeEnum type) { setFreeBusyType(new FreeBusyType(type)); }
     public U withFreeBusyType(FreeBusyType freeBusyType) { setFreeBusyType(freeBusyType); return (U)this; }
     public U withFreeBusyType(FreeBusyTypeEnum type) { setFreeBusyType(type); return (U) this; }
@@ -130,8 +138,12 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     public FormatType getFormatType() { return formatType; }
     private FormatType formatType;
     @Override
-    public void setFormatType(FormatType formatType) { this.formatType = formatType; }
-    public void setFormatType(String formatType) { FormatType.parse(formatType); }
+    public void setFormatType(FormatType formatType)
+    {
+    	orderer.orderChild(this.formatType, formatType);
+    	this.formatType = formatType;
+	}
+    public void setFormatType(String formatType) { setFormatType(FormatType.parse(formatType)); }
     public U withFormatType(FormatType format) { setFormatType(format); return (U) this; }
     public U withFormatType(String format) { setFormatType(format); return (U) this; }
 
@@ -154,7 +166,11 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     public Range getRange() { return range; }
     private Range range;
     @Override
-    public void setRange(Range range) { this.range = range; }
+    public void setRange(Range range)
+    {
+    	orderer.orderChild(this.range, range);
+    	this.range = range;
+	}
     public void setRange(String value) { setRange(new Range(value)); }
     public U withRange(Range altrep) { setRange(altrep); return (U) this; }
     public U withRange(RangeType value) { setRange(new Range(value)); return (U) this; }
@@ -170,7 +186,11 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     public AlarmTriggerRelationship getAlarmTrigger() { return alarmTrigger; }
     private AlarmTriggerRelationship alarmTrigger;
     @Override
-    public void setAlarmTrigger(AlarmTriggerRelationship AlarmTrigger) { this.alarmTrigger = alarmTrigger; }
+    public void setAlarmTrigger(AlarmTriggerRelationship alarmTrigger)
+    {
+    	orderer.orderChild(this.alarmTrigger, alarmTrigger);
+    	this.alarmTrigger = alarmTrigger;
+	}
     public void setAlarmTrigger(String AlarmTrigger) { setAlarmTrigger(AlarmTriggerRelationship.parse(AlarmTrigger));; }
     public void setAlarmTrigger(AlarmTriggerRelationshipType type) { setAlarmTrigger(new AlarmTriggerRelationship(type)); } 
     public U withAlarmTrigger(AlarmTriggerRelationship format) { setAlarmTrigger(format); return (U) this; }
@@ -193,7 +213,11 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     public Relationship getRelationship() { return relationship; }
     private Relationship relationship;
     @Override
-    public void setRelationship(Relationship relationship) { this.relationship = relationship; }
+    public void setRelationship(Relationship relationship)
+    {
+    	orderer.orderChild(this.relationship, relationship);
+    	this.relationship = relationship;
+	}
     public void setRelationship(String value) { setRelationship(Relationship.parse(value)); }
     public U withRelationship(Relationship altrep) { setRelationship(altrep); return (U) this; }
     public U withRelationship(RelationshipType value) { setRelationship(new Relationship(value)); return (U) this; }
@@ -212,7 +236,11 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     public TimeZoneIdentifierParameter getTimeZoneIdentifier() { return timeZoneIdentifier; }
     private TimeZoneIdentifierParameter timeZoneIdentifier;
     @Override
-    public void setTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier) { this.timeZoneIdentifier = timeZoneIdentifier; }
+    public void setTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier)
+    {
+    	orderer.orderChild(this.timeZoneIdentifier, timeZoneIdentifier);
+    	this.timeZoneIdentifier = timeZoneIdentifier;
+	}
     public void setTimeZoneIdentifier(String value) { setTimeZoneIdentifier(TimeZoneIdentifierParameter.parse(value)); }
     public U withTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier) { setTimeZoneIdentifier(timeZoneIdentifier); return (U) this; }
     public U withTimeZoneIdentifier(String content) { ParameterType.TIME_ZONE_IDENTIFIER.parse(this, content); return (U) this; }        

@@ -189,20 +189,14 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
      * VALUE=DATE
      */
     @Override
-    public ValueParameter getValueType()
-    {
-    	if (valueType == null)
-    	{
-//    		return propertyType().defaultValueType(); // TODO 
-    	}
-    	return valueType;
-	}
+    public ValueParameter getValueType() { return valueType; }
     private ValueParameter valueType;
     @Override
     public void setValueType(ValueParameter valueType)
     {
         if (valueType == null || isValueTypeValid(valueType.getValue()))
         {
+        	orderer.orderChild(this.valueType, valueType);
             this.valueType = valueType;
             valueParamenterConverter(valueType); // convert new value
         } else
@@ -372,7 +366,7 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
         orderer = new OrdererBase(this, propertyType.childGetters());
         contentLineGenerator  = new SingleLineContent(
                 orderer,
-                name(),
+                (Void) -> name(),
                 50);
     }
 
@@ -433,7 +427,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
             String propertyName = (endNameIndex > 0) ? unfoldedContent.subSequence(0, endNameIndex).toString().toUpperCase() : null;
             boolean isMatch = propertyName.equals(propertyType.toString());
             boolean isNonStandardProperty = propertyName.substring(0, PropertyType.NON_STANDARD.toString().length()).equals(PropertyType.NON_STANDARD.toString());
-//            boolean isIANAProperty = propertyType.equals(PropertyType.IANA_PROPERTY);
             if (isMatch || isNonStandardProperty)
             {
                 if (isNonStandardProperty)

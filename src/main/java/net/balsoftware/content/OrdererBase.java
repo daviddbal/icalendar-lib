@@ -106,6 +106,12 @@ public class OrdererBase implements Orderer
     }
 
 	@Override
+	public void orderChild(VChild newChild)
+	{
+		orderChild(null, newChild);
+	}
+
+	@Override
 	public void orderChild(VChild oldChild, VChild newChild)
 	{
 //		System.out.println("adding:" + newChild);
@@ -134,8 +140,14 @@ public class OrdererBase implements Orderer
 	}
 
 	@Override
-	public void orderChild(int index, VChild oldChild, VChild newChild)
+	public void orderChild(int index, VChild newChild)
 	{
 		orderedChildren.add(index, newChild);
 	}
+	
+//	@Override
+//	public void orderChild(int index, VChild oldChild, VChild newChild)
+//	{
+//		orderedChildren.add(index, newChild);
+//	}
 }

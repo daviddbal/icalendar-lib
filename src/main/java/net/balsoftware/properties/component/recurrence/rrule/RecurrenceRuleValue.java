@@ -97,11 +97,26 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
      *  */
     public List<ByRule<?>> getByRules() { return byRules; }
     private List<ByRule<?>> byRules = new ArrayList<>();
-    public void setByRules(List<ByRule<?>> byRules) { this.byRules = byRules; }
-    public void setByRules(String...byRules) { Arrays.stream(byRules).forEach(c -> parseContent(c)); }
+    public void setByRules(List<ByRule<?>> byRules)
+    {
+    	
+    	this.byRules = byRules;
+	}
+    public void setByRules(String...byRules)
+    {
+    	Arrays.stream(byRules).forEach(c -> parseContent(c));
+	}
     public RecurrenceRuleValue withByRules(ByRule<?>...byRules)
     {
     	setByRules(new ArrayList<>(Arrays.asList(byRules)));
+    	getByRules().forEach(b -> orderChild(b));
+    	return this;
+    }
+    public RecurrenceRuleValue withByRule(ByRule<?> byRule)
+    {
+    	List<ByRule<?>> list = (getByRules() == null) ? new ArrayList<>() : getByRules();
+    	list.add(byRule);
+    	orderChild(byRule);
     	return this;
     }
     public RecurrenceRuleValue withByRules(String...byRules)
@@ -131,7 +146,11 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
      */
     private Count count;
     public Count getCount() { return count; }
-    public void setCount(Count count) { this.count = count; }
+    public void setCount(Count count)
+    {
+    	orderChild(count);
+    	this.count = count;
+	}
     public void setCount(int count) { setCount(new Count(count)); }
     public RecurrenceRuleValue withCount(Count count)
     {
@@ -165,7 +184,11 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
      */
     private Frequency frequency;
     public Frequency getFrequency() { return frequency; }
-    public void setFrequency(Frequency frequency) { this.frequency = frequency; }
+    public void setFrequency(Frequency frequency)
+    {
+    	orderChild(frequency);
+    	this.frequency = frequency;
+	}
     public void setFrequency(String frequency) { setFrequency(Frequency.parse(frequency)); }
     public void setFrequency(FrequencyType frequency) { setFrequency(new Frequency(frequency)); }
     public RecurrenceRuleValue withFrequency(Frequency frequency)
@@ -198,7 +221,11 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
      */
     private Interval interval;
     public Interval getInterval() { return interval; }
-    public void setInterval(Interval interval) { this.interval = interval; }
+    public void setInterval(Interval interval)
+    {
+    	orderChild(interval);
+    	this.interval = interval;
+	}
     public void setInterval(Integer interval) { setInterval(new Interval(interval)); }
     public RecurrenceRuleValue withInterval(int interval) { setInterval(interval); return this; }
     public RecurrenceRuleValue withInterval(Interval interval) { setInterval(interval); return this; }
@@ -226,7 +253,11 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
      */
     private Until until;
     public Until getUntil() { return until; }
-    public void setUntil(Until until) { this.until = until; }
+    public void setUntil(Until until)
+    {
+    	orderChild(until);
+    	this.until = until;
+	}
     public void setUntil(Temporal until) { setUntil(new Until(until)); }
     public void setUntil(String until) { setUntil(DateTimeUtilities.temporalFromString(until)); }
     public RecurrenceRuleValue withUntil(Temporal until) {  setUntil(until); return this; }
@@ -247,26 +278,14 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
      */
     private WeekStart weekStart;
     public WeekStart getWeekStart() { return weekStart; }
-    public void setWeekStart(WeekStart weekStart) { this.weekStart = weekStart; }
+    public void setWeekStart(WeekStart weekStart)
+    {
+    	orderChild(weekStart);
+    	this.weekStart = weekStart;
+	}
     public void setWeekStart(DayOfWeek weekStart) { setWeekStart(new WeekStart(weekStart)); }
     public RecurrenceRuleValue withWeekStart(WeekStart weekStart) { setWeekStart(weekStart); return this; }
     public RecurrenceRuleValue withWeekStart(DayOfWeek weekStart) { setWeekStart(weekStart); return this; }
-    
-//   // bind to values in the Byxxx rules that use Week Start
-//    private void addWeekStartBindings(ByRule<?> rule)
-//    {
-//        if (getWeekStart() != null)
-//        {
-//            if (rule instanceof ByDay)
-//            {
-//                ((ByDay) rule).weekStartProperty().bind(getWeekStart().valueProperty());
-//            } else if (rule instanceof ByWeekNumber)
-//            {
-//                ((ByWeekNumber) rule).weekStartProperty().bind(getWeekStart().valueProperty());
-//            }
-//        }
-//    }
-    
     
     @Override
     public void copyInto(VParent destination)
@@ -282,23 +301,6 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
         });
     }
     
-//    /** 
-//     * SORT ORDER
-//     * 
-//     * Element sort order map.  Key is element, value is the sort order.  The map is automatically
-//     * populated when parsing the content lines to preserve the existing property order.
-//     * 
-//     * When producing the content lines, if a element is not present in the map, it is put at
-//     * the end of the sorted ones in the order appearing in {@link #RecurrenceRuleElement} 
-//     * Generally, this map shouldn't be modified.  Only modify it when you want
-//     * to force a specific property order (e.g. unit testing).
-//     */
-//    @Deprecated
-//    public Map<RRuleElementType, Integer> elementSortOrder() { return elementSortOrder; }
-//    @Deprecated
-//    final private Map<RRuleElementType, Integer> elementSortOrder = new HashMap<>();
-//    private Integer elementCounter = 0;
-    
     /*
      * CONSTRUCTORS
      */
@@ -306,40 +308,6 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public RecurrenceRuleValue()
     {
     	orderer = new OrdererBase(this, getters);
-
-//        orderer.registerSortOrderProperty(frequencyProperty());
-//        byRules = FXCollections.observableArrayList();
-//        orderer().registerSortOrderProperty(byRules);
-//        
-//        // Listener that ensures user doesn't add same ByRule a second time.  Also keeps the byRules list sorted.
-//        byRules().addListener((ListChangeListener<? super ByRule<?>>) (change) ->
-//        {
-//            while (change.next())
-//            {
-//                if (change.wasAdded())
-//                {
-//                    change.getAddedSubList().stream().forEach(c ->
-//                    {
-//                        ByRule<?> newByRule = c;
-//                        long alreadyPresent = change.getList()
-//                                .stream()
-//                                .map(r -> r.elementType())
-//                                .filter(p -> p.equals(c.elementType()))
-//                                .count();
-//                        if (alreadyPresent > 1)
-//                        {
-//                            throw new IllegalArgumentException("Can't add " + newByRule.getClass().getSimpleName() + " (" + c.elementType() + ") more than once.");
-//                        }
-//                        addWeekStartBindings(newByRule);
-//                    });
-//                    
-//                    // Sort after addition
-////                    orderer().unregisterSortOrderProperty(byRules());
-//                    Collections.sort(change.getList());
-////                    orderer().registerSortOrderProperty(byRules());
-//                }
-//            }
-//        });
     }
 
     // Copy constructor
@@ -362,6 +330,8 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
                     if (element != null)
                     {
                         element.parse(this, entry.getValue());
+                        // TODO - NEED TO GET NEW CHILD FROM PARSE
+//                		orderChild(newChild);
                     } else
                     {
                         throw new IllegalArgumentException("Unsupported Recurrence Rule element: " + entry.getKey());                        

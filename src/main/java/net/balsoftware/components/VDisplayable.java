@@ -288,9 +288,6 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
     public void setRecurrenceDates(List<RecurrenceDates> recurrenceDates)
     {
-//    	List<String> errors = PropertyType.RECURRENCE_DATE_TIMES.errors(this);
-//        if (! errors.isEmpty()) throw new DateTimeException(errors.toString());
-//    	System.out.println("errors:" + errors);
     	this.recurrenceDates = recurrenceDates;
 	}
 

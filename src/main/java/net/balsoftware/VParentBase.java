@@ -31,14 +31,14 @@ public abstract class VParentBase implements VParent
 	public void orderChild(VChild addedChild)
 	{
 //		System.out.println("add:" + addedChild.getClass());
-		orderer.orderChild(null, addedChild);
+		orderer.orderChild(addedChild);
 	}
 
 	@Override
 	public void orderChild(int index, VChild addedChild)
 	{
 //		System.out.println("add:" + addedChild.getClass() + " at " + index);
-		orderer.orderChild(index, null, addedChild);
+		orderer.orderChild(index, addedChild);
 	}
     
     /* Strategy to build iCalendar content lines */

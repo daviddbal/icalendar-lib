@@ -75,11 +75,13 @@ public class RecurrenceRuleTest
         RecurrenceRule madeProperty = RecurrenceRule.parse(content);
         RecurrenceRule expectedProperty = new RecurrenceRule(
                 new RecurrenceRuleValue()
-                    .withByRules(new ByDay(new ByDay.ByDayPair(DayOfWeek.SUNDAY, -1)))
+                //	 TODO - DO I WANT WITHBYRULES TO MAKE NEW LIST OR ADD TO EXISTING LIST?
+                    .withByRule(new ByDay(new ByDay.ByDayPair(DayOfWeek.SUNDAY, -1)))
                     .withUntil("19730429T070000Z")
-                    .withByRules(new ByMonth(Month.APRIL))
+                    .withByRule(new ByMonth(Month.APRIL))
                     .withFrequency(FrequencyType.YEARLY));
         System.out.println(madeProperty);
+        System.out.println(expectedProperty);
         assertEquals(content, madeProperty.toString());
         assertEquals(expectedProperty, madeProperty);
     }

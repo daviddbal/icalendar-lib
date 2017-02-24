@@ -22,11 +22,6 @@ import net.balsoftware.properties.PropertyBase;
  */
 public class TimeZoneURL extends PropertyBase<URI,TimeZoneURL>
 {
-//    public TimeZoneURL(CharSequence contentLine)
-//    {
-//        super(contentLine);
-//    }
-    
     public TimeZoneURL(TimeZoneURL source)
     {
         super(source);

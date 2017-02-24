@@ -1,11 +1,9 @@
 package net.balsoftware.properties.component.descriptive;
 
+import net.balsoftware.components.VAlarm;
 import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VJournal;
 import net.balsoftware.components.VTodo;
-//import net.balsoftware.components.VAlarm;
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VJournal;
-//import net.balsoftware.components.VTodo;
 import net.balsoftware.parameters.AlternateText;
 import net.balsoftware.parameters.Language;
 import net.balsoftware.parameters.NonStandardParameter;

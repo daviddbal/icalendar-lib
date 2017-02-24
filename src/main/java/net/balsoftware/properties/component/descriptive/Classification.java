@@ -1,8 +1,8 @@
 package net.balsoftware.properties.component.descriptive;
 
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VJournal;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropertyBase;
 import net.balsoftware.properties.component.descriptive.Classification.ClassificationType;
 import net.balsoftware.utilities.StringConverter;
@@ -26,7 +26,7 @@ import net.balsoftware.utilities.StringConverter;
  */
 public class Classification extends PropertyBase<ClassificationType, Classification>
 {
-    // TODO - ADD X-VALUE, registered IANA values
+    // TODO - ADD X-VALUE
     private final static StringConverter<ClassificationType> CONVERTER = new StringConverter<ClassificationType>()
     {
         @Override

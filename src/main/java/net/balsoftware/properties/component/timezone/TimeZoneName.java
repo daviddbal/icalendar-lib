@@ -20,11 +20,6 @@ import net.balsoftware.properties.PropBaseLanguage;
  */
 public class TimeZoneName extends PropBaseLanguage<String, TimeZoneName>
 {
-//    public TimeZoneName(CharSequence contentLine)
-//    {
-//        super(contentLine);
-//    }
-    
     public TimeZoneName(TimeZoneName source)
     {
         super(source);

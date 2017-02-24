@@ -2,7 +2,10 @@ package net.balsoftware.properties.component.misc;
 
 import java.text.DecimalFormat;
 
-import javafx.beans.value.ChangeListener;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VFreeBusy;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropBaseLanguage;
 
 /**
@@ -120,9 +123,7 @@ public class RequestStatus extends PropBaseLanguage<String, RequestStatus>
 //        statusCodeProperty().addListener(doubleChangeListener);
 //        valueProperty().addListener(valueChangeListener);        
     }
-    
-    private final ChangeListener<? super String> valueChangeListener = (observable, oldValue, newValue) -> updateParts(newValue);
-    
+        
     private void updateParts(String newValue)
     {
 //        descriptionProperty().removeListener(stringChangeListener);

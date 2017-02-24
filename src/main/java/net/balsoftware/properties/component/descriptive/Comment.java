@@ -1,11 +1,11 @@
 package net.balsoftware.properties.component.descriptive;
 
-//import net.balsoftware.components.DaylightSavingTime;
-//import net.balsoftware.components.StandardTime;
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VFreeBusy;
-//import net.balsoftware.components.VJournal;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.DaylightSavingTime;
+import net.balsoftware.components.StandardTime;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VFreeBusy;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropBaseAltText;
 
 /**

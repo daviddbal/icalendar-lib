@@ -49,12 +49,6 @@ public class TimeZoneIdentifier extends PropertyBase<ZoneId, TimeZoneIdentifier>
             }           
         }
     };
-
-//    public TimeZoneIdentifier(CharSequence contentLine)
-//    {
-//        this();
-//        parseContent(contentLine);
-//    }
     
     public TimeZoneIdentifier(TimeZoneIdentifier source)
     {

@@ -30,9 +30,6 @@ import net.balsoftware.utilities.StringConverter;
  */
 public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Temporal>, U>
 {
-//    private ZoneId zone;
-//    private DateTimeType myType;
-    
     private final StringConverter<Set<Temporal>> CONVERTER = new StringConverter<Set<Temporal>>()
     {
         @Override
@@ -115,8 +112,6 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
     public List<String> errors()
     {
     	List<String> errors = super.errors();
-//    	List<String> errors = new ArrayList<>();
-//    	List<RecurrenceDates> recurrenceDates = component.getRecurrenceDates();
     	Set<Temporal> recurrenceDates = getValue();
     	
     	// error check - all Temporal types must be same

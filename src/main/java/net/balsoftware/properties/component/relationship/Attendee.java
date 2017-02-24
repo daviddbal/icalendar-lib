@@ -2,11 +2,11 @@ package net.balsoftware.properties.component.relationship;
 
 import java.net.URI;
 
-//import net.balsoftware.components.VAlarm;
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VFreeBusy;
-//import net.balsoftware.components.VJournal;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.VAlarm;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VFreeBusy;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.parameters.CalendarUser;
 import net.balsoftware.parameters.CommonName;
 import net.balsoftware.parameters.Delegatees;

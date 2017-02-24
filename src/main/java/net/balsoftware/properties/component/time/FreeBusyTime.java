@@ -97,7 +97,11 @@ public class FreeBusyTime extends PropertyBase<List<Pair<ZonedDateTime, Temporal
     public FreeBusyType getFreeBusyType() { return freeBusyType; }
     private FreeBusyType freeBusyType;
     @Override
-    public void setFreeBusyType(FreeBusyType freeBusyType) { this.freeBusyType = freeBusyType; }
+    public void setFreeBusyType(FreeBusyType freeBusyType)
+    {
+    	orderer.orderChild(this.freeBusyType, freeBusyType);
+    	this.freeBusyType = freeBusyType;
+	}
     public void setFreeBusyType(FreeBusyTypeEnum type) { setFreeBusyType(new FreeBusyType(type)); }
     public FreeBusyTime withFreeBusyType(FreeBusyType freeBusyType) { setFreeBusyType(freeBusyType); return this; }
     public FreeBusyTime withFreeBusyType(FreeBusyTypeEnum type) { setFreeBusyType(type); return this; }

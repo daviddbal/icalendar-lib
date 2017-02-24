@@ -4,8 +4,7 @@ import org.junit.experimental.categories.Categories;
 
 import net.balsoftware.parameters.Language;
 import net.balsoftware.parameters.ParameterType;
-//import net.balsoftware.properties.component.descriptive.Categories;
-//import net.balsoftware.properties.component.timezone.TimeZoneName;
+import net.balsoftware.properties.component.timezone.TimeZoneName;
 
 /**
  * Property with language and a text-based value

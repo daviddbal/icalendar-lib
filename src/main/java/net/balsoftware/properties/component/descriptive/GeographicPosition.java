@@ -2,8 +2,8 @@ package net.balsoftware.properties.component.descriptive;
 
 import java.text.DecimalFormat;
 
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropertyBase;
 
 /**

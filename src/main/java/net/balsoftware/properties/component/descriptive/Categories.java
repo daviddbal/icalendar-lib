@@ -5,11 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VJournal;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.parameters.Language;
 import net.balsoftware.parameters.NonStandardParameter;
 import net.balsoftware.properties.PropBaseLanguage;
@@ -101,7 +99,7 @@ public class Categories extends PropBaseLanguage<List<String>, Categories>
     public Categories(String...values)
     {
         this();
-        setValue(FXCollections.observableArrayList(values));
+        setValue(new ArrayList<>(Arrays.asList(values)));
     }
     
     public Categories(Categories source)
@@ -123,8 +121,9 @@ public class Categories extends PropBaseLanguage<List<String>, Categories>
     }
     
     @Override
-    protected ObservableList<String> copyValue(List<String> source)
+    @Deprecated // is this necessary?
+    protected List<String> copyValue(List<String> source)
     {
-        return FXCollections.observableArrayList(source);
+        return new ArrayList<>(source);
     }
 }

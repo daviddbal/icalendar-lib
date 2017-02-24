@@ -41,14 +41,6 @@ public class TimeTransparency extends PropertyBase<TimeTransparencyType, TimeTra
             return TimeTransparencyType.enumFromName(string);
         }
     };
-
-//    public TimeTransparency(CharSequence contentLine)
-//    {
-//        super();
-//        setConverter(CONVERTER);
-//        parseContent(contentLine);
-//        
-//    }
     
     public TimeTransparency(TimeTransparencyType value)
     {

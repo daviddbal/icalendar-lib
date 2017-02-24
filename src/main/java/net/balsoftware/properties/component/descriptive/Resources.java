@@ -5,9 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropBaseAltText;
 import net.balsoftware.properties.ValueType;
 import net.balsoftware.utilities.StringConverter;
@@ -74,12 +73,6 @@ public class Resources extends PropBaseAltText<List<String>, Resources>
     {
         super();
         setConverter(CONVERTER);
-    }
-    
-    // set one category
-    public void setValue(String category)
-    {
-        setValue(FXCollections.observableArrayList(category));
     }
 
     public static Resources parse(String propertyContent)

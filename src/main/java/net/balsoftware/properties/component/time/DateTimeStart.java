@@ -30,11 +30,6 @@ public class DateTimeStart extends PropBaseDateTime<Temporal, DateTimeStart>
     {
         super(temporal);
     }
-
-//    public DateTimeStart(Class<T> clazz, CharSequence contentLine)
-//    {
-//        super(clazz, contentLine);
-//    }
     
     public DateTimeStart(DateTimeStart source)
     {

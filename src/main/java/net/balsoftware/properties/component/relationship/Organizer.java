@@ -3,10 +3,10 @@ package net.balsoftware.properties.component.relationship;
 import java.net.URI;
 
 import net.balsoftware.VElement;
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VFreeBusy;
-//import net.balsoftware.components.VJournal;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VFreeBusy;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTodo;
 
 /**
  * ORGANIZER

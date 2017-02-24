@@ -2,9 +2,9 @@ package net.balsoftware.properties.component.relationship;
 
 import java.time.temporal.Temporal;
 
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VJournal;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.parameters.Range;
 import net.balsoftware.parameters.Range.RangeType;
 import net.balsoftware.properties.PropBaseDateTime;
@@ -58,7 +58,11 @@ public class RecurrenceId extends PropBaseDateTime<Temporal, RecurrenceId> imple
     public Range getRange() { return range; }
     private Range range;
     @Override
-    public void setRange(Range range) { this.range = range; }
+    public void setRange(Range range)
+    {
+    	orderer.orderChild(this.range, range);
+    	this.range = range;
+	}
     public void setRange(String value) { setRange(new Range(value)); }
     public RecurrenceId withRange(Range altrep) { setRange(altrep); return this; }
     public RecurrenceId withRange(RangeType value) { setRange(new Range(value)); return this; }

@@ -1,7 +1,7 @@
 package net.balsoftware.properties.component.descriptive;
 
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropBaseAltText;
 
 /**

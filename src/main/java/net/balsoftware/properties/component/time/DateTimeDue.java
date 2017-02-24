@@ -29,11 +29,6 @@ public class DateTimeDue extends PropBaseDateTime<Temporal, DateTimeDue>
     {
         super(temporal);
     }
-
-//    public DateTimeDue(Class<T> clazz, CharSequence contentLine)
-//    {
-//        super(clazz, contentLine);
-//    }
     
     public DateTimeDue(DateTimeDue source)
     {

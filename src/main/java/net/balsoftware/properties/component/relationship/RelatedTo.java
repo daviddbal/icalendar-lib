@@ -1,8 +1,8 @@
 package net.balsoftware.properties.component.relationship;
 
-//import net.balsoftware.components.VEvent;
-//import net.balsoftware.components.VJournal;
-//import net.balsoftware.components.VTodo;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTodo;
 import net.balsoftware.parameters.Relationship;
 import net.balsoftware.parameters.Relationship.RelationshipType;
 import net.balsoftware.properties.PropRelationship;
@@ -41,7 +41,11 @@ public class RelatedTo extends PropertyBase<String, RelatedTo> implements PropRe
     public Relationship getRelationship() { return relationship; }
     private Relationship relationship;
     @Override
-    public void setRelationship(Relationship relationship) { this.relationship = relationship; }
+    public void setRelationship(Relationship relationship)
+    {
+    	orderer.orderChild(this.relationship, relationship);
+    	this.relationship = relationship;
+	}
     public void setRelationship(String value) { setRelationship(Relationship.parse(value)); }
     public RelatedTo withRelationship(Relationship altrep) { setRelationship(altrep); return this; }
     public RelatedTo withRelationship(RelationshipType value) { setRelationship(new Relationship(value)); return this; }

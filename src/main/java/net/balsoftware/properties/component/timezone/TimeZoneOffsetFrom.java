@@ -21,11 +21,6 @@ import net.balsoftware.components.StandardTime;
  */
 public class TimeZoneOffsetFrom extends PropertyBaseZoneOffset<TimeZoneOffsetFrom>
 {    
-//    public TimeZoneOffsetFrom(CharSequence contentLine)
-//    {
-//        super(contentLine);
-//    }
-    
     public TimeZoneOffsetFrom(TimeZoneOffsetFrom source)
     {
         super(source);

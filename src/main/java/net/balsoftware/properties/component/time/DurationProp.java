@@ -33,11 +33,6 @@ import net.balsoftware.properties.PropBaseLanguage;
  */
 public class DurationProp extends PropBaseLanguage<TemporalAmount, DurationProp>
 {
-//    public DurationProp(CharSequence contentLine)
-//    {
-//        super(contentLine);
-//    }
-
     public DurationProp(TemporalAmount value)
     {
         super(value);

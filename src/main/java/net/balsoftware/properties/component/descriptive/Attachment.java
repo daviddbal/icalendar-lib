@@ -3,6 +3,10 @@ package net.balsoftware.properties.component.descriptive;
 import java.net.URI;
 import java.util.List;
 
+import net.balsoftware.components.VAlarm;
+import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTodo;
 //import net.balsoftware.components.VAlarm;
 //import net.balsoftware.components.VEvent;
 //import net.balsoftware.components.VJournal;
@@ -100,6 +104,7 @@ public class Attachment<T> extends PropertyBase<T, Attachment<T>> implements Pro
    @Override
    public void setFormatType(FormatType formatType)
    {
+       orderer.orderChild(this.formatType, formatType);
 	   this.formatType = formatType;
    }
    public Attachment<T> withFormatType(FormatType format) { setFormatType(format); return this; }
@@ -126,6 +131,7 @@ public class Attachment<T> extends PropertyBase<T, Attachment<T>> implements Pro
        {
            throw new IllegalArgumentException("Attachment property only allows ENCODING to be set to" + EncodingType.BASE64);
        }
+       orderer.orderChild(this.encoding, encoding);
        this.encoding = encoding;
    }
    public Attachment<T> withEncoding(Encoding encoding) { setEncoding(encoding); return this; }

@@ -3,7 +3,7 @@ package net.balsoftware.properties;
 import org.junit.experimental.categories.Categories;
 
 import net.balsoftware.parameters.Language;
-//import net.balsoftware.properties.component.timezone.TimeZoneName;
+import net.balsoftware.properties.component.timezone.TimeZoneName;
 
 /**
  * Property with language and a text-based value

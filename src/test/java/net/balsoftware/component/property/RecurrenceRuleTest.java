@@ -79,6 +79,7 @@ public class RecurrenceRuleTest
                     .withUntil("19730429T070000Z")
                     .withByRules(new ByMonth(Month.APRIL))
                     .withFrequency(FrequencyType.YEARLY));
+        System.out.println(madeProperty);
         assertEquals(content, madeProperty.toString());
         assertEquals(expectedProperty, madeProperty);
     }
@@ -167,6 +168,8 @@ public class RecurrenceRuleTest
                     .withFrequency(FrequencyType.YEARLY)
                     .withByRules(new ByDay()));
         assertEquals(1, expectedProperty.errors().size());
+        String expected = "BYDAY value is null.  The element MUST have a value.";
+        assertEquals(expected, expectedProperty.errors().get(0));
     }
     
     @Test

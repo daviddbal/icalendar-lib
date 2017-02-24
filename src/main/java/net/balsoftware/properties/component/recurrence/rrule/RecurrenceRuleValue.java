@@ -95,26 +95,26 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
      * 
      * Each BYxxx rule can only occur once
      *  */
-    public List<ByRule<?>> byRules() { return byRules; }
-    private List<ByRule<?>> byRules;
+    public List<ByRule<?>> getByRules() { return byRules; }
+    private List<ByRule<?>> byRules = new ArrayList<>();
+    public void setByRules(List<ByRule<?>> byRules) { this.byRules = byRules; }
+    public void setByRules(String...byRules) { Arrays.stream(byRules).forEach(c -> parseContent(c)); }
     public RecurrenceRuleValue withByRules(ByRule<?>...byRules)
     {
-        for (ByRule<?> myByRule : byRules)
-        {
-            byRules().add(myByRule);
-        }
-        return this;
+    	setByRules(new ArrayList<>(Arrays.asList(byRules)));
+    	return this;
     }
     public RecurrenceRuleValue withByRules(String...byRules)
     {
-        Arrays.stream(byRules).forEach(c -> parseContent(c));
+    	setByRules(byRules);
         return this;
     }
     
     /** Return ByRule associated with class type */
     public ByRule<?> lookupByRule(Class<? extends ByRule<?>> byRuleClass)
     {
-        Optional<ByRule<?>> rule = byRules()
+//    	if (getByRules() == null) return null;
+        Optional<ByRule<?>> rule = getByRules()
                 .stream()
                 .filter(r -> byRuleClass.isInstance(r))
                 .findFirst();
@@ -156,7 +156,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
      * include SECONDLY, to specify repeating events based on an interval
      * of a second or more; MINUTELY, to specify repeating events based
      * on an interval of a minute or more; HOURLY, to specify repeating
-     * events based on an interval of an hour or more; DAILY, to specify
+     * events based on an interval of an hour oparseContentr more; DAILY, to specify
      * repeating events based on an interval of a day or more; WEEKLY, to
      * specify repeating events based on an interval of a week or more;
      * MONTHLY, to specify repeating events based on an interval of a
@@ -306,6 +306,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public RecurrenceRuleValue()
     {
     	orderer = new OrdererBase(this, getters);
+
 //        orderer.registerSortOrderProperty(frequencyProperty());
 //        byRules = FXCollections.observableArrayList();
 //        orderer().registerSortOrderProperty(byRules);
@@ -392,7 +393,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
                     // process byRules
                     chronoUnit = getFrequency().getValue().getChronoUnit(); // initial chronoUnit from Frequency
                     myStream = Arrays.asList(value).stream();
-                    byRules().stream()
+                    getByRules().stream()
                             .sorted()
                             .forEach(rule ->
                             {
@@ -464,7 +465,8 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     @Override
     public List<String> errors()
     {
-        List<String> errors = new ArrayList<>();
+//        List<String> errors = new ArrayList<>();
+        List<String> errors = super.errors();
         if (getFrequency() == null)
         {
             errors.add("FREQ is not present.  FREQ is REQUIRED and MUST NOT occur more than once");
@@ -475,7 +477,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
         {
             errors.add("UNTIL and COUNT are both present.  UNTIL or COUNT rule parts are OPTIONAL, but they MUST NOT both occur.");
         }
-        childrenUnmodifiable().forEach(c -> errors.addAll(c.errors()));
+//        childrenUnmodifiable().forEach(c -> errors.addAll(c.errors()));
 //        byRules().forEach(b -> errors.addAll(b.errors()));
         return errors;
     }

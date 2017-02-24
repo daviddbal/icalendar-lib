@@ -82,7 +82,7 @@ public class RecurrenceRuleStreamTest
         assertEquals(s, rRule.toString());
         assertEquals(expectedRRule, rRule);
         List<?> expectedByRuleClasses = Arrays.asList(ByMonthDay.class, ByDay.class);
-        List<?> byRuleClasses = rRule.byRules().stream().map(r -> r.getClass()).collect(Collectors.toList());
+        List<?> byRuleClasses = rRule.getByRules().stream().map(r -> r.getClass()).collect(Collectors.toList());
         assertEquals(expectedByRuleClasses, byRuleClasses);        
     }
     

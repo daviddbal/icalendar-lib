@@ -188,6 +188,7 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
     @Override
     public String toString()
     {
+    	if (getValue() == null) return "";
         String days = getValue().stream()
                 .map(d ->
                 {

@@ -194,7 +194,7 @@ public enum RRuleElementType
         {
             if (recurrenceRule.lookupByRule(ByMonth.class) == null)
             {
-                recurrenceRule.byRules().add(ByMonth.parse(content));
+                recurrenceRule.getByRules().add(ByMonth.parse(content));
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -211,7 +211,7 @@ public enum RRuleElementType
         public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination)
         {
             ByMonth childCopy = new ByMonth((ByMonth) child);
-            destination.byRules().add(childCopy);
+            destination.getByRules().add(childCopy);
         }
     },
     BY_WEEK_NUMBER ("BYWEEKNO", ByWeekNumber.class, 110, ChronoUnit.DAYS) {
@@ -226,7 +226,7 @@ public enum RRuleElementType
         {
             if (recurrenceRule.lookupByRule(ByWeekNumber.class) == null)
             {
-                recurrenceRule.byRules().add(ByWeekNumber.parse(content));
+                recurrenceRule.getByRules().add(ByWeekNumber.parse(content));
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -243,7 +243,7 @@ public enum RRuleElementType
         public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination)
         {
             ByWeekNumber childCopy = new ByWeekNumber((ByWeekNumber) child);
-            destination.byRules().add(childCopy);
+            destination.getByRules().add(childCopy);
         }
     },
     BY_YEAR_DAY ("BYYEARDAY", ByYearDay.class, 120, ChronoUnit.DAYS) {
@@ -258,7 +258,7 @@ public enum RRuleElementType
         {
             if (recurrenceRule.lookupByRule(ByYearDay.class) == null)
             {
-                recurrenceRule.byRules().add(ByYearDay.parse(content));
+                recurrenceRule.getByRules().add(ByYearDay.parse(content));
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -275,7 +275,7 @@ public enum RRuleElementType
         public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination)
         {
             ByYearDay childCopy = new ByYearDay((ByYearDay) child);
-            destination.byRules().add(childCopy);
+            destination.getByRules().add(childCopy);
         }
     },
     BY_MONTH_DAY ("BYMONTHDAY", ByMonthDay.class, 130, ChronoUnit.DAYS) {
@@ -290,7 +290,7 @@ public enum RRuleElementType
         {
             if (recurrenceRule.lookupByRule(ByMonthDay.class) == null)
             {
-                recurrenceRule.byRules().add(ByMonthDay.parse(content));
+                recurrenceRule.getByRules().add(ByMonthDay.parse(content));
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -307,7 +307,7 @@ public enum RRuleElementType
         public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination)
         {
             ByMonthDay childCopy = new ByMonthDay((ByMonthDay) child);
-            destination.byRules().add(childCopy);
+            destination.getByRules().add(childCopy);
         }
     },
     BY_DAY ("BYDAY", ByDay.class, 140, ChronoUnit.DAYS) {
@@ -322,7 +322,7 @@ public enum RRuleElementType
         {
             if (recurrenceRule.lookupByRule(ByDay.class) == null)
             {
-                recurrenceRule.byRules().add(ByDay.parse(content));                
+                recurrenceRule.getByRules().add(ByDay.parse(content));                
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -339,7 +339,7 @@ public enum RRuleElementType
         public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination)
         {
             ByDay childCopy = new ByDay((ByDay) child);
-            destination.byRules().add(childCopy);
+            destination.getByRules().add(childCopy);
         }
     },
     BY_HOUR ("BYHOUR", ByHour.class, 150, ChronoUnit.HOURS) {
@@ -354,7 +354,7 @@ public enum RRuleElementType
         {
             if (recurrenceRule.lookupByRule(ByHour.class) == null)
             {
-                recurrenceRule.byRules().add(ByHour.parse(content));
+                recurrenceRule.getByRules().add(ByHour.parse(content));
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -371,7 +371,7 @@ public enum RRuleElementType
         public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination)
         {
             ByHour childCopy = new ByHour((ByHour) child);
-            destination.byRules().add(childCopy);
+            destination.getByRules().add(childCopy);
         }
     },
     BY_MINUTE ("BYMINUTE", ByMinute.class, 160, ChronoUnit.MINUTES) {
@@ -386,7 +386,7 @@ public enum RRuleElementType
         {
             if (recurrenceRule.lookupByRule(ByMinute.class) == null)
             {
-                recurrenceRule.byRules().add(ByMinute.parse(content));
+                recurrenceRule.getByRules().add(ByMinute.parse(content));
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -403,7 +403,7 @@ public enum RRuleElementType
         public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination)
         {
             ByMinute childCopy = new ByMinute((ByMinute) child);
-            destination.byRules().add(childCopy);
+            destination.getByRules().add(childCopy);
         }
     },
     BY_SECOND ("BYSECOND", BySecond.class, 170, ChronoUnit.SECONDS) {
@@ -418,7 +418,7 @@ public enum RRuleElementType
         {
             if (recurrenceRule.lookupByRule(BySecond.class) == null)
             {
-                recurrenceRule.byRules().add(BySecond.parse(content));
+                recurrenceRule.getByRules().add(BySecond.parse(content));
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -435,7 +435,7 @@ public enum RRuleElementType
         public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination)
         {
             BySecond childCopy = new BySecond((BySecond) child);
-            destination.byRules().add(childCopy);
+            destination.getByRules().add(childCopy);
         }
     },
     BY_SET_POSITION ("BYSETPOS", BySetPosition.class, 180, null) {
@@ -450,7 +450,7 @@ public enum RRuleElementType
         {
             if (recurrenceRule.lookupByRule(BySetPosition.class) == null)
             {
-                recurrenceRule.byRules().add(BySetPosition.parse(content));
+                recurrenceRule.getByRules().add(BySetPosition.parse(content));
             } else
             {
                 throw new IllegalArgumentException(toString() + " can only occur once in a calendar component");
@@ -467,7 +467,7 @@ public enum RRuleElementType
         public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination)
         {
             BySetPosition childCopy = new BySetPosition((BySetPosition) child);
-            destination.byRules().add(childCopy);
+            destination.getByRules().add(childCopy);
         }
     };
     

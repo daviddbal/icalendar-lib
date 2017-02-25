@@ -22,7 +22,6 @@ public class RRuleErrorTest
     public void canDetectMissingFrequency()
     {
         RecurrenceRuleValue rrule = new RecurrenceRuleValue();
-        rrule.errors().forEach(System.out::println);
         assertEquals(1, rrule.errors().size());
     }
     

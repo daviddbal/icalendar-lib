@@ -101,7 +101,6 @@ public class RequestStatus extends PropBaseLanguage<String, RequestStatus>
     protected String valueContent()
     {
         StringBuilder builder = new StringBuilder(100);
-        System.out.println("getStatusCode():" + getStatusCode());
         builder.append(DECIMAL_FORMAT.format(getStatusCode()) + ";");
         builder.append(getConverter().toString(getDescription()));
         if (getException() != null)

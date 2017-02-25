@@ -4,46 +4,28 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import net.balsoftware.component.property.ActionTest;
-import net.balsoftware.component.property.AttachmentTest;
-import net.balsoftware.component.property.AttendeeTest;
-import net.balsoftware.component.property.CategoriesTest;
-import net.balsoftware.component.property.ClassificationTest;
-import net.balsoftware.component.property.CommentTest;
-import net.balsoftware.component.property.ContactTest;
-import net.balsoftware.component.property.DateTimeCompletedTest;
-import net.balsoftware.component.property.DateTimeCreatedTest;
-import net.balsoftware.component.property.DateTimeDueTest;
-import net.balsoftware.component.property.DateTimeEndTest;
-import net.balsoftware.component.property.DateTimeStampTest;
-import net.balsoftware.component.property.DateTimeStartTest;
-import net.balsoftware.component.property.DescriptionTest;
-import net.balsoftware.component.property.DurationTest;
-import net.balsoftware.component.property.ExceptionDatesTest;
-import net.balsoftware.component.property.FreeBusyTimeTest;
-import net.balsoftware.component.property.GeneralPropertyTest;
-import net.balsoftware.component.property.LocationTest;
-import net.balsoftware.component.property.NonStandardTest;
-import net.balsoftware.component.property.OrganizerTest;
-import net.balsoftware.component.property.PriorityTest;
-import net.balsoftware.component.property.RecurrenceIdTest;
-import net.balsoftware.component.property.RecurrenceRuleTest;
-import net.balsoftware.component.property.RecurrencesTest;
-import net.balsoftware.component.property.RelatedToTest;
-import net.balsoftware.component.property.RepeatCountTest;
-import net.balsoftware.component.property.RequestStatusTest;
-import net.balsoftware.component.property.ResourcesTest;
-import net.balsoftware.component.property.SequenceTest;
-import net.balsoftware.component.property.StatusTest;
-import net.balsoftware.component.property.SummaryTest;
-import net.balsoftware.component.property.TimeTransparencyTest;
-import net.balsoftware.component.property.TimeZoneIdentifierTest;
-import net.balsoftware.component.property.TimeZoneNameTest;
-import net.balsoftware.component.property.TimeZoneOffsetTest;
-import net.balsoftware.component.property.TimeZoneURLTest;
-import net.balsoftware.component.property.TriggerTest;
-import net.balsoftware.component.property.URLTest;
-import net.balsoftware.component.property.UniqueIdentifierTest;
+import net.balsoftware.component.BaseTest;
+import net.balsoftware.component.ComponentStatusTest;
+import net.balsoftware.component.CopyComponentTest;
+import net.balsoftware.component.DaylightSavingsTimeTest;
+import net.balsoftware.component.DescribableTest;
+import net.balsoftware.component.DisplayableTest;
+import net.balsoftware.component.EqualsTest;
+import net.balsoftware.component.ErrorCatchTest;
+import net.balsoftware.component.GeneralComponentTest;
+import net.balsoftware.component.LocatableTest;
+import net.balsoftware.component.ParseComponentTest;
+import net.balsoftware.component.PersonalTest;
+import net.balsoftware.component.PrimaryTest;
+import net.balsoftware.component.RepeatableTest;
+import net.balsoftware.component.ScheduleConflictTest;
+import net.balsoftware.component.StandardOrDaylightTimeTest;
+import net.balsoftware.component.VAlarmTest;
+import net.balsoftware.component.VEventTest;
+import net.balsoftware.component.VFreeBusyTest;
+import net.balsoftware.component.VJournalTest;
+import net.balsoftware.component.VTimeZoneTest;
+import net.balsoftware.component.VTodoTest;
 import net.balsoftware.parameter.AlternateTextRepresentationTest;
 import net.balsoftware.parameter.CommonNameTest;
 import net.balsoftware.parameter.DelegateesTest;
@@ -67,6 +49,48 @@ import net.balsoftware.parameter.rrule.IntervalTest;
 import net.balsoftware.parameter.rrule.RRuleErrorTest;
 import net.balsoftware.parameter.rrule.RecurrenceRuleParseTest;
 import net.balsoftware.parameter.rrule.RecurrenceRuleStreamTest;
+import net.balsoftware.property.calendar.MethodTest;
+import net.balsoftware.property.component.ActionTest;
+import net.balsoftware.property.component.AttachmentTest;
+import net.balsoftware.property.component.AttendeeTest;
+import net.balsoftware.property.component.CategoriesTest;
+import net.balsoftware.property.component.ClassificationTest;
+import net.balsoftware.property.component.CommentTest;
+import net.balsoftware.property.component.ContactTest;
+import net.balsoftware.property.component.DateTimeCompletedTest;
+import net.balsoftware.property.component.DateTimeCreatedTest;
+import net.balsoftware.property.component.DateTimeDueTest;
+import net.balsoftware.property.component.DateTimeEndTest;
+import net.balsoftware.property.component.DateTimeStampTest;
+import net.balsoftware.property.component.DateTimeStartTest;
+import net.balsoftware.property.component.DescriptionTest;
+import net.balsoftware.property.component.DurationTest;
+import net.balsoftware.property.component.ExceptionDatesTest;
+import net.balsoftware.property.component.FreeBusyTimeTest;
+import net.balsoftware.property.component.GeneralPropertyTest;
+import net.balsoftware.property.component.LastModifiedTest;
+import net.balsoftware.property.component.LocationTest;
+import net.balsoftware.property.component.NonStandardTest;
+import net.balsoftware.property.component.OrganizerTest;
+import net.balsoftware.property.component.PriorityTest;
+import net.balsoftware.property.component.RecurrenceIdTest;
+import net.balsoftware.property.component.RecurrenceRuleTest;
+import net.balsoftware.property.component.RecurrencesTest;
+import net.balsoftware.property.component.RelatedToTest;
+import net.balsoftware.property.component.RepeatCountTest;
+import net.balsoftware.property.component.RequestStatusTest;
+import net.balsoftware.property.component.ResourcesTest;
+import net.balsoftware.property.component.SequenceTest;
+import net.balsoftware.property.component.StatusTest;
+import net.balsoftware.property.component.SummaryTest;
+import net.balsoftware.property.component.TimeTransparencyTest;
+import net.balsoftware.property.component.TimeZoneIdentifierTest;
+import net.balsoftware.property.component.TimeZoneNameTest;
+import net.balsoftware.property.component.TimeZoneOffsetTest;
+import net.balsoftware.property.component.TimeZoneURLTest;
+import net.balsoftware.property.component.TriggerTest;
+import net.balsoftware.property.component.URLTest;
+import net.balsoftware.property.component.UniqueIdentifierTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
@@ -94,29 +118,32 @@ import net.balsoftware.parameter.rrule.RecurrenceRuleStreamTest;
 //        VCalendarRecurrenceIDTest.class,
                 
         //component tests
-//        BaseTest.class,
-//        CopyComponentTest.class,
-//        DateTimeEndTest.class,
-//        DaylightSavingsTimeTest.class,
-//        DisplayableTest.class,
-//        EqualsTest.class,
-//        GeneralComponentTest.class,
-//        LocatableTest.class,
-//        ParseComponentTest.class,
-//        PrimaryTest.class,
-//        PersonalTest.class,
-//        RepeatableTest.class,
-//        ScheduleConflictTest.class,
-//        StandardOrDaylightTimeTest.class,
-//        VAlarmTest.class,
-//        VEventTest.class,
-//        VFreeBusyTest.class,
-//        VJournalTest.class,
-//        VTimeZoneTest.class,
-//        VTodoTest.class,
+        BaseTest.class,
+        ComponentStatusTest.class,
+        CopyComponentTest.class,
+        DateTimeEndTest.class,
+        DaylightSavingsTimeTest.class,
+        DescribableTest.class,
+        DisplayableTest.class,
+        EqualsTest.class,
+        ErrorCatchTest.class,
+        GeneralComponentTest.class,
+        LastModifiedTest.class,
+        LocatableTest.class,
+        ParseComponentTest.class,
+        PersonalTest.class,
+        PrimaryTest.class,
+        RepeatableTest.class,
+        ScheduleConflictTest.class,
+        StandardOrDaylightTimeTest.class,
+        VAlarmTest.class,
+        VEventTest.class,
+        VFreeBusyTest.class,
+        VJournalTest.class,
+        VTimeZoneTest.class,
+        VTodoTest.class,
        
        // property tests
-    // property tests
 	    ActionTest.class,
 	    AttachmentTest.class,
 	    AttendeeTest.class,
@@ -135,7 +162,9 @@ import net.balsoftware.parameter.rrule.RecurrenceRuleStreamTest;
 	    ExceptionDatesTest.class,
 	    FreeBusyTimeTest.class,
 	    GeneralPropertyTest.class,
+	    LastModifiedTest.class,
 	    LocationTest.class,
+	    MethodTest.class,
 	    NonStandardTest.class,
 	    OrganizerTest.class,
 	    PriorityTest.class,

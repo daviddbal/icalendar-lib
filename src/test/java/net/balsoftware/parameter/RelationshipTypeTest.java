@@ -23,7 +23,6 @@ public class RelationshipTypeTest
     {
         String expectedContent = "RELTYPE=NEIGHBOR";
         Relationship p = Relationship.parse(expectedContent);
-        System.out.println(p.toString());
         assertEquals(expectedContent, p.toString());
         assertEquals(RelationshipType.UNKNOWN, p.getValue());
     }

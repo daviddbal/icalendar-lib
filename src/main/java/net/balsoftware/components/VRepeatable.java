@@ -96,14 +96,12 @@ public interface VRepeatable<T> extends VComponent
      */
     default String checkRecurrencesConsistency(List<? extends PropertyBaseRecurrence<?>> list)
     {
-    	System.out.println("list:" + list + " " + getDateTimeStart());
         if ((list == null) || list.isEmpty() || (getDateTimeStart() == null))
         {
             return null;
         }
 //        Temporal firstRecurrence = list.get(0).getValue().iterator().next();
         Temporal firstRecurrence = getDateTimeStart().getValue();
-    	System.out.println("firstRecurrence:" + firstRecurrence);
         if (firstRecurrence == null)
         {
             return null;
@@ -112,7 +110,6 @@ public interface VRepeatable<T> extends VComponent
         Optional<DateTimeType> nonMatchingType = list.stream()
                 .flatMap(p -> p.getValue().stream())
                 .map(t -> DateTimeUtilities.DateTimeType.of(t))
-                .peek(t -> System.out.println("ttt:" + dateTimeStartType + " " + t))
                 .filter(y -> ! y.equals(dateTimeStartType))
                 .findAny();
 //        System.out.println("bad:" + badType);

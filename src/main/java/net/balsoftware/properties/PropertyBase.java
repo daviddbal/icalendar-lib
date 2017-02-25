@@ -502,7 +502,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     public List<String> errors()
     {
         List<String> errors = super.errors();
-//        List<String> errors = new ArrayList<>();
         if (getValue() == null)
         {
             errors.add(name() + " value is null.  The property MUST have a value."); 
@@ -529,10 +528,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
         {
             errors.addAll(valueTypeErrorList);
         }
-        
-//        List<String> propertyErrors = propertyType.errors(getParent());
-//        propertyErrors.forEach(System.out::println);
-//        errors.addAll(propertyErrors);
         return errors;
     }
     

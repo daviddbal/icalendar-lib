@@ -77,11 +77,8 @@ public abstract class ByRuleAbstract<T, U> extends RRuleElementBase<List<T>, U> 
     @Override
     public List<String> errors()
     {
-        List<String> errors = new ArrayList<>();
-        if (getValue() == null)
-        {
-            errors.add(elementType() + " value is null.  The element MUST have a value."); 
-        } else if (getValue().isEmpty())
+        List<String> errors = super.errors();
+        if ((getValue() != null) && (getValue().isEmpty()))
         {
             errors.add(elementType() + " value list is empty.  List MUST have at lease one element."); 
         }

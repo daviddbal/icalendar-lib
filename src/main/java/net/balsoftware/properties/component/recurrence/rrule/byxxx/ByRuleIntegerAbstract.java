@@ -1,5 +1,6 @@
 package net.balsoftware.properties.component.recurrence.rrule.byxxx;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -21,26 +22,6 @@ public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U
             }            
         });
         super.setValue(values);
-        
-//        /*
-//         * Add Listener to validate additions to value list
-//         */
-//        getValue().addListener((ListChangeListener.Change<? extends Integer> change) ->
-//        {
-//            while (change.next())
-//            {
-//                if (change.wasAdded())
-//                {
-//                    change.getAddedSubList().forEach(value -> 
-//                    {
-//                        if (! isValidValue().test(value))
-//                        {
-//                            throw new IllegalArgumentException("Out of range " + elementType().toString() + " value: " + value);
-//                        }
-//                    });
-//                }
-//            }
-//        });
     }
     /** predicate tests value range in listener attached to {@link #getValue()} 
      * Ensures added values are within allowed range */
@@ -52,6 +33,7 @@ public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U
     public ByRuleIntegerAbstract()
     {
         super();
+        setValue(new ArrayList<>());
     }
     
     public ByRuleIntegerAbstract(Integer... values)
@@ -63,8 +45,22 @@ public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U
     {
         super(source);
     }
+        
     
     @Override
+	public List<String> errors()
+    {
+    	List<String> errors = super.errors();
+    	List<String> myErrors = getValue()
+			.stream()
+			.filter(v -> ! isValidValue().test(v))
+			.map(v -> "Out of range " + name() + " value: " + v)
+			.collect(Collectors.toList());
+    	errors.addAll(myErrors);
+    	return errors;
+    }
+    
+	@Override
     public String toString()
     {
         String values = getValue().stream()

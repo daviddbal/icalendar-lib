@@ -151,15 +151,14 @@ public class ByWeekNumberTest
         assertEquals(expectedRecurrences, madeRecurrences);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test
     public void canCatchInvalidByWeekNumber()
     {
-        Thread.setDefaultUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
         ByWeekNumber element = new ByWeekNumber();
-        element.getValue().add(999); // throws exception
+        element.getValue().add(999); // invalid element
+        assertEquals(1, element.errors().size());
+        String expected = "Out of range BYWEEKNO value: 999";
+		assertEquals(expected, element.errors().get(0));
     }
 
 }

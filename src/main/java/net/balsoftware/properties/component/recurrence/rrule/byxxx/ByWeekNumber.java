@@ -12,9 +12,7 @@ import java.util.function.Predicate;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import net.balsoftware.properties.component.recurrence.rrule.RRuleElementType;
+import net.balsoftware.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.properties.component.recurrence.rrule.WeekStart;
 import net.balsoftware.utilities.DateTimeUtilities;
 
@@ -43,11 +41,19 @@ import net.balsoftware.utilities.DateTimeUtilities;
  * */
 public class ByWeekNumber extends ByRuleIntegerAbstract<ByWeekNumber>
 {    
-    /** Start of week - default start of week is Monday */
-    public ObjectProperty<DayOfWeek> weekStartProperty() { return weekStart; }
-    private ObjectProperty<DayOfWeek> weekStart =  new SimpleObjectProperty<>(this, RRuleElementType.WEEK_START.toString()); // bind to WeekStart element
-    public DayOfWeek getWeekStart() { return (weekStart.get() == null) ? WeekStart.DEFAULT_WEEK_START : weekStart.get(); }
     private final static int MIN_DAYS_IN_WEEK = 4;
+    /** Start of week - default start of week is Monday */
+    private DayOfWeek getWeekStart()
+    {
+    	if (getParent() != null)
+    	{
+    		WeekStart weekStart = ((RecurrenceRuleValue) getParent()).getWeekStart();
+			return (weekStart == null) ? WeekStart.DEFAULT_WEEK_START : weekStart.getValue();
+    	} else
+    	{
+    		return WeekStart.DEFAULT_WEEK_START;
+    	}
+	}
 
     /*
      * CONSTRUCTORS
@@ -94,53 +100,10 @@ public class ByWeekNumber extends ByRuleIntegerAbstract<ByWeekNumber>
 //            }
 //        }
 //    };
-
-//    @Override
-//    public void copyTo(ByRule destination)
-//    {
-//        ByWeekNumber destination2 = (ByWeekNumber) destination;
-//        destination2.weekNumbers = new int[weekNumbers.length];
-//        for (int i=0; i<weekNumbers.length; i++)
-//        {
-//            destination2.weekNumbers[i] = weekNumbers[i];
-//        }
-//    }
-    
-//    @Override
-//    public boolean equals(Object obj)
-//    {
-//        if (obj == this) return true;
-//        if((obj == null) || (obj.getClass() != getClass())) {
-//            return false;
-//        }
-//        ByWeekNumber testObj = (ByWeekNumber) obj;
-//        
-//        boolean weekNumbersEquals = Arrays.equals(getValue(), testObj.getValue());
-//        return weekNumbersEquals;
-//    }
-//    
-//    @Override
-//    public int hashCode()
-//    {
-//        int hash = 7;
-//        hash = (31 * hash) + getWeekNumbers().hashCode();
-//        return hash;
-//    }
-    
-//    @Override
-//    public String toContent()
-//    {
-//        String days = getValue().stream()
-//                .map(v -> v.toString())
-//                .collect(Collectors.joining(","));
-//        return RRuleElementType.BY_WEEK_NUMBER + "=" + days; //.substring(0, days.length()-1); // remove last comma
-//    }
     
     @Override
     public Stream<Temporal> streamRecurrences(Stream<Temporal> inStream, ChronoUnit chronoUnit, Temporal dateTimeStart )
     {
-//        ChronoUnit originalChronoUnit = chronoUnit.get();
-//        chronoUnit.set(WEEKS);
 
         switch (chronoUnit)
         {

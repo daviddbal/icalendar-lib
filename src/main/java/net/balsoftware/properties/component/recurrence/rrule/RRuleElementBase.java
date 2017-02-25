@@ -36,9 +36,8 @@ abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
     public RRuleElementType elementType() { return elementType; }
     final private RRuleElementType elementType;
     
-    final private String name;
     @Override
-    public String name() { return name; }
+    public String name() { return elementType.toString(); }
     
     /*
      * CONSTRUCTORS
@@ -46,7 +45,6 @@ abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
     protected RRuleElementBase()
     {
         elementType = RRuleElementType.enumFromClass(getClass());
-        name = elementType.name();
         value = new SimpleObjectProperty<>(this, RRuleElementType.enumFromClass(getClass()).toString());
     }
     

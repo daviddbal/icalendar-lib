@@ -22,7 +22,7 @@ import net.balsoftware.properties.component.recurrence.rrule.RRuleElement;
  * @see BySecond
  * @see BySetPosition
  */
-public interface ByRule<T> extends RRuleElement<T>
+public interface ByRule<T> extends Comparable<ByRule<T>>, RRuleElement<T>
 {
     /** 
      * New stream of date/times made after applying rule that either filters out some date/times

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import net.balsoftware.properties.component.recurrence.rrule.RRuleElementBase;
+import net.balsoftware.properties.component.recurrence.rrule.RRuleElementType;
 
 /**
  * BYxxx rule that modify frequency rule (see RFC 5545, iCalendar 3.3.10 Page 42)
@@ -74,6 +75,14 @@ public abstract class ByRuleAbstract<T, U> extends RRuleElementBase<List<T>, U> 
         setValue(new ArrayList<>(source.getValue()));
     }
 
+    @Override
+    public int compareTo(ByRule<List<T>> byRule)
+    {
+        int p1 = RRuleElementType.enumFromClass(getClass()).sortOrder();
+        int p2 = RRuleElementType.enumFromClass(byRule.getClass()).sortOrder();
+        return Integer.compare(p1, p2);
+    }
+    
     @Override
     public List<String> errors()
     {

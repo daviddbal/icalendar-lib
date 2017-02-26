@@ -43,7 +43,7 @@ public class RelatedTo extends PropertyBase<String, RelatedTo> implements PropRe
     @Override
     public void setRelationship(Relationship relationship)
     {
-    	orderer.orderChild(this.relationship, relationship);
+    	orderChild(relationship);
     	this.relationship = relationship;
 	}
     public void setRelationship(String value) { setRelationship(Relationship.parse(value)); }

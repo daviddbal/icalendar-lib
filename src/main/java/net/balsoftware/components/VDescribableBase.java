@@ -52,7 +52,7 @@ public abstract class VDescribableBase<T> extends VCommon<T> implements VDescrib
     @Override
 	public void setSummary(Summary summary)
     {
-    	orderer.orderChild(this.summary, summary);
+    	orderChild(summary);
     	this.summary = summary;
 	}
     

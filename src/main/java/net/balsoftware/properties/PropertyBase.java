@@ -197,7 +197,7 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     {
         if (valueType == null || isValueTypeValid(valueType.getValue()))
         {
-        	orderer.orderChild(this.valueType, valueType);
+        	orderChild(valueType);
             this.valueType = valueType;
             valueParamenterConverter(valueType); // convert new value
         } else
@@ -225,7 +225,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
             {
                 T newPropValue = getConverter().fromString(getPropertyValueString());
                 this.value = newPropValue;
-//                setValue(newPropValue);
             }
         }
         
@@ -260,6 +259,7 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     @Override
     public void setNonStandard(List<NonStandardParameter> nonStandardParams)
     {
+    	nonStandardParams.forEach(c -> orderChild(c));
         this.nonStandardParams = nonStandardParams;
     }
     /**

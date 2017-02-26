@@ -33,7 +33,11 @@ public abstract class VCommon<T> extends VComponentBase
      */
     private List<NonStandardProperty> nonStandardProps;
     public List<NonStandardProperty> getNonStandard() { return nonStandardProps; }
-    public void setNonStandard(List<NonStandardProperty> nonStandardProps) { this.nonStandardProps = nonStandardProps; }
+    public void setNonStandard(List<NonStandardProperty> nonStandardProps)
+    {
+    	nonStandardProps.forEach(c -> orderChild(c));
+    	this.nonStandardProps = nonStandardProps;
+	}
     /**
      * Sets the value of the {@link #nonStandardProperty()} by parsing a vararg of
      * iCalendar content text representing individual {@link NonStandardProperty} objects.

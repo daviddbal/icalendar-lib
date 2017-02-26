@@ -53,9 +53,18 @@ public class OrdererBase implements Orderer
 	{
 //		childGetters.forEach(System.out::println);
 //		System.out.println("childUN:" + unorderedChildren(parent, childGetters).size() + " " + orderedChildren.size());
+
+		// Remove orphans
+		List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
+		List<VChild> orphans = orderedChildren
+			.stream()
+			.filter(c -> ! allUnorderedChildren.contains(c))
+			.collect(Collectors.toList());
+		orphans.forEach(c -> orderedChildren.remove(c));
 		List<VChild> allChildren = new ArrayList<>(orderedChildren);
-		// add unordered children
-		unorderedChildren(parent, childGetters)
+
+		// Add unordered children
+		allUnorderedChildren(parent, childGetters)
 				.stream()
 //				.peek(System.out::println)
 				.filter(c -> ! orderedChildren.contains(c))
@@ -78,7 +87,7 @@ public class OrdererBase implements Orderer
 		return allChildren;
 	}
 	
-    private List<VChild> unorderedChildren(VParent parent, List<Method> childGetters)
+    private List<VChild> allUnorderedChildren(VParent parent, List<Method> childGetters)
     {
     	return Collections.unmodifiableList(childGetters
     		.stream()
@@ -108,36 +117,36 @@ public class OrdererBase implements Orderer
 	@Override
 	public void orderChild(VChild newChild)
 	{
-		orderChild(null, newChild);
+		orderedChildren.add(newChild);
 	}
 
-	@Override
-	public void orderChild(VChild oldChild, VChild newChild)
-	{
-//		System.out.println("adding:" + newChild);
-		if (oldChild == null)
-		{
-			if (! orderedChildren.contains(newChild))
-			{
-				orderedChildren.add(newChild);
-				newChild.setParent(parent);
-			}
-		} else
-		{
-			int index = orderedChildren.indexOf(oldChild);
-			orderedChildren.remove(oldChild);
-			if (newChild != null)
-			{
-				if (index >= 0)
-				{
-					orderedChildren.add(index, newChild);
-				} else
-				{
-					orderedChildren.add(newChild);				
-				}
-			}
-		}
-	}
+//	@Override
+//	public void orderChild(VChild oldChild, VChild newChild)
+//	{
+////		System.out.println("adding:" + newChild);
+//		if (oldChild == null)
+//		{
+//			if (! orderedChildren.contains(newChild))
+//			{
+//				orderedChildren.add(newChild);
+//				newChild.setParent(parent);
+//			}
+//		} else
+//		{
+//			int index = orderedChildren.indexOf(oldChild);
+//			orderedChildren.remove(oldChild);
+//			if (newChild != null)
+//			{
+//				if (index >= 0)
+//				{
+//					orderedChildren.add(index, newChild);
+//				} else
+//				{
+//					orderedChildren.add(newChild);				
+//				}
+//			}
+//		}
+//	}
 
 	@Override
 	public void orderChild(int index, VChild newChild)

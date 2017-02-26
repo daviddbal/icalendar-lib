@@ -63,7 +63,7 @@ public abstract class PropBaseAltText<T,U> extends PropBaseLanguage<T,U> impleme
     @Override
     public void setAlternateText(AlternateText alternateText)
     {
-    	orderer.orderChild(this.alternateText, alternateText);
+    	orderChild(alternateText);
     	this.alternateText = alternateText;
 	}
     public void setAlternateText(String value) { setAlternateText(AlternateText.parse(value)); }

@@ -35,13 +35,6 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     @Override public void setParent(VParent parent) { myParent = parent; }
     @Override public VParent getParent() { return myParent; }
     
-//    @Deprecated
-//    public void copyFrom(VComponent source)
-//    {
-//        myParent = source.getParent();
-//        copyChildrenFrom(source);
-//    }
-    
     @Override
     public void copyInto(VParent destination)
     {
@@ -61,14 +54,6 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     @Override
     public String name() { return componentType.toString(); }
 
-//    @Override
-//    public List<VChild> childrenUnmodifiable()
-//    {
-//    	componentType.childGetters();
-//    	throw new RuntimeException("not implemented");
-//    	// TODO - include list-based properties somehow
-//    }
-
     /*
      * CONSTRUCTORS
      */
@@ -78,6 +63,7 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     VComponentBase()
     {
     	componentType = CalendarComponent.enumFromClass(this.getClass());
+    	System.out.println(componentType);
     	List<Method> getters = componentType.childGetters();
         orderer = new OrdererBase(this, getters);
         contentLineGenerator = new MultiLineContent(
@@ -94,7 +80,6 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     {
         this();
         source.copyInto(this);
-//        copyFrom(source);
     }
     
     @Override
@@ -210,28 +195,7 @@ public abstract class VComponentBase extends VParentBase implements VComponent
         // TODO - Log status messages if not using RequestStatus
         return messageMap;
     }
-
-    // Note: can't check equals or hashCode of parents - causes stack overflow
-
-//    @Override
-//    public boolean equals(Object obj)
-//    {
-//        boolean childrenEquals = super.equals(obj);
-//        if (! childrenEquals) return false;
-//        PropertyBase<?,?> testObj = (PropertyBase<?,?>) obj;
-//        boolean parentEquals = (getParent() == null) ? testObj.getParent() == null : getParent() == testObj.getParent(); // equality by reference - if not desired only other option is equality of toContent, can't do equals method because it causes stack overflow (must have same reference to be equal)
-//        return parentEquals;
-//    }
-//    
-//    @Override
-//    public int hashCode()
-//    {
-//        int hash = super.hashCode();
-//        final int prime = 31;
-//        hash = prime * hash + System.identityHashCode(getParent()); // using identityHashCode because hashCode method causes cyclic stack overflow (must have same reference to be equal)
-//        return hash;
-//    }
-    
+   
     /**
      * Hook to add subcomponent such as {@link #VAlarm}, {@link #StandardTime} and {@link #DaylightSavingTime}
      * 

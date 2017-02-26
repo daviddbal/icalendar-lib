@@ -5,9 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.balsoftware.components.DaylightSavingTime;
+import net.balsoftware.components.StandardTime;
+import net.balsoftware.components.VAlarm;
 import net.balsoftware.components.VComponent;
 import net.balsoftware.components.VComponentBase;
 import net.balsoftware.components.VEvent;
+import net.balsoftware.components.VFreeBusy;
+import net.balsoftware.components.VJournal;
+import net.balsoftware.components.VTimeZone;
 import net.balsoftware.components.VTodo;
 import net.balsoftware.properties.PropertyType;
 import net.balsoftware.utilities.ICalendarUtilities;
@@ -82,6 +88,147 @@ public enum CalendarComponent
 //		{
 //        	throw new RuntimeException("not implemented");
 //		}
+    },
+        VJOURNAL ("VJOURNAL",
+//                Arrays.asList(PropertyType.ATTACHMENT, PropertyType.ATTENDEE, PropertyType.CATEGORIES,
+//                PropertyType.CLASSIFICATION, PropertyType.COMMENT, PropertyType.CONTACT, PropertyType.DATE_TIME_CREATED,
+//                PropertyType.DATE_TIME_STAMP, PropertyType.DATE_TIME_START, PropertyType.DESCRIPTION,
+//                PropertyType.EXCEPTION_DATE_TIMES, PropertyType.LAST_MODIFIED,
+//                PropertyType.NON_STANDARD, PropertyType.ORGANIZER, PropertyType.RECURRENCE_DATE_TIMES,
+//                PropertyType.RECURRENCE_IDENTIFIER, PropertyType.RELATED_TO, PropertyType.RECURRENCE_RULE, 
+//                PropertyType.REQUEST_STATUS, PropertyType.SEQUENCE, PropertyType.STATUS, PropertyType.SUMMARY,
+//                PropertyType.UNIQUE_IDENTIFIER, PropertyType.UNIFORM_RESOURCE_LOCATOR),
+//                true,
+                VJournal.class)
+        {
+//            @Override
+//            public VElement parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
+//            {
+//                VJournal e = new VJournal();
+//                e.parseContent(unfoldedLines);
+//                vCalendar.getVJournals().add(e);
+//                return e;
+//            }
+
+            @Override
+            public void copyChild(VChild child, VCalendar destination)
+            {
+            	throw new RuntimeException("not implemented");
+//                destination.addVComponent(new VJournal((VJournal) child));
+            }
+
+        },
+        VTIMEZONE ("VTIMEZONE",
+//                Arrays.asList(PropertyType.LAST_MODIFIED, PropertyType.NON_STANDARD,
+//                PropertyType.TIME_ZONE_IDENTIFIER, PropertyType.TIME_ZONE_URL),
+//                true,
+                VTimeZone.class)
+        {
+//            @Override
+//            public VElement parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
+//            {
+//                VTimeZone e = new VTimeZone();
+//                e.parseContent(unfoldedLines);
+//                vCalendar.getVTimeZones().add(e);
+//                return e;
+//            }
+
+            @Override
+            public void copyChild(VChild child, VCalendar destination)
+            {
+            	throw new RuntimeException("not implemented");
+//                destination.addVComponent(new VTimeZone((VTimeZone) child));
+            }
+
+        },
+        VFREEBUSY ("VFREEBUSY",
+//                Arrays.asList(PropertyType.ATTENDEE, PropertyType.COMMENT, PropertyType.CONTACT,
+//                PropertyType.DATE_TIME_END, PropertyType.DATE_TIME_STAMP, PropertyType.DATE_TIME_START,
+//                PropertyType.FREE_BUSY_TIME, PropertyType.NON_STANDARD, PropertyType.ORGANIZER,
+//                PropertyType.REQUEST_STATUS, PropertyType.UNIQUE_IDENTIFIER, PropertyType.UNIFORM_RESOURCE_LOCATOR),
+//                true,
+                VFreeBusy.class)
+        {
+//            @Override
+//            public VElement parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
+//            {
+//                VFreeBusy e = new VFreeBusy();
+//                e.parseContent(unfoldedLines);
+//                vCalendar.getVFreeBusies().add(e);
+//                return e;
+//            }
+
+            @Override
+            public void copyChild(VChild child, VCalendar destination)
+            {
+                throw new RuntimeException("not implemented");
+                
+            }
+        },
+        // TODO - Below should probably be removed?
+        // NON-MAIN COMPONENTS - MUST BE NESTED IN A MAIN COMPONENT
+        DAYLIGHT_SAVING_TIME ("DAYLIGHT",
+//                Arrays.asList(PropertyType.COMMENT, PropertyType.DATE_TIME_START,
+//                PropertyType.NON_STANDARD, PropertyType.RECURRENCE_DATE_TIMES,
+//                PropertyType.RECURRENCE_RULE, PropertyType.TIME_ZONE_NAME, PropertyType.TIME_ZONE_OFFSET_FROM,
+//                PropertyType.TIME_ZONE_OFFSET_TO),
+//                false,
+                DaylightSavingTime.class)
+        {
+//            @Override
+//            public VElement parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
+//            {
+//                throw new RuntimeException("Not a main component - must be embedded inside a VTimeZone");
+//            }
+
+            @Override
+            public void copyChild(VChild child, VCalendar destination)
+            {
+                throw new RuntimeException("not implemented");
+            }
+
+        },
+        STANDARD_TIME ("STANDARD",
+//                Arrays.asList(PropertyType.COMMENT, PropertyType.DATE_TIME_START,
+//                PropertyType.NON_STANDARD, PropertyType.RECURRENCE_DATE_TIMES,
+//                PropertyType.RECURRENCE_RULE, PropertyType.TIME_ZONE_NAME, PropertyType.TIME_ZONE_OFFSET_FROM,
+//                PropertyType.TIME_ZONE_OFFSET_TO),
+//                false,
+                StandardTime.class)
+        {
+//            @Override
+//            public VElement parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
+//            {
+//                throw new RuntimeException("Not a main component - must be embedded inside a VTimeZone");
+//            }
+
+            @Override
+            public void copyChild(VChild child, VCalendar destination)
+            {
+                throw new RuntimeException("not implemented");
+                
+            }
+
+        },
+        VALARM ("VALARM",
+//                Arrays.asList(PropertyType.ACTION, PropertyType.ATTACHMENT, PropertyType.ATTENDEE, PropertyType.DESCRIPTION,
+//                PropertyType.DURATION, PropertyType.NON_STANDARD, PropertyType.REPEAT_COUNT,
+//                PropertyType.SUMMARY, PropertyType.TRIGGER),
+//                false,
+                VAlarm.class)
+        {
+//            @Override
+//            public VElement parse(VCalendar vCalendar, Iterator<String> unfoldedLines)
+//            {
+//                throw new RuntimeException("Not a main component - must be embedded inside a VEvent or VTodo");
+//            }
+
+            @Override
+            public void copyChild(VChild child, VCalendar destination)
+            {
+                throw new RuntimeException("not implemented");
+                
+            }
     };
 
     // Map to match up name to enum

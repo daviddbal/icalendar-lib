@@ -190,7 +190,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public void setDateTimeCreated(String dtCreated) { setDateTimeCreated(DateTimeCreated.parse(dtCreated)); }
     public void setDateTimeCreated(DateTimeCreated dtCreated)
     {
-    	orderer.orderChild(dateTimeCreated, dtCreated);
+    	orderChild(dtCreated);
     	this.dateTimeCreated = dtCreated;
 	}
     public void setDateTimeCreated(ZonedDateTime dtCreated) { setDateTimeCreated(new DateTimeCreated(dtCreated)); }
@@ -222,7 +222,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private List<ExceptionDates> exceptionDates;
     public void setExceptionDates(List<ExceptionDates> exceptionDates)
     {
-    	exceptionDates.forEach(e -> orderer.orderChild(null, e));
+    	exceptionDates.forEach(e -> orderChild(e));
         this.exceptionDates = exceptionDates;
     }
     public T withExceptionDates(List<ExceptionDates> exceptions)
@@ -507,7 +507,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private Summary summary;
     public void setSummary(Summary summary)
     {
-    	orderer.orderChild(this.summary, summary);
+    	orderChild(summary);
     	this.summary = summary;
 	}
 

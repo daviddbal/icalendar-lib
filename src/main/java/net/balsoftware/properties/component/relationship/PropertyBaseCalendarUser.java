@@ -48,7 +48,7 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
     @Override
     public void setCommonName(CommonName commonName)
     {
-    	orderer.orderChild(this.commonName, commonName);
+    	orderChild(commonName);
     	this.commonName = commonName;
 	}
     public void setCommonName(String content) { setCommonName(CommonName.parse(content)); }
@@ -74,7 +74,7 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
     @Override
     public void setDirectoryEntryReference(DirectoryEntry directoryEntryReference)
     {
-    	orderer.orderChild(this.directoryEntryReference, directoryEntryReference);
+    	orderChild(directoryEntryReference);
     	this.directoryEntryReference = directoryEntryReference;
 	}
     public U withDirectoryEntryReference(DirectoryEntry directoryEntryReference) { setDirectoryEntryReference(directoryEntryReference); return (U) this; }
@@ -99,7 +99,7 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
     @Override
     public void setSentBy(SentBy sentBy)
     {
-    	orderer.orderChild(this.sentBy, sentBy);
+    	orderChild(sentBy);
     	this.sentBy = sentBy;
 	}
     public U withSentBy(SentBy sentBy) { setSentBy(sentBy); return (U) this; }

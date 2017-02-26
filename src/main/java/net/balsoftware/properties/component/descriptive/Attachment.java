@@ -104,7 +104,7 @@ public class Attachment<T> extends PropertyBase<T, Attachment<T>> implements Pro
    @Override
    public void setFormatType(FormatType formatType)
    {
-       orderer.orderChild(this.formatType, formatType);
+       orderChild(formatType);
 	   this.formatType = formatType;
    }
    public Attachment<T> withFormatType(FormatType format) { setFormatType(format); return this; }
@@ -131,7 +131,7 @@ public class Attachment<T> extends PropertyBase<T, Attachment<T>> implements Pro
        {
            throw new IllegalArgumentException("Attachment property only allows ENCODING to be set to" + EncodingType.BASE64);
        }
-       orderer.orderChild(this.encoding, encoding);
+       orderChild(encoding);
        this.encoding = encoding;
    }
    public Attachment<T> withEncoding(Encoding encoding) { setEncoding(encoding); return this; }

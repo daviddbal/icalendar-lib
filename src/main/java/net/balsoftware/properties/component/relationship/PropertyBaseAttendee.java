@@ -43,7 +43,7 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     @Override
     public void setCalendarUser(CalendarUser calendarUser)
     {
-    	orderer.orderChild(this.calendarUser, calendarUser);
+    	orderChild(calendarUser);
     	this.calendarUser = calendarUser;
 	}
     public void setCalendarUser(String value) { setCalendarUser(CalendarUser.parse(value)); }
@@ -69,7 +69,7 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     @Override
     public void setDelegators(Delegators delegators)
     {
-    	orderer.orderChild(this.delegators, delegators);
+    	orderChild(delegators);
     	this.delegators = delegators;
 	}
     public void setDelegators(String content) { setDelegators(Delegators.parse(content)); }
@@ -96,7 +96,7 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     @Override
     public void setDelegatees(Delegatees delegatees)
     {
-    	orderer.orderChild(this.delegatees, delegatees);
+    	orderChild(delegatees);
     	this.delegatees = delegatees;
 	}
     public void setDelegatees(String content) { setDelegatees(Delegatees.parse(content)); }
@@ -122,7 +122,7 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     @Override
     public void setGroupMembership(GroupMembership groupMembership)
     {
-    	orderer.orderChild(this.groupMembership, groupMembership);
+    	orderChild(groupMembership);
     	this.groupMembership = groupMembership;
 	}
     public void setGroupMembership(String content) { setGroupMembership(GroupMembership.parse(content)); }
@@ -146,7 +146,7 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     @Override
     public void setRSVP(RSVP rsvp)
     {
-    	orderer.orderChild(this.rsvp, rsvp);
+    	orderChild(rsvp);
     	this.rsvp = rsvp;
 	}
     public void setRSVP(String content) { setRSVP(RSVP.parse(content)); }
@@ -170,7 +170,7 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     @Override
     public void setParticipationStatus(ParticipationStatus participationStatus)
     {
-    	orderer.orderChild(this.participationStatus, participationStatus);
+    	orderChild(participationStatus);
     	this.participationStatus = participationStatus;
 	}
     public void setParticipationStatus(String content) { setParticipationStatus(ParticipationStatus.parse(content)); }
@@ -194,7 +194,7 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     @Override
     public void setParticipationRole(ParticipationRole participationRole)
     {
-    	orderer.orderChild(this.participationRole, participationRole);
+    	orderChild(participationRole);
     	this.participationRole = participationRole;
 	}
     public void setParticipationRole(String content) { setParticipationRole(ParticipationRole.parse(content)); }

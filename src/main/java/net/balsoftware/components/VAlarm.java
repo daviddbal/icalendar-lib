@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.alarm.Action;
 import net.balsoftware.properties.component.alarm.Action.ActionType;
 import net.balsoftware.properties.component.alarm.RepeatCount;
@@ -228,7 +227,11 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     private Action action;
     public Action getAction() { return action; }
     public void setAction(String action) { setAction(Action.parse(action)); }
-    public void setAction(Action action) { this.action = action; }
+    public void setAction(Action action)
+    {
+    	orderer.orderChild(action);
+    	this.action = action;
+	}
     public void setAction(ActionType action) { setAction(new Action(action)); }
     /**
      * Sets the value of the {@link #actionProperty()}
@@ -273,7 +276,11 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     @Override
     public List<Attendee> getAttendees() { return attendees; }
     @Override
-    public void setAttendees(List<Attendee> attendees) { this.attendees = attendees; }
+    public void setAttendees(List<Attendee> attendees)
+    {
+    	attendees.forEach(c -> orderChild(c));
+    	this.attendees = attendees;
+	}
     
     /*
      * DESCRIPTION
@@ -292,7 +299,11 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     @Override
     public Description getDescription() { return description; }
     private Description description;
-    public void setDescription(Description description) { this.description = description; }
+    public void setDescription(Description description)
+    {
+    	orderer.orderChild(description);
+    	this.description = description;
+	}
     
     /*
      * DURATION
@@ -326,7 +337,11 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
      */
     private RepeatCount repeatCount;
     public RepeatCount getRepeatCount() { return repeatCount; }
-    public void setRepeatCount(RepeatCount repeatCount) { this.repeatCount = repeatCount; }
+    public void setRepeatCount(RepeatCount repeatCount)
+    {
+    	orderChild(repeatCount);
+    	this.repeatCount = repeatCount;
+	}
     public void setRepeatCount(int repeatCount) { setRepeatCount(new RepeatCount(repeatCount)); }
     public void setRepeatCount(String repeatCount) { setRepeatCount(RepeatCount.parse(repeatCount)); }
     /** Sets the value of the {@link #repeatCountProperty()}
@@ -359,8 +374,12 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
      */
     private Trigger<?> trigger;
     public Trigger<?> getTrigger() { return trigger; }
-    public void setTrigger(String trigger) { PropertyType.TRIGGER.parse(this, trigger); }
-    public void setTrigger(Trigger<?> trigger) { this.trigger = trigger; }
+    public void setTrigger(String trigger) { setTrigger(Trigger.parse(trigger)); }
+    public void setTrigger(Trigger<?> trigger)
+    {
+    	orderChild(trigger);    	
+    	this.trigger = trigger;
+	}
     public void setTrigger(Duration trigger) { setTrigger(new Trigger<Duration>(trigger)); }
     public void setTrigger(ZonedDateTime trigger) { setTrigger(new Trigger<ZonedDateTime>(trigger)); }
     /** Sets the value of the {@link #triggerProperty()}

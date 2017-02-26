@@ -42,7 +42,11 @@ public abstract class StandardOrDaylight<T> extends VRepeatableBase<T>
      */
     private List<TimeZoneName> timeZoneNames;
     public List<TimeZoneName> getTimeZoneNames() { return timeZoneNames; }
-    public void setTimeZoneNames(List<TimeZoneName> timeZoneNames) { this.timeZoneNames = timeZoneNames; }
+    public void setTimeZoneNames(List<TimeZoneName> timeZoneNames)
+    {
+    	timeZoneNames.forEach(c -> orderChild(c));
+    	this.timeZoneNames = timeZoneNames;
+	}
     
     /**
      * Sets the value of the {@link #timeZoneNamesProperty()}
@@ -91,7 +95,11 @@ public abstract class StandardOrDaylight<T> extends VRepeatableBase<T>
      */
     private TimeZoneOffsetFrom timeZoneOffsetFrom;
     public TimeZoneOffsetFrom getTimeZoneOffsetFrom() { return timeZoneOffsetFrom; }
-    public void setTimeZoneOffsetFrom(TimeZoneOffsetFrom timeZoneOffsetFrom) { this.timeZoneOffsetFrom = timeZoneOffsetFrom; }
+    public void setTimeZoneOffsetFrom(TimeZoneOffsetFrom timeZoneOffsetFrom)
+    {
+    	orderChild(timeZoneOffsetFrom);
+    	this.timeZoneOffsetFrom = timeZoneOffsetFrom;
+	}
     public void setTimeZoneOffsetFrom(ZoneOffset zoneOffset) { setTimeZoneOffsetFrom(new TimeZoneOffsetFrom(zoneOffset)); }
     public void setTimeZoneOffsetFrom(String timeZoneOffsetFrom) { TimeZoneOffsetFrom.parse(timeZoneOffsetFrom); }
     /**
@@ -128,7 +136,11 @@ public abstract class StandardOrDaylight<T> extends VRepeatableBase<T>
      */
     private TimeZoneOffsetTo timeZoneOffsetTo;
     public TimeZoneOffsetTo getTimeZoneOffsetTo() { return timeZoneOffsetTo; }
-    public void setTimeZoneOffsetTo(TimeZoneOffsetTo timeZoneOffsetTo) { this.timeZoneOffsetTo = timeZoneOffsetTo; }
+    public void setTimeZoneOffsetTo(TimeZoneOffsetTo timeZoneOffsetTo)
+    {
+    	orderChild(timeZoneOffsetTo);
+    	this.timeZoneOffsetTo = timeZoneOffsetTo;
+	}
     public void setTimeZoneOffsetTo(ZoneOffset zoneOffset) { setTimeZoneOffsetTo(new TimeZoneOffsetTo(zoneOffset)); }
     public void setTimeZoneOffsetTo(String timeZoneOffsetTo) { PropertyType.TIME_ZONE_OFFSET_TO.parse(this, timeZoneOffsetTo); }
     /**

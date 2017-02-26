@@ -147,7 +147,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public Count getCount() { return count; }
     public void setCount(Count count)
     {
-    	orderer.orderChild(this.count, count);
+    	orderChild(count);
     	this.count = count;
 	}
     public void setCount(int count) { setCount(new Count(count)); }
@@ -185,7 +185,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public Frequency getFrequency() { return frequency; }
     public void setFrequency(Frequency frequency)
     {
-    	orderer.orderChild(this.frequency, frequency);
+    	orderChild(frequency);
     	this.frequency = frequency;
 	}
     public void setFrequency(String frequency) { setFrequency(Frequency.parse(frequency)); }
@@ -222,7 +222,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public Interval getInterval() { return interval; }
     public void setInterval(Interval interval)
     {
-    	orderer.orderChild(this.interval, interval);
+    	orderChild(interval);
     	this.interval = interval;
 	}
     public void setInterval(Integer interval) { setInterval(new Interval(interval)); }
@@ -254,7 +254,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public Until getUntil() { return until; }
     public void setUntil(Until until)
     {
-    	orderer.orderChild(this.until, until);
+    	orderChild(until);
     	this.until = until;
 	}
     public void setUntil(Temporal until) { setUntil(new Until(until)); }
@@ -279,7 +279,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public WeekStart getWeekStart() { return weekStart; }
     public void setWeekStart(WeekStart weekStart)
     {
-    	orderer.orderChild(this.weekStart, weekStart);
+    	orderChild(weekStart);
     	this.weekStart = weekStart;
 	}
     public void setWeekStart(DayOfWeek weekStart) { setWeekStart(new WeekStart(weekStart)); }

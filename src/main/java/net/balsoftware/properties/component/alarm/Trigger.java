@@ -50,7 +50,7 @@ public class Trigger<T> extends PropertyBase<T, Trigger<T>> implements PropAlarm
            ValueType valueType = (getValueType() == null) ? propertyType().allowedValueTypes().get(0) : getValueType().getValue();
            if (valueType == ValueType.DURATION)
            {
-        	   orderer.orderChild(this.relationship, relationship);
+        	   orderChild(relationship);
                this.relationship = relationship;
            } else
            {

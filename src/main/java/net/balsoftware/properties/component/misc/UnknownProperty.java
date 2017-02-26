@@ -76,7 +76,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setAlternateText(AlternateText alternateText)
     {
-    	orderer.orderChild(this.alternateText, alternateText);
+    	orderChild(alternateText);
     	this.alternateText = alternateText;
 	}
     public void setAlternateText(String value) { setAlternateText(AlternateText.parse(value)); }
@@ -101,7 +101,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setEncoding(Encoding encoding)
     {
-    	orderer.orderChild(this.encoding, encoding);
+    	orderChild(encoding);
     	this.encoding = encoding;
 	}
     public U withEncoding(Encoding encoding) { setEncoding(encoding); return (U) this; }
@@ -121,7 +121,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setFreeBusyType(FreeBusyType freeBusyType)
     {
-    	orderer.orderChild(this.freeBusyType, freeBusyType);
+    	orderChild(freeBusyType);
     	this.freeBusyType = freeBusyType;
 	}
     public void setFreeBusyType(FreeBusyTypeEnum type) { setFreeBusyType(new FreeBusyType(type)); }
@@ -140,7 +140,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setFormatType(FormatType formatType)
     {
-    	orderer.orderChild(this.formatType, formatType);
+    	orderChild(formatType);
     	this.formatType = formatType;
 	}
     public void setFormatType(String formatType) { setFormatType(FormatType.parse(formatType)); }
@@ -168,7 +168,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setRange(Range range)
     {
-    	orderer.orderChild(this.range, range);
+    	orderChild(range);
     	this.range = range;
 	}
     public void setRange(String value) { setRange(new Range(value)); }
@@ -188,7 +188,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setAlarmTrigger(AlarmTriggerRelationship alarmTrigger)
     {
-    	orderer.orderChild(this.alarmTrigger, alarmTrigger);
+    	orderChild(alarmTrigger);
     	this.alarmTrigger = alarmTrigger;
 	}
     public void setAlarmTrigger(String AlarmTrigger) { setAlarmTrigger(AlarmTriggerRelationship.parse(AlarmTrigger));; }
@@ -215,7 +215,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setRelationship(Relationship relationship)
     {
-    	orderer.orderChild(this.relationship, relationship);
+    	orderChild(relationship);
     	this.relationship = relationship;
 	}
     public void setRelationship(String value) { setRelationship(Relationship.parse(value)); }
@@ -238,7 +238,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier)
     {
-    	orderer.orderChild(this.timeZoneIdentifier, timeZoneIdentifier);
+    	orderChild(timeZoneIdentifier);
     	this.timeZoneIdentifier = timeZoneIdentifier;
 	}
     public void setTimeZoneIdentifier(String value) { setTimeZoneIdentifier(TimeZoneIdentifierParameter.parse(value)); }

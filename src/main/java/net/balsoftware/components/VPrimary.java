@@ -39,7 +39,7 @@ public abstract class VPrimary<T> extends VCommon<T>
     private List<Comment> comments;
     public void setComments(List<Comment> comments)
     {
-    	comments.forEach(c -> orderer.orderChild(null, c));
+    	comments.forEach(c -> orderChild(c));
     	this.comments = comments;
 	}
     public T withComments(List<Comment> comments)

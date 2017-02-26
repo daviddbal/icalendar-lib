@@ -60,7 +60,7 @@ public class RecurrenceId extends PropBaseDateTime<Temporal, RecurrenceId> imple
     @Override
     public void setRange(Range range)
     {
-    	orderer.orderChild(this.range, range);
+    	orderChild(range);
     	this.range = range;
 	}
     public void setRange(String value) { setRange(new Range(value)); }

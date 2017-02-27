@@ -25,6 +25,7 @@ public class SingleLineContent extends ContentLineBase
         StringBuilder builder = new StringBuilder(builderSize);
         builder.append(nameCallback.call(null));
         String elements = orderer.childrenUnmodifiable().stream()
+//        		.peek(c -> System.out.println("child:" + c))
                 .map(c -> c.toString())
                 .collect(Collectors.joining(";"));
         if (! elements.isEmpty())

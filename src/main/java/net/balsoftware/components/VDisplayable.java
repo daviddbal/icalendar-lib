@@ -642,6 +642,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
 
     /** returns list of orphaned recurrence components due to a change.  These
      * components should be deleted */
+    @Deprecated
     public List<VDisplayable<?>> orphanedRecurrenceChildren()
     {
         boolean isRecurrenceParent = getRecurrenceId() == null;

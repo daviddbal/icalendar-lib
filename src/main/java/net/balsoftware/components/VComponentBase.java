@@ -63,7 +63,6 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     VComponentBase()
     {
     	componentType = CalendarComponent.enumFromClass(this.getClass());
-    	System.out.println(componentType);
     	List<Method> getters = componentType.childGetters();
         orderer = new OrdererBase(this, getters);
         contentLineGenerator = new MultiLineContent(

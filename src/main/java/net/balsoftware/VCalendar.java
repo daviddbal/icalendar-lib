@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import net.balsoftware.components.SimpleVComponentFactory;
 import net.balsoftware.components.VComponent;
 import net.balsoftware.components.VDisplayable;
@@ -26,7 +24,6 @@ import net.balsoftware.components.VJournal;
 import net.balsoftware.components.VPersonal;
 import net.balsoftware.components.VTimeZone;
 import net.balsoftware.components.VTodo;
-import net.balsoftware.content.MultiLineContent;
 import net.balsoftware.itip.AbstractITIPFactory;
 import net.balsoftware.itip.DefaultITIPFactory;
 import net.balsoftware.itip.Processable;
@@ -38,7 +35,6 @@ import net.balsoftware.properties.calendar.ProductIdentifier;
 import net.balsoftware.properties.calendar.Version;
 import net.balsoftware.properties.component.misc.NonStandardProperty;
 import net.balsoftware.properties.component.misc.RequestStatus;
-import net.balsoftware.utilities.Callback;
 import net.balsoftware.utilities.DateTimeUtilities;
 import net.balsoftware.utilities.ICalendarUtilities;
 import net.balsoftware.utilities.UnfoldingStringIterator;
@@ -519,63 +515,72 @@ public class VCalendar extends VParentBase
 //        vComponents.addAll(getVTimeZones());
 //        return Collections.unmodifiableList(vComponents);
 //    }
-    
+
     /** Convenience method that returns all {@link VComponent VComponents} regardless of type (e.g.
      * {@link VEvent}, {@link VTodo}, etc.) 
      * 
      * @return  unmodifiable list of all {@link VComponent VComponents}
      */
-    public List<? extends VComponent> getVComponents(Class<? extends VComponent> vComponentClass)
-    {
-        if (vComponentClass.equals(VEvent.class))
-        {
-            return getVEvents();
-        } else if (vComponentClass.equals(VTodo.class))
-        {
-            return getVTodos();            
-        } else if (vComponentClass.equals(VJournal.class))
-        {
-            return getVJournals();            
-        } else if (vComponentClass.equals(VFreeBusy.class))
-        {
-            return getVFreeBusies();            
-        } else if (vComponentClass.equals(VTimeZone.class))
-        {
-            return getVTimeZones();            
-        } else
-        {
-            throw new RuntimeException("Unsuppored VComponent type:" + vComponentClass);
-        }
-    }
+	protected List<? extends VComponent> getVComponents(VChild c)
+	{
+		if (c instanceof VComponent)
+		{
+	        if (c.getClass().equals(VEvent.class))
+	        {
+	            return getVEvents();
+	        } else if (c.getClass().equals(VTodo.class))
+	        {
+	            return getVTodos();            
+	        } else if (c.getClass().equals(VJournal.class))
+	        {
+	            return getVJournals();            
+	        } else if (c.getClass().equals(VFreeBusy.class))
+	        {
+	            return getVFreeBusies();            
+	        } else if (c.getClass().equals(VTimeZone.class))
+	        {
+	            return getVTimeZones();            
+	        } else
+	        {
+	            throw new RuntimeException("Unsuppored VComponent type:" + c);
+	        }
+		}
+		// if not VComponent get from childrenUnmodifiable
+		return childrenUnmodifiable()
+				.stream()
+				.filter(c2 -> c.getClass().equals(c2.getClass()))
+				.map(c2 -> (VComponent) c2)
+				.collect(Collectors.toList());
+	}
     
-    /**
-     * A convenience method that returns parent list of the {@link VComponent} parameter.
-     * Returns null if component is not in any {@link VComponent} list.
-     * 
-     * @param vComponent - VComponent to look up
-     */
-    public List<? extends VComponent> getVComponents(VComponent vComponent)
-    {
-        if (vComponent instanceof VEvent)
-        {
-            return (getVEvents().contains(vComponent)) ? getVEvents() : null;
-        } else if (vComponent instanceof VTodo)
-        {
-            return (getVTodos().contains(vComponent)) ? getVTodos() : null;
-        } else if (vComponent instanceof VJournal)
-        {
-            return (getVJournals().contains(vComponent)) ? getVJournals() : null;
-        } else if (vComponent instanceof VFreeBusy)
-        {
-            return (getVFreeBusies().contains(vComponent)) ? getVFreeBusies() : null;
-        } else if (vComponent instanceof VTimeZone)
-        {
-            return (getVTimeZones().contains(vComponent)) ? getVTimeZones() : null;
-        } else
-        {
-            throw new RuntimeException("Unsuppored VComponent type:" + vComponent.getClass());
-        }
-    }
+//    /**
+//     * A convenience method that returns parent list of the {@link VComponent} parameter.
+//     * Returns null if component is not in any {@link VComponent} list.
+//     * 
+//     * @param vComponent - VComponent to look up
+//     */
+//    public List<? extends VComponent> getVComponents(VComponent vComponent)
+//    {
+//        if (vComponent instanceof VEvent)
+//        {
+//            return (getVEvents().contains(vComponent)) ? getVEvents() : null;
+//        } else if (vComponent instanceof VTodo)
+//        {
+//            return (getVTodos().contains(vComponent)) ? getVTodos() : null;
+//        } else if (vComponent instanceof VJournal)
+//        {
+//            return (getVJournals().contains(vComponent)) ? getVJournals() : null;
+//        } else if (vComponent instanceof VFreeBusy)
+//        {
+//            return (getVFreeBusies().contains(vComponent)) ? getVFreeBusies() : null;
+//        } else if (vComponent instanceof VTimeZone)
+//        {
+//            return (getVTimeZones().contains(vComponent)) ? getVTimeZones() : null;
+//        } else
+//        {
+//            throw new RuntimeException("Unsuppored VComponent type:" + vComponent.getClass());
+//        }
+//    }
     
     
     /** set AbstractITIPFactory to handle processing input VCalendar based on {@link Method} */
@@ -806,105 +811,115 @@ public class VCalendar extends VParentBase
         throw new RuntimeException("not implemented");
     }
     
-    private Map<String, List<VDisplayable<?>>> uidComponentsMap = new HashMap<>(); // public for testing
+//    private Map<String, List<VDisplayable<?>>> uidComponentsMap = new HashMap<>(); // public for testing
     /**
      * Map of Related Components - UID is key and List of all related VComponents is value.
      * Note: if you only want child components you need to filter the list to only include components
      * that have a RECURRENCE-ID
      */
-    public Map<String, List<VDisplayable<?>>> uidComponentsMap() { return Collections.unmodifiableMap(uidComponentsMap); }
-    
-    /**
-     * RecurrenceID listener
-     * notifies parents when a child component with recurrenceID is created or removed
-     * also maintains {@link #uidToComponentMap}
-     */
-    private ListChangeListener<VDisplayable<?>> displayableListChangeListener = (ListChangeListener.Change<? extends VDisplayable<?>> change) ->
+    public Map<String, List<VDisplayable<?>>> uidComponentsMap()
     {
-
-        while (change.next())
-        {
-//            System.out.println("remove orphans here1:" + change.wasReplaced() + " " + change.wasAdded() + " " + change.wasRemoved());
-            if (change.wasReplaced())
-            {
-//                System.out.println("replaced:" + change); 
-            } else if (change.wasAdded())
-            {
-                change.getAddedSubList().forEach(vComponent -> 
-                {
-                    // set recurrence children callback (VComponents having RecurrenceIDs and matching UID to a recurrence parent)
-                    vComponent.setRecurrenceChildrenListCallBack( (c) ->
-                    {
-                        if (c.getUniqueIdentifier() == null) return null;
-                        return uidComponentsMap.get(c.getUniqueIdentifier().getValue())
-                                .stream()
-                                .filter(v -> v.getRecurrenceId() != null) // keep only children objects
-                                .collect(Collectors.toList());
-                    });
-                    // set recurrence parent callback (the VComponent with matching UID and no RECURRENCEID)
-                    vComponent.setRecurrenceParentListCallBack( (c) ->
-                    {
-                        if (c.getUniqueIdentifier() == null) return null;
-                        return uidComponentsMap.get(c.getUniqueIdentifier().getValue())
-                                .stream()
-                                .filter(v -> v.getRecurrenceId() == null) // parents don't have RECURRENCEID
-                                .findAny()
-                                .orElse(null);
-                    });
-                    // add VComponent to map
-                    if (vComponent.getUniqueIdentifier() != null)
-                    {
-                        String uid = vComponent.getUniqueIdentifier().getValue();
-                        final List<VDisplayable<?>> relatedComponents;
-                        if (uidComponentsMap.get(uid) == null)
-                        {
-                            relatedComponents = new ArrayList<>();
-                            uidComponentsMap.put(uid, relatedComponents);
-                        } else
-                        {
-                            relatedComponents = uidComponentsMap.get(uid);
-                        }
-                        relatedComponents.add(vComponent);
-                    }
-//                    deleteOrphans(vComponent);
-                });
-            } else if (change.wasRemoved())
-            {
-//                System.out.println("remove orphans here2:");
-                change.getRemoved().forEach(vComponent -> 
-                {
-                    String uid = vComponent.getUniqueIdentifier().getValue();
-                    List<VDisplayable<?>> relatedComponents = uidComponentsMap.get(uid);
-                    if (relatedComponents != null)
-                    {
-                        relatedComponents.remove(vComponent);
-//                        System.out.println("remove orphans here3:");
-                        if (relatedComponents.isEmpty())
-                        {
-                            uidComponentsMap.remove(uid);
-                        }
-                    }
-                    // TODO - CHECK FOR ORPHANED CHILDREN
-                    // NEED TO MAKE SURE A NEWLY ADDED COMPONENT CAN CLAIM SOME CHILDREN
-                });         
-            } else
-            {
-                System.out.println(change);
-                // CHECK FOR ORPHANED CHILDREN HERE
-//                int fromIndex = change.getFrom();
-//                int toIndex = change.getTo();
-////                change.reset();
-//                change.getList().subList(fromIndex, toIndex).forEach(v -> System.out.println(v.getRecurrenceRule()));
-//                change.getList().forEach(v -> System.out.println(System.identityHashCode(v)));
-                // SOME OTHER LISTENERS MUST NOT HAVE FIRED YET CAUSING TOCONTENT TO BE WRONG
-                // Maybe I can check for orphans anyway.
-                
-//                change.getRemoved().forEach(System.out::println);
-//                System.exit(0);
-            }
-        }
-//        change.getList().forEach(v -> System.out.println(v));
-    };
+    	return null;
+//    	childrenUnmodifiable()
+//    		.stream()
+//    		.filter(c -> c instanceof Personal)
+//    		.map(c -> (VPersonal) c)
+//    		.collect(Collectors.groupingBy(VPersonal::getUid, downstream))
+	}
+    
+    
+//    
+//    /**
+//     * RecurrenceID listener
+//     * notifies parents when a child component with recurrenceID is created or removed
+//     * also maintains {@link #uidToComponentMap}
+//     */
+//    private ListChangeListener<VDisplayable<?>> displayableListChangeListener = (ListChangeListener.Change<? extends VDisplayable<?>> change) ->
+//    {
+//
+//        while (change.next())
+//        {
+////            System.out.println("remove orphans here1:" + change.wasReplaced() + " " + change.wasAdded() + " " + change.wasRemoved());
+//            if (change.wasReplaced())
+//            {
+////                System.out.println("replaced:" + change); 
+//            } else if (change.wasAdded())
+//            {
+//                change.getAddedSubList().forEach(vComponent -> 
+//                {
+//                    // set recurrence children callback (VComponents having RecurrenceIDs and matching UID to a recurrence parent)
+//                    vComponent.setRecurrenceChildrenListCallBack( (c) ->
+//                    {
+//                        if (c.getUniqueIdentifier() == null) return null;
+//                        return uidComponentsMap.get(c.getUniqueIdentifier().getValue())
+//                                .stream()
+//                                .filter(v -> v.getRecurrenceId() != null) // keep only children objects
+//                                .collect(Collectors.toList());
+//                    });
+//                    // set recurrence parent callback (the VComponent with matching UID and no RECURRENCEID)
+//                    vComponent.setRecurrenceParentListCallBack( (c) ->
+//                    {
+//                        if (c.getUniqueIdentifier() == null) return null;
+//                        return uidComponentsMap.get(c.getUniqueIdentifier().getValue())
+//                                .stream()
+//                                .filter(v -> v.getRecurrenceId() == null) // parents don't have RECURRENCEID
+//                                .findAny()
+//                                .orElse(null);
+//                    });
+//                    // add VComponent to map
+//                    if (vComponent.getUniqueIdentifier() != null)
+//                    {
+//                        String uid = vComponent.getUniqueIdentifier().getValue();
+//                        final List<VDisplayable<?>> relatedComponents;
+//                        if (uidComponentsMap.get(uid) == null)
+//                        {
+//                            relatedComponents = new ArrayList<>();
+//                            uidComponentsMap.put(uid, relatedComponents);
+//                        } else
+//                        {
+//                            relatedComponents = uidComponentsMap.get(uid);
+//                        }
+//                        relatedComponents.add(vComponent);
+//                    }
+////                    deleteOrphans(vComponent);
+//                });
+//            } else if (change.wasRemoved())
+//            {
+////                System.out.println("remove orphans here2:");
+//                change.getRemoved().forEach(vComponent -> 
+//                {
+//                    String uid = vComponent.getUniqueIdentifier().getValue();
+//                    List<VDisplayable<?>> relatedComponents = uidComponentsMap.get(uid);
+//                    if (relatedComponents != null)
+//                    {
+//                        relatedComponents.remove(vComponent);
+////                        System.out.println("remove orphans here3:");
+//                        if (relatedComponents.isEmpty())
+//                        {
+//                            uidComponentsMap.remove(uid);
+//                        }
+//                    }
+//                    // TODO - CHECK FOR ORPHANED CHILDREN
+//                    // NEED TO MAKE SURE A NEWLY ADDED COMPONENT CAN CLAIM SOME CHILDREN
+//                });         
+//            } else
+//            {
+//                System.out.println(change);
+//                // CHECK FOR ORPHANED CHILDREN HERE
+////                int fromIndex = change.getFrom();
+////                int toIndex = change.getTo();
+//////                change.reset();
+////                change.getList().subList(fromIndex, toIndex).forEach(v -> System.out.println(v.getRecurrenceRule()));
+////                change.getList().forEach(v -> System.out.println(System.identityHashCode(v)));
+//                // SOME OTHER LISTENERS MUST NOT HAVE FIRED YET CAUSING TOCONTENT TO BE WRONG
+//                // Maybe I can check for orphans anyway.
+//                
+////                change.getRemoved().forEach(System.out::println);
+////                System.exit(0);
+//            }
+//        }
+////        change.getList().forEach(v -> System.out.println(v));
+//    };
     
 //    // Assumes the component is the only one with the children attached to it.
 //    // If a replace operation happened, the old component must be removed, but not its
@@ -960,47 +975,47 @@ public class VCalendar extends VParentBase
 //        return null;
 //    };
     
-    @Override
-    @Deprecated
-    protected Callback<VChild, Void> copyIntoCallback()
-    {        
-        return (child) ->
-        {
-            CalendarComponent type = CalendarComponent.enumFromClass(child.getClass());
-            if (type != null)
-            {
-                type.copyChild(child, this);
-            } else
-            {
-                CalendarProperty property = CalendarProperty.enumFromClass(child.getClass());
-                if (property != null)
-                {
-                    property.copyChild(child, this);
-                }
-            }
-            return null;
-        };
-    }
+//    @Override
+//    @Deprecated
+//    protected Callback<VChild, Void> copyIntoCallback()
+//    {        
+//        return (child) ->
+//        {
+//            CalendarComponent type = CalendarComponent.enumFromClass(child.getClass());
+//            if (type != null)
+//            {
+//                type.copyChild(child, this);
+//            } else
+//            {
+//                CalendarProperty property = CalendarProperty.enumFromClass(child.getClass());
+//                if (property != null)
+//                {
+//                    property.copyChild(child, this);
+//                }
+//            }
+//            return null;
+//        };
+//    }
     
     @Override
     public void copyInto(VParent destination)
     {
         super.copyInto(destination);
-        childrenUnmodifiable().forEach((childSource) -> 
-        {
-            CalendarComponent componentType = CalendarComponent.enumFromClass(childSource.getClass());
-            if (componentType != null)
-            {
-                componentType.copyChild(childSource, (VCalendar) destination);
-            } else
-            {
-                CalendarProperty propertyType = CalendarProperty.enumFromClass(childSource.getClass());
-                if (propertyType != null)
-                {
-                    propertyType.copyChild(childSource, (VCalendar) destination);
-                }
-            }
-        });
+//        childrenUnmodifiable().forEach((childSource) -> 
+//        {
+//            CalendarComponent componentType = CalendarComponent.enumFromClass(childSource.getClass());
+//            if (componentType != null)
+//            {
+//                componentType.copyChild(childSource, (VCalendar) destination);
+//            } else
+//            {
+//                CalendarProperty propertyType = CalendarProperty.enumFromClass(childSource.getClass());
+//                if (propertyType != null)
+//                {
+//                    propertyType.copyChild(childSource, (VCalendar) destination);
+//                }
+//            }
+//        });
     }
     
     @Override
@@ -1027,11 +1042,11 @@ public class VCalendar extends VParentBase
     {
         setMethodProcessFactory(new DefaultITIPFactory());
         addListeners();
-        setContentLineGenerator(new MultiLineContent(
-                orderer(),
-                FIRST_CONTENT_LINE,
-                LAST_CONTENT_LINE,
-                1000));
+//        setContentLineGenerator(new MultiLineContent(
+//                orderer(),
+//                FIRST_CONTENT_LINE,
+//                LAST_CONTENT_LINE,
+//                1000));
 //        setVersion(new Version());
     }
   
@@ -1048,25 +1063,9 @@ public class VCalendar extends VParentBase
     
     private void addListeners()
     {
-        // listeners to keep map to related components from UID string
-        getVEvents().addListener(displayableListChangeListener);
-        getVTodos().addListener(displayableListChangeListener);
-        getVJournals().addListener(displayableListChangeListener);
 
-        // Sort order listeners
-        orderer().registerSortOrderProperty(getVEvents());
-        orderer().registerSortOrderProperty(getVTodos());
-        orderer().registerSortOrderProperty(getVJournals());
-        orderer().registerSortOrderProperty(getVTimeZones());
-        orderer().registerSortOrderProperty(getVFreeBusies());
     }
-    
-    @Override
-    public String toString()
-    {
-        return super.toString() + " " + toContent();
-    }
-    
+        
     @Override
     public List<String> parseContent(String content)
     {
@@ -1285,4 +1284,13 @@ public class VCalendar extends VParentBase
         c.parseContent(contentLines);
         return c;
     }
+
+	public List<? extends VComponent> getVComponents(Class<? extends VChild> class1) {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("not implemented");
+	}
+	public List<VComponent> getAllVComponents() {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("not implemented");
+	}
 }

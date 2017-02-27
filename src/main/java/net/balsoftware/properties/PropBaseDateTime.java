@@ -30,7 +30,7 @@ import net.balsoftware.properties.component.time.DateTimeStart;
 public abstract class PropBaseDateTime<T, U> extends PropertyBase<T,U> implements PropDateTime<T>
 {
     // reference to property value if T is not instance of Collection, or an element if T is a Collection
-    private Object anElement;
+    private Object myElement;
     
     /**
      * TZID
@@ -47,7 +47,7 @@ public abstract class PropBaseDateTime<T, U> extends PropertyBase<T,U> implement
     @Override
     public void setTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier)
     {
-        if ((anElement == null) || (anElement instanceof ZonedDateTime))
+        if ((myElement == null) || (myElement instanceof ZonedDateTime))
         {
         	orderChild(timeZoneIdentifier);
             this.timeZoneIdentifier = timeZoneIdentifier;
@@ -104,37 +104,46 @@ public abstract class PropBaseDateTime<T, U> extends PropertyBase<T,U> implement
         if (value instanceof Collection)
         {
             Collection<?> collection = (Collection<?>) value;
-            anElement = (collection.isEmpty()) ? null : collection.iterator().next();
+            myElement = (collection.isEmpty()) ? null : collection.iterator().next();
         } else if (value instanceof Temporal)
         {
-            anElement = value;
+            myElement = value;
         } else
         {
             throw new DateTimeException("Unsupported type:" + value.getClass().getSimpleName());            
         }
 
-        if (anElement != null)
+        if (myElement != null)
         {
-            if (anElement instanceof ZonedDateTime)
+            if (myElement instanceof ZonedDateTime)
             {
-                ZoneId zone = ((ZonedDateTime) anElement).getZone();
+                ZoneId zone = ((ZonedDateTime) myElement).getZone();
                 if (! zone.equals(ZoneId.of("Z")))
                 {
-                    if (getValueType() != null && getValueType().getValue() == ValueType.DATE) setValueType((ValueParameter) null); // reset value type if previously set to DATE
-                    setTimeZoneIdentifier(new TimeZoneIdentifierParameter(zone));
+                    if (getValueType() != null && getValueType().getValue() == ValueType.DATE)
+                	{
+                    	setValueType((ValueParameter) null); // reset value type if previously set to DATE
+                	}
+                    if (getTimeZoneIdentifier() == null)
+                    {
+                    	setTimeZoneIdentifier(new TimeZoneIdentifierParameter(zone));
+                    }
                 }
-            } else if ((anElement instanceof LocalDateTime) || (anElement instanceof LocalDate))
+            } else if ((myElement instanceof LocalDateTime) || (myElement instanceof LocalDate))
             {
                 if (getTimeZoneIdentifier() != null)
                 {
-                    throw new DateTimeException("Only ZonedDateTime is permitted when specifying a Time Zone Identifier (" + anElement.getClass().getSimpleName() + ")");                            
+                    throw new DateTimeException("Only ZonedDateTime is permitted when specifying a Time Zone Identifier (" + myElement.getClass().getSimpleName() + ")");                            
                 }
-                if (anElement instanceof LocalDate)
+                if (getValueType() == null)
                 {
-                    setValueType(ValueType.DATE); // must set value parameter to force output of VALUE=DATE
-                } else
-                {
-                    if (getValueType() != null && getValueType().getValue() == ValueType.DATE) setValueType((ValueParameter) null); // reset value type if previously set to DATE
+	                if (myElement instanceof LocalDate)
+	                {
+	                    setValueType(ValueType.DATE); // must set value parameter to force output of VALUE=DATE
+	                } else
+	                {
+	                    if (getValueType() != null && getValueType().getValue() == ValueType.DATE) setValueType((ValueParameter) null); // reset value type if previously set to DATE
+	                }
                 }
             } else
             {

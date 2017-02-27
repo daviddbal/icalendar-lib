@@ -117,7 +117,15 @@ public class OrdererBase implements Orderer
 	@Override
 	public void orderChild(VChild newChild)
 	{
-		orderedChildren.add(newChild);
+//		System.out.println("adding:" + newChild + "  " + System.identityHashCode(newChild));
+		if ((! orderedChildren.contains(newChild)) && (newChild != null))
+		{
+			orderedChildren.add(newChild);
+			newChild.setParent(parent);
+		} else
+		{
+//			throw new RuntimeException("already added");
+		}
 	}
 
 //	@Override

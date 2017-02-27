@@ -455,9 +455,11 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
         // parse parameters
         List<Pair<String, String>> list = ICalendarUtilities.contentToParameterListPair(propertyValue);
         list.stream()
+//        .peek(System.out::println)
             .forEach(entry ->
             {
                 ParameterType parameterType = ParameterType.enumFromName(entry.getKey());
+//                System.out.println("parameterType:"+parameterType);
                 boolean isAllowed = propertyType().allowedParameters().contains(parameterType);
                 if (parameterType != null && isAllowed)
                 {
@@ -465,8 +467,6 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
                     if (existingParemeter == null || existingParemeter instanceof List)
                     {
                         VChild child = parameterType.parse(this, entry.getKey() + "=" + entry.getValue());
-                        orderChild(child);
-                        // TODO - NEED TO ORDER CHILD PARAMETERS
                     } else
                     {
                         throw new IllegalArgumentException(parameterType + " can only occur once in a calendar component");

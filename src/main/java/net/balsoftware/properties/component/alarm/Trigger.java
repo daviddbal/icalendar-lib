@@ -85,7 +85,7 @@ public class Trigger<T> extends PropertyBase<T, Trigger<T>> implements PropAlarm
             {
                 throw new DateTimeException("Unsupported ZoneId:" + zone + " only Z supported");
             }
-            setValueType(ValueType.DATE_TIME); // override default value type            
+            setValueType(ValueType.DATE_TIME); // override default value type
         }
         super.setValue(value);
     }

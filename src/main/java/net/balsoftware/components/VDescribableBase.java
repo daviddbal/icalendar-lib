@@ -35,7 +35,11 @@ public abstract class VDescribableBase<T> extends VCommon<T> implements VDescrib
     public List<Attachment<?>> getAttachments() { return attachments; }
     private List<Attachment<?>> attachments;
     @Override
-    public void setAttachments(List<Attachment<?>> attachments) { this.attachments = attachments; }
+    public void setAttachments(List<Attachment<?>> attachments)
+    {
+    	this.attachments = attachments;
+    	attachments.forEach(c -> c.orderChild(c));
+	}
     
     /**
      *<p>This property defines a short summary or subject for the calendar component</p>
@@ -52,8 +56,8 @@ public abstract class VDescribableBase<T> extends VCommon<T> implements VDescrib
     @Override
 	public void setSummary(Summary summary)
     {
-    	orderChild(summary);
     	this.summary = summary;
+    	orderChild(summary);
 	}
     
     /*

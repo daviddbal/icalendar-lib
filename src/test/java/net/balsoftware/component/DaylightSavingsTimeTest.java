@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -83,20 +86,37 @@ public class DaylightSavingsTimeTest
                 "END:" + componentName;
 
         DaylightSavingTime madeComponent = DaylightSavingTime.parse(content);
+        System.out.println(builtComponent);
+        System.out.println(madeComponent);
         assertEquals(madeComponent, builtComponent);
         
         // add another set of recurrences
-        ObservableSet<Temporal> expectedValues = FXCollections.observableSet(
+        Set<Temporal> expectedValues = new HashSet<>(Arrays.asList(
                 LocalDate.of(1996, 4, 2),
                 LocalDate.of(1996, 4, 3),
-                LocalDate.of(1996, 4, 4) );        
+                LocalDate.of(1996, 4, 4) ));
         builtComponent.getRecurrenceDates().add(new RecurrenceDates(expectedValues));
         String content2 = "BEGIN:" + componentName + System.lineSeparator() +
                 "RDATE;VALUE=DATE:19970304,19970504,19970704,19970904" + System.lineSeparator() +
                 "RRULE:FREQ=DAILY;INTERVAL=4" + System.lineSeparator() +
                 "RDATE;VALUE=DATE:19960402,19960403,19960404" + System.lineSeparator() +
                 "END:" + componentName;
+        System.out.println(builtComponent);
         assertEquals(content2, builtComponent.toString());
+    }
+    
+    @Test
+    public void canBuildRepeatable2()
+    {
+        String componentName = DaylightSavingTime.NAME;
+        
+        String content = "BEGIN:" + componentName + System.lineSeparator() +
+                "RDATE;VALUE=DATE:19970304,19970504,19970704,19970904" + System.lineSeparator() +
+                "RRULE:FREQ=DAILY;INTERVAL=4" + System.lineSeparator() +
+                "END:" + componentName;
+
+        DaylightSavingTime madeComponent = DaylightSavingTime.parse(content);
+        System.out.println(madeComponent);
     }
     
     @Test (expected = DateTimeException.class)

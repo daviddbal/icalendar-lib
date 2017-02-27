@@ -73,8 +73,16 @@ public class VJournal extends VDisplayable<VJournal>
      */
     public List<Description> getDescriptions() { return descriptions; }
     private List<Description> descriptions;
-    public void setDescriptions(List<Description> descriptions) { this.descriptions = descriptions; }
-    public VJournal withDescriptions(List<Description> descriptions) { setDescriptions(descriptions); return this; }
+    public void setDescriptions(List<Description> descriptions)
+    {
+    	this.descriptions = descriptions;
+    	descriptions.forEach(c -> orderChild(c));
+	}
+    public VJournal withDescriptions(List<Description> descriptions)
+    {
+    	setDescriptions(descriptions);
+    	return this;
+	}
     public VJournal withDescriptions(String...descriptions)
     {
         List<Description> list = Arrays.stream(descriptions)

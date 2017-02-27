@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.properties.component.misc.NonStandardProperty;
 
 /**
@@ -35,8 +33,8 @@ public abstract class VCommon<T> extends VComponentBase
     public List<NonStandardProperty> getNonStandard() { return nonStandardProps; }
     public void setNonStandard(List<NonStandardProperty> nonStandardProps)
     {
-    	nonStandardProps.forEach(c -> orderChild(c));
     	this.nonStandardProps = nonStandardProps;
+    	nonStandardProps.forEach(c -> orderChild(c));
 	}
     /**
      * Sets the value of the {@link #nonStandardProperty()} by parsing a vararg of
@@ -46,10 +44,14 @@ public abstract class VCommon<T> extends VComponentBase
      */
     public T withNonStandard(String...nonStandardProps)
     {
-        List<NonStandardProperty> a = Arrays.stream(nonStandardProps)
+    	if (getNonStandard() == null)
+    	{
+        	setNonStandard(new ArrayList<>());
+    	}
+        List<NonStandardProperty> newElements = Arrays.stream(nonStandardProps)
                 .map(c -> NonStandardProperty.parse(c))
                 .collect(Collectors.toList());
-        setNonStandard(FXCollections.observableArrayList(a));
+        getNonStandard().addAll(newElements);
         return (T) this;
     }
     /**
@@ -57,9 +59,13 @@ public abstract class VCommon<T> extends VComponentBase
      * 
      * @return - this class for chaining
      */
-    public T withNonStandard(ObservableList<NonStandardProperty> nonStandardProps)
+    public T withNonStandard(List<NonStandardProperty> nonStandardProps)
     {
-        setNonStandard(nonStandardProps);
+    	if (getNonStandard() == null)
+    	{
+        	setNonStandard(new ArrayList<>());
+    	}
+    	getNonStandard().addAll(nonStandardProps);
         return (T) this;
     }
     /**
@@ -69,7 +75,11 @@ public abstract class VCommon<T> extends VComponentBase
      */    
     public T withNonStandard(NonStandardProperty...nonStandardProps)
     {
-    	setNonStandard(new ArrayList<>(Arrays.asList(nonStandardProps)));
+    	if (getNonStandard() == null)
+    	{
+        	setNonStandard(new ArrayList<>());
+    	}
+    	getNonStandard().addAll(Arrays.asList(nonStandardProps));
         return (T) this;
     }
 

@@ -317,7 +317,11 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
 	@Override
 	public DurationProp getDuration() { return duration; }
 	@Override
-	public void setDuration(DurationProp duration) { this.duration = duration; }
+	public void setDuration(DurationProp duration)
+	{
+    	orderer.orderChild(duration);
+		this.duration = duration;
+	}
     
     /**
      * <p>This property defines the number of times the alarm should

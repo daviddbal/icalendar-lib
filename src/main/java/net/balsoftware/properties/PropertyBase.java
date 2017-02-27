@@ -285,7 +285,11 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
      */
     public U withNonStandard(List<NonStandardParameter> nonStandardParams)
     {
-        setNonStandard(nonStandardParams);
+    	if (getNonStandard() == null)
+    	{
+        	setNonStandard(new ArrayList<>());
+    	}
+    	getNonStandard().addAll(nonStandardParams);
         return (U) this;
     }
     /**
@@ -295,7 +299,11 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
      */    
     public U withNonStandard(NonStandardParameter...nonStandardParams)
     {
-        setNonStandard(new ArrayList<>(Arrays.asList(nonStandardParams)));
+    	if (getNonStandard() == null)
+    	{
+        	setNonStandard(new ArrayList<>());
+    	}
+    	getNonStandard().addAll(Arrays.asList(nonStandardParams));
         return (U) this;
     }
     

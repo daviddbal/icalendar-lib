@@ -123,6 +123,7 @@ public abstract class VComponentBase extends VParentBase implements VComponent
         while (unfoldedLineIterator.hasNext())
         {
             String unfoldedLine = unfoldedLineIterator.next();
+//            System.out.println("unfoldedLine:" + unfoldedLine);
             int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
             String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
             // Parse subcomponent
@@ -153,6 +154,7 @@ public abstract class VComponentBase extends VParentBase implements VComponent
                         {
                             try
                             {
+//                            	System.out.println("unfoldedLine:" + unfoldedLine);
                                 propertyType.parse(this, unfoldedLine);
                             } catch (Exception e)
                             {

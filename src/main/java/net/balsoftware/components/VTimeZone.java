@@ -275,7 +275,11 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
      */
     public List<StandardOrDaylight<?>> getStandardOrDaylight() { return standardOrDaylight; }
     private List<StandardOrDaylight<?>> standardOrDaylight;
-    public void setStandardOrDaylight(List<StandardOrDaylight<?>> standardOrDaylight){ this.standardOrDaylight = standardOrDaylight; }
+    public void setStandardOrDaylight(List<StandardOrDaylight<?>> standardOrDaylight)
+    {
+    	this.standardOrDaylight = standardOrDaylight;
+    	standardOrDaylight.forEach(c -> orderChild(c));
+	}
     public VTimeZone withStandardOrDaylight(List<StandardOrDaylight<?>> standardOrDaylight)
     {
     	setStandardOrDaylight(standardOrDaylight);
@@ -306,7 +310,11 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     private LastModified lastModified;
     @Override
     public LastModified getDateTimeLastModified() { return lastModified; }
-    public void setDateTimeLastModified(LastModified lastModified) { this.lastModified = lastModified; }
+    public void setDateTimeLastModified(LastModified lastModified)
+    {
+    	this.lastModified = lastModified;
+    	orderChild(lastModified);
+	}
     
     /**
      * TZID
@@ -325,7 +333,11 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
      */
     private TimeZoneIdentifier timeZoneIdentifier;
     public TimeZoneIdentifier getTimeZoneIdentifier() { return timeZoneIdentifier; }
-    public void setTimeZoneIdentifier(TimeZoneIdentifier timeZoneIdentifier) { this.timeZoneIdentifier = timeZoneIdentifier; }
+    public void setTimeZoneIdentifier(TimeZoneIdentifier timeZoneIdentifier)
+    {
+    	this.timeZoneIdentifier = timeZoneIdentifier;
+		orderChild(timeZoneIdentifier);
+	}
     public void setTimeZoneIdentifier(String timeZoneIdentifier) { setTimeZoneIdentifier(TimeZoneIdentifier.parse(timeZoneIdentifier)); }
     public VTimeZone withTimeZoneIdentifier(TimeZoneIdentifier timeZoneIdentifier)
     { 
@@ -352,7 +364,11 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
      */
     private TimeZoneURL timeZoneURL;
     public TimeZoneURL getTimeZoneURL() { return timeZoneURL; }
-    public void setTimeZoneURL(TimeZoneURL timeZoneURL) { this.timeZoneURL = timeZoneURL; }
+    public void setTimeZoneURL(TimeZoneURL timeZoneURL)
+    {
+    	this.timeZoneURL = timeZoneURL;
+    	orderChild(timeZoneURL);
+	}
     public void setTimeZoneURL(String timeZoneURL) { setTimeZoneURL(TimeZoneURL.parse(timeZoneURL)); }
     public void setTimeZoneURL(URI timeZoneURL) { setTimeZoneURL(new TimeZoneURL(timeZoneURL)); }
     public VTimeZone withTimeZoneURL(TimeZoneURL timeZoneURL)

@@ -70,7 +70,11 @@ public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
     private DateTimeCompleted dateTimeCompleted;
     public DateTimeCompleted getDateTimeCompleted() { return dateTimeCompleted; }
     public void setDateTimeCompleted(String completed) { setDateTimeCompleted(DateTimeCompleted.parse(completed)); }
-    public void setDateTimeCompleted(DateTimeCompleted completed) { this.dateTimeCompleted = completed; }
+    public void setDateTimeCompleted(DateTimeCompleted completed)
+    {
+    	this.dateTimeCompleted = completed;
+    	orderChild(completed);
+	}
     public void setDateTimeCompleted(ZonedDateTime completed) { setDateTimeCompleted(new DateTimeCompleted(completed)); }
     public VTodo withDateTimeCompleted(ZonedDateTime completed)
     {
@@ -101,7 +105,11 @@ public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
     private DateTimeDue dateTimeDue;
     public DateTimeDue getDateTimeDue() { return dateTimeDue; }
     public void setDateTimeDue(String due) { setDateTimeDue(DateTimeDue.parse(due)); }
-    public void setDateTimeDue(DateTimeDue due) { this.dateTimeDue = due; }
+    public void setDateTimeDue(DateTimeDue due)
+    {
+    	this.dateTimeDue = due;
+    	orderChild(due);
+	}
     public void setDateTimeDue(Temporal due)
     {
         if ((due instanceof LocalDate) || (due instanceof LocalDateTime) || (due instanceof ZonedDateTime))
@@ -156,7 +164,11 @@ public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
     public PercentComplete getPercentComplete() { return percentComplete; }
     public void setPercentComplete(String percentComplete) { setPercentComplete(PercentComplete.parse(percentComplete)); }
     public void setPercentComplete(Integer percentComplete) { setPercentComplete(new PercentComplete(percentComplete)); }
-    public void setPercentComplete(PercentComplete percentComplete) { this.percentComplete = percentComplete; }
+    public void setPercentComplete(PercentComplete percentComplete)
+    {
+    	this.percentComplete = percentComplete;
+    	orderChild(percentComplete);
+	}
     public VTodo withPercentComplete(PercentComplete percentComplete)
     { 
     	setPercentComplete(percentComplete); 

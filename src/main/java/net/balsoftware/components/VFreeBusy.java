@@ -5,7 +5,6 @@ import java.time.temporal.TemporalAmount;
 import java.util.Collections;
 import java.util.List;
 
-import net.balsoftware.properties.PropertyType;
 import net.balsoftware.properties.component.relationship.Contact;
 import net.balsoftware.properties.component.time.DateTimeEnd;
 import net.balsoftware.properties.component.time.FreeBusyTime;
@@ -106,9 +105,21 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
     private Contact contact;
     public Contact getContact() { return contact; }
     public void setContact(String contact) { setContact(Contact.parse(contact)); }
-    public void setContact(Contact contact) { this.contact = contact; }
-    public VFreeBusy withContact(Contact contact) { setContact(contact); return this; }
-    public VFreeBusy withContact(String contact) { PropertyType.CONTACT.parse(this, contact); return this; }
+    public void setContact(Contact contact)
+    {
+    	this.contact = contact;
+    	orderChild(contact);
+	}
+    public VFreeBusy withContact(Contact contact)
+    {
+    	setContact(contact);
+    	return this;
+	}
+    public VFreeBusy withContact(String contact)
+    {
+    	setContact(Contact.parse(contact));
+    	return this;
+	}
     
     /**
      * DTEND
@@ -127,7 +138,11 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
     @Override
     public DateTimeEnd getDateTimeEnd() { return dateTimeEnd; }
     private DateTimeEnd dateTimeEnd;
-    public void setDateTimeEnd(DateTimeEnd dtEnd) { this.dateTimeEnd = dtEnd; }
+    public void setDateTimeEnd(DateTimeEnd dtEnd)
+    {
+    	this.dateTimeEnd = dtEnd;
+    	orderChild(dtEnd);
+	}
     
     /**
      * FREEBUSY
@@ -156,10 +171,26 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
     public FreeBusyTime getFreeBusyTime() { return freeBusyTime; }
     public void setFreeBusyTime(String freeBusyTime) { setFreeBusyTime(FreeBusyTime.parse(freeBusyTime)); }
     public void setFreeBusyTime(List<Pair<ZonedDateTime, TemporalAmount>> freeBusyTime) { setFreeBusyTime(new FreeBusyTime(freeBusyTime)); }
-    public void setFreeBusyTime(FreeBusyTime freeBusyTime) { this.freeBusyTime = freeBusyTime; }
-    public VFreeBusy withFreeBusyTime(FreeBusyTime freeBusyTime) { setFreeBusyTime(freeBusyTime); return this; }
-    public VFreeBusy withFreeBusyTime(List<Pair<ZonedDateTime, TemporalAmount>> freeBusyTime) { setFreeBusyTime(freeBusyTime); return this; }
-    public VFreeBusy withFreeBusyTime(String freeBusyTime) { PropertyType.FREE_BUSY_TIME.parse(this, freeBusyTime); return this; }
+    public void setFreeBusyTime(FreeBusyTime freeBusyTime)
+    {
+    	this.freeBusyTime = freeBusyTime;
+    	orderChild(freeBusyTime);
+	}
+    public VFreeBusy withFreeBusyTime(FreeBusyTime freeBusyTime)
+    {
+    	setFreeBusyTime(freeBusyTime);
+    	return this;
+	}
+    public VFreeBusy withFreeBusyTime(List<Pair<ZonedDateTime, TemporalAmount>> freeBusyTime)
+    {
+    	setFreeBusyTime(freeBusyTime);
+    	return this;
+	}
+    public VFreeBusy withFreeBusyTime(String freeBusyTime)
+    {
+    	setFreeBusyTime(FreeBusyTime.parse(freeBusyTime));
+    	return this;
+	}
  
     /*
      * CONSTRUCTORS

@@ -43,7 +43,11 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     public Description getDescription() { return description; }
     private Description description;
     @Override
-	public void setDescription(Description description) { this.description = description; }
+	public void setDescription(Description description)
+    {
+    	this.description = description;
+    	orderChild(description);
+	}
 
     /** 
      * DURATION
@@ -75,6 +79,7 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
             throw new DateTimeException("DURATION and DTEND can't both be set");
         }
         this.duration = duration;
+        orderChild(duration);
     }
     
     /**
@@ -91,7 +96,11 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      */
     private GeographicPosition geographicPosition;
     public GeographicPosition getGeographicPosition() { return geographicPosition; }
-    public void setGeographicPosition(GeographicPosition geographicPosition) { this.geographicPosition = geographicPosition; }
+    public void setGeographicPosition(GeographicPosition geographicPosition)
+    {
+    	this.geographicPosition = geographicPosition;
+    	orderChild(geographicPosition);
+	}
     public void setGeographicPosition(String geographicPosition) { setGeographicPosition(GeographicPosition.parse(geographicPosition)); }
     public void setGeographicPosition(double latitude, double longitude)
     {
@@ -124,7 +133,11 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      */
     private Location location;
     public Location getLocation() { return location; }
-    public void setLocation(Location location) { this.location = location; }
+    public void setLocation(Location location)
+    {
+    	this.location = location;
+    	orderChild(location);
+	}
     public void setLocation(String location) { setLocation(Location.parse(location)); }
     public T withLocation(Location location)
     {
@@ -148,7 +161,11 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      */
     private Priority priority;
     public Priority getPriority() { return priority; }
-    public void setPriority(Priority priority) { this.priority = priority; }
+    public void setPriority(Priority priority)
+    {
+    	this.priority = priority;
+    	orderChild(priority);
+	}
     public void setPriority(String priority) { setPriority(Priority.parse(priority)); }
     public void setPriority(int priority) { setPriority(new Priority(priority)); }
     public T withPriority(Priority priority)
@@ -179,7 +196,11 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      */
     public List<Resources> getResources() { return resources; }
     private List<Resources> resources;
-    public void setResources(List<Resources> resources) { this.resources = resources; }
+    public void setResources(List<Resources> resources)
+    {
+    	this.resources = resources;
+    	resources.forEach(c -> orderChild(c));
+	}
     public T withResources(List<Resources> resources)
     {
         setResources(resources);
@@ -211,7 +232,11 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
      */
     public List<VAlarm> getVAlarms() { return vAlarms; }
     private List<VAlarm> vAlarms;
-    public void setVAlarms(List<VAlarm> vAlarms) { this.vAlarms = vAlarms; }
+    public void setVAlarms(List<VAlarm> vAlarms)
+    {
+    	this.vAlarms = vAlarms;
+    	vAlarms.forEach(c -> orderChild(c));
+	}
     public T withVAlarms(List<VAlarm> vAlarms) { setVAlarms(vAlarms); return (T) this; }
     public T withVAlarms(VAlarm...vAlarms)
     {

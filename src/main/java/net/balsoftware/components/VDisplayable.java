@@ -78,7 +78,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public List<Attachment<?>> getAttachments() { return attachments; }
     private List<Attachment<?>> attachments;
     @Override
-    public void setAttachments(List<Attachment<?>> attachments) { this.attachments = attachments; }
+    public void setAttachments(List<Attachment<?>> attachments)
+    {
+    	this.attachments = attachments;
+    	attachments.forEach(c -> orderChild(c));
+	}
     
     /**
      * CATEGORIES:
@@ -90,7 +94,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
      */
     public List<Categories> getCategories() { return categories; }
     private List<Categories> categories;
-    public void setCategories(List<Categories> categories) { this.categories = categories; }
+    public void setCategories(List<Categories> categories)
+    {
+    	this.categories = categories;
+    	categories.forEach(c -> orderChild(c));
+	}
     public T withCategories(List<Categories> categories)
     {
         setCategories(categories);
@@ -123,7 +131,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public Classification getClassification() { return classification; }
     private Classification classification;
     public void setClassification(String classification) { setClassification(Classification.parse(classification)); }
-    public void setClassification(Classification classification) { this.classification = classification; }
+    public void setClassification(Classification classification)
+    {
+    	this.classification = classification;
+    	orderChild(classification);
+	}
     public void setClassification(ClassificationType classification) { setClassification(new Classification(classification)); }
     public T withClassification(Classification classification)
     {
@@ -155,7 +167,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
      */
     public List<Contact> getContacts() { return contacts; }
     private List<Contact> contacts;
-    public void setContacts(List<Contact> contacts) { this.contacts = contacts; }
+    public void setContacts(List<Contact> contacts)
+    {
+    	this.contacts = contacts;
+    	contacts.forEach(c -> orderChild(c));
+	}
     public T withContacts(List<Contact> contacts)
     {
         setContacts(contacts);
@@ -190,8 +206,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public void setDateTimeCreated(String dtCreated) { setDateTimeCreated(DateTimeCreated.parse(dtCreated)); }
     public void setDateTimeCreated(DateTimeCreated dtCreated)
     {
-    	orderChild(dtCreated);
     	this.dateTimeCreated = dtCreated;
+    	orderChild(dtCreated);
 	}
     public void setDateTimeCreated(ZonedDateTime dtCreated) { setDateTimeCreated(new DateTimeCreated(dtCreated)); }
     public T withDateTimeCreated(ZonedDateTime dtCreated)
@@ -222,8 +238,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private List<ExceptionDates> exceptionDates;
     public void setExceptionDates(List<ExceptionDates> exceptionDates)
     {
-    	exceptionDates.forEach(e -> orderChild(e));
         this.exceptionDates = exceptionDates;
+    	exceptionDates.forEach(e -> orderChild(e));
     }
     public T withExceptionDates(List<ExceptionDates> exceptions)
     {
@@ -269,7 +285,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
     public LastModified getDateTimeLastModified() { return lastModified; }
     private LastModified lastModified;
-    public void setDateTimeLastModified(LastModified lastModified) { this.lastModified = lastModified; }
+    public void setDateTimeLastModified(LastModified lastModified)
+    {
+    	this.lastModified = lastModified;
+    	orderChild(lastModified);
+	}
     // Other setters are default methods in interface
     
     /**
@@ -289,6 +309,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public void setRecurrenceDates(List<RecurrenceDates> recurrenceDates)
     {
     	this.recurrenceDates = recurrenceDates;
+    	recurrenceDates.forEach(c -> orderChild(c));
 	}
 
     /**
@@ -302,7 +323,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
      */
     public RecurrenceId getRecurrenceId() { return recurrenceId; }
     private RecurrenceId recurrenceId;
-    public void setRecurrenceId(RecurrenceId recurrenceId) { this.recurrenceId = recurrenceId; }
+    public void setRecurrenceId(RecurrenceId recurrenceId)
+    {
+    	this.recurrenceId = recurrenceId;
+    	orderChild(recurrenceId);
+	}
     public void setRecurrenceId(String recurrenceId) { setRecurrenceId(RecurrenceId.parse(recurrenceId)); }
     public void setRecurrenceId(Temporal temporal)
     {
@@ -367,7 +392,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
      */
     public List<RelatedTo> getRelatedTo() { return relatedTo; }
     private List<RelatedTo> relatedTo;
-    public void setRelatedTo(List<RelatedTo> relatedTo) { this.relatedTo = relatedTo; }
+    public void setRelatedTo(List<RelatedTo> relatedTo)
+    {
+    	this.relatedTo = relatedTo;
+    	relatedTo.forEach(c -> orderChild(c));
+	}
     public T withRelatedTo(List<RelatedTo> relatedTo) { setRelatedTo(relatedTo); return (T) this; }
     public T withRelatedTo(String...relatedTo)
     {
@@ -397,7 +426,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
     public RecurrenceRule getRecurrenceRule() { return recurrenceRule; }
     private RecurrenceRule recurrenceRule;
-    public void setRecurrenceRule(RecurrenceRule recurrenceRule) { this.recurrenceRule = recurrenceRule; }
+    public void setRecurrenceRule(RecurrenceRule recurrenceRule)
+    {
+    	this.recurrenceRule = recurrenceRule;
+    	orderChild(recurrenceRule);
+	}
  
     /**
      * SEQUENCE:
@@ -416,7 +449,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
      */
     public Sequence getSequence() { return sequence; }
     private Sequence sequence;
-    public void setSequence(Sequence sequence) { this.sequence = sequence; }
+    public void setSequence(Sequence sequence)
+    {
+    	this.sequence = sequence;
+    	orderChild(sequence);
+	}
     public void setSequence(String sequence) { setSequence(Sequence.parse(sequence)); }
     public void setSequence(Integer sequence) { setSequence(new Sequence(sequence)); }
     public T withSequence(Sequence sequence)
@@ -474,7 +511,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
      */
     public Status getStatus() { return status; }
     private Status status;
-    public void setStatus(Status status) { this.status = status; }
+    public void setStatus(Status status)
+    {
+    	this.status = status;
+    	orderChild(status);
+	}
     public void setStatus(String status) { setStatus(Status.parse(status)); }
     public void setStatus(StatusType status) { setStatus(new Status(status)); }
     public T withStatus(Status status)
@@ -507,8 +548,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private Summary summary;
     public void setSummary(Summary summary)
     {
-    	orderChild(summary);
     	this.summary = summary;
+    	orderChild(summary);
 	}
 
     

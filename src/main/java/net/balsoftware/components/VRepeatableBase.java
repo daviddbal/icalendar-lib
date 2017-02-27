@@ -34,7 +34,11 @@ public abstract class VRepeatableBase<T> extends VPrimary<T> implements VRepeata
     public List<RecurrenceDates> getRecurrenceDates() { return recurrenceDates; }
     private List<RecurrenceDates> recurrenceDates;
     @Override
-    public void setRecurrenceDates(List<RecurrenceDates> recurrenceDates) { this.recurrenceDates = recurrenceDates; }
+    public void setRecurrenceDates(List<RecurrenceDates> recurrenceDates)
+    {
+    	this.recurrenceDates = recurrenceDates;
+    	recurrenceDates.forEach(c -> orderChild(c));
+	}
 
     /**
      * RRULE, Recurrence Rule
@@ -51,7 +55,11 @@ public abstract class VRepeatableBase<T> extends VPrimary<T> implements VRepeata
     public RecurrenceRule getRecurrenceRule() { return recurrenceRule; }
     private RecurrenceRule recurrenceRule;
 	@Override
-	public void setRecurrenceRule(RecurrenceRule recurrenceRule) { this.recurrenceRule = recurrenceRule; }
+	public void setRecurrenceRule(RecurrenceRule recurrenceRule)
+	{
+		this.recurrenceRule = recurrenceRule;
+		orderChild(recurrenceRule);
+	}
 
     /*
      * CONSTRUCTORS

@@ -39,8 +39,8 @@ public abstract class VPrimary<T> extends VCommon<T>
     private List<Comment> comments;
     public void setComments(List<Comment> comments)
     {
-    	comments.forEach(c -> orderChild(c));
     	this.comments = comments;
+    	comments.forEach(c -> orderChild(c));
 	}
     public T withComments(List<Comment> comments)
     {
@@ -73,7 +73,11 @@ public abstract class VPrimary<T> extends VCommon<T>
     
     public DateTimeStart getDateTimeStart() { return dateTimeStart; }
     private DateTimeStart dateTimeStart;
-    public void setDateTimeStart(DateTimeStart dtStart) { this.dateTimeStart = dtStart; }
+    public void setDateTimeStart(DateTimeStart dtStart)
+    {
+    	this.dateTimeStart = dtStart;
+    	orderChild(dtStart);
+	}
     public void setDateTimeStart(String dtStart) { setDateTimeStart(DateTimeStart.parse(dtStart)); }
     public void setDateTimeStart(Temporal temporal) { setDateTimeStart(new DateTimeStart(temporal)); }
     public T withDateTimeStart(DateTimeStart dtStart)

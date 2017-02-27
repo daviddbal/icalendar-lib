@@ -178,13 +178,7 @@ public interface VRepeatable<T> extends VComponent
     void setRecurrenceRule(RecurrenceRule recurrenceRule);
     default void setRecurrenceRule(RecurrenceRuleValue rrule)
     {
-    	if (rrule == null)
-    	{
-    		setRecurrenceRule((RecurrenceRule) null);
-    	} else
-    	{
-    		setRecurrenceRule(new RecurrenceRule(rrule));
-    	}
+		setRecurrenceRule(new RecurrenceRule(rrule));
     }
     default void setRecurrenceRule(String rrule)
     {

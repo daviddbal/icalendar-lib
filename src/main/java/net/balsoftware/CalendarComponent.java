@@ -167,7 +167,7 @@ public enum CalendarComponent
         },
         // TODO - Below should probably be removed?
         // NON-MAIN COMPONENTS - MUST BE NESTED IN A MAIN COMPONENT
-        DAYLIGHT_SAVING_TIME ("DAYLIGHT",
+        DAYLIGHT_SAVING_TIME (DaylightSavingTime.NAME,
 //                Arrays.asList(PropertyType.COMMENT, PropertyType.DATE_TIME_START,
 //                PropertyType.NON_STANDARD, PropertyType.RECURRENCE_DATE_TIMES,
 //                PropertyType.RECURRENCE_RULE, PropertyType.TIME_ZONE_NAME, PropertyType.TIME_ZONE_OFFSET_FROM,

@@ -50,7 +50,11 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     @Override
     public List<Attendee> getAttendees() { return attendees; }
     @Override
-    public void setAttendees(List<Attendee> attendees) { this.attendees = attendees; }
+    public void setAttendees(List<Attendee> attendees)
+    {
+    	this.attendees = attendees;
+    	attendees.forEach(c -> orderChild(c));
+	}
     
     /**
      * DTSTAMP: Date-Time Stamp, from RFC 5545 iCalendar 3.8.7.2 page 137
@@ -60,7 +64,11 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     private DateTimeStamp dateTimeStamp;
     public DateTimeStamp getDateTimeStamp() { return dateTimeStamp; }
     public void setDateTimeStamp(String dtStamp) { setDateTimeStamp(DateTimeStamp.parse(dtStamp)); }
-    public void setDateTimeStamp(DateTimeStamp dtStamp) { this.dateTimeStamp = dtStamp; }
+    public void setDateTimeStamp(DateTimeStamp dtStamp)
+    {
+    	this.dateTimeStamp = dtStamp;
+    	orderChild(dtStamp);
+	}
     public void setDateTimeStamp(ZonedDateTime dtStamp) { setDateTimeStamp(new DateTimeStamp(dtStamp)); }
     public T withDateTimeStamp(ZonedDateTime dtStamp)
     {
@@ -88,7 +96,11 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      */
     public Organizer getOrganizer() { return organizer; }
     private Organizer organizer;
-    public void setOrganizer(Organizer organizer) { this.organizer = organizer; }
+    public void setOrganizer(Organizer organizer)
+    {
+    	this.organizer = organizer;
+    	orderChild(organizer);
+	}
     public void setOrganizer(String organizer) { setOrganizer(Organizer.parse(organizer)); }
     public T withOrganizer(String organizer)
     {
@@ -114,7 +126,11 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      */
     public List<RequestStatus> getRequestStatus() { return requestStatus; }
     private List<RequestStatus> requestStatus;
-    public void setRequestStatus(List<RequestStatus> requestStatus) { this.requestStatus = requestStatus; }
+    public void setRequestStatus(List<RequestStatus> requestStatus)
+    {
+    	this.requestStatus = requestStatus;
+    	requestStatus.forEach(c -> orderChild(c));
+	}
     public T withRequestStatus(List<RequestStatus> requestStatus)
     {
         setRequestStatus(requestStatus);
@@ -145,7 +161,11 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      */
     private UniqueIdentifier uniqueIdentifier;
     public UniqueIdentifier getUniqueIdentifier() { return uniqueIdentifier; }
-    public void setUniqueIdentifier(UniqueIdentifier uniqueIdentifier) { this.uniqueIdentifier = uniqueIdentifier; }
+    public void setUniqueIdentifier(UniqueIdentifier uniqueIdentifier)
+    {
+    	this.uniqueIdentifier = uniqueIdentifier;
+    	orderChild(uniqueIdentifier);
+	}
     public void setUniqueIdentifier(String uniqueIdentifier) { setUniqueIdentifier(UniqueIdentifier.parse(uniqueIdentifier)); }
     /** Set uniqueIdentifier by calling uidGeneratorCallback */
     public void setUniqueIdentifier() { setUniqueIdentifier(getUidGeneratorCallback().call(null)); }
@@ -204,7 +224,11 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      */
     public UniformResourceLocator getUniformResourceLocator() { return uniformResourceLocator; }
     private UniformResourceLocator uniformResourceLocator;
-    public void setUniformResourceLocator(UniformResourceLocator url) { this.uniformResourceLocator = url; };
+    public void setUniformResourceLocator(UniformResourceLocator url)
+    {
+    	this.uniformResourceLocator = url;
+    	orderChild(url);
+	};
     public void setUniformResourceLocator(String url) { setUniformResourceLocator(UniformResourceLocator.parse(url)); };
     public void setUniformResourceLocator(URI url) { setUniformResourceLocator(new UniformResourceLocator(url)); };
     public T withUniformResourceLocator(String url)
@@ -227,11 +251,6 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      * CONSTRUCTORS
      */
     VPersonal() { super(); }
-    
-//    VComponentPersonalBase(String contentLines)
-//    {
-//        super(contentLines);
-//    }
     
     public VPersonal(VPersonal<T> source)
     {

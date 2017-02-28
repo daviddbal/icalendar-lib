@@ -1,12 +1,20 @@
 package net.balsoftware.icalendar.components;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.properties.component.recurrence.PropertyBaseRecurrence;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRuleCache;
+import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
+import net.balsoftware.icalendar.utilities.DateTimeUtilities;
+import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 /**
  * Contains following properties:
  * @see RecurrenceRule
@@ -88,7 +96,108 @@ public abstract class VRepeatableBase<T> extends VPrimary<T> implements VRepeata
     @Override
     public List<String> errors()
     {
-        return VRepeatable.errorsRepeatable(this);
+    	List<String> errors = super.errors();
+    	errors.addAll(errorsRepeatable(this));
+    	errors.addAll(errorsRecurrence(getRecurrenceDates(), getDateTimeStart()));
+        return errors;
+    }
+    
+    protected static List<String> errorsRepeatable(VRepeatable<?> testObj)
+    {
+        List<String> errors = new ArrayList<>();
+        String recurrenceDateError = testObj.checkRecurrencesConsistency(testObj.getRecurrenceDates());
+        if (recurrenceDateError != null) errors.add(recurrenceDateError);
+
+        if (testObj.getRecurrenceRule() != null && testObj.getRecurrenceRule().getValue().getUntil() != null)
+        {
+            Temporal until = testObj.getRecurrenceRule().getValue().getUntil().getValue();
+            DateTimeType untilType = DateTimeType.of(until);
+            DateTimeType startType = DateTimeType.of(testObj.getDateTimeStart().getValue());
+            switch (startType)
+            {
+            case DATE:
+                if (untilType != DateTimeType.DATE)
+                {
+                    errors.add("If DTSTART specifies a DATE then UNTIL must also specify a DATE value instead of:" + untilType);
+                }
+                break;
+            case DATE_WITH_LOCAL_TIME:
+            case DATE_WITH_LOCAL_TIME_AND_TIME_ZONE:
+            case DATE_WITH_UTC_TIME:
+                if (untilType != DateTimeType.DATE_WITH_UTC_TIME)
+                {
+                    errors.add("If DTSTART specifies a DATE_WITH_LOCAL_TIME, DATE_WITH_LOCAL_TIME_AND_TIME_ZONE or DATE_WITH_UTC_TIME then UNTIL must specify a DATE_WITH_UTC_TIME value instead of:" + untilType);
+                }
+                break;
+            default:
+                throw new RuntimeException("unsupported DateTimeType:" + startType);
+            }
+        }
+        return errors;
+    }
+    
+    protected static List<String> errorsRecurrence(List<? extends PropertyBaseRecurrence<?>> recurrenceDates, DateTimeStart dtstart)
+    {
+    	List<String> errors = new ArrayList<>();
+    	
+    	// error check - all Temporal types must be same
+    	if ((recurrenceDates != null) && (! recurrenceDates.isEmpty()))
+		{
+    		PropertyBaseRecurrence<?> sample = recurrenceDates.get(0);
+        	Temporal sampleTemporal = recurrenceDates.stream()
+            		.flatMap(r -> r.getValue().stream())
+            		.findAny()
+            		.get();
+    		DateTimeType sampleType = DateTimeUtilities.DateTimeType.of(sampleTemporal);
+        	Optional<String> error1 = recurrenceDates
+        		.stream()
+        		.flatMap(r -> r.getValue().stream())
+	        	.map(v ->
+	        	{
+	        		DateTimeType recurrenceType = DateTimeUtilities.DateTimeType.of(v);
+	        		if (! recurrenceType.equals(sampleType))
+	        		{
+	                    return sample.name() + ": DateTimeType " + recurrenceType +
+	                            " doesn't match previous recurrence's DateTimeType " + sampleType;            
+	        		}
+	        		return null;
+	        	})
+	        	.filter(s -> s != null)
+	        	.findAny();
+        	
+        	if (error1.isPresent())
+        	{
+        		errors.add(error1.get());
+        	}
+        	
+        	// DTSTART check
+        	if (dtstart != null)
+        	{
+	            DateTimeType dateTimeStartType = DateTimeUtilities.DateTimeType.of(dtstart.getValue());
+	            if (sampleType != dateTimeStartType)
+	            {
+	                errors.add("Recurrences DateTimeType (" + sampleType +
+	                        ") must be same as the DateTimeType of DateTimeStart (" + dateTimeStartType + ")");
+	            }
+        	}
+            
+            // ensure all ZoneId values are the same
+            if (sampleTemporal instanceof ZonedDateTime)
+            {
+                ZoneId zone = ((ZonedDateTime) sampleTemporal).getZone();
+                boolean allZonesIdentical = recurrenceDates
+                        .stream()
+                        .flatMap(r -> r.getValue().stream())
+                        .map(t -> ((ZonedDateTime) t).getZone())
+                        .allMatch(z -> z.equals(zone));
+                if (! allZonesIdentical)
+                {
+                	errors.add("ZoneId are not all identical");
+                }
+                
+            }
+        }
+        return errors;
     }
 
     /*

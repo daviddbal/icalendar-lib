@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
@@ -120,15 +121,25 @@ public class OrdererBase implements Orderer
 	@Override
 	public void orderChild(VChild newChild)
 	{
-//		System.out.println("adding:" + newChild + "  " + System.identityHashCode(newChild));
+//		System.out.println("adding:" + newChild + "  " + System.identityHashCode(newChild) + " " + orderedChildren.contains(newChild));
 		if ((! orderedChildren.contains(newChild)) && (newChild != null))
 		{
-//			System.out.println("adding:" + newChild.name() + " " + parent.name());
-			orderedChildren.add(newChild);
+			List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
+			Optional<VChild> orphan = orderedChildren
+					.stream()
+					.filter(c -> c.getClass().equals(newChild.getClass()))
+					.filter(c -> ! allUnorderedChildren.contains(c))
+					.findAny();
+			if (orphan.isPresent())
+			{ // replace orphan at same index location
+				int index = orderedChildren.indexOf(orphan.get());
+				orderedChildren.remove(orphan);
+				orderedChildren.add(index, newChild);				
+			} else
+			{
+				orderedChildren.add(newChild);
+			}
 			newChild.setParent(parent);
-		} else
-		{
-//			throw new RuntimeException("already added");
 		}
 	}
 
@@ -163,6 +174,14 @@ public class OrdererBase implements Orderer
 	@Override
 	public void orderChild(int index, VChild newChild)
 	{
-		orderedChildren.add(index, newChild);
+		if (newChild != null)
+		{
+			if (orderedChildren.contains(newChild))
+			{
+				orderedChildren.remove(newChild);
+			}
+			orderedChildren.add(index, newChild);
+			newChild.setParent(parent);
+		}
 	}
 }

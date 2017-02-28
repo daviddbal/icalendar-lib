@@ -9,8 +9,8 @@ import org.junit.Test;
 import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.component.descriptive.Categories;
-import net.balsoftware.icalendar.properties.component.descriptive.Description;
 import net.balsoftware.icalendar.properties.component.descriptive.Classification.ClassificationType;
+import net.balsoftware.icalendar.properties.component.descriptive.Description;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
 
 public class GeneralComponentTest
@@ -72,7 +72,7 @@ public class GeneralComponentTest
         assertEquals(ClassificationType.PRIVATE, madeComponent.getClassification().getValue());
     }
     
-    @Test
+    @Test // tests manually adding a list and individual property to orderer
     public void canSetPropertyOrder()
     {
         String contentLines = "BEGIN:VEVENT" + System.lineSeparator()
@@ -91,17 +91,19 @@ public class GeneralComponentTest
         builtComponent.getCategories().add(category2);
         builtComponent.orderChild(category2);
         builtComponent.setClassification(ClassificationType.PRIVATE);
-        builtComponent.setDateTimeStart("20151109T110000Z");
+        DateTimeStart s = DateTimeStart.parse("20171109T110000Z");
+        builtComponent.setDateTimeStart(s);
+        builtComponent.orderChild(0,s);
         
         String contentLines2 = "BEGIN:VEVENT" + System.lineSeparator()
+        		+ "DTSTART:20171109T110000Z" + System.lineSeparator()
                 + "DTSTAMP:20150110T080000Z" + System.lineSeparator()
-                + "DTSTART:20151109T110000Z" + System.lineSeparator()
                 + "DTEND:20151109T110000Z" + System.lineSeparator()
                 + "UID:20150110T080000-0@jfxtras.org" + System.lineSeparator()
                 + "CATEGORIES:group03" + System.lineSeparator()
-                + "CATEGORIES:group05" + System.lineSeparator()
                 + "SUMMARY:DailyUTC Summary" + System.lineSeparator()
                 + "RRULE:FREQ=DAILY;INTERVAL=2;UNTIL=20151201T100000Z" + System.lineSeparator()
+                + "CATEGORIES:group05" + System.lineSeparator()
                 + "CLASS:PRIVATE" + System.lineSeparator()
                 + "END:VEVENT";
         assertEquals(contentLines2, builtComponent.toString());

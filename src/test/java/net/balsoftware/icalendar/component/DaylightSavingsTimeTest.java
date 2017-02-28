@@ -1,6 +1,7 @@
 package net.balsoftware.icalendar.component;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -115,20 +116,17 @@ public class DaylightSavingsTimeTest
         assertEquals(content, madeComponent.toString());
     }
     
-    @Test //(expected = DateTimeException.class)
+    @Test
     public void canCatchDifferentRepeatableTypes()
     {
-//        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-//        {
-//            throw (RuntimeException) e;
-//        });
         DaylightSavingTime builtComponent = new DaylightSavingTime()
                 .withRecurrenceDates("RDATE;VALUE=DATE:19970304,19970504,19970704,19970904");
-        Set<Temporal> expectedValues = new HashSet<>(Arrays.asList(
-                ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("Z")) ));        
-        builtComponent.getRecurrenceDates().add(new RecurrenceDates(expectedValues));
-        builtComponent.errors().forEach(System.out::println);
-        builtComponent.childrenUnmodifiable().forEach(System.out::println);
-        throw new RuntimeException("need RDATE error");
+        builtComponent.getRecurrenceDates().add(new RecurrenceDates(ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("Z"))));
+        assertEquals(4, builtComponent.errors().size());
+        String expected = "RDATE: DateTimeType DATE_WITH_UTC_TIME doesn't match previous recurrence's DateTimeType DATE";
+        boolean isErrorPresent = builtComponent.errors()
+        	.stream()
+        	.anyMatch(e -> e.equals(expected));
+        assertTrue(isErrorPresent);
     }
 }

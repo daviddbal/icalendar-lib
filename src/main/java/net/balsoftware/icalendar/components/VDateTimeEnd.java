@@ -143,7 +143,7 @@ public interface VDateTimeEnd<T> extends VComponent
                 int after = DateTimeUtilities.TEMPORAL_COMPARATOR2.compare(testObj.getDateTimeEnd().getValue(), testObj.getDateTimeStart().getValue());
                 if (after == -1)
                 {
-                    errors.add("DTEND is not after DTSTART.  DTEND MUST be after DTSTART ("
+                    errors.add("DTEND does not occur after DTSTART.  DTEND MUST occur after DTSTART ("
                             + testObj.getDateTimeEnd().getValue() + ", " + testObj.getDateTimeStart().getValue() + ")");
                 }
             }

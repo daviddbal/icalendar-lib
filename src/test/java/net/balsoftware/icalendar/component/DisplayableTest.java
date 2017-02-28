@@ -3,7 +3,6 @@ package net.balsoftware.icalendar.component;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -41,6 +40,7 @@ import net.balsoftware.icalendar.properties.component.relationship.Contact;
 import net.balsoftware.icalendar.properties.component.relationship.RecurrenceId;
 import net.balsoftware.icalendar.properties.component.relationship.RelatedTo;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
+import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 
 /**
  * Test following components:
@@ -297,22 +297,27 @@ public class DisplayableTest
             .withDateTimeStart(LocalDate.of(1997, 3, 1))
             .withExceptionDates("EXDATE;VALUE=DATE:19970304,19970504,19970704,19970904");
         component.setDateTimeStart(DateTimeStart.parse(ZonedDateTime.class, "20160302T223316Z")); // invalid
-        String expectedError = "DTSTART, EXDATE:";
+        String expectedError = "DTSTART, EXDATE: The value type of EXDATE elements MUST be the same as the DTSTART property (DTSTART=" + 
+        		DateTimeType.DATE_WITH_UTC_TIME + ", EXDATE=" + DateTimeType.DATE;
         boolean isErrorPresent = component.errors().stream()
-                .filter(s -> s.substring(0, expectedError.length()).equals(expectedError))
-                .findAny()
-                .isPresent();
+                .anyMatch(s -> s.equals(expectedError));
         assertTrue(isErrorPresent);
     }
     
     
-    @Test (expected = DateTimeException.class)
+    @Test
     public void canCatchWrongDateType()
     {
         VEvent component = new VEvent()
                 .withDateTimeStart(LocalDate.of(1997, 3, 1));
         ObservableList<ExceptionDates> exceptions = FXCollections.observableArrayList();
         exceptions.add(ExceptionDates.parse("20160228T093000"));
-        component.setExceptionDates(exceptions); // invalid    
+        component.setExceptionDates(exceptions); // invalid
+        String expectedError = "DTSTART, EXDATE: The value type of EXDATE elements MUST be the same as the DTSTART property (DTSTART=" +
+        	DateTimeType.DATE + ", EXDATE=" + DateTimeType.DATE_WITH_LOCAL_TIME;
+        boolean isErrorPresent = component.errors()
+        		.stream()
+                .anyMatch(s -> s.equals(expectedError));
+        assertTrue(isErrorPresent);
     }
 }

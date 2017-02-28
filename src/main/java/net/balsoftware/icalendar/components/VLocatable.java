@@ -19,7 +19,6 @@ import net.balsoftware.icalendar.properties.component.descriptive.GeographicPosi
 import net.balsoftware.icalendar.properties.component.descriptive.Location;
 import net.balsoftware.icalendar.properties.component.descriptive.Priority;
 import net.balsoftware.icalendar.properties.component.descriptive.Resources;
-import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.DurationProp;
 
 public abstract class VLocatable<T> extends VDisplayable<T> implements VDescribable2<T>, VDuration<T>
@@ -71,14 +70,6 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
             {
                 throw new DateTimeException("DURATION is negative (" + duration + "). DURATION MUST be positive.");
             }
-        }
-        if (this instanceof VDateTimeEnd)
-        {
-	        DateTimeEnd dtend = ((VDateTimeEnd<T>) this).getDateTimeEnd();
-	        if ((dtend != null) && (duration != null))
-	        {
-	            throw new DateTimeException("DURATION and DTEND can't both be set");
-	        }
         }
         this.duration = duration;
         orderChild(duration);

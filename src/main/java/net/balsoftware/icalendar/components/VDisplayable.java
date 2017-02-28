@@ -754,50 +754,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
         {
             errors.add(reccurenceIDErrorString);
         }
-        
-        if (getDateTimeStart() != null)
-        {
-            DateTimeType startType = DateTimeUtilities.DateTimeType.of(getDateTimeStart().getValue());
-            if ((getExceptionDates() != null) && (! getExceptionDates().get(0).getValue().isEmpty()))
-            {
-                // assumes all exceptions are same Temporal type.  There is a listener to guarantee that assumption.
-                Temporal e1 = getExceptionDates().get(0).getValue().iterator().next();
-                DateTimeType exceptionType = DateTimeUtilities.DateTimeType.of(e1);
-                boolean isExceptionTypeMatch = startType == exceptionType;
-                if (! isExceptionTypeMatch)
-                {
-                    errors.add("DTSTART, EXDATE: The value type of EXDATE elements MUST be the same as the DTSTART property (" + exceptionType + ", " + startType + ")");
-                }
-            }
             
-
-//            if (getRecurrenceId() != null && getParent() != null)
-//            {
-//                DateTimeType recurrenceIdType = DateTimeUtilities.DateTimeType.of(getRecurrenceId().getValue());
-//                List<VComponentDisplayableBase<?>> relatedComponents = ((VCalendar) getParent()).uidComponentsMap().get(getUniqueIdentifier().getValue());
-//                VComponentDisplayableBase<?> parentComponent = relatedComponents.stream()
-//                        .filter(v -> v.getRecurrenceId() == null)
-//                        .findFirst()
-//                        .orElseGet(() -> null);
-//                if (parentComponent != null)
-//                {
-//                    DateTimeType dateTimeStartType = DateTimeUtilities.DateTimeType.of(parentComponent.getDateTimeStart().getValue());
-//                    if (recurrenceIdType != dateTimeStartType)
-//                    {
-//                        errors.add("The value type of RECURRENCE-ID MUST be the same as the parent's DTSTART property (" + recurrenceIdType + ", " + dateTimeStartType);
-//                    }
-//                } else
-//                {
-//                    errors.add("Parent of this component with RECURRENCE-ID can't be found.");                    
-//                }
-//            }
-            
-            // Tests from Repeatable
-            errors.addAll(VRepeatableBase.errorsRepeatable(this));
-            errors.addAll(VRepeatableBase.errorsRecurrence(getExceptionDates(), getDateTimeStart()));
-            errors.addAll(VRepeatableBase.errorsRecurrence(getRecurrenceDates(), getDateTimeStart()));
-        }
-    
+        // Tests from Repeatable
+        errors.addAll(VRepeatableBase.errorsRepeatable(this));
+        errors.addAll(VRepeatableBase.errorsRecurrence(getExceptionDates(), getDateTimeStart()));
+        errors.addAll(VRepeatableBase.errorsRecurrence(getRecurrenceDates(), getDateTimeStart()));
         return errors;
     }
     

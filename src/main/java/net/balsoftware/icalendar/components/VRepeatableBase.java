@@ -168,34 +168,35 @@ public abstract class VRepeatableBase<T> extends VPrimary<T> implements VRepeata
         	if (error1.isPresent())
         	{
         		errors.add(error1.get());
+        	} else
+        	{ // don't check ZoneID if some types don't match - can cause ClassCastException otherwise
+	            // ensure all ZoneId values are the same
+	            if (sampleTemporal instanceof ZonedDateTime)
+	            {
+	                ZoneId zone = ((ZonedDateTime) sampleTemporal).getZone();
+	                boolean allZonesIdentical = recurrenceDates
+	                        .stream()
+	                        .flatMap(r -> r.getValue().stream())
+	                        .map(t -> ((ZonedDateTime) t).getZone())
+	                        .allMatch(z -> z.equals(zone));
+	                if (! allZonesIdentical)
+	                {
+	                	errors.add("ZoneId are not all identical");
+	                }
+	            }
         	}
-        	
+            
         	// DTSTART check
         	if (dtstart != null)
         	{
 	            DateTimeType dateTimeStartType = DateTimeUtilities.DateTimeType.of(dtstart.getValue());
 	            if (sampleType != dateTimeStartType)
 	            {
-	                errors.add("Recurrences DateTimeType (" + sampleType +
-	                        ") must be same as the DateTimeType of DateTimeStart (" + dateTimeStartType + ")");
+	                errors.add("DTSTART, " + sample.name() + ": The value type of " + sample.name() + 
+	    	            	" elements MUST be the same as the DTSTART property (DTSTART=" + 
+	    	            	dateTimeStartType + ", " + sample.name() + "=" + sampleType);
 	            }
         	}
-            
-            // ensure all ZoneId values are the same
-            if (sampleTemporal instanceof ZonedDateTime)
-            {
-                ZoneId zone = ((ZonedDateTime) sampleTemporal).getZone();
-                boolean allZonesIdentical = recurrenceDates
-                        .stream()
-                        .flatMap(r -> r.getValue().stream())
-                        .map(t -> ((ZonedDateTime) t).getZone())
-                        .allMatch(z -> z.equals(zone));
-                if (! allZonesIdentical)
-                {
-                	errors.add("ZoneId are not all identical");
-                }
-                
-            }
         }
         return errors;
     }

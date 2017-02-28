@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.InvocationTargetException;
-import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -45,6 +44,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByM
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByWeekNumber;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
+import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 
 /**
  * Test following components:
@@ -196,7 +196,7 @@ public class RepeatableTest //extends Application
         assertTrue(hasError);
     }
 
-    @Test (expected = DateTimeException.class)
+    @Test
     public void canCatchWrongDateType()
     {
         VEvent component = new VEvent()
@@ -210,13 +210,13 @@ public class RepeatableTest //extends Application
         assertTrue(hasError);
     }
 
-    @Test (expected = DateTimeException.class)
+    @Test //(expected = DateTimeException.class)
     public void canCatchDifferentRepeatableTypes()
     {
-        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
+//        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
+//        {
+//            throw (RuntimeException) e;
+//        });
         VEvent builtComponent = new VEvent()
                 .withRecurrenceDates("RDATE;VALUE=DATE:19970304,19970504,19970704,19970904");
         Set<Temporal> expectedValues = new LinkedHashSet<>(Arrays.asList(
@@ -225,16 +225,18 @@ public class RepeatableTest //extends Application
         builtComponent.getRecurrenceDates().add(new RecurrenceDates(expectedValues));
     }
     
-    @Test (expected = DateTimeException.class)
+    @Test
     public void canCatchDifferentRepeatableTypes2()
     {
-        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
-        VEvent builtComponent = new VEvent()
+        VEvent component = new VEvent()
                 .withRecurrenceDates("RDATE;VALUE=DATE:19970304,19970504,19970704,19970904");
-        builtComponent.getRecurrenceDates().get(0).getValue().add(LocalDateTime.of(1996, 4, 4, 1, 0));
+        component.getRecurrenceDates().get(0).getValue().add(LocalDateTime.of(1996, 4, 4, 1, 0));
+        String expectedError = "RDATE: DateTimeType " +
+            	DateTimeType.DATE + " doesn't match previous recurrence's DateTimeType " + DateTimeType.DATE_WITH_LOCAL_TIME;
+        boolean isErrorPresent = component.errors()
+        		.stream()
+                .anyMatch(s -> s.equals(expectedError));
+        assertTrue(isErrorPresent);
     }
     
     /*

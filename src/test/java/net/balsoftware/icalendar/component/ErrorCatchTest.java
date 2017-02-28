@@ -1,8 +1,8 @@
 package net.balsoftware.icalendar.component;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -11,22 +11,24 @@ import org.junit.Test;
 
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.component.recurrence.ExceptionDates;
+import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 
 public class ErrorCatchTest
 {
-    @Test (expected = DateTimeException.class)
+    @Test
     public void canCatchInvalidExDates()
     {
-        Thread.setDefaultUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
-        new VEvent()
+        VEvent e = new VEvent()
                 .withDateTimeStart(ZonedDateTime.of(LocalDateTime.of(2016, 2, 7, 12, 30), ZoneId.of("America/Los_Angeles")))
                 .withExceptionDates(new ExceptionDates(ZonedDateTime.of(LocalDateTime.of(2016, 2, 10, 12, 30), ZoneId.of("America/Los_Angeles"))))
                 .withExceptionDates(new ExceptionDates(LocalDateTime.of(2016, 2, 12, 12, 30))) // invalid - stop processing
                 .withExceptionDates(new ExceptionDates(ZonedDateTime.of(LocalDateTime.of(2016, 2, 9, 12, 30), ZoneId.of("America/Los_Angeles"))))
                 ;
+        String error = "EXDATE: DateTimeType " + DateTimeType.DATE_WITH_LOCAL_TIME + " doesn't match previous recurrence's DateTimeType " + DateTimeType.DATE_WITH_LOCAL_TIME_AND_TIME_ZONE;
+        boolean isErrorPresent = e.errors()
+        	.stream()
+        	.anyMatch(r -> r.equals(error));
+        assertTrue(isErrorPresent);
     }
     
     @Test

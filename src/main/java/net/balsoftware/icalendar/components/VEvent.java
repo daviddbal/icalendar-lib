@@ -191,12 +191,9 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     @Override
     public List<String> errors()
     {
-        // TODO - GET ERRORS FROM CHILDREN?
-        // REMOVE DTEND LISTENERS??  WHAT ABOUT RDATE AND EXDATE LISTENERS???
         List<String> errors = super.errors();
         List<String> dtendError = VDateTimeEnd.errorsDateTimeEnd(this);
         errors.addAll(dtendError);
-//        boolean isDateTimeEndMatch = dtendError.isEmpty();
         if (getDateTimeStart() == null)
         {
             errors.add("DTSTART is not present.  DTSTART is REQUIRED and MUST NOT occur more than once");
@@ -209,13 +206,14 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
 //            errors.add("Neither DTEND or DURATION is present.  DTEND or DURATION is REQUIRED and MUST NOT occur more than once"); // not required
         } else if (isDateTimeEndPresent && isDurationPresent)
         {
-            errors.add("Both DTEND and DURATION are present.  DTEND or DURATION MAY appear, but both MUST NOT occur in the same " + name());
+            errors.add("Both DTEND and DURATION are present.  DTEND or DURATION MAY exist, but both MUST NOT occur in the same " + name());
         }
         
         return Collections.unmodifiableList(errors);
     }
     
     @Override
+    @Deprecated // is this necessary?
     public void eraseDateTimeProperties()
     {
         super.eraseDateTimeProperties();

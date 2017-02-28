@@ -22,10 +22,10 @@ import net.balsoftware.icalendar.properties.component.change.Sequence;
 import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
 import net.balsoftware.icalendar.properties.component.descriptive.Categories;
 import net.balsoftware.icalendar.properties.component.descriptive.Classification;
-import net.balsoftware.icalendar.properties.component.descriptive.Status;
-import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.descriptive.Classification.ClassificationType;
+import net.balsoftware.icalendar.properties.component.descriptive.Status;
 import net.balsoftware.icalendar.properties.component.descriptive.Status.StatusType;
+import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.recurrence.ExceptionDates;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
@@ -243,7 +243,12 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     }
     public T withExceptionDates(List<ExceptionDates> exceptions)
     {
-        setExceptionDates(exceptions);
+    	if (getExceptionDates() == null)
+    	{
+    		setExceptionDates(new ArrayList<>());
+    	}
+    	getExceptionDates().addAll(exceptions);
+    	exceptions.forEach(c -> orderChild(c));
         return (T) this;
     }
     public T withExceptionDates(String...exceptions)
@@ -251,19 +256,15 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
         List<ExceptionDates> list = Arrays.stream(exceptions)
                 .map(c -> ExceptionDates.parse(c))
                 .collect(Collectors.toList());  
-        setExceptionDates(list);
-        return (T) this;
+        return withExceptionDates(list);
     }
     public T withExceptionDates(Temporal...exceptions)
     {
-    	List<ExceptionDates> list = new ArrayList<>(Arrays.asList(new ExceptionDates(exceptions)));
-    	setExceptionDates(list);
-        return (T) this;
+    	return withExceptionDates(new ExceptionDates(exceptions));
     }
     public T withExceptionDates(ExceptionDates...exceptions)
     {
-    	setExceptionDates(new ArrayList<>(Arrays.asList(exceptions)));
-        return (T) this;
+    	return withExceptionDates(Arrays.asList(exceptions));
     }
     
     /**

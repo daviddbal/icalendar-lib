@@ -33,7 +33,7 @@ public interface VDescribable2<T> extends VDescribable<T>
      */
     Description getDescription();
     void setDescription(Description description);
-    default void setDescription(String description) { Description.parse(description); }
+    default void setDescription(String description) { setDescription(Description.parse(description)); }
     /**
      * Sets the value of the {@link Description}
      * 

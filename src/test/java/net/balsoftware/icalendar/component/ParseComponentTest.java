@@ -13,8 +13,8 @@ import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship;
 import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship.AlarmTriggerRelationshipType;
-import net.balsoftware.icalendar.properties.component.alarm.Trigger;
 import net.balsoftware.icalendar.properties.component.alarm.Action.ActionType;
+import net.balsoftware.icalendar.properties.component.alarm.Trigger;
 
 public class ParseComponentTest extends ICalendarTestAbstract
 {           
@@ -157,6 +157,7 @@ public class ParseComponentTest extends ICalendarTestAbstract
         VEvent expectedVEvent = getGoogleIndividual();
         vEvent.equals(expectedVEvent);
         assertEquals(expectedVEvent, vEvent);
+        assertEquals(vEventString, vEvent.toString());
     }
     
     @Test
@@ -271,8 +272,7 @@ public class ParseComponentTest extends ICalendarTestAbstract
                               + "TRIGGER;RELATED=START:-PT30M" + System.lineSeparator()
                               + "END:VALARM" + System.lineSeparator()
                               + "END:VEVENT";
-        VComponent vEvent = SimpleVComponentFactory.emptyVComponent(vEventString);
-        vEvent.parseContent(vEventString);
+        VComponent vEvent = VEvent.parse(vEventString);
         VEvent expectedVEvent = getWholeDayDaily1()
                 .withComments("This is a multiline comment.")
                 .withVAlarms(new VAlarm()

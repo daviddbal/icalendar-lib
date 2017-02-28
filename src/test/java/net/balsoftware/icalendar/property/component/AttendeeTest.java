@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import net.balsoftware.icalendar.parameters.GroupMembership;
 import net.balsoftware.icalendar.parameters.CalendarUser.CalendarUserType;
+import net.balsoftware.icalendar.parameters.GroupMembership;
 import net.balsoftware.icalendar.parameters.ParticipationRole.ParticipationRoleType;
 import net.balsoftware.icalendar.parameters.ParticipationStatus.ParticipationStatusType;
 import net.balsoftware.icalendar.properties.component.relationship.Attendee;
@@ -48,8 +48,6 @@ public class AttendeeTest
         Attendee madeProperty = Attendee.parse(content);
         Attendee expectedProperty = Attendee.parse("mailto:jsmith@example.com")
                 .withCommonName("John Smith");
-        madeProperty.childrenUnmodifiable().forEach(System.out::println);
-        expectedProperty.childrenUnmodifiable().forEach(System.out::println);
         assertEquals(expectedProperty, madeProperty);
         assertEquals("ATTENDEE;CN=John Smith:mailto:jsmith@example.com", expectedProperty.toString()); // quotes should be removed from common name
     }

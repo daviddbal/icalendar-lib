@@ -86,8 +86,6 @@ public class DaylightSavingsTimeTest
                 "END:" + componentName;
 
         DaylightSavingTime madeComponent = DaylightSavingTime.parse(content);
-        System.out.println(builtComponent);
-        System.out.println(madeComponent);
         assertEquals(madeComponent, builtComponent);
         
         // add another set of recurrences
@@ -101,7 +99,6 @@ public class DaylightSavingsTimeTest
                 "RRULE:FREQ=DAILY;INTERVAL=4" + System.lineSeparator() +
                 "RDATE;VALUE=DATE:19960402,19960403,19960404" + System.lineSeparator() +
                 "END:" + componentName;
-        System.out.println(builtComponent);
         assertEquals(content2, builtComponent.toString());
     }
     
@@ -116,7 +113,6 @@ public class DaylightSavingsTimeTest
                 "END:" + componentName;
 
         DaylightSavingTime madeComponent = DaylightSavingTime.parse(content);
-        System.out.println(madeComponent);
     }
     
     @Test (expected = DateTimeException.class)

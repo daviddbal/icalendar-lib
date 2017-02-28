@@ -169,6 +169,8 @@ END:VEVENT
     {
         VEvent component1 = getWeekly3();
         VEvent component2 = getYearly1();
+//        System.out.println(component1);
+//        System.out.println(component1);
         component2.copyInto(component1);
 //        component1.copyChildrenFrom(component2);
         String expectedContent = 
@@ -185,6 +187,8 @@ END:VEVENT
             "LAST-MODIFIED:20151110T183000Z" + System.lineSeparator() +
             "UID:20151109T082900-0@jfxtras.org" + System.lineSeparator() +
             "END:VEVENT";
+//        System.out.println(expectedContent);
+//        System.out.println(component1);
         assertEquals(expectedContent, component1.toString());
     }
     

@@ -75,20 +75,16 @@ public class ExceptionDatesTest
         assertEquals(expectedValues, madeProperty.getValue());
     }
 
-//    @Test (expected = DateTimeException.class)
-//    public void canCatchWrongTypeExceptions1()
-//    {
-//        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-//        {
-//            throw (RuntimeException) e;
-//        });
-//        ExceptionDates e = ExceptionDates.parse("20160228T093000");
-//        e.getValue().add(LocalDateTime.of(2016, 4, 25, 1, 0));
-//        e.getValue().add(LocalDate.of(2016, 4, 25));
-////        System.out.println(e);
-////        e.errors().forEach(System.out::println);
-//        assertEquals(2, e.getValue().size());
-//    }
+    @Test
+    public void canCatchWrongTypeExceptions1()
+    {
+        ExceptionDates e = ExceptionDates.parse("20160228T093000");
+        e.getValue().add(LocalDateTime.of(2016, 4, 25, 1, 0));
+        e.getValue().add(LocalDate.of(2016, 4, 25));
+        assertEquals(1, e.errors().size());
+        String expectedError = "Recurrences DateTimeType \"DATE\" doesn't match previous recurrences DateTimeType \"DATE_WITH_LOCAL_TIME\"";
+        assertEquals(expectedError, e.errors().get(0));
+    }
     
     @Test
     public void canCatchWrongTypeInTwoProperty()

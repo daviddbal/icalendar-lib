@@ -49,6 +49,7 @@ public abstract class VPrimary<T> extends VCommon<T>
     		setComments(new ArrayList<>());
     	}
     	getComments().addAll(comments);
+    	comments.forEach(c -> orderChild(c));
         return (T) this;
     }
     public T withComments(String...comments)
@@ -56,21 +57,11 @@ public abstract class VPrimary<T> extends VCommon<T>
         List<Comment> list = Arrays.stream(comments)
                 .map(c -> Comment.parse(c))
                 .collect(Collectors.toList());
-    	if (getComments() == null)
-    	{
-    		setComments(new ArrayList<>());
-    	}
-    	getComments().addAll(list);
-        return (T) this;
+        return withComments(list);
     }
     public T withComments(Comment...comments)
     {
-    	if (getComments() == null)
-    	{
-    		setComments(new ArrayList<>());
-    	}
-    	getComments().addAll(Arrays.asList(comments));
-        return (T) this;
+    	return withComments(Arrays.asList(comments));
     }
     
     /**

@@ -133,7 +133,12 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
 	}
     public T withRequestStatus(List<RequestStatus> requestStatus)
     {
-        setRequestStatus(requestStatus);
+    	if (getRequestStatus() == null)
+    	{
+    		setRequestStatus(new ArrayList<>());
+    	}
+    	getRequestStatus().addAll(requestStatus);
+    	requestStatus.forEach(c -> orderChild(c));
         return (T) this;
     }
     public T withRequestStatus(String...requestStatus)
@@ -141,13 +146,11 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
         List<RequestStatus> list = Arrays.stream(requestStatus)
                 .map(c -> RequestStatus.parse(c))
                 .collect(Collectors.toList());
-        setRequestStatus(list);
-        return (T) this;
+        return withRequestStatus(list);
     }
     public T withRequestStatus(RequestStatus...requestStatus)
     {
-    	setRequestStatus(new ArrayList<>(Arrays.asList(requestStatus)));
-        return (T) this;
+    	return withRequestStatus(Arrays.asList(requestStatus));
     }
 
     /**

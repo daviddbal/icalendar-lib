@@ -1,6 +1,5 @@
 package net.balsoftware.icalendar.components;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +41,7 @@ public interface VDescribable<T> extends VComponent
     default T withAttachments(List<Attachment<?>> attachments)
     {
         setAttachments(attachments);
+        attachments.forEach(c -> orderChild(c));
         return (T) this;
     }
     /**
@@ -52,11 +52,10 @@ public interface VDescribable<T> extends VComponent
      */
     default T withAttachments(String...attachments)
     {
-        List<Attachment<?>> a = Arrays.stream(attachments)
+        List<Attachment<?>> list = Arrays.stream(attachments)
                 .map(c -> Attachment.parse(c))
                 .collect(Collectors.toList());
-        setAttachments(a);
-        return (T) this;
+        return withAttachments(list);
     }
     /**
      * Sets the value of the {@link #attachmentsProperty()} from a vararg of {@link Attachment} objects.
@@ -65,8 +64,7 @@ public interface VDescribable<T> extends VComponent
      */
     default T withAttachments(Attachment<?>...attachments)
     {
-        setAttachments(new ArrayList<>(Arrays.asList(attachments)));
-        return (T) this;
+    	return withAttachments(Arrays.asList(attachments));
     }
     
     /**

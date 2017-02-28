@@ -8,6 +8,10 @@ import junit.runner.Version;
 import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
+import net.balsoftware.icalendar.properties.calendar.CalendarScale;
+import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
+import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
+import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
 import net.balsoftware.icalendar.utilities.UnfoldingStringIterator;
 
 /**
@@ -108,5 +112,6 @@ public interface VComponent extends VParent, VChild
      * @param collectErrorMessages  true causes return List to contain error messages, false causes empty list
      * @return  list of error messages if collectErrorMessages is true, otherwise empty list
      */
+    @Deprecated // try to move to base classes
     Map<VElement, List<String>> parseContent(UnfoldingStringIterator contentLines, boolean collectErrorMessages);
 }

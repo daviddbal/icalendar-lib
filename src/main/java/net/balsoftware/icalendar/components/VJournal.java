@@ -80,7 +80,11 @@ public class VJournal extends VDisplayable<VJournal>
 	}
     public VJournal withDescriptions(List<Description> descriptions)
     {
-    	setDescriptions(descriptions);
+    	if (getDescriptions() == null)
+    	{
+    		setDescriptions(new ArrayList<>());
+    	}
+    	getDescriptions().addAll(descriptions);
     	return this;
 	}
     public VJournal withDescriptions(String...descriptions)
@@ -88,13 +92,11 @@ public class VJournal extends VDisplayable<VJournal>
         List<Description> list = Arrays.stream(descriptions)
                 .map(c -> Description.parse(c))
                 .collect(Collectors.toList());
-        setDescriptions(list);
-        return this;
+        return withDescriptions(list);
     }
     public VJournal withDescriptions(Description...descriptions)
     {
-    	setDescriptions(new ArrayList<>(Arrays.asList(descriptions)));
-        return this;
+    	return withDescriptions(Arrays.asList(descriptions));
     }
     
     /*

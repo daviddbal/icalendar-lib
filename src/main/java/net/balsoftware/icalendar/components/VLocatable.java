@@ -19,7 +19,6 @@ import net.balsoftware.icalendar.properties.component.descriptive.GeographicPosi
 import net.balsoftware.icalendar.properties.component.descriptive.Location;
 import net.balsoftware.icalendar.properties.component.descriptive.Priority;
 import net.balsoftware.icalendar.properties.component.descriptive.Resources;
-import net.balsoftware.icalendar.properties.component.relationship.RelatedTo;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.DurationProp;
 
@@ -203,21 +202,23 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
 	}
     public T withResources(List<Resources> resources)
     {
-        setResources(resources);
+    	if (getResources() == null)
+    	{
+    		setResources(new ArrayList<>());
+    	}
+    	getResources().addAll(resources);
         return (T) this;
     }
     public T withResources(String...resources)
     {
-        List<RelatedTo> list = Arrays.stream(resources)
-                .map(c -> RelatedTo.parse(c))
+        List<Resources> list = Arrays.stream(resources)
+                .map(c -> Resources.parse(c))
                 .collect(Collectors.toList());
-        setRelatedTo(list);
-        return (T) this;
+        return withResources(list);
     }
     public T withResources(Resources...resources)
     {
-    	setResources(new ArrayList<>(Arrays.asList(resources)));
-        return (T) this;
+    	return withResources(Arrays.asList(resources));
     }
 
     /** 
@@ -237,11 +238,27 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     	this.vAlarms = vAlarms;
     	vAlarms.forEach(c -> orderChild(c));
 	}
-    public T withVAlarms(List<VAlarm> vAlarms) { setVAlarms(vAlarms); return (T) this; }
+    public T withVAlarms(List<VAlarm> vAlarms)
+    {
+    	if (getVAlarms() == null)
+    	{
+    		setVAlarms(new ArrayList<>());
+    	}
+    	getVAlarms().addAll(vAlarms);
+    	return (T) this;
+	}
     public T withVAlarms(VAlarm...vAlarms)
     {
-    	setVAlarms(new ArrayList<>(Arrays.asList(vAlarms)));
+    	withVAlarms(Arrays.asList(vAlarms));
         return (T) this;
+        
+    }
+    public T withVAlarms(String...vAlarms)
+    {
+        List<VAlarm> newElements = Arrays.stream(vAlarms)
+                .map(c -> VAlarm.parse(c))
+                .collect(Collectors.toList());
+        return withVAlarms(newElements);
     }
     
     static void copyVAlarms(VLocatable<?> source, VLocatable<?> destination)

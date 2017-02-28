@@ -91,7 +91,6 @@ public class PersonalTest
 
             VComponent parsedComponent = builtComponent.getClass().newInstance();
             parsedComponent.parseContent(expectedContent);
-
             assertEquals(parsedComponent, builtComponent);
             assertEquals(expectedContent, builtComponent.toString());            
         }

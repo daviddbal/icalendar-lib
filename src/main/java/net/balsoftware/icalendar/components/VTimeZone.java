@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.VChild;
@@ -293,6 +294,17 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     public VTimeZone withStandardOrDaylight(StandardOrDaylight<?>...standardOrDaylight)
     {
     	return withStandardOrDaylight(Arrays.asList(standardOrDaylight));
+    }
+    public VTimeZone withStandardOrDaylight(String...standardOrDaylight)
+    {
+    	List<StandardOrDaylight<?>> newElements = Arrays.stream(standardOrDaylight)
+                .map(c -> 
+                {
+                	VComponent v = SimpleVComponentFactory.emptyVComponent(c);
+                	return (StandardOrDaylight<?>) v.parseContent(c);
+                })
+                .collect(Collectors.toList());
+    	return withStandardOrDaylight(newElements);
     }
     
     /**

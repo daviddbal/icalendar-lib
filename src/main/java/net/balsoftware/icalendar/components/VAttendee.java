@@ -1,11 +1,9 @@
 package net.balsoftware.icalendar.components;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.properties.component.relationship.Attendee;
 
 /**
@@ -40,6 +38,7 @@ public interface VAttendee<T> extends VComponent
     default T withAttendees(List<Attendee> attendees)
     {
         setAttendees(attendees);
+        attendees.forEach(c -> orderChild(c));
         return (T) this;
     }
     /**
@@ -49,8 +48,7 @@ public interface VAttendee<T> extends VComponent
      */    
     default T withAttendees(Attendee...attendees)
     {
-        setAttendees(new ArrayList<>(Arrays.asList(attendees)));
-        return (T) this;
+    	return withAttendees(Arrays.asList(attendees));
     }
     /**
      * <p>Sets the value of the {@link #attendeesProperty()} by parsing a vararg of
@@ -60,10 +58,9 @@ public interface VAttendee<T> extends VComponent
      */    
     default T withAttendees(String...attendees)
     {
-        List<Attendee> a = Arrays.stream(attendees)
+        List<Attendee> list = Arrays.stream(attendees)
             .map(c -> Attendee.parse(c))
             .collect(Collectors.toList());
-        setAttendees(FXCollections.observableArrayList(a));
-        return (T) this;
+        return withAttendees(list);
     }
 }

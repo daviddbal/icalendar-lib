@@ -7,9 +7,9 @@ import java.util.Collections;
 import java.util.List;
 
 import net.balsoftware.icalendar.properties.component.alarm.Action;
+import net.balsoftware.icalendar.properties.component.alarm.Action.ActionType;
 import net.balsoftware.icalendar.properties.component.alarm.RepeatCount;
 import net.balsoftware.icalendar.properties.component.alarm.Trigger;
-import net.balsoftware.icalendar.properties.component.alarm.Action.ActionType;
 import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
 import net.balsoftware.icalendar.properties.component.descriptive.Description;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
@@ -278,8 +278,8 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     @Override
     public void setAttendees(List<Attendee> attendees)
     {
-    	attendees.forEach(c -> orderChild(c));
     	this.attendees = attendees;
+    	attendees.forEach(c -> orderChild(c));
 	}
     
     /*
@@ -301,8 +301,8 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     private Description description;
     public void setDescription(Description description)
     {
-    	orderer.orderChild(description);
     	this.description = description;
+    	orderer.orderChild(description);
 	}
     
     /*
@@ -319,8 +319,8 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
 	@Override
 	public void setDuration(DurationProp duration)
 	{
-    	orderer.orderChild(duration);
 		this.duration = duration;
+    	orderer.orderChild(duration);
 	}
     
     /**
@@ -343,20 +343,32 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     public RepeatCount getRepeatCount() { return repeatCount; }
     public void setRepeatCount(RepeatCount repeatCount)
     {
-    	orderChild(repeatCount);
     	this.repeatCount = repeatCount;
+    	orderChild(repeatCount);
 	}
     public void setRepeatCount(int repeatCount) { setRepeatCount(new RepeatCount(repeatCount)); }
     public void setRepeatCount(String repeatCount) { setRepeatCount(RepeatCount.parse(repeatCount)); }
     /** Sets the value of the {@link #repeatCountProperty()}
      * @return  this class for chaining */
-    public VAlarm withRepeatCount(RepeatCount repeatCount) { setRepeatCount(repeatCount); return this; }
+    public VAlarm withRepeatCount(RepeatCount repeatCount)
+    {
+    	setRepeatCount(repeatCount);
+    	return this;
+	}
     /** Sets the value of the {@link #repeatCountProperty()} by creating new {@link RepeatCount} from int parameter
      * @return  this class for chaining */
-    public VAlarm withRepeatCount(int repeatCount) { setRepeatCount(repeatCount); return this; }
+    public VAlarm withRepeatCount(int repeatCount)
+    {
+    	setRepeatCount(repeatCount);
+    	return this;
+	}
     /** Sets the value of the {@link #repeatCountProperty()} by parsing iCalendar content text
      * @return  this class for chaining */
-    public VAlarm withRepeatCount(String repeatCount) { setRepeatCount(repeatCount); return this; }
+    public VAlarm withRepeatCount(String repeatCount)
+    {
+    	setRepeatCount(repeatCount);
+    	return this;
+	}
     
     /**
      * <p>This property specifies when an alarm will trigger.<br>
@@ -388,16 +400,32 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     public void setTrigger(ZonedDateTime trigger) { setTrigger(new Trigger<ZonedDateTime>(trigger)); }
     /** Sets the value of the {@link #triggerProperty()}
      * @return  this class for chaining */
-    public VAlarm withTrigger(Trigger<?> trigger) { setTrigger(trigger); return this; }
+    public VAlarm withTrigger(Trigger<?> trigger)
+    {
+    	setTrigger(trigger);
+    	return this;
+	}
     /** Sets the value of the {@link #triggerProperty()} by creating new {@link Trigger} from Duration parameter
      * @return  this class for chaining */
-    public VAlarm withTrigger(Duration trigger) { setTrigger(trigger); return this; }
+    public VAlarm withTrigger(Duration trigger)
+    {
+    	setTrigger(trigger);
+    	return this;
+	}
     /** Sets the value of the {@link #triggerProperty()} by creating new {@link Trigger} from ZonedDateTime parameter
      * @return  this class for chaining */
-    public VAlarm withTrigger(ZonedDateTime trigger) { setTrigger(trigger); return this; }
+    public VAlarm withTrigger(ZonedDateTime trigger)
+    {
+    	setTrigger(trigger);
+    	return this;
+	}
     /** Sets the value of the {@link #triggerProperty()} by parsing iCalendar content text
      * @return  this class for chaining */
-    public VAlarm withTrigger(String trigger) { setTrigger(trigger); return this; }
+    public VAlarm withTrigger(String trigger)
+    {
+    	setTrigger(trigger);
+    	return this;
+	}
 
     
     /*
@@ -470,10 +498,4 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
         component.parseContent(contentLines);
         return component;
     }
-
-	@Override
-	public void setSummary(Summary summary) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented");
-	}
 }

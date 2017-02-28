@@ -43,8 +43,11 @@ public abstract class StandardOrDaylight<T> extends VRepeatableBase<T>
     public List<TimeZoneName> getTimeZoneNames() { return timeZoneNames; }
     public void setTimeZoneNames(List<TimeZoneName> timeZoneNames)
     {
-    	timeZoneNames.forEach(c -> orderChild(c));
     	this.timeZoneNames = timeZoneNames;
+    	if (timeZoneNames != null)
+    	{
+    		timeZoneNames.forEach(c -> orderChild(c));
+    	}
 	}
     /**
      * Sets the value of the {@link #timeZoneNamesProperty()}
@@ -57,7 +60,10 @@ public abstract class StandardOrDaylight<T> extends VRepeatableBase<T>
     	{
     		setTimeZoneNames(new ArrayList<>());
     	}
-    	getTimeZoneNames().addAll(timeZoneNames);
+    	if (timeZoneNames != null)
+    	{
+    		getTimeZoneNames().addAll(timeZoneNames);
+    	}
         return (T) this;
     }
     /**

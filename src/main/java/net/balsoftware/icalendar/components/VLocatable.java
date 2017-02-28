@@ -72,10 +72,13 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
                 throw new DateTimeException("DURATION is negative (" + duration + "). DURATION MUST be positive.");
             }
         }
-        DateTimeEnd dtend = ((VDateTimeEnd<T>) this).getDateTimeEnd();
-        if ((dtend != null) && (duration != null))
+        if (this instanceof VDateTimeEnd)
         {
-            throw new DateTimeException("DURATION and DTEND can't both be set");
+	        DateTimeEnd dtend = ((VDateTimeEnd<T>) this).getDateTimeEnd();
+	        if ((dtend != null) && (duration != null))
+	        {
+	            throw new DateTimeException("DURATION and DTEND can't both be set");
+	        }
         }
         this.duration = duration;
         orderChild(duration);
@@ -198,7 +201,10 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     public void setResources(List<Resources> resources)
     {
     	this.resources = resources;
-    	resources.forEach(c -> orderChild(c));
+    	if (resources != null)
+    	{
+    		resources.forEach(c -> orderChild(c));
+    	}
 	}
     public T withResources(List<Resources> resources)
     {
@@ -207,6 +213,10 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     		setResources(new ArrayList<>());
     	}
     	getResources().addAll(resources);
+    	if (resources != null)
+    	{
+    		resources.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     public T withResources(String...resources)
@@ -236,7 +246,10 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     public void setVAlarms(List<VAlarm> vAlarms)
     {
     	this.vAlarms = vAlarms;
-    	vAlarms.forEach(c -> orderChild(c));
+    	if (vAlarms != null)
+    	{
+    		vAlarms.forEach(c -> orderChild(c));
+    	}
 	}
     public T withVAlarms(List<VAlarm> vAlarms)
     {
@@ -244,7 +257,11 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     	{
     		setVAlarms(new ArrayList<>());
     	}
-    	getVAlarms().addAll(vAlarms);
+    	if (vAlarms != null)
+    	{
+    		getVAlarms().addAll(vAlarms);
+    		vAlarms.forEach(c -> orderChild(c));
+    	}
     	return (T) this;
 	}
     public T withVAlarms(VAlarm...vAlarms)

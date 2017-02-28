@@ -76,7 +76,10 @@ public class VJournal extends VDisplayable<VJournal>
     public void setDescriptions(List<Description> descriptions)
     {
     	this.descriptions = descriptions;
-    	descriptions.forEach(c -> orderChild(c));
+    	if (descriptions != null)
+    	{
+    		descriptions.forEach(c -> orderChild(c));
+    	}
 	}
     public VJournal withDescriptions(List<Description> descriptions)
     {
@@ -85,6 +88,10 @@ public class VJournal extends VDisplayable<VJournal>
     		setDescriptions(new ArrayList<>());
     	}
     	getDescriptions().addAll(descriptions);
+    	if (descriptions != null)
+    	{
+    		descriptions.forEach(c -> orderChild(c));
+    	}
     	return this;
 	}
     public VJournal withDescriptions(String...descriptions)

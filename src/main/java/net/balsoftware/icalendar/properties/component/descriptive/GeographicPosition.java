@@ -53,14 +53,12 @@ public class GeographicPosition extends PropertyBase<String, GeographicPosition>
     public GeographicPosition(GeographicPosition source)
     {
         super(source);
-        setupListeners();
         updateParts(getValue());
     }
     
     public GeographicPosition(double latitude, double longitude)
     {
         super();
-        setupListeners();
         setLatitude(latitude);
         setLongitude(longitude);
     }
@@ -68,7 +66,6 @@ public class GeographicPosition extends PropertyBase<String, GeographicPosition>
     public GeographicPosition()
     {
         super();
-        setupListeners();
     }
     
     /** Applies string converter only to description and exception parts of the RequestStatus property
@@ -90,25 +87,8 @@ public class GeographicPosition extends PropertyBase<String, GeographicPosition>
         return geographicPosition;
     }
     
-    /*
-     * LISTENERS
-     * Used to keep latitude and longitude synchronized with the property value
-     */
-    private void setupListeners()
-    {
-//        latitudeProperty().addListener(doubleChangeListener);
-//        longitudeProperty().addListener(doubleChangeListener);
-//        valueProperty().addListener(valueChangeListener);        
-    }
-    
-//    private final ChangeListener<? super String> valueChangeListener = (observable, oldValue, newValue) -> updateParts(newValue);
-    
-    
-    
     private void updateParts(String newValue)
     {
-//        latitudeProperty().removeListener(doubleChangeListener);
-//        longitudeProperty().removeListener(doubleChangeListener);
         String[] values = newValue.split(";");
         if (values.length == 2)
         {
@@ -118,11 +98,7 @@ public class GeographicPosition extends PropertyBase<String, GeographicPosition>
         {
             throw new IllegalArgumentException("Can't parse geographic position value:" + newValue);
         }
-//        latitudeProperty().addListener(doubleChangeListener);
-//        longitudeProperty().addListener(doubleChangeListener);
     }
-        
-//    private final ChangeListener<? super Double> doubleChangeListener = (observable, oldValue, newValue) -> buildNewValue();
 
     @Override
 	public void setValue(String value)
@@ -135,12 +111,10 @@ public class GeographicPosition extends PropertyBase<String, GeographicPosition>
     {
         if ((getLatitude() != null) && (getLongitude() != null))
         {
-//            valueProperty().removeListener(valueChangeListener);
             StringBuilder builder = new StringBuilder(20);
             builder.append(DECIMAL_FORMAT.format(getLatitude()) + ";");
             builder.append(DECIMAL_FORMAT.format(getLongitude()));
-            setValue(builder.toString());
-//            valueProperty().addListener(valueChangeListener);
+            super.setValue(builder.toString());
         }
     }
 }

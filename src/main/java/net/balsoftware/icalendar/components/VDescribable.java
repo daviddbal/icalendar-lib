@@ -41,7 +41,10 @@ public interface VDescribable<T> extends VComponent
     default T withAttachments(List<Attachment<?>> attachments)
     {
         setAttachments(attachments);
-        attachments.forEach(c -> orderChild(c));
+        if (attachments != null)
+        {
+        	attachments.forEach(c -> orderChild(c));
+        }
         return (T) this;
     }
     /**

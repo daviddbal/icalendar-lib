@@ -34,7 +34,10 @@ public abstract class VCommon<T> extends VComponentBase
     public void setNonStandard(List<NonStandardProperty> nonStandardProps)
     {
     	this.nonStandardProps = nonStandardProps;
-    	nonStandardProps.forEach(c -> orderChild(c));
+    	if (nonStandardProps != null)
+    	{
+    		nonStandardProps.forEach(c -> orderChild(c));
+    	}
 	}
     /**
      * Sets the value of the {@link #nonStandardProperty()}
@@ -48,7 +51,10 @@ public abstract class VCommon<T> extends VComponentBase
         	setNonStandard(new ArrayList<>());
     	}
     	getNonStandard().addAll(nonStandardProps);
-    	nonStandardProps.forEach(c -> orderChild(c));
+    	if (nonStandardProps != null)
+    	{
+    		nonStandardProps.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     /**

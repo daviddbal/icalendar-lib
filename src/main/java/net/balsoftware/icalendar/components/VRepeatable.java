@@ -64,7 +64,10 @@ public interface VRepeatable<T> extends VComponent
     		setRecurrenceDates(new ArrayList<>());
     	}
     	getRecurrenceDates().addAll(recurrenceDates);
-    	recurrenceDates.forEach(c -> orderChild(c));
+    	if (recurrenceDates != null)
+    	{
+    		recurrenceDates.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     default T withRecurrenceDates(String...recurrenceDates)
@@ -76,10 +79,7 @@ public interface VRepeatable<T> extends VComponent
     }
     default T withRecurrenceDates(Temporal...recurrenceDates)
     {
-        List<RecurrenceDates> list = Arrays.stream(recurrenceDates)
-                .map(c -> new RecurrenceDates(c))
-                .collect(Collectors.toList());
-        return withRecurrenceDates(list);
+        return withRecurrenceDates(new RecurrenceDates(recurrenceDates));
     }
     default T withRecurrenceDates(RecurrenceDates...recurrenceDates)
     {

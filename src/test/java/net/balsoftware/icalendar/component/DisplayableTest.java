@@ -29,9 +29,9 @@ import net.balsoftware.icalendar.properties.component.change.Sequence;
 import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
 import net.balsoftware.icalendar.properties.component.descriptive.Categories;
 import net.balsoftware.icalendar.properties.component.descriptive.Classification;
-import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.descriptive.Classification.ClassificationType;
 import net.balsoftware.icalendar.properties.component.descriptive.Status.StatusType;
+import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.recurrence.ExceptionDates;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
@@ -268,6 +268,7 @@ public class DisplayableTest
                 .withRecurrenceRule(new RecurrenceRuleValue()
                         .withFrequency(FrequencyType.DAILY)
                         .withUntil(ZonedDateTime.of(LocalDateTime.of(2016, 5, 12, 19, 30, 0), ZoneId.of("Z"))));
+        e.setDateTimeCreated((DateTimeCreated) null);
         e.setExceptionDates(null);
         e.setDateTimeStart(new DateTimeStart(LocalDate.of(2016, 2, 7)));
         e.setExceptionDates(FXCollections.observableArrayList(new ExceptionDates(

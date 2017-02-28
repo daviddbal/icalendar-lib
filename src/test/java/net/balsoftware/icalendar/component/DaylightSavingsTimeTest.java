@@ -2,7 +2,6 @@ package net.balsoftware.icalendar.component;
 
 import static org.junit.Assert.assertEquals;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -14,8 +13,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
 import net.balsoftware.icalendar.components.DaylightSavingTime;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.FrequencyType;
@@ -93,7 +90,9 @@ public class DaylightSavingsTimeTest
                 LocalDate.of(1996, 4, 2),
                 LocalDate.of(1996, 4, 3),
                 LocalDate.of(1996, 4, 4) ));
-        builtComponent.getRecurrenceDates().add(new RecurrenceDates(expectedValues));
+        RecurrenceDates newChild = new RecurrenceDates(expectedValues);
+		builtComponent.getRecurrenceDates().add(newChild);
+		builtComponent.orderChild(newChild);
         String content2 = "BEGIN:" + componentName + System.lineSeparator() +
                 "RDATE;VALUE=DATE:19970304,19970504,19970704,19970904" + System.lineSeparator() +
                 "RRULE:FREQ=DAILY;INTERVAL=4" + System.lineSeparator() +
@@ -113,19 +112,23 @@ public class DaylightSavingsTimeTest
                 "END:" + componentName;
 
         DaylightSavingTime madeComponent = DaylightSavingTime.parse(content);
+        assertEquals(content, madeComponent.toString());
     }
     
-    @Test (expected = DateTimeException.class)
+    @Test //(expected = DateTimeException.class)
     public void canCatchDifferentRepeatableTypes()
     {
-        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
+//        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
+//        {
+//            throw (RuntimeException) e;
+//        });
         DaylightSavingTime builtComponent = new DaylightSavingTime()
                 .withRecurrenceDates("RDATE;VALUE=DATE:19970304,19970504,19970704,19970904");
-        ObservableSet<Temporal> expectedValues = FXCollections.observableSet(
-                ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("Z")) );        
+        Set<Temporal> expectedValues = new HashSet<>(Arrays.asList(
+                ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("Z")) ));        
         builtComponent.getRecurrenceDates().add(new RecurrenceDates(expectedValues));
+        builtComponent.errors().forEach(System.out::println);
+        builtComponent.childrenUnmodifiable().forEach(System.out::println);
+        throw new RuntimeException("need RDATE error");
     }
 }

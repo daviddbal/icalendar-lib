@@ -97,24 +97,31 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public void setCategories(List<Categories> categories)
     {
     	this.categories = categories;
-    	categories.forEach(c -> orderChild(c));
+    	if (categories != null)
+    	{
+    		categories.forEach(c -> orderChild(c));
+    	}
 	}
     public T withCategories(List<Categories> categories)
     {
-        setCategories(categories);
+    	if (getCategories() == null)
+    	{
+    		setCategories(new ArrayList<>());
+    	}
+    	getCategories().addAll(categories);
+    	if (categories != null)
+    	{
+    		categories.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     public T withCategories(String...categories)
     {
-        List<Categories> list = Arrays.stream(categories)
-                .map(c -> Categories.parse(c))
-                .collect(Collectors.toList());
-    	setCategories(list);
-        return (T) this;
+        return withCategories(new Categories(categories));
     }
     public T withCategories(Categories...categories)
     {
-    	setCategories(new ArrayList<>(Arrays.asList(categories)));
+    	withCategories(new ArrayList<>(Arrays.asList(categories)));
         return (T) this;
     }
     
@@ -170,11 +177,22 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public void setContacts(List<Contact> contacts)
     {
     	this.contacts = contacts;
-    	contacts.forEach(c -> orderChild(c));
+    	if (contacts != null)
+    	{
+    		contacts.forEach(c -> orderChild(c));
+    	}
 	}
     public T withContacts(List<Contact> contacts)
     {
-        setContacts(contacts);
+    	if (getContacts() == null)
+    	{
+    		setContacts(new ArrayList<>());
+    	}
+    	getContacts().addAll(contacts);
+    	if (contacts != null)
+    	{
+    		contacts.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     public T withContacts(String...contacts)
@@ -182,13 +200,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
         List<Contact> list = Arrays.stream(contacts)
                 .map(c -> Contact.parse(c))
                 .collect(Collectors.toList());
-        setContacts(list);
-        return (T) this;
+        return withContacts(list);
     }
     public T withContacts(Contact...contacts)
     {
-    	setContacts(new ArrayList<>(Arrays.asList(contacts)));
-        return (T) this;
+    	return withContacts(Arrays.asList(contacts));
     }
     
     /**
@@ -239,7 +255,10 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public void setExceptionDates(List<ExceptionDates> exceptionDates)
     {
         this.exceptionDates = exceptionDates;
-    	exceptionDates.forEach(e -> orderChild(e));
+        if (exceptionDates != null)
+        {
+        	exceptionDates.forEach(e -> orderChild(e));
+        }
     }
     public T withExceptionDates(List<ExceptionDates> exceptions)
     {
@@ -248,7 +267,10 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     		setExceptionDates(new ArrayList<>());
     	}
     	getExceptionDates().addAll(exceptions);
-    	exceptions.forEach(c -> orderChild(c));
+    	if (exceptions != null)
+    	{
+    		exceptions.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     public T withExceptionDates(String...exceptions)
@@ -310,7 +332,10 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public void setRecurrenceDates(List<RecurrenceDates> recurrenceDates)
     {
     	this.recurrenceDates = recurrenceDates;
-    	recurrenceDates.forEach(c -> orderChild(c));
+    	if (recurrenceDates != null)
+    	{
+    		recurrenceDates.forEach(c -> orderChild(c));
+    	}
 	}
 
     /**
@@ -398,7 +423,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     	this.relatedTo = relatedTo;
     	relatedTo.forEach(c -> orderChild(c));
 	}
-    public T withRelatedTo(List<RelatedTo> relatedTo) { setRelatedTo(relatedTo); return (T) this; }
+    public T withRelatedTo(List<RelatedTo> relatedTo)
+    {
+    	setRelatedTo(relatedTo);
+    	return (T) this;
+	}
     public T withRelatedTo(String...relatedTo)
     {
         List<RelatedTo> list = Arrays.stream(relatedTo)

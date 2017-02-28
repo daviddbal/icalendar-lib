@@ -22,11 +22,4 @@ public interface Orderer
 
 	/** Add the next child to the list */
 	void orderChild(int index, VChild newChild);
-
-//	/** Replace the oldChild with the newChild*/
-//	void orderChild(VChild oldChild, VChild newChild);
-
-//	/** Add the child to particular index in the list */
-//	void orderChild(int index, VChild oldChild, VChild newChild);
-
 }

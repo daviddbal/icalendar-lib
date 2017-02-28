@@ -54,15 +54,17 @@ public class OrdererBase implements Orderer
 
 		// Remove orphans
 		List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
+//		System.out.println("allUnorderedChildren:" + allUnorderedChildren.size() + " " + parent.name());
 		List<VChild> orphans = orderedChildren
 			.stream()
 			.filter(c -> ! allUnorderedChildren.contains(c))
 			.collect(Collectors.toList());
+//		System.out.println("orphans:" + orphans.size());
 		orphans.forEach(c -> orderedChildren.remove(c));
 		List<VChild> allChildren = new ArrayList<>(orderedChildren);
 
 		// Add unordered children
-		allUnorderedChildren(parent, childGetters)
+		allUnorderedChildren
 				.stream()
 //				.peek(System.out::println)
 				.filter(c -> ! orderedChildren.contains(c))
@@ -89,6 +91,8 @@ public class OrdererBase implements Orderer
     {
     	return Collections.unmodifiableList(childGetters
     		.stream()
+//    		.peek(m -> System.out.println(m.getName()))
+//    		.filter(m -> m.getName().equals("getVAlarms"))
     		.map(m -> {
 				try {
 					return m.invoke(parent);
@@ -98,6 +102,7 @@ public class OrdererBase implements Orderer
 				return null;
 			})
     		.filter(p -> p != null)
+//    		.peek(System.out::println)
     		.flatMap(p -> 
     		{
     			if (p instanceof List)
@@ -118,6 +123,7 @@ public class OrdererBase implements Orderer
 //		System.out.println("adding:" + newChild + "  " + System.identityHashCode(newChild));
 		if ((! orderedChildren.contains(newChild)) && (newChild != null))
 		{
+//			System.out.println("adding:" + newChild.name() + " " + parent.name());
 			orderedChildren.add(newChild);
 			newChild.setParent(parent);
 		} else

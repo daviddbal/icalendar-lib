@@ -53,7 +53,10 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     public void setAttendees(List<Attendee> attendees)
     {
     	this.attendees = attendees;
-    	attendees.forEach(c -> orderChild(c));
+    	if (attendees != null)
+    	{
+    		attendees.forEach(c -> orderChild(c));
+    	}
 	}
     
     /**
@@ -129,7 +132,10 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     public void setRequestStatus(List<RequestStatus> requestStatus)
     {
     	this.requestStatus = requestStatus;
-    	requestStatus.forEach(c -> orderChild(c));
+    	if (requestStatus != null)
+    	{
+    		requestStatus.forEach(c -> orderChild(c));
+    	}
 	}
     public T withRequestStatus(List<RequestStatus> requestStatus)
     {
@@ -138,7 +144,10 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     		setRequestStatus(new ArrayList<>());
     	}
     	getRequestStatus().addAll(requestStatus);
-    	requestStatus.forEach(c -> orderChild(c));
+    	if (requestStatus != null)
+    	{
+    		requestStatus.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     public T withRequestStatus(String...requestStatus)

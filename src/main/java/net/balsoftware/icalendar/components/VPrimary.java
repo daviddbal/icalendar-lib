@@ -40,7 +40,10 @@ public abstract class VPrimary<T> extends VCommon<T>
     public void setComments(List<Comment> comments)
     {
     	this.comments = comments;
-    	comments.forEach(c -> orderChild(c));
+    	if (comments != null)
+    	{
+    		comments.forEach(c -> orderChild(c));
+    	}
 	}
     public T withComments(List<Comment> comments)
     {
@@ -49,7 +52,10 @@ public abstract class VPrimary<T> extends VCommon<T>
     		setComments(new ArrayList<>());
     	}
     	getComments().addAll(comments);
-    	comments.forEach(c -> orderChild(c));
+    	if (comments != null)
+    	{
+    		comments.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     public T withComments(String...comments)

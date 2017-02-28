@@ -38,7 +38,10 @@ public interface VAttendee<T> extends VComponent
     default T withAttendees(List<Attendee> attendees)
     {
         setAttendees(attendees);
-        attendees.forEach(c -> orderChild(c));
+        if (attendees != null)
+        {
+        	attendees.forEach(c -> orderChild(c));
+        }
         return (T) this;
     }
     /**

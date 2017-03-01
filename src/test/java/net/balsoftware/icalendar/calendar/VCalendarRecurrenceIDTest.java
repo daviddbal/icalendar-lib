@@ -87,7 +87,7 @@ public class VCalendarRecurrenceIDTest extends ICalendarTestAbstract
         VCalendar c = new VCalendar();
         
         // add components all at once
-        c.getVEvents().addAll(child, parent, child2);
+        c.getVEvents().addAll(Arrays.asList(child, parent, child2));
         assertEquals(2, parent.recurrenceChildren().size());
         {
             List<Temporal> expectedRecurrences = Arrays.asList(

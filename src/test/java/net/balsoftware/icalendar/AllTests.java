@@ -4,6 +4,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import net.balsoftware.icalendar.calendar.CalendarScaleTest;
+import net.balsoftware.icalendar.calendar.CopyCalendarTest;
+import net.balsoftware.icalendar.calendar.GeneralCalendarTest;
+import net.balsoftware.icalendar.calendar.OrdererTest;
+import net.balsoftware.icalendar.calendar.ParseCalendarTest;
+import net.balsoftware.icalendar.calendar.ReadICSFileTest;
+import net.balsoftware.icalendar.calendar.RecurrenceIDParentValidTest;
+import net.balsoftware.icalendar.calendar.VCalendarRecurrenceIDTest;
 import net.balsoftware.icalendar.component.BaseTest;
 import net.balsoftware.icalendar.component.ComponentStatusTest;
 import net.balsoftware.icalendar.component.CopyComponentTest;
@@ -26,6 +34,17 @@ import net.balsoftware.icalendar.component.VFreeBusyTest;
 import net.balsoftware.icalendar.component.VJournalTest;
 import net.balsoftware.icalendar.component.VTimeZoneTest;
 import net.balsoftware.icalendar.component.VTodoTest;
+import net.balsoftware.icalendar.itip.CancelRecurrenceTest;
+import net.balsoftware.icalendar.itip.ComboMessageTest;
+import net.balsoftware.icalendar.itip.HandleRecurrencesTest;
+import net.balsoftware.icalendar.itip.RequestTest;
+import net.balsoftware.icalendar.itip.SimpleCancelTest;
+import net.balsoftware.icalendar.itip.SimplePublishTest;
+import net.balsoftware.icalendar.itip.WholeDayTest;
+import net.balsoftware.icalendar.misc.ErrorDetectingTest;
+import net.balsoftware.icalendar.misc.FoldingAndUnfoldingTest;
+import net.balsoftware.icalendar.misc.MiscICalendarTests;
+import net.balsoftware.icalendar.misc.MiscOrdererTest;
 import net.balsoftware.icalendar.parameter.AlternateTextRepresentationTest;
 import net.balsoftware.icalendar.parameter.CommonNameTest;
 import net.balsoftware.icalendar.parameter.DelegateesTest;
@@ -96,26 +115,29 @@ import net.balsoftware.icalendar.property.component.UniqueIdentifierTest;
 @SuiteClasses({ 
         
         // misc tests
-//        FoldingAndUnfoldingTest.class,
-//        OrdererTest.class,
+		ErrorDetectingTest.class,
+        FoldingAndUnfoldingTest.class,
+        MiscICalendarTests.class,
+        MiscOrdererTest.class,
         
         // iTIP tests
-//        CancelRecurrenceTest.class,
-//        ComboMessageTest.class,
-//        HandleRecurrencesTest.class,
-//        RequestTest.class,
-//        SimpleCancelTest.class,
-//        SimplePublishTest.class,
-//        WholeDayTest.class,
+        CancelRecurrenceTest.class,
+        ComboMessageTest.class,
+        HandleRecurrencesTest.class,
+        RequestTest.class,
+        SimpleCancelTest.class,
+        SimplePublishTest.class,
+        WholeDayTest.class,
     
         // calendar tests
-//        CalendarScaleTest.class,
-//        CopyCalendarTest.class,
-//        GeneralCalendarTest.class,
-//        MethodTest.class,
-//        ParseCalendarTest.class,
-//        ReadICSFileTest.class,
-//        VCalendarRecurrenceIDTest.class,
+        CalendarScaleTest.class,
+        CopyCalendarTest.class,
+        GeneralCalendarTest.class,
+        OrdererTest.class,
+        ParseCalendarTest.class,
+        ReadICSFileTest.class,
+        RecurrenceIDParentValidTest.class,
+        VCalendarRecurrenceIDTest.class,
                 
         //component tests
         BaseTest.class,

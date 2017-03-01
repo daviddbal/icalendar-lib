@@ -3,10 +3,10 @@ package net.balsoftware.icalendar.itip;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.Test;
 
-import javafx.collections.ObservableList;
 import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VEvent;
@@ -50,14 +50,14 @@ public class SimpleCancelTest
                 "VERSION:2.0" + System.lineSeparator() + 
                 "PRODID:-//Example/ExampleCalendarClient//EN" + System.lineSeparator() + 
                 "END:VCALENDAR";
-        assertEquals(expectedContent, main.toContent());
+        assertEquals(expectedContent, main.toString());
     }
     
     @Test // use CANCEL for recurrence instance
     public void canDeleteOneInstance()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -91,7 +91,7 @@ public class SimpleCancelTest
     public void canDetectTooLowSequence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1()
                 .withSequence(2);
@@ -121,7 +121,7 @@ public class SimpleCancelTest
     public void canDeleteOneInstance2()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -158,7 +158,7 @@ public class SimpleCancelTest
     public void canDeleteAnotherInstance()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1()
                 .withExceptionDates(LocalDateTime.of(2016, 5, 16, 10, 0))
@@ -195,7 +195,7 @@ public class SimpleCancelTest
     public void canDeleteRepeatableAll()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -226,7 +226,7 @@ public class SimpleCancelTest
     public void canDeleteThisAndFuture()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getWeeklyZoned();
         vComponents.add(vComponentOriginal);
@@ -258,7 +258,7 @@ public class SimpleCancelTest
     public void canDeleteThisAndFuture2()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getWeeklyZoned();
         vComponents.add(vComponentOriginal);

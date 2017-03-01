@@ -9,7 +9,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.Recurrenc
 
 public class OrdererTest
 {
-    @Test // can remove a property and avoid null pointer with toContent
+    @Test // can remove a property and avoid null pointer with toString
     public void canRemoveProperty()
     {
         VEvent vComponent = new VEvent()
@@ -20,10 +20,10 @@ public class OrdererTest
         String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
                                  "SUMMARY:example" + System.lineSeparator() +
                                  "END:VEVENT";
-        assertEquals(expectedContent, vComponent.toContent());
+        assertEquals(expectedContent, vComponent.toString());
     }
     
-    @Test // can remove a property and avoid null pointer with toContent
+    @Test // can remove a property and avoid null pointer with toString
     public void canRemoveListProperty()
     {
         VEvent vComponent = new VEvent()
@@ -34,7 +34,7 @@ public class OrdererTest
         String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
                                  "SUMMARY:example" + System.lineSeparator() +
                                  "END:VEVENT";
-        assertEquals(expectedContent, vComponent.toContent());
+        assertEquals(expectedContent, vComponent.toString());
     }
     
     @Test // shows removing null property does nothing
@@ -45,6 +45,6 @@ public class OrdererTest
         assertEquals(0, vComponent.childrenUnmodifiable().size());
         String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
                                  "END:VEVENT";
-        assertEquals(expectedContent, vComponent.toContent());
+        assertEquals(expectedContent, vComponent.toString());
     }
 }

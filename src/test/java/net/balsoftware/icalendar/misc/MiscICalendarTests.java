@@ -1,4 +1,6 @@
-package net.balsoftware.icalendar.demo;
+package net.balsoftware.icalendar.misc;
+
+import static org.junit.Assert.assertEquals;
 
 import java.time.DateTimeException;
 import java.time.DayOfWeek;
@@ -9,15 +11,11 @@ import java.time.Month;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.components.DaylightSavingTime;
@@ -29,7 +27,6 @@ import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
 import net.balsoftware.icalendar.properties.calendar.Version;
 import net.balsoftware.icalendar.properties.component.descriptive.Comment;
-import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.FrequencyType;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
@@ -37,7 +34,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByD
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonth;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
 
-public class ICalendarQuickOverview
+public class MiscICalendarTests
 {
     @Test
     public void canCreateEmptyVCalendar()
@@ -46,7 +43,7 @@ public class ICalendarQuickOverview
         VCalendar c = new VCalendar();
         
         // Produce text like what is shown in RFC 5545
-        String content = c.toContent();
+        String content = c.toString();
         System.out.println(content);
     }
     
@@ -65,7 +62,7 @@ public class ICalendarQuickOverview
         calendar.getVEvents().add(event); // add the event to the calendar
         calendar.setProductIdentifier("-//jfxtras/iCalendarFx//EN"); // PRODID calendar property
                 
-        System.out.println(calendar.toContent());
+        System.out.println(calendar.toString());
     }
     
     @Test
@@ -73,8 +70,9 @@ public class ICalendarQuickOverview
     {
         VEvent event = new VEvent();
         Comment comment = Comment.parse("A comment");
-        ObservableList<Comment> comments = FXCollections.observableArrayList(comment);
+        List<Comment> comments = Arrays.asList(comment);
         event.setComments(comments);
+        assertEquals(comments, event.getComments());
     }
     
     @Test // parse a string
@@ -89,7 +87,7 @@ public class ICalendarQuickOverview
                     .withByRules(new ByMonth(Month.NOVEMBER, Month.DECEMBER),  // BYMONTH rrule value element 
                             new ByDay(DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY))) // BYDAY rrule value element 
             .withUniqueIdentifier("20150110T080000-0@jfxtras.org"); // UID component property
-        String content = event.toContent();
+        String content = event.toString();
         System.out.println(content);
     }
     
@@ -172,7 +170,7 @@ public class ICalendarQuickOverview
                                 .withByRules(new ByMonth(Month.NOVEMBER, Month.DECEMBER),  // BYMONTH rrule value element 
                                         new ByDay(DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY))) // BYDAY rrule value element 
                     .withUniqueIdentifier("20150110T080000-0@jfxtras.org")); // UID component property
-        System.out.println(c.toContent());
+        System.out.println(c.toString());
     }
         
     @Test // parse a string
@@ -192,7 +190,7 @@ public class ICalendarQuickOverview
                 "END:VEVENT" + nl +
                 "END:VCALENDAR";
         VCalendar c = VCalendar.parse(content); // Note: can also parse files and readers
-        System.out.println(c.toContent());
+        System.out.println(c.toString());
     }
     
     @Test (expected = DateTimeException.class)// Can check if RFC 5545 rules are followed.
@@ -207,13 +205,13 @@ public class ICalendarQuickOverview
                 .withDateTimeStart(LocalDate.of(2016, 3, 7))
                 .withDateTimeEnd(LocalDate.of(2016, 3, 8));
         vEvent.setDateTimeEnd(LocalDateTime.of(2016, 3, 6, 12, 0)); // throws exception
-        System.out.println(vEvent.toContent());
+        System.out.println(vEvent.toString());
                 
         VEvent e = new VEvent();
         List<String> errors = e.errors();
         errors.forEach(System.out::println);
         System.out.println("isValid:" + e.isValid());
-//        System.out.println(e.toContent());
+//        System.out.println(e.toString());
     }
     
     // iCalendar Transport-Independent Interoperability Protocol (iTIP) message defined in RFC 5546
@@ -237,7 +235,7 @@ public class ICalendarQuickOverview
          "END:VEVENT"+ls+
          "END:VCALENDAR";
         List<String> log = main.processITIPMessage(publish);
-        System.out.println(main.toContent()+ls);
+        System.out.println(main.toString()+ls);
         log.forEach(System.out::println);
     }
     
@@ -272,7 +270,7 @@ public class ICalendarQuickOverview
               "END:VCALENDAR";
         List<String> log = main.processITIPMessage(cancel);
         log.forEach(System.out::println);
-        System.out.println(main.toContent());
+        System.out.println(main.toString());
     }
     
     @Test // parent-child hierarchy (e.g. find properties in a VEvent)
@@ -326,33 +324,13 @@ public class ICalendarQuickOverview
     @Test
     public void canStreamRRule2()
     {
-String s = "FREQ=MONTHLY;BYDAY=FR;BYMONTHDAY=13";
-RecurrenceRule rRule = RecurrenceRule.parse(s);
-Temporal dateTimeStart = LocalDate.of(2016, 5, 13);
-rRule.getValue()
-        .streamRecurrences(dateTimeStart)
-        .limit(5) // must limit or goes forever
-        .forEach(System.out::println);
+		String s = "FREQ=MONTHLY;BYDAY=FR;BYMONTHDAY=13";
+		RecurrenceRule rRule = RecurrenceRule.parse(s);
+		Temporal dateTimeStart = LocalDate.of(2016, 5, 13);
+		rRule.getValue()
+		        .streamRecurrences(dateTimeStart)
+		        .limit(5) // must limit or goes forever
+		        .forEach(System.out::println);
     }
     
-    @Test // Bind two properties to synchronize data (e.g. between display control and application data)
-    public void canBindProperties()
-    {
-        Summary s = Summary.parse("initial summary");
-        ObjectProperty<String> appProperty = s.valueProperty();
-        StringProperty displayProperty = new SimpleStringProperty();
-        appProperty.bind(displayProperty);
-        displayProperty.set("new summary");
-        System.out.println(s.toContent());
-    }
-    
-    @Test
-    public void canAttachListenerToProperties()
-    {
-        VEvent e = new VEvent()
-                .withDateTimeStart("19970611T190000Z");
-        e.dateTimeStartProperty().addListener((obs) -> 
-         System.out.println("Yikes! DTSTART changed." + obs));
-        e.setDateTimeStart("19970612T190000Z");
-    }
 }

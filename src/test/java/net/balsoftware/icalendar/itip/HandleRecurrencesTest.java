@@ -6,11 +6,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VEvent;
@@ -28,7 +29,7 @@ public class HandleRecurrencesTest
     public void canEditAllWithRecurrences()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponent1 = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponent1);
@@ -122,8 +123,8 @@ public class HandleRecurrencesTest
                 .withSummary("recurrence summary")
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 17, 8, 30))
                 .withDateTimeEnd(LocalDateTime.of(2016, 5, 17, 9, 30));
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
-        vComponents.addAll(vComponentEdited, vComponentRecurrence);
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
+        vComponents.addAll(Arrays.asList(vComponentEdited, vComponentRecurrence));
 //        System.out.println(mainVCalendar);
         // Publish change to ALL VEvents (recurrence gets deleted)
         String publish = "BEGIN:VCALENDAR" + System.lineSeparator() + 
@@ -177,7 +178,7 @@ public class HandleRecurrencesTest
     public void canEditAllIgnoreRecurrences()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponent1 = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponent1);
@@ -241,7 +242,7 @@ public class HandleRecurrencesTest
                 "END:VEVENT";
         mainVCalendar.processITIPMessage(iTIPMessage);
 
-        FXCollections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
+        Collections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
         assertEquals(3, vComponents.size());
         VEvent myComponent1 = vComponents.get(0);
         VEvent myComponent2 = vComponents.get(1);
@@ -272,7 +273,7 @@ public class HandleRecurrencesTest
     public void canEditThisAndFutureWithRecurrence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentEdited = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentEdited);
@@ -323,7 +324,7 @@ public class HandleRecurrencesTest
         mainVCalendar.processITIPMessage(iTIPMessage);
 
         assertEquals(2, vComponents.size());
-        FXCollections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
+        Collections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
         VEvent myComponentFuture = vComponents.get(1);
         VEvent myComponentOriginal = vComponents.get(0);
         
@@ -337,7 +338,7 @@ public class HandleRecurrencesTest
         VEvent expectedComponentFuture = ICalendarStaticComponents.getDaily1()
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 16, 9, 0))
                 .withDateTimeEnd(LocalDateTime.of(2016, 5, 16, 10, 30))
-                .withRelatedTo(FXCollections.observableArrayList(relatedTo))
+                .withRelatedTo(Arrays.asList(relatedTo))
                 .withSummary("Edited summary")
                 .withUniqueIdentifier(new UniqueIdentifier(myComponentFuture.getUniqueIdentifier()))
                 .withDateTimeStamp(new DateTimeStamp(myComponentFuture.getDateTimeStamp()));
@@ -348,7 +349,7 @@ public class HandleRecurrencesTest
     public void canEditThisAndFutureAllIgnoreRecurrence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -420,7 +421,7 @@ public class HandleRecurrencesTest
                 "END:VCALENDAR";
         mainVCalendar.processITIPMessage(iTIPMessage);
         assertEquals(4, vComponents.size());
-        FXCollections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
+        Collections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
         VEvent myComponentOriginal = vComponents.get(0);
         // vComponent #1 is recurrence before (unchanged)
         VEvent myComponentFuture = vComponents.get(2);
@@ -436,7 +437,7 @@ public class HandleRecurrencesTest
         VEvent expectedComponentFuture = ICalendarStaticComponents.getDaily1()
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 16, 9, 0))
                 .withDateTimeEnd(LocalDateTime.of(2016, 5, 16, 10, 30))
-                .withRelatedTo(FXCollections.observableArrayList(relatedTo))
+                .withRelatedTo(Arrays.asList(relatedTo))
                 .withSummary("Edited summary")
                 .withUniqueIdentifier(new UniqueIdentifier(myComponentFuture.getUniqueIdentifier()))
                 .withDateTimeStamp(new DateTimeStamp(myComponentFuture.getDateTimeStamp()));
@@ -457,7 +458,7 @@ public class HandleRecurrencesTest
     public void canEditWholeDayToTimeBasedThisAndFutureIgnoreRecurrence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getWholeDayDaily1();
         vComponents.add(vComponentOriginal);
@@ -517,7 +518,7 @@ public class HandleRecurrencesTest
         mainVCalendar.processITIPMessage(iTIPMessage);
 
         assertEquals(3, vComponents.size());
-        FXCollections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
+        Collections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
         VEvent myComponentOriginal = vComponents.get(0);
         VEvent newVComponentFuture = vComponents.get(1);
         VEvent myComponentRecurrence = vComponents.get(2);
@@ -533,7 +534,7 @@ public class HandleRecurrencesTest
                 .withDateTimeStart(ZonedDateTime.of(LocalDateTime.of(2016, 5, 15, 9, 0), ZoneId.of("Europe/London")))
                 .withDateTimeEnd(ZonedDateTime.of(LocalDateTime.of(2016, 5, 15, 10, 30), ZoneId.of("Europe/London")))
                 .withSummary("Edited summary")
-                .withRelatedTo(FXCollections.observableArrayList(relatedTo))
+                .withRelatedTo(Arrays.asList(relatedTo))
                 .withUniqueIdentifier(new UniqueIdentifier(newVComponentFuture.getUniqueIdentifier()))
                 .withDateTimeStamp(new DateTimeStamp(newVComponentFuture.getDateTimeStamp()));
         assertEquals(expectedComponentFuture, newVComponentFuture);
@@ -554,7 +555,7 @@ public class HandleRecurrencesTest
     public void canDeleteThisAndFutureWithRecurrence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponent1 = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponent1);

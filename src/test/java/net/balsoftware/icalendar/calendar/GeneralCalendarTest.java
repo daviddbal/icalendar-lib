@@ -126,7 +126,7 @@ public class GeneralCalendarTest extends ICalendarTestAbstract
                 .withVEvents(getMonthly6());
 
         assertEquals(vCalendar, c);
-        assertEquals(expectedContent, c.toContent());
+        assertEquals(expectedContent, c.toString());
     }
     
     @Test
@@ -168,9 +168,9 @@ public class GeneralCalendarTest extends ICalendarTestAbstract
        "END:VEVENT" + System.lineSeparator() +
        "END:VCALENDAR";
         VCalendar vCalendar = VCalendar.parse(content);
-//        System.out.println(vCalendar.toContent());
+//        System.out.println(vCalendar.toString());
 //        System.out.println(content);
-        assertEquals(content, vCalendar.toContent());
+        assertEquals(content, vCalendar.toString());
 //        VEventNew e = vCalendar.getVEvents().get(1);
 //        e.getNonStandardProperties().stream().forEach(System.out::println);
     }

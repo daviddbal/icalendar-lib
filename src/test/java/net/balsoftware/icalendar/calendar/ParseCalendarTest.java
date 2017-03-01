@@ -40,7 +40,7 @@ public class ParseCalendarTest extends ICalendarTestAbstract
        "END:VCALENDAR";
         
         VCalendar vCalendar = VCalendar.parse(content);
-        assertEquals(content, vCalendar.toContent());
+        assertEquals(content, vCalendar.toString());
         
         VCalendar vCalendar2 = new VCalendar()
                 .withVersion(new Version())
@@ -98,10 +98,10 @@ public class ParseCalendarTest extends ICalendarTestAbstract
 
         VCalendar vCalendar = VCalendar.parse(content);
         
-//        System.out.println(vCalendar.toContent());
+//        System.out.println(vCalendar.toString());
 //        System.out.println(content);
-//        System.out.println(vCalendar.toContent());
-        assertEquals(content, vCalendar.toContent());
+//        System.out.println(vCalendar.toString());
+        assertEquals(content, vCalendar.toString());
 //        VEventNew e = vCalendar.getVEvents().get(1);
 //        e.getNonStandardProperties().stream().forEach(System.out::println);
     }
@@ -193,7 +193,7 @@ public class ParseCalendarTest extends ICalendarTestAbstract
         VCalendar v = VCalendar.parse(content);
         VCalendar expected = new VCalendar();
         assertEquals(expected, v);
-        assertEquals(29, v.toContent().length());
+        assertEquals(29, v.toString().length());
     }
     
     @Test // has errors
@@ -248,7 +248,7 @@ public class ParseCalendarTest extends ICalendarTestAbstract
                 .flatMap(e -> e.getValue().stream().map(v -> e.getKey().name() + ":" + v))
                 .collect(Collectors.toList());
         assertEquals(3, errors.size());
-//        assertEquals(content, vCalendar.toContent());
+//        assertEquals(content, vCalendar.toString());
     }
     
     @Test

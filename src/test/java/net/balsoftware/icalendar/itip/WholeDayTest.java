@@ -6,12 +6,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VEvent;
@@ -28,7 +28,7 @@ public class WholeDayTest
     public void canChangeToWholeDayAll()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -64,7 +64,7 @@ public class WholeDayTest
     public void canChangOneWholeDayToTimeBased()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -97,7 +97,7 @@ public class WholeDayTest
     public void canChangeWholeDayToTimeBasedThisAndFuture()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getWholeDayDaily1();
         VEvent vComponentEdited = new VEvent(vComponentOriginal);
@@ -160,7 +160,7 @@ public class WholeDayTest
     public void canEditWholeDayToTimeBasedThisAndFutureIgnoreRecurrence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getWholeDayDaily1();
         vComponents.add(vComponentOriginal);
@@ -220,7 +220,7 @@ public class WholeDayTest
         mainVCalendar.processITIPMessage(iTIPMessage);
         
         assertEquals(3, vComponents.size());
-        FXCollections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
+        Collections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
         VEvent myComponentOriginal = vComponents.get(0);
         VEvent newVComponentFuture = vComponents.get(1);
         VEvent myComponentRecurrence = vComponents.get(2);
@@ -236,7 +236,7 @@ public class WholeDayTest
                 .withDateTimeStart(ZonedDateTime.of(LocalDateTime.of(2016, 5, 15, 9, 0), ZoneId.of("Europe/London")))
                 .withDateTimeEnd(ZonedDateTime.of(LocalDateTime.of(2016, 5, 15, 10, 30), ZoneId.of("Europe/London")))
                 .withSummary("Edited summary")
-                .withRelatedTo(FXCollections.observableArrayList(relatedTo))
+                .withRelatedTo(Arrays.asList(relatedTo))
                 .withUniqueIdentifier(new UniqueIdentifier(newVComponentFuture.getUniqueIdentifier()))
                 .withDateTimeStamp(new DateTimeStamp(newVComponentFuture.getDateTimeStamp()));
 

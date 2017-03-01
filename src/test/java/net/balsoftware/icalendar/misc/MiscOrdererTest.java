@@ -17,7 +17,7 @@ import net.balsoftware.icalendar.properties.component.descriptive.Categories;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.recurrence.ExceptionDates;
 
-public class OrdererTest
+public class MiscOrdererTest
 {
     @Test
     public void canReplaceListElement()

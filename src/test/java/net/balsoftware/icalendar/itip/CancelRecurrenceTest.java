@@ -3,10 +3,10 @@ package net.balsoftware.icalendar.itip;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.Test;
 
-import javafx.collections.ObservableList;
 import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VEvent;
@@ -19,7 +19,7 @@ public class CancelRecurrenceTest
     public void canDeleteRecurrence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -55,7 +55,7 @@ public class CancelRecurrenceTest
     public void canDeleteAllWithRecurrence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);

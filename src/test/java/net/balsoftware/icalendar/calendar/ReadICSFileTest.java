@@ -27,12 +27,12 @@ public class ReadICSFileTest
         URL url = getClass().getResource(fileName);
         Path icsFilePath = Paths.get(url.getFile());
 //        VCalendar vCalendar = VCalendar.parse(icsFilePath);
-//        System.out.println(vCalendar.toContent());
+//        System.out.println(vCalendar.toString());
         boolean useResourceStatus = false;
         VCalendar vCalendar = VCalendar.parseICalendarFile(icsFilePath, useResourceStatus);
-//        System.out.println(vCalendar.toContent());
+//        System.out.println(vCalendar.toString());
         // HAS REQUEST-STATUS IN LINES - NEED TO REMOVE
-        assertEquals(7641, vCalendar.toContent().length());
+        assertEquals(7641, vCalendar.toString().length());
         assertEquals(7, vCalendar.getVEvents().size());
         assertEquals(1, vCalendar.getVTimeZones().size());
         int subcomponents = vCalendar.getVTimeZones().get(0).getStandardOrDaylight().size();
@@ -55,7 +55,7 @@ public class ReadICSFileTest
         List<String> expectedLines = new ArrayList<>();
         unfoldedLineIterator.forEachRemaining(line -> expectedLines.add(line));
         VCalendar vCalendar = VCalendar.parse(icsFilePath);
-        Iterator<String> contentIterator = Arrays.stream(vCalendar.toContent().split(System.lineSeparator())).iterator();
+        Iterator<String> contentIterator = Arrays.stream(vCalendar.toString().split(System.lineSeparator())).iterator();
         UnfoldingStringIterator unfoldedContentLineIterator = new UnfoldingStringIterator(contentIterator);
         List<String> contentLines = new ArrayList<>();
         unfoldedContentLineIterator.forEachRemaining(line -> contentLines.add(line));

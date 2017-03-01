@@ -4,11 +4,13 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.properties.component.descriptive.Comment;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
+import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 
 /**
  * Components with the following properties:
@@ -120,4 +122,14 @@ public abstract class VPrimary<T> extends VCommon<T>
     {
         super(source);
     }
+    
+    /**
+     * Sorts VComponents by DTSTART date/time
+     */
+    public final static Comparator<? super VPrimary<?>> DTSTART_COMPARATOR = (v1, v2) -> 
+    {
+        Temporal t1 = v1.getDateTimeStart().getValue();
+        Temporal t2 = v2.getDateTimeStart().getValue();
+        return DateTimeUtilities.TEMPORAL_COMPARATOR2.compare(t1, t2);
+    };
 }

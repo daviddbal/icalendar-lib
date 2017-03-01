@@ -5,10 +5,10 @@ import static org.junit.Assert.assertEquals;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.Test;
 
-import javafx.collections.ObservableList;
 import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VEvent;
@@ -23,7 +23,7 @@ public class RequestTest
     public void canShiftWeeklyAll() // shift day of weekly
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         VEvent vComponentOriginal = ICalendarStaticComponents.getWeekly3();
         vComponents.add(vComponentOriginal);
 
@@ -62,7 +62,7 @@ public class RequestTest
     public void canShiftMonthlyAll() // shift day of week with monthly ordinal
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         VEvent vComponentOriginal = ICalendarStaticComponents.getMonthly7();
         vComponents.add(vComponentOriginal);
 
@@ -101,7 +101,7 @@ public class RequestTest
     public void canChangeToWholeDayAll()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -141,7 +141,7 @@ public class RequestTest
     public void canRemoveExceptionDate()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDailyWithException1();
         vComponents.add(vComponentOriginal);

@@ -9,10 +9,10 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.Test;
 
-import javafx.collections.ObservableList;
 import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VEvent;
@@ -60,7 +60,7 @@ public class SimplePublishTest
                 "UID:0981234-1234234-23@example.com" + System.lineSeparator() + 
                 "END:VEVENT" + System.lineSeparator() + 
                 "END:VCALENDAR";
-        assertEquals(expectedContent, main.toContent());
+        assertEquals(expectedContent, main.toString());
     }
     
     @Test
@@ -105,7 +105,7 @@ public class SimplePublishTest
                 "ORGANIZER;CN=Papa Smurf:mailto:papa@smurf.org" + System.lineSeparator() +
                 "END:VEVENT" + System.lineSeparator() + 
                 "END:VCALENDAR");
-        assertEquals(expectedContent, mainVCalendar.toContent());
+        assertEquals(expectedContent, mainVCalendar.toString());
     }
     
     @Test // the time has been changed, an end time has been added, and the sequence number has been adjusted.
@@ -152,14 +152,14 @@ public class SimplePublishTest
                 "SUMMARY:ST. PAUL SAINTS -VS- DULUTH-SUPERIOR DUKES" + System.lineSeparator() + 
                 "END:VEVENT" + System.lineSeparator() + 
                 "END:VCALENDAR");
-        assertEquals(expectedContent, main.toContent());
+        assertEquals(expectedContent, main.toString());
     }
     
     @Test // edit an individual recurrence of a repeatable event twice
     public void canEditOneRecurrence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -261,8 +261,8 @@ public class SimplePublishTest
                 .withSummary("recurrence summary")
                 .withDateTimeStart(LocalDateTime.of(2015, 11, 12, 8, 30))
                 .withDateTimeEnd(LocalDateTime.of(2015, 11, 12, 9, 30));
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
-        vComponents.addAll(vComponentEdited, vComponentRecurrence);
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
+        vComponents.addAll(Arrays.asList(vComponentEdited, vComponentRecurrence));
                 
         // Publish change to ALL VEvents (recurrence gets deleted)
         String publish = new String("BEGIN:VCALENDAR" + System.lineSeparator() + 
@@ -316,7 +316,7 @@ public class SimplePublishTest
     public void canEditThisAndFuture()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -371,7 +371,7 @@ public class SimplePublishTest
     public void canEditThisAndFuture2()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
@@ -427,7 +427,7 @@ public class SimplePublishTest
     public void canAddRRuleToAll()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final ObservableList<VEvent> vComponents = mainVCalendar.getVEvents();
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getIndividualZoned();
         VEvent vComponentEdited = new VEvent(vComponentOriginal);

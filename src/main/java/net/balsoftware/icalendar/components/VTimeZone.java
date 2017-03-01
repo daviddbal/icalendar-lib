@@ -490,26 +490,26 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
         }
     }
     
-    @Override // include STANDARD or DAYLIGHT Subcomponents
-    public boolean equals(Object obj)
-    {
-        VTimeZone testObj = (VTimeZone) obj;
-        final boolean isVAlarmsEqual;
-        if (getStandardOrDaylight() != null)
-        {
-            if (testObj.getStandardOrDaylight() == null)
-            {
-                isVAlarmsEqual = false;
-            } else
-            {
-                isVAlarmsEqual = getStandardOrDaylight().equals(testObj.getStandardOrDaylight());
-            }
-        } else
-        {
-            isVAlarmsEqual = true;
-        }
-        return isVAlarmsEqual && super.equals(obj);
-    }
+//    @Override // include STANDARD or DAYLIGHT Subcomponents
+//    public boolean equals(Object obj)
+//    {
+//        VTimeZone testObj = (VTimeZone) obj;
+//        final boolean isVAlarmsEqual;
+//        if (getStandardOrDaylight() != null)
+//        {
+//            if (testObj.getStandardOrDaylight() == null)
+//            {
+//                isVAlarmsEqual = false;
+//            } else
+//            {
+//                isVAlarmsEqual = getStandardOrDaylight().equals(testObj.getStandardOrDaylight());
+//            }
+//        } else
+//        {
+//            isVAlarmsEqual = true;
+//        }
+//        return isVAlarmsEqual && super.equals(obj);
+//    }
     
     @Override // include STANDARD or DAYLIGHT Subcomponents
     public int hashCode()

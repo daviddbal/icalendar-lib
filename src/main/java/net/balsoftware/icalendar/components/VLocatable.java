@@ -365,26 +365,27 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
         return errors;
     }
     
-    @Override // include VAlarms
-    public boolean equals(Object obj)
-    {
-        VLocatable<?> testObj = (VLocatable<?>) obj;
-        final boolean isVAlarmsEqual;
-        if (getVAlarms() != null)
-        {
-            if (testObj.getVAlarms() == null)
-            {
-                isVAlarmsEqual = false;
-            } else
-            {
-                isVAlarmsEqual = getVAlarms().equals(testObj.getVAlarms());
-            }
-        } else
-        {
-            isVAlarmsEqual = true;
-        }
-        return isVAlarmsEqual && super.equals(obj);
-    }
+//    @Override // include VAlarms
+//    public boolean equals(Object obj)
+//    {
+//    	if (super.equals(obj) == false) return false;
+//        VLocatable<?> testObj = (VLocatable<?>) obj;
+//        final boolean isVAlarmsEqual;
+//        if (getVAlarms() != null)
+//        {
+//            if (testObj.getVAlarms() == null)
+//            {
+//                isVAlarmsEqual = false;
+//            } else
+//            {
+//                isVAlarmsEqual = getVAlarms().equals(testObj.getVAlarms());
+//            }
+//        } else
+//        {
+//            isVAlarmsEqual = true;
+//        }
+//        return isVAlarmsEqual && super.equals(obj);
+//    }
     
     @Override // include VAlarms
     public int hashCode()

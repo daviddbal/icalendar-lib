@@ -1,13 +1,15 @@
 package net.balsoftware.icalendar.misc;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.time.DateTimeException;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
@@ -65,7 +67,7 @@ public class MiscICalendarTests
         calendar.getVEvents().add(event); // add the event to the calendar
         calendar.setProductIdentifier("-//jfxtras/iCalendarFx//EN"); // PRODID calendar property
                 
-        System.out.println(calendar.toString());
+//        System.out.println(calendar.toString());
     }
     
     @Test
@@ -91,7 +93,7 @@ public class MiscICalendarTests
                             new ByDay(DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY))) // BYDAY rrule value element 
             .withUniqueIdentifier("20150110T080000-0@jfxtras.org"); // UID component property
         String content = event.toString();
-        System.out.println(content);
+//        System.out.println(content);
     }
     
     @Test
@@ -173,7 +175,7 @@ public class MiscICalendarTests
                                 .withByRules(new ByMonth(Month.NOVEMBER, Month.DECEMBER),  // BYMONTH rrule value element 
                                         new ByDay(DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY))) // BYDAY rrule value element 
                     .withUniqueIdentifier("20150110T080000-0@jfxtras.org")); // UID component property
-        System.out.println(c.toString());
+//        System.out.println(c.toString());
     }
         
     @Test // parse a string
@@ -193,28 +195,27 @@ public class MiscICalendarTests
                 "END:VEVENT" + nl +
                 "END:VCALENDAR";
         VCalendar c = VCalendar.parse(content); // Note: can also parse files and readers
-        System.out.println(c.toString());
+//        System.out.println(c.toString());
     }
     
-    @Test (expected = DateTimeException.class)// Can check if RFC 5545 rules are followed.
+    @Test // Can check if RFC 5545 rules are followed.
     public void canValidate()
     {
-//        Thread.setDefaultUncaughtExceptionHandler((t1, e) ->
-//        {
-//            throw (RuntimeException) e;
-//        });
-        
         VEvent vEvent = new VEvent()
                 .withDateTimeStart(LocalDate.of(2016, 3, 7))
-                .withDateTimeEnd(LocalDate.of(2016, 3, 8));
-        vEvent.setDateTimeEnd(LocalDateTime.of(2016, 3, 6, 12, 0)); // throws exception
-        System.out.println(vEvent.toString());
-                
+                .withDateTimeEnd(LocalDate.of(2016, 3, 8))
+                .withDateTimeStamp(ZonedDateTime.now().withZoneSameInstant(ZoneId.of("Z")))
+                .withUniqueIdentifier();
+        assertTrue(vEvent.isValid());
+    }
+
+    
+    @Test // Can check if RFC 5545 rules are followed.
+    public void canValidate2()
+    {
         VEvent e = new VEvent();
-        List<String> errors = e.errors();
-        errors.forEach(System.out::println);
-        System.out.println("isValid:" + e.isValid());
-//        System.out.println(e.toString());
+        assertEquals(3, e.errors().size());
+        assertFalse(e.isValid());
     }
     
     // iCalendar Transport-Independent Interoperability Protocol (iTIP) message defined in RFC 5546
@@ -238,8 +239,8 @@ public class MiscICalendarTests
          "END:VEVENT"+ls+
          "END:VCALENDAR";
         List<String> log = main.processITIPMessage(publish);
-        System.out.println(main.toString()+ls);
-        log.forEach(System.out::println);
+//        System.out.println(main.toString()+ls);
+//        log.forEach(System.out::println);
     }
     
     @Test

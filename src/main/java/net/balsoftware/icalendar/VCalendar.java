@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.components.SimpleVComponentFactory;
 import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VDisplayable;
@@ -252,7 +251,7 @@ public class VCalendar extends VParentBase
      * 
      */
     public List<VEvent> getVEvents() { return vEvents; }
-    private List<VEvent> vEvents;
+    private List<VEvent> vEvents = new ArrayList<>();
     public void setVEvents(List<VEvent> vEvents)
     {
     	this.vEvents = vEvents;
@@ -285,7 +284,7 @@ public class VCalendar extends VParentBase
      * 
      */
     public List<VTodo> getVTodos() { return vTodos; }
-    private List<VTodo> vTodos;
+    private List<VTodo> vTodos = new ArrayList<>();
     public void setVTodos(List<VTodo> vTodos)
     {
     	this.vTodos = vTodos;
@@ -320,7 +319,7 @@ public class VCalendar extends VParentBase
      * @see VJournal
      */
     public List<VJournal> getVJournals() { return vJournals; }
-    private List<VJournal> vJournals;
+    private List<VJournal> vJournals = new ArrayList<>();
     public void setVJournals(List<VJournal> vJournals)
     {
     	this.vJournals = vJournals;
@@ -347,7 +346,7 @@ public class VCalendar extends VParentBase
      * @see VFreeBusy
      */
     public List<VFreeBusy> getVFreeBusies() { return vFreeBusys; }
-    private List<VFreeBusy> vFreeBusys;
+    private List<VFreeBusy> vFreeBusys = new ArrayList<>();
     public void setVFreeBusys(List<VFreeBusy> vFreeBusys)
     {
     	this.vFreeBusys = vFreeBusys;
@@ -374,7 +373,7 @@ public class VCalendar extends VParentBase
      * @see VTimeZone
      */
     public List<VTimeZone> getVTimeZones() { return vTimeZones; }
-    private List<VTimeZone> vTimeZones = FXCollections.observableArrayList();
+    private List<VTimeZone> vTimeZones = new ArrayList<>();
     public void setVTimeZones(List<VTimeZone> vTimeZones)
     {
     	this.vTimeZones = vTimeZones;
@@ -403,6 +402,7 @@ public class VCalendar extends VParentBase
     {
         if (newVComponent instanceof VEvent)
         {
+//        	if (getVEvents() == null) setVEvents(new ArrayList<>());
             getVEvents().add((VEvent) newVComponent);
         } else if (newVComponent instanceof VTodo)
         {
@@ -706,7 +706,7 @@ public class VCalendar extends VParentBase
             final List<RequestStatus> requestStatus;
             if (vComponent.getRequestStatus() == null)
             {
-                requestStatus = FXCollections.observableArrayList();
+                requestStatus = new ArrayList<>();
                 vComponent.setRequestStatus(requestStatus);
             } else
             {

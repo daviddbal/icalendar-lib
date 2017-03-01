@@ -142,6 +142,18 @@ public class OrdererBase implements Orderer
 			newChild.setParent(parent);
 		}
 	}
+	
+	/* Remove orphans matching newChild's class type */
+	private void removeOrhpans(VChild newChild)
+	{
+		List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
+		List<VChild> orphans = orderedChildren
+				.stream()
+				.filter(c -> c.getClass().equals(newChild.getClass()))
+				.filter(c -> ! allUnorderedChildren.contains(c))
+				.collect(Collectors.toList());
+		orphans.forEach(c -> orderedChildren.remove(c));
+	}
 
 //	@Override
 //	public void orderChild(VChild oldChild, VChild newChild)
@@ -180,6 +192,7 @@ public class OrdererBase implements Orderer
 			{
 				orderedChildren.remove(newChild);
 			}
+			removeOrhpans(newChild);
 			orderedChildren.add(index, newChild);
 			newChild.setParent(parent);
 		}

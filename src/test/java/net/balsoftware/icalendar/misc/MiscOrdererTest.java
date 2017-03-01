@@ -5,10 +5,10 @@ import static org.junit.Assert.assertEquals;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import org.junit.Test;
 
-import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.parameters.Encoding.EncodingType;
 import net.balsoftware.icalendar.properties.ValueType;
@@ -25,7 +25,11 @@ public class MiscOrdererTest
         VEvent builtComponent = new VEvent()
                 .withCategories("category1")
                 .withSummary("test");
-        builtComponent.withCategories(FXCollections.observableArrayList(new Categories("category3"), new Categories("category4")));
+        Categories c1 = new Categories("category3");
+		Categories c2 = new Categories("category4");
+		builtComponent.setCategories(Arrays.asList(c1, c2));
+		builtComponent.orderChild(0, c1);
+		builtComponent.orderChild(2, c2);
         assertEquals(2, builtComponent.getCategories().size());
         String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
                 "CATEGORIES:category3" + System.lineSeparator() +
@@ -43,13 +47,16 @@ public class MiscOrdererTest
                 .withAttachments(new Attachment<URI>(URI.class, "ATTACH:CID:jsmith.part3.960817T083000.xyzMail@example.com"))
                 .withSummary("test")
                 .withAttachments(Attachment.parse("ATTACH;FMTTYPE=text/plain;ENCODING=BASE64;VALUE=BINARY:TG9yZW"));
-        v.withAttachments(FXCollections.observableArrayList(
-                Attachment.parse("ATTACH;FMTTYPE=application/postscript:ftp://example.com/reports/r-960812.ps"),
-                new Attachment<String>(String.class, "TG9yZW")
-                .withFormatType("text/plain")
-                .withEncoding(EncodingType.BASE64)
-                .withValueType(ValueType.BINARY)
-                ));
+        Attachment<?> a1 = Attachment.parse("ATTACH;FMTTYPE=application/postscript:ftp://example.com/reports/r-960812.ps");
+        Attachment<?> a2 = new Attachment<String>(String.class, "TG9yZW")
+        .withFormatType("text/plain")
+        .withEncoding(EncodingType.BASE64)
+        .withValueType(ValueType.BINARY);
+		v.withAttachments(Arrays.asList(
+                a1,
+                a2));
+		v.orderChild(0,a1);
+		v.orderChild(2,a2);
         String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
                 "ATTACH;FMTTYPE=application/postscript:ftp://example.com/reports/r-960812.ps" + System.lineSeparator() +
                 "SUMMARY:test" + System.lineSeparator() +

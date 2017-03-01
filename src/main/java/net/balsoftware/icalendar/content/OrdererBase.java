@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
@@ -125,15 +124,15 @@ public class OrdererBase implements Orderer
 		if ((! orderedChildren.contains(newChild)) && (newChild != null))
 		{
 			List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
-			Optional<VChild> orphan = orderedChildren
+			List<VChild> orphans = orderedChildren
 					.stream()
 					.filter(c -> c.getClass().equals(newChild.getClass()))
 					.filter(c -> ! allUnorderedChildren.contains(c))
-					.findAny();
-			if (orphan.isPresent())
+					.collect(Collectors.toList());
+			if (! orphans.isEmpty())
 			{ // replace orphan at same index location
-				int index = orderedChildren.indexOf(orphan.get());
-				orderedChildren.remove(orphan);
+				int index = orderedChildren.indexOf(orphans.get(0));
+				orphans.forEach(c -> orderedChildren.remove(c));
 				orderedChildren.add(index, newChild);				
 			} else
 			{
@@ -144,7 +143,7 @@ public class OrdererBase implements Orderer
 	}
 	
 	/* Remove orphans matching newChild's class type */
-	private void removeOrhpans(VChild newChild)
+	private void removeOrphans(VChild newChild)
 	{
 		List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
 		List<VChild> orphans = orderedChildren
@@ -192,7 +191,7 @@ public class OrdererBase implements Orderer
 			{
 				orderedChildren.remove(newChild);
 			}
-			removeOrhpans(newChild);
+			removeOrphans(newChild);
 			orderedChildren.add(index, newChild);
 			newChild.setParent(parent);
 		}

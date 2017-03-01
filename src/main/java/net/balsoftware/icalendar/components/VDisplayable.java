@@ -34,7 +34,6 @@ import net.balsoftware.icalendar.properties.component.relationship.Contact;
 import net.balsoftware.icalendar.properties.component.relationship.RecurrenceId;
 import net.balsoftware.icalendar.properties.component.relationship.RelatedTo;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
-import net.balsoftware.icalendar.utilities.Callback;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 
@@ -672,44 +671,38 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
      */
     /**  Callback to make list of child components (those with RECURRENCE-ID and same UID)
      * Callback assigned in {@link VCalendar#displayableListChangeListener } */
-    private Callback<VDisplayable<?>, List<VDisplayable<?>>> makeRecurrenceChildrenListCallBack;
-//    @Override
-//    public Callback<VComponentDisplayableBase<?>, List<VComponentDisplayableBase<?>>> getChildComponentsListCallBack()
+//    public void setRecurrenceChildrenListCallBack(Callback<VDisplayable<?>, List<VDisplayable<?>>> makeRecurrenceChildrenListCallBack)
 //    {
-//        return makeChildComponentsListCallBack;
+//        this.makeRecurrenceChildrenListCallBack = makeRecurrenceChildrenListCallBack;
 //    }
-    public void setRecurrenceChildrenListCallBack(Callback<VDisplayable<?>, List<VDisplayable<?>>> makeRecurrenceChildrenListCallBack)
-    {
-        this.makeRecurrenceChildrenListCallBack = makeRecurrenceChildrenListCallBack;
-    }
-
-    public List<VDisplayable<?>> recurrenceChildren()
-    {
-        if ((getRecurrenceId() == null) && (makeRecurrenceChildrenListCallBack != null))
-        {
-            return Collections.unmodifiableList(makeRecurrenceChildrenListCallBack.call(this));
-        }
-        return Collections.unmodifiableList(Collections.emptyList());
-    }
-    
-    /*
-     * RECURRENCE PARENT - (the VComponent with matching UID and no RECURRENCEID)
-     */
-    private Callback<VDisplayable<?>, VDisplayable<?>> recurrenceParentCallBack;
-
-    public void setRecurrenceParentListCallBack(Callback<VDisplayable<?>, VDisplayable<?>> recurrenceParentCallBack)
-    {
-        this.recurrenceParentCallBack = recurrenceParentCallBack;
-    }
-    
-    public VDisplayable<?> recurrenceParent()
-    {
-        if ((getRecurrenceId() != null) && (recurrenceParentCallBack != null))
-        {
-            return recurrenceParentCallBack.call(this);
-        }
-        return null;
-    }
+//
+//    public List<VDisplayable<?>> recurrenceChildren()
+//    {
+//        if ((getRecurrenceId() == null) && (makeRecurrenceChildrenListCallBack != null))
+//        {
+//            return Collections.unmodifiableList(makeRecurrenceChildrenListCallBack.call(this));
+//        }
+//        return Collections.unmodifiableList(Collections.emptyList());
+//    }
+//    
+//    /*
+//     * RECURRENCE PARENT - (the VComponent with matching UID and no RECURRENCEID)
+//     */
+//    private Callback<VDisplayable<?>, VDisplayable<?>> recurrenceParentCallBack;
+//
+//    public void setRecurrenceParentListCallBack(Callback<VDisplayable<?>, VDisplayable<?>> recurrenceParentCallBack)
+//    {
+//        this.recurrenceParentCallBack = recurrenceParentCallBack;
+//    }
+//    
+//    public VDisplayable<?> recurrenceParent()
+//    {
+//        if ((getRecurrenceId() != null) && (recurrenceParentCallBack != null))
+//        {
+//            return recurrenceParentCallBack.call(this);
+//        }
+//        return null;
+//    }
 
     /** returns list of orphaned recurrence components due to a change.  These
      * components should be deleted */

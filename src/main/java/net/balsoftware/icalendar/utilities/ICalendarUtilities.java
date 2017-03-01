@@ -264,7 +264,7 @@ public final class ICalendarUtilities
 						boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
 						return isListOfChildren;
 					} catch (ClassNotFoundException e) {
-						e.printStackTrace();
+						// no opp if class doesn't exist (e.g. ? extends VComponent)
 					}
 				}
 				return false; // shouldn't get here

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VDisplayable;
 import net.balsoftware.icalendar.parameters.Range.RangeType;
@@ -133,7 +134,7 @@ public class ProcessCancel implements Processable
     public List<String> process(VCalendar mainVCalendar, VCalendar iTIPMessage)
     {
         List<String> log = new ArrayList<>();
-        for (VComponent c : iTIPMessage.getAllVComponents())
+        for (VChild c : iTIPMessage.childrenUnmodifiable())
         {
             if (c instanceof VDisplayable)
             {

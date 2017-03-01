@@ -24,15 +24,17 @@ import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VPersonal;
 import net.balsoftware.icalendar.components.VTimeZone;
 import net.balsoftware.icalendar.components.VTodo;
+import net.balsoftware.icalendar.content.MultiLineContent;
+import net.balsoftware.icalendar.content.OrdererBase;
 import net.balsoftware.icalendar.itip.AbstractITIPFactory;
 import net.balsoftware.icalendar.itip.DefaultITIPFactory;
 import net.balsoftware.icalendar.itip.Processable;
 import net.balsoftware.icalendar.properties.PropertyType;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.Method;
+import net.balsoftware.icalendar.properties.calendar.Method.MethodType;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
 import net.balsoftware.icalendar.properties.calendar.Version;
-import net.balsoftware.icalendar.properties.calendar.Method.MethodType;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
@@ -516,28 +518,39 @@ public class VCalendar extends VParentBase
 //        return Collections.unmodifiableList(vComponents);
 //    }
 
+//	public List<VComponent> allVComponents()
+//	{
+//		List<VComponent> allVComponents = new ArrayList<>();
+//		allVComponents.addAll(getVEvents());
+//		allVComponents.addAll(getVFreeBusies());
+//		allVComponents.addAll(getVJournals());
+//		allVComponents.addAll(getVTimeZones());
+//		allVComponents.addAll(getVTodos());
+//		return Collections.unmodifiableList(allVComponents);
+//	}
+
     /** Convenience method that returns all {@link VComponent VComponents} regardless of type (e.g.
      * {@link VEvent}, {@link VTodo}, etc.) 
      * 
      * @return  unmodifiable list of all {@link VComponent VComponents}
      */
-	protected List<? extends VComponent> getVComponents(VChild c)
+	public List<? extends VComponent> getVComponents(Class<? extends VChild> c)
 	{
-		if (c instanceof VComponent)
+		if (c.equals(VComponent.class))
 		{
-	        if (c.getClass().equals(VEvent.class))
+	        if (c.equals(VEvent.class))
 	        {
 	            return getVEvents();
-	        } else if (c.getClass().equals(VTodo.class))
+	        } else if (c.equals(VTodo.class))
 	        {
 	            return getVTodos();            
-	        } else if (c.getClass().equals(VJournal.class))
+	        } else if (c.equals(VJournal.class))
 	        {
 	            return getVJournals();            
-	        } else if (c.getClass().equals(VFreeBusy.class))
+	        } else if (c.equals(VFreeBusy.class))
 	        {
 	            return getVFreeBusies();            
-	        } else if (c.getClass().equals(VTimeZone.class))
+	        } else if (c.equals(VTimeZone.class))
 	        {
 	            return getVTimeZones();            
 	        } else
@@ -1042,12 +1055,14 @@ public class VCalendar extends VParentBase
     {
         setMethodProcessFactory(new DefaultITIPFactory());
         addListeners();
-//        setContentLineGenerator(new MultiLineContent(
-//                orderer(),
-//                FIRST_CONTENT_LINE,
-//                LAST_CONTENT_LINE,
-//                1000));
-//        setVersion(new Version());
+    	List<java.lang.reflect.Method> getters = ICalendarUtilities.collectGetters(getClass());
+        orderer = new OrdererBase(this, getters);
+        contentLineGenerator = new MultiLineContent(
+                orderer,
+                FIRST_CONTENT_LINE,
+                LAST_CONTENT_LINE,
+                1000);
+        setVersion(new Version()); // use default version
     }
   
     /** Copy constructor */
@@ -1284,13 +1299,4 @@ public class VCalendar extends VParentBase
         c.parseContent(contentLines);
         return c;
     }
-
-	public List<? extends VComponent> getVComponents(Class<? extends VChild> class1) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented");
-	}
-	public List<VComponent> getAllVComponents() {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented");
-	}
 }

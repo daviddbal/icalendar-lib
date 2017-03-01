@@ -144,7 +144,11 @@ public class ProcessRequest extends ProcessPublish
     {
         List<String> log = new ArrayList<>();
         // Check UID from iTIPMessage is already present
-        Iterator<VComponent> componentIterator = iTIPMessage.getAllVComponents().iterator();
+        Iterator<VComponent> componentIterator = iTIPMessage.childrenUnmodifiable()
+        		.stream()
+        		.filter(c -> c instanceof VComponent)
+        		.map(c -> (VComponent) c)
+        		.iterator();
         while (componentIterator.hasNext())
         {
             VPersonal<?> myComponent = (VPersonal<?>) componentIterator.next();

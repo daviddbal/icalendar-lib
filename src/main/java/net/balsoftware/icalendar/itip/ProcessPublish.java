@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VDisplayable;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VTimeZone;
@@ -104,7 +105,11 @@ public class ProcessPublish implements Processable
     public List<String> process(VCalendar mainVCalendar, VCalendar iTIPMessage)
     {
         List<String> log = new ArrayList<>();
-        iTIPMessage.getAllVComponents().forEach(c ->
+        iTIPMessage.childrenUnmodifiable()
+        	.stream()
+        	.filter(c -> c instanceof VComponent)
+        	.map(c -> (VComponent) c)
+        	.forEach(c ->
         {
             if (c instanceof VDisplayable)
             {

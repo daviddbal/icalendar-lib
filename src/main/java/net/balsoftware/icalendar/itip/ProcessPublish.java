@@ -4,6 +4,7 @@ import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VComponent;
@@ -13,6 +14,7 @@ import net.balsoftware.icalendar.components.VTimeZone;
 import net.balsoftware.icalendar.properties.calendar.Method.MethodType;
 import net.balsoftware.icalendar.properties.component.relationship.Attendee;
 import net.balsoftware.icalendar.properties.component.relationship.Organizer;
+import net.balsoftware.icalendar.properties.component.relationship.UniqueIdentifier;
 
 /** 
  * 
@@ -121,12 +123,24 @@ public class ProcessPublish implements Processable
                 if (! hasNoAttendees) log.add("WARNING: According to RFC 5546, a PUBLISH MUST NOT contain the ATTENDEE property yet it's exists. " + c.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue() + " is being processed anyway.");
                 final int newSequence = (vDisplayable.getSequence() == null) ? 0 : vDisplayable.getSequence().getValue();
                 boolean isNewSequenceHigher = true;
-                
-                final String uid = vDisplayable.getUniqueIdentifier().getValue();
+                System.out.println("here"); 
+//                vDisplayable.calendarList().forEach(cc -> System.out.println("child:" + cc));
+                UniqueIdentifier uid = vDisplayable.getUniqueIdentifier();
+                List<VDisplayable<?>> relatedVComponents = mainVCalendar.childrenUnmodifiable()
+                	.stream()
+                	.filter(v -> v instanceof VDisplayable)
+            		.map(v -> (VDisplayable<?>) v)
+            		.filter(v -> v.getUniqueIdentifier().equals(uid))
+            		.collect(Collectors.toList());
+//                List<VDisplayable<?>> relatedVComponents = vDisplayable.calendarList()
+//                		.stream()
+//                		.map(v -> (VDisplayable<?>) v)
+//                		.filter(v -> v.getUniqueIdentifier().equals(uid))
+//                		.collect(Collectors.toList());
                 final Temporal recurrenceID = (vDisplayable.getRecurrenceId() != null) ? vDisplayable.getRecurrenceId().getValue() : null;
 
                 // check for previous match to remove it
-                if (mainVCalendar.uidComponentsMap().get(uid) != null)
+                if (relatedVComponents != null)
                 {
                     /* if new has recurrence id:
                      *      if old has matching recurrence-id then replace it
@@ -134,7 +148,7 @@ public class ProcessPublish implements Processable
                      * if new doesn't have recurrence id, but match exists, replace match
                      * If no match then just add - can't have recurrence id 
                      */
-                    VDisplayable<?> oldMatchingVComponent = mainVCalendar.uidComponentsMap().get(uid)
+                    VDisplayable<?> oldMatchingVComponent = relatedVComponents
                             .stream()
                             .filter(v -> {
                                 Temporal mRecurrenceID = (v.getRecurrenceId() != null) ? v.getRecurrenceId().getValue() : null;
@@ -150,12 +164,13 @@ public class ProcessPublish implements Processable
                         if (! isNewSequenceHigher) throw new IllegalArgumentException("Can't process PUBLISH method: SEQUENCY property MUST be higher than previously published component (new=" + newSequence + " old=" + oldSequence + ")");
                         if (isNewSequenceHigher)
                         {
-                        	vDisplayable.calendarList().remove(oldMatchingVComponent); // remove old VComponent because we're replacing it
+                        	oldMatchingVComponent.calendarList().remove(oldMatchingVComponent); // remove old VComponent because we're replacing it
                         }
                     }
                 }
                 
                 mainVCalendar.addVComponent(c);
+                mainVCalendar.orderChild(c); // TODO - need index from remove
                 log.add("SUCCESS: added " + c.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue());
                 
                 // Remove orphaned recurrence children

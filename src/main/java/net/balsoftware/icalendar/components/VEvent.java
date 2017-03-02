@@ -220,8 +220,10 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
 		{
 			VCalendar cal = (VCalendar) getParent();
 			return cal.getVEvents();
+		} else
+		{
+			throw new RuntimeException("Parent isn't set");
 		}
-		return null;
 	}
     
     @Override

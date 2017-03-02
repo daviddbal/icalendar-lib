@@ -66,9 +66,10 @@ public class SimplePublishTest
     @Test
     public void canReviseWithPublish()
     {
-        VCalendar mainVCalendar = new VCalendar().withVersion();
         VEvent vComponent = ICalendarStaticComponents.getDaily1();
-        mainVCalendar.addVComponent(vComponent);
+        VCalendar mainVCalendar = new VCalendar()
+        		.withVersion()
+        		.withVEvents(vComponent);
         String publish = new String(
                 "BEGIN:VCALENDAR" + System.lineSeparator() + 
                 "METHOD:PUBLISH" + System.lineSeparator() + 

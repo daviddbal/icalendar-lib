@@ -1,7 +1,5 @@
 package net.balsoftware.icalendar.components;
 
-import java.util.List;
-
 import net.balsoftware.icalendar.properties.component.descriptive.Comment;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
@@ -73,12 +71,6 @@ public class StandardTime extends StandardOrDaylight<StandardTime>
     {
         super(source);
     }
-    
-	@Override
-	public List<? extends VComponent> calendarList()
-	{
-		throw new RuntimeException("Subcomponent " + name() + " is embedded in VTimeZone not VCalendar");
-	}
 
     /**
      *  Creates a new StandardTime calendar component by parsing a String of iCalendar content lines

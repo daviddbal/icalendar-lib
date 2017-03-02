@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.components.SimpleVComponentFactory;
 import net.balsoftware.icalendar.components.VComponent;
-import net.balsoftware.icalendar.components.VDisplayable;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VFreeBusy;
 import net.balsoftware.icalendar.components.VJournal;
@@ -402,7 +401,6 @@ public class VCalendar extends VParentBase
     {
         if (newVComponent instanceof VEvent)
         {
-//        	if (getVEvents() == null) setVEvents(new ArrayList<>());
             getVEvents().add((VEvent) newVComponent);
         } else if (newVComponent instanceof VTodo)
         {
@@ -815,21 +813,20 @@ public class VCalendar extends VParentBase
         throw new RuntimeException("not implemented");
     }
     
-//    private Map<String, List<VDisplayable<?>>> uidComponentsMap = new HashMap<>(); // public for testing
-    /**
-     * Map of Related Components - UID is key and List of all related VComponents is value.
-     * Note: if you only want child components you need to filter the list to only include components
-     * that have a RECURRENCE-ID
-     */
-    public Map<String, List<VDisplayable<?>>> uidComponentsMap()
-    {
-    	return null;
+////    private Map<String, List<VDisplayable<?>>> uidComponentsMap = new HashMap<>(); // public for testing
+//    /**
+//     * Map of Related Components - UID is key and List of all related VComponents is value.
+//     * Note: if you only want child components you need to filter the list to only include components
+//     * that have a RECURRENCE-ID
+//     */
+//    public Map<String, List<VDisplayable<?>>> uidComponentsMap()
+//    {
 //    	childrenUnmodifiable()
 //    		.stream()
 //    		.filter(c -> c instanceof Personal)
 //    		.map(c -> (VPersonal) c)
 //    		.collect(Collectors.groupingBy(VPersonal::getUid, downstream))
-	}
+//	}
     
     
 //    

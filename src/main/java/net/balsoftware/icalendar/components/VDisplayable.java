@@ -757,9 +757,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
             VCalendar vCalendar = (VCalendar) getParent();
             if (vCalendar != null)
             {
-                final String uid = getUniqueIdentifier().getValue();
-                return vCalendar.uidComponentsMap().get(uid)
+                final UniqueIdentifier uid = getUniqueIdentifier();
+                return calendarList()
                         .stream()
+                        .map(v -> (VDisplayable<?>) v)
+                        .filter(v -> v.getUniqueIdentifier().equals(uid))
                         .filter(v -> v.getRecurrenceId() != null)
                         .filter(v -> 
                         {

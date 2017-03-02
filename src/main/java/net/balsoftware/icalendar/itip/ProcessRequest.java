@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VDisplayable;
 import net.balsoftware.icalendar.components.VPersonal;
 import net.balsoftware.icalendar.properties.component.relationship.UniqueIdentifier;
 
@@ -161,7 +162,11 @@ public class ProcessRequest extends ProcessPublish
             {
                 throw new IllegalArgumentException("Can't process REQUEST, VComponent has null UID");
             }
-            if (mainVCalendar.uidComponentsMap().get(uid.getValue()) == null)
+            boolean isUIDPresent = myComponent.calendarList()
+	    		.stream()
+	    		.map(v -> (VDisplayable<?>) v)
+	    		.anyMatch(v -> v.getUniqueIdentifier().equals(uid));
+            if (isUIDPresent)
             {
                 throw new IllegalArgumentException("Can't process REQUEST, VComponent UID is not present in main VCalendar");
             }

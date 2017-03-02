@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,6 +34,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRuleC
 import net.balsoftware.icalendar.properties.component.relationship.Contact;
 import net.balsoftware.icalendar.properties.component.relationship.RecurrenceId;
 import net.balsoftware.icalendar.properties.component.relationship.RelatedTo;
+import net.balsoftware.icalendar.properties.component.relationship.UniqueIdentifier;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
@@ -669,40 +671,77 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     /*
      * RECURRENCE CHILDREN - (RECURRENCE-IDs AND MATCHING UID)
      */
-    /**  Callback to make list of child components (those with RECURRENCE-ID and same UID)
-     * Callback assigned in {@link VCalendar#displayableListChangeListener } */
+//    /**  Callback to make list of child components (those with RECURRENCE-ID and same UID)
+//     * Callback assigned in {@link VCalendar#displayableListChangeListener } */
 //    public void setRecurrenceChildrenListCallBack(Callback<VDisplayable<?>, List<VDisplayable<?>>> makeRecurrenceChildrenListCallBack)
 //    {
 //        this.makeRecurrenceChildrenListCallBack = makeRecurrenceChildrenListCallBack;
 //    }
-//
-//    public List<VDisplayable<?>> recurrenceChildren()
-//    {
-//        if ((getRecurrenceId() == null) && (makeRecurrenceChildrenListCallBack != null))
-//        {
-//            return Collections.unmodifiableList(makeRecurrenceChildrenListCallBack.call(this));
-//        }
-//        return Collections.unmodifiableList(Collections.emptyList());
-//    }
-//    
-//    /*
-//     * RECURRENCE PARENT - (the VComponent with matching UID and no RECURRENCEID)
-//     */
+
+    public List<VDisplayable<?>> recurrenceChildren()
+    {
+    	if ((getParent() != null) && (getRecurrenceId() == null))
+    	{
+    		UniqueIdentifier myUid = getUniqueIdentifier();
+    		return getParent().childrenUnmodifiable()
+    			.stream()
+    			.filter(c -> ! (c == this))
+    			.filter(c ->
+    			{
+    				if (c instanceof VDisplayable)
+    				{
+    					boolean isRelative = ((VPersonal<?>) c).getUniqueIdentifier().equals(myUid);
+    					return isRelative;
+    				}
+    				return false;
+    			})
+    			.map(c -> (VDisplayable) c)
+				.filter(c -> c.getRecurrenceId() != null)
+				.filter(c -> c.getUniqueIdentifier().equals(myUid))
+				.collect(Collectors.toList());
+    	} else
+    	{
+    		return null;
+    	}
+    }
+    
+    /*
+     * RECURRENCE PARENT - (the VComponent with matching UID and no RECURRENCEID)
+     */
 //    private Callback<VDisplayable<?>, VDisplayable<?>> recurrenceParentCallBack;
 //
 //    public void setRecurrenceParentListCallBack(Callback<VDisplayable<?>, VDisplayable<?>> recurrenceParentCallBack)
 //    {
 //        this.recurrenceParentCallBack = recurrenceParentCallBack;
 //    }
-//    
-//    public VDisplayable<?> recurrenceParent()
-//    {
-//        if ((getRecurrenceId() != null) && (recurrenceParentCallBack != null))
-//        {
-//            return recurrenceParentCallBack.call(this);
-//        }
-//        return null;
-//    }
+    
+    public VDisplayable<?> recurrenceParent()
+    {
+    	if (getParent() != null && (getRecurrenceId() != null))
+    	{
+    		UniqueIdentifier myUid = getUniqueIdentifier();
+    		Optional<VDisplayable> recurrenceParent = getParent().childrenUnmodifiable()
+    			.stream()
+    			.filter(c -> ! (c == this))
+    			.filter(c ->
+    			{
+    				if (c instanceof VDisplayable)
+    				{
+    					boolean isRelative = ((VPersonal<?>) c).getUniqueIdentifier().equals(myUid);
+    					return isRelative;
+    				}
+    				return false;
+    			})
+    			.map(c -> (VDisplayable) c)
+				.filter(c -> c.getRecurrenceId() == null)
+				.filter(c -> c.getUniqueIdentifier().equals(myUid))
+				.findAny();
+    		return (recurrenceParent.isPresent()) ? recurrenceParent.get() : null;
+    	} else
+    	{
+    		return null;
+    	}
+    }
 
     /** returns list of orphaned recurrence components due to a change.  These
      * components should be deleted */

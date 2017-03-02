@@ -23,6 +23,7 @@ public class VCalendarRecurrenceIDTest extends ICalendarTestAbstract
         VEvent child = getRecurrenceForYearly1();
         VCalendar c = new VCalendar()
                 .withVEvents(parent, child);
+
         assertEquals(2, c.getVEvents().size());
         assertEquals(1, parent.recurrenceChildren().size());
         List<Temporal> expectedRecurrences = Arrays.asList(
@@ -46,9 +47,13 @@ public class VCalendarRecurrenceIDTest extends ICalendarTestAbstract
         
         // add components out-of-order
         c.getVEvents().add(child);
+        c.orderChild(child);
         c.getVEvents().add(parent);
+        c.orderChild(parent);
+//        c.childrenUnmodifiable().forEach(System.out::println);
         assertEquals(1, parent.recurrenceChildren().size());
         c.getVEvents().add(child2);
+        c.orderChild(child2);
         assertEquals(2, parent.recurrenceChildren().size());
         {
             List<Temporal> expectedRecurrences = Arrays.asList(

@@ -10,6 +10,7 @@ import java.time.temporal.TemporalAmount;
 import java.util.Collections;
 import java.util.List;
 
+import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.properties.component.descriptive.PercentComplete;
 import net.balsoftware.icalendar.properties.component.time.DateTimeCompleted;
 import net.balsoftware.icalendar.properties.component.time.DateTimeDue;
@@ -185,6 +186,18 @@ public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
     	return this; 
 	}
     
+    
+	@Override
+	public List<VTodo> calendarList()
+	{
+		if (getParent() != null)
+		{
+			VCalendar cal = (VCalendar) getParent();
+			return cal.getVTodos();
+		}
+		return null;
+	}
+	
     /*
      * CONSTRUCTORS
      */

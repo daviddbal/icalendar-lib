@@ -203,6 +203,12 @@ public abstract class StandardOrDaylight<T> extends VRepeatableBase<T>
     	return (T) this;
 	}
     
+	@Override
+	public List<? extends VComponent> calendarList()
+	{
+		throw new RuntimeException("Subcomponent " + name() + " is embedded in VTimeZone not VCalendar");
+	}
+    
     /*
      * CONSTRUCTORS
      */

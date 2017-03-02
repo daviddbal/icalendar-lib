@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
+import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.properties.component.change.LastModified;
@@ -490,26 +491,16 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
         }
     }
     
-//    @Override // include STANDARD or DAYLIGHT Subcomponents
-//    public boolean equals(Object obj)
-//    {
-//        VTimeZone testObj = (VTimeZone) obj;
-//        final boolean isVAlarmsEqual;
-//        if (getStandardOrDaylight() != null)
-//        {
-//            if (testObj.getStandardOrDaylight() == null)
-//            {
-//                isVAlarmsEqual = false;
-//            } else
-//            {
-//                isVAlarmsEqual = getStandardOrDaylight().equals(testObj.getStandardOrDaylight());
-//            }
-//        } else
-//        {
-//            isVAlarmsEqual = true;
-//        }
-//        return isVAlarmsEqual && super.equals(obj);
-//    }
+	@Override
+	public List<VTimeZone> calendarList()
+	{
+		if (getParent() != null)
+		{
+			VCalendar cal = (VCalendar) getParent();
+			return cal.getVTimeZones();
+		}
+		return null;
+	}
     
     @Override // include STANDARD or DAYLIGHT Subcomponents
     public int hashCode()

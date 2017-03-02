@@ -5,6 +5,7 @@ import java.time.temporal.TemporalAmount;
 import java.util.Collections;
 import java.util.List;
 
+import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.properties.component.relationship.Contact;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.FreeBusyTime;
@@ -191,25 +192,28 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
     	setFreeBusyTime(FreeBusyTime.parse(freeBusyTime));
     	return this;
 	}
+    
+	@Override
+	public List<VFreeBusy> calendarList()
+	{
+		if (getParent() != null)
+		{
+			VCalendar cal = (VCalendar) getParent();
+			return cal.getVFreeBusies();
+		}
+		return null;
+	}
  
     /*
      * CONSTRUCTORS
      */
     public VFreeBusy() { super(); }
     
-//    public VFreeBusy(String contentLines)
-//    {
-//        super(contentLines);
-//    }
-    
     /** Copy constructor */
     public VFreeBusy(VFreeBusy source)
     {
         super(source);
     }
-    
-//    @Override
-//    public Reviser newRevisor() { return new ReviserVFreeBusy(this); }
         
     @Override
     public List<String> errors()
@@ -217,28 +221,8 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
         List<String> errors = super.errors();
         List<String> dtendError = VDateTimeEnd.errorsDateTimeEnd(this);
         errors.addAll(dtendError);
-//
-//        if (getDateTimeEnd() != null)
-//        {
-//            if (getDateTimeStart() != null)
-//            {
-//                DateTimeType startType = DateTimeUtilities.DateTimeType.of(getDateTimeStart().getValue());
-//                DateTimeType endType = DateTimeUtilities.DateTimeType.of(getDateTimeEnd().getValue());
-//                boolean isDateTimeEndMatch = startType == endType;
-//                if (! isDateTimeEndMatch)
-//                {
-//                    errors.add("The value type of DTEND MUST be the same as the DTSTART property (" + endType + ", " + startType);
-//                }
-//            }
-//        }
         return Collections.unmodifiableList(errors);
     }
-        
-//    @Override
-//    public void checkDateTimeStartConsistency()
-//    {
-////        VComponentDateTimeEnd.super.checkDateTimeEndConsistency();
-//    }
     
     /** Parse content lines into calendar component object */
     public static VFreeBusy parse(String contentLines)

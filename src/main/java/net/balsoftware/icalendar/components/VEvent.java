@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency.TimeTransparencyType;
@@ -211,6 +212,17 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
         
         return Collections.unmodifiableList(errors);
     }
+    
+	@Override
+	public List<VEvent> calendarList()
+	{
+		if (getParent() != null)
+		{
+			VCalendar cal = (VCalendar) getParent();
+			return cal.getVEvents();
+		}
+		return null;
+	}
     
     @Override
     @Deprecated // is this necessary?

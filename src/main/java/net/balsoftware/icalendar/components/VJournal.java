@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.properties.component.descriptive.Description;
 
 /**
@@ -105,6 +106,17 @@ public class VJournal extends VDisplayable<VJournal>
     {
     	return withDescriptions(Arrays.asList(descriptions));
     }
+    
+	@Override
+	public List<VJournal> calendarList()
+	{
+		if (getParent() != null)
+		{
+			VCalendar cal = (VCalendar) getParent();
+			return cal.getVJournals();
+		}
+		return null;
+	}
     
     /*
      * CONSTRUCTORS

@@ -529,42 +529,33 @@ public class VCalendar extends VParentBase
 //		return Collections.unmodifiableList(allVComponents);
 //	}
 
-    /** Convenience method that returns all {@link VComponent VComponents} regardless of type (e.g.
-     * {@link VEvent}, {@link VTodo}, etc.) 
-     * 
-     * @return  unmodifiable list of all {@link VComponent VComponents}
-     */
-	public List<? extends VComponent> getVComponents(Class<? extends VChild> c)
-	{
-		if (c.equals(VComponent.class))
-		{
-	        if (c.equals(VEvent.class))
-	        {
-	            return getVEvents();
-	        } else if (c.equals(VTodo.class))
-	        {
-	            return getVTodos();            
-	        } else if (c.equals(VJournal.class))
-	        {
-	            return getVJournals();            
-	        } else if (c.equals(VFreeBusy.class))
-	        {
-	            return getVFreeBusies();            
-	        } else if (c.equals(VTimeZone.class))
-	        {
-	            return getVTimeZones();            
-	        } else
-	        {
-	            throw new RuntimeException("Unsuppored VComponent type:" + c);
-	        }
-		}
-		// if not VComponent get from childrenUnmodifiable
-		return childrenUnmodifiable()
-				.stream()
-				.filter(c2 -> c.getClass().equals(c2.getClass()))
-				.map(c2 -> (VComponent) c2)
-				.collect(Collectors.toList());
-	}
+//    /** Convenience method that returns all {@link VComponent VComponents} regardless of type (e.g.
+//     * {@link VEvent}, {@link VTodo}, etc.) 
+//     * 
+//     * @return  unmodifiable list of all {@link VComponent VComponents}
+//     */
+//	public List<? extends VComponent> getVComponents(VComponent c)
+//	{
+//        if (c instanceof VEvent)
+//        {
+//            return getVEvents();
+//        } else if (c instanceof VTodo)
+//        {
+//            return getVTodos();            
+//        } else if (c.equals(VJournal.class))
+//        {
+//            return getVJournals();            
+//        } else if (c.equals(VFreeBusy.class))
+//        {
+//            return getVFreeBusies();            
+//        } else if (c.equals(VTimeZone.class))
+//        {
+//            return getVTimeZones();            
+//        } else
+//        {
+//            throw new RuntimeException("Unsuppored VComponent type:" + c);
+//        }
+//	}
     
 //    /**
 //     * A convenience method that returns parent list of the {@link VComponent} parameter.

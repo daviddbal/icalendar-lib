@@ -429,8 +429,7 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     	setTrigger(trigger);
     	return this;
 	}
-
-    
+        
     /*
      * CONSTRUCTORS
      */
@@ -476,18 +475,11 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
         return Collections.unmodifiableList(errors);
     }
     
-    @Override
-    public boolean isValid()
-    {
-        boolean isActionPresent = getAction() != null;
-        boolean isTriggerPresent = getTrigger() != null;
-        boolean isDurationNull = getDuration() == null;
-        boolean isRepeatNull = getRepeatCount() == null;
-        boolean isBothNull = isDurationNull && isRepeatNull;
-        boolean isNeitherNull = ! isDurationNull && ! isRepeatNull;
-        boolean isDurationAndRepeatOK = isBothNull || isNeitherNull;
-        return isActionPresent && isTriggerPresent && isDurationAndRepeatOK;
-    }
+	@Override
+	public List<? extends VComponent> calendarList()
+	{
+		throw new RuntimeException("VAlarm " + name() + " is embedded in VEVENT or VTODO not VCalendar");
+	}
 
     /**
      *  Creates a new VAlarm calendar component by parsing a String of iCalendar content lines

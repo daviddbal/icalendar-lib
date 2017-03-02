@@ -150,7 +150,7 @@ public class ProcessPublish implements Processable
                         if (! isNewSequenceHigher) throw new IllegalArgumentException("Can't process PUBLISH method: SEQUENCY property MUST be higher than previously published component (new=" + newSequence + " old=" + oldSequence + ")");
                         if (isNewSequenceHigher)
                         {
-                            mainVCalendar.getVComponents(oldMatchingVComponent.getClass()).remove(oldMatchingVComponent); // remove old VComponent because we're replacing it
+                        	vDisplayable.calendarList().remove(oldMatchingVComponent); // remove old VComponent because we're replacing it
                         }
                     }
                 }
@@ -159,10 +159,11 @@ public class ProcessPublish implements Processable
                 log.add("SUCCESS: added " + c.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue());
                 
                 // Remove orphaned recurrence children
+                // 	TODO  - IS THIS NECESSARY???
                 List<VDisplayable<?>> orphanedChildren = vDisplayable.orphanedRecurrenceChildren();
                 if (! orphanedChildren.isEmpty())
                 {
-                    mainVCalendar.getVComponents(vDisplayable.getClass()).removeAll(orphanedChildren);
+                    vDisplayable.calendarList().removeAll(orphanedChildren);
                 }
             } else if (c instanceof VTimeZone)
             {

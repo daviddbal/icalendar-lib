@@ -104,6 +104,8 @@ public interface VComponent extends VParent, VChild
     @Override
     String toString();
     
+    List<? extends VComponent> calendarList();
+    
     /** Parse a VComponent from a {@code Iterator<String>}.
      *  Returns list of error strings for {@link RequestStatus} if collectErrorList is true,
      *  otherwise returns an empty list

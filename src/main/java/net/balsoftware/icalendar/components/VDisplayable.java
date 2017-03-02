@@ -671,33 +671,44 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     /*
      * RECURRENCE CHILDREN - (RECURRENCE-IDs AND MATCHING UID)
      */
-//    /**  Callback to make list of child components (those with RECURRENCE-ID and same UID)
-//     * Callback assigned in {@link VCalendar#displayableListChangeListener } */
-//    public void setRecurrenceChildrenListCallBack(Callback<VDisplayable<?>, List<VDisplayable<?>>> makeRecurrenceChildrenListCallBack)
+//    public List<VDisplayable<?>> recurrenceChildren()
 //    {
-//        this.makeRecurrenceChildrenListCallBack = makeRecurrenceChildrenListCallBack;
+//    	if ((getParent() != null) && (getRecurrenceId() == null))
+//    	{
+//    		UniqueIdentifier myUid = getUniqueIdentifier();
+//    		return getParent().childrenUnmodifiable()
+//    			.stream()
+//    			.filter(c -> ! (c == this))
+//    			.filter(c ->
+//    			{
+//    				if (c instanceof VDisplayable)
+//    				{
+//    					boolean isRelative = ((VPersonal<?>) c).getUniqueIdentifier().equals(myUid);
+//    					return isRelative;
+//    				}
+//    				return false;
+//    			})
+//    			.map(c -> (VDisplayable) c)
+//				.filter(c -> c.getRecurrenceId() != null)
+//				.filter(c -> c.getUniqueIdentifier().equals(myUid))
+//				.collect(Collectors.toList());
+//    	} else
+//    	{
+//    		return null;
+//    	}
 //    }
-
+    
     public List<VDisplayable<?>> recurrenceChildren()
     {
     	if ((getParent() != null) && (getRecurrenceId() == null))
     	{
     		UniqueIdentifier myUid = getUniqueIdentifier();
-    		return getParent().childrenUnmodifiable()
+    		return calendarList()
     			.stream()
+    			.map(c -> (VDisplayable<?>) c)
     			.filter(c -> ! (c == this))
-    			.filter(c ->
-    			{
-    				if (c instanceof VDisplayable)
-    				{
-    					boolean isRelative = ((VPersonal<?>) c).getUniqueIdentifier().equals(myUid);
-    					return isRelative;
-    				}
-    				return false;
-    			})
-    			.map(c -> (VDisplayable) c)
+    			.filter(c -> c.getUniqueIdentifier().equals(myUid))
 				.filter(c -> c.getRecurrenceId() != null)
-				.filter(c -> c.getUniqueIdentifier().equals(myUid))
 				.collect(Collectors.toList());
     	} else
     	{
@@ -720,21 +731,13 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     	if (getParent() != null && (getRecurrenceId() != null))
     	{
     		UniqueIdentifier myUid = getUniqueIdentifier();
-    		Optional<VDisplayable> recurrenceParent = getParent().childrenUnmodifiable()
+    		@SuppressWarnings("rawtypes")
+			Optional<VDisplayable> recurrenceParent = calendarList()
     			.stream()
-    			.filter(c -> ! (c == this))
-    			.filter(c ->
-    			{
-    				if (c instanceof VDisplayable)
-    				{
-    					boolean isRelative = ((VPersonal<?>) c).getUniqueIdentifier().equals(myUid);
-    					return isRelative;
-    				}
-    				return false;
-    			})
     			.map(c -> (VDisplayable) c)
+    			.filter(c -> ! (c == this))
+    			.filter(c -> c.getUniqueIdentifier().equals(myUid))
 				.filter(c -> c.getRecurrenceId() == null)
-				.filter(c -> c.getUniqueIdentifier().equals(myUid))
 				.findAny();
     		return (recurrenceParent.isPresent()) ? recurrenceParent.get() : null;
     	} else

@@ -149,7 +149,8 @@ public class ProcessCancel implements Processable
                     if (recurrenceID == null)
                     { // delete all related VComponents
                         List<VDisplayable<?>> relatedVComponents = mainVCalendar.uidComponentsMap().get(uid);
-                        List<? extends VComponent> vComponents = mainVCalendar.getVComponents(c.getClass());
+                        List<? extends VComponent> vComponents = vDisplayable.calendarList();
+//                        List<? extends VComponent> vComponents = mainVCalendar.getVComponents(c.getClass());
                         vComponents.removeAll(relatedVComponents);
                         log.add("SUCCESS: canceled " + vDisplayable.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue());
                     } else
@@ -170,7 +171,7 @@ public class ProcessCancel implements Processable
                             int oldSequence = (matchingVComponent.getSequence() == null) ? 0 : matchingVComponent.getSequence().getValue();
                             if (newSequence >= oldSequence)
                             {
-                                List<? extends VComponent> vComponents = mainVCalendar.getVComponents(c.getClass());
+                                List<? extends VComponent> vComponents = vDisplayable.calendarList();
                                 vComponents.remove(matchingVComponent);
                                 log.add("SUCCESS: canceled " + c.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue());
                             } else
@@ -233,7 +234,7 @@ public class ProcessCancel implements Processable
                                         List<VDisplayable<?>> orphanedChildren = parentVComponent.orphanedRecurrenceChildren();
                                         if (! orphanedChildren.isEmpty())
                                         {
-                                            mainVCalendar.getVComponents(vDisplayable.getClass()).removeAll(orphanedChildren);
+                                            vDisplayable.calendarList().removeAll(orphanedChildren);
                                         }                                        
                                     } else
                                     {

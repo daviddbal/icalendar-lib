@@ -712,7 +712,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
 				.collect(Collectors.toList());
     	} else
     	{
-    		return null;
+    		return Collections.emptyList();
     	}
     }
     

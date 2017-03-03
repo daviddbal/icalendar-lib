@@ -18,9 +18,8 @@ public class ComboMessageTest
     @Test
     public void canEditThisAndFuture()
     {
-        VCalendar mainVCalendar = new VCalendar();
-        VEvent vevent = ICalendarStaticComponents.getDaily1();
-        mainVCalendar.getVEvents().add(vevent);
+        VCalendar mainVCalendar = new VCalendar()
+        		.withVEvents(ICalendarStaticComponents.getDaily1());
 
        String iTIPMessage =
                "BEGIN:VCALENDAR" + System.lineSeparator() +

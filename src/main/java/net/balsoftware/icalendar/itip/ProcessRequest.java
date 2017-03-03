@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VComponent;
-import net.balsoftware.icalendar.components.VDisplayable;
 import net.balsoftware.icalendar.components.VPersonal;
 import net.balsoftware.icalendar.properties.component.relationship.UniqueIdentifier;
 
@@ -144,7 +143,7 @@ public class ProcessRequest extends ProcessPublish
     public List<String> process(VCalendar mainVCalendar, VCalendar iTIPMessage)
     {
         List<String> log = new ArrayList<>();
-        // Check UID from iTIPMessage is already present
+        // Check if UID from iTIPMessage is already present
         Iterator<VComponent> componentIterator = iTIPMessage.childrenUnmodifiable()
         		.stream()
         		.filter(c -> c instanceof VComponent)
@@ -162,11 +161,11 @@ public class ProcessRequest extends ProcessPublish
             {
                 throw new IllegalArgumentException("Can't process REQUEST, VComponent has null UID");
             }
-            boolean isUIDPresent = myComponent.calendarList()
+            boolean isUIDPresent = mainVCalendar.getVComponents(myComponent)
 	    		.stream()
-	    		.map(v -> (VDisplayable<?>) v)
+	    		.map(v -> (VPersonal<?>) v)
 	    		.anyMatch(v -> v.getUniqueIdentifier().equals(uid));
-            if (isUIDPresent)
+            if (! isUIDPresent)
             {
                 throw new IllegalArgumentException("Can't process REQUEST, VComponent UID is not present in main VCalendar");
             }

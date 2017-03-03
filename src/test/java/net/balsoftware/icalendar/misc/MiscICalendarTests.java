@@ -239,8 +239,8 @@ public class MiscICalendarTests
          "END:VEVENT"+ls+
          "END:VCALENDAR";
         List<String> log = main.processITIPMessage(publish);
-//        System.out.println(main.toString()+ls);
-//        log.forEach(System.out::println);
+        List<String> expectedLog = Arrays.asList("SUCCESS: added VEvent with UID:1234234-23@example.com");
+        assertEquals(expectedLog, log);
     }
     
     @Test
@@ -273,8 +273,6 @@ public class MiscICalendarTests
               "END:VEVENT" + System.lineSeparator() + 
               "END:VCALENDAR";
         List<String> log = main.processITIPMessage(cancel);
-        log.forEach(System.out::println);
-        System.out.println(main.toString());
     }
     
     @Test // parent-child hierarchy (e.g. find properties in a VEvent)

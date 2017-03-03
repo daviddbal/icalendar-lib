@@ -123,8 +123,6 @@ public class ProcessPublish implements Processable
                 if (! hasNoAttendees) log.add("WARNING: According to RFC 5546, a PUBLISH MUST NOT contain the ATTENDEE property yet it's exists. " + c.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue() + " is being processed anyway.");
                 final int newSequence = (vDisplayable.getSequence() == null) ? 0 : vDisplayable.getSequence().getValue();
                 boolean isNewSequenceHigher = true;
-                System.out.println("here"); 
-//                vDisplayable.calendarList().forEach(cc -> System.out.println("child:" + cc));
                 UniqueIdentifier uid = vDisplayable.getUniqueIdentifier();
                 List<VDisplayable<?>> relatedVComponents = mainVCalendar.childrenUnmodifiable()
                 	.stream()
@@ -132,11 +130,6 @@ public class ProcessPublish implements Processable
             		.map(v -> (VDisplayable<?>) v)
             		.filter(v -> v.getUniqueIdentifier().equals(uid))
             		.collect(Collectors.toList());
-//                List<VDisplayable<?>> relatedVComponents = vDisplayable.calendarList()
-//                		.stream()
-//                		.map(v -> (VDisplayable<?>) v)
-//                		.filter(v -> v.getUniqueIdentifier().equals(uid))
-//                		.collect(Collectors.toList());
                 final Temporal recurrenceID = (vDisplayable.getRecurrenceId() != null) ? vDisplayable.getRecurrenceId().getValue() : null;
 
                 // check for previous match to remove it

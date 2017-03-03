@@ -256,24 +256,29 @@ public class VCalendar extends VParentBase
     	this.vEvents = vEvents;
     	vEvents.forEach(c -> orderChild(c));
 	}
-    public VCalendar withVEvent(List<VEvent> vEvents)
+    public VCalendar withVEvents(List<VEvent> vEvents)
     {
-    	vEvents.forEach(c -> orderChild(c));
-        setVEvents(vEvents);
+    	if (getVEvents() == null)
+    	{
+    		setVEvents(new ArrayList<>());
+    	}
+    	getVEvents().addAll(vEvents);
+    	if (vEvents != null)
+    	{
+    		vEvents.forEach(c -> orderChild(c));
+    	}
         return this;
     }
-    public VCalendar withVEvent(String...vEvents)
+    public VCalendar withVEvents(String...vEvents)
     {
         List<VEvent> list = Arrays.stream(vEvents)
                 .map(c -> VEvent.parse(c))
                 .collect(Collectors.toList());
-        setVEvents(list);
-        return this;
+        return withVEvents(list);
     }
     public VCalendar withVEvents(VEvent...vEvents)
     {
-    	setVEvents(new ArrayList<>(Arrays.asList(vEvents)));
-        return this;
+        return withVEvents(Arrays.asList(vEvents));
     }
   
     /** 
@@ -289,24 +294,29 @@ public class VCalendar extends VParentBase
     	this.vTodos = vTodos;
     	vTodos.forEach(c -> orderChild(c));
 	}
-    public VCalendar withVTodo(List<VTodo> vTodos)
+    public VCalendar withVTodos(List<VTodo> vTodos)
     {
-    	vTodos.forEach(c -> orderChild(c));
-        setVTodos(vTodos);
+    	if (getVTodos() == null)
+    	{
+    		setVTodos(new ArrayList<>());
+    	}
+    	getVTodos().addAll(vTodos);
+    	if (vTodos != null)
+    	{
+    		vTodos.forEach(c -> orderChild(c));
+    	}
         return this;
     }
-    public VCalendar withVTodo(String...vTodos)
+    public VCalendar withVTodos(String...vTodos)
     {
         List<VTodo> list = Arrays.stream(vTodos)
                 .map(c -> VTodo.parse(c))
                 .collect(Collectors.toList());
-        setVTodos(list);
-        return this;
+        return withVTodos(list);
     }
     public VCalendar withVTodos(VTodo...vTodos)
     {
-    	setVTodos(new ArrayList<>(Arrays.asList(vTodos)));
-        return this;
+    	return withVTodos(Arrays.asList(vTodos));
     }
  
     /** 
@@ -324,19 +334,29 @@ public class VCalendar extends VParentBase
     	this.vJournals = vJournals;
     	vJournals.forEach(c -> orderChild(c));
 	}
-    public VCalendar withVJournal(List<VJournal> vJournals) { setVJournals(vJournals); return this; }
+    public VCalendar withVJournal(List<VJournal> vJournals)
+    {
+    	if (getVJournals() == null)
+    	{
+    		setVJournals(new ArrayList<>());
+    	}
+    	getVJournals().addAll(vJournals);
+    	if (vJournals != null)
+    	{
+    		vJournals.forEach(c -> orderChild(c));
+    	}
+        return this;
+	}
     public VCalendar withVJournal(String...vJournals)
     {
         List<VJournal> list = Arrays.stream(vJournals)
                 .map(c -> VJournal.parse(c))
                 .collect(Collectors.toList());
-        setVJournals(list);
-        return this;
+        return withVJournal(list);
     }
     public VCalendar withVJournals(VJournal...vJournals)
     {
-    	setVJournals(new ArrayList<>(Arrays.asList(vJournals)));
-        return this;
+    	return withVJournal(Arrays.asList(vJournals));
     }
 
     /** 
@@ -351,19 +371,29 @@ public class VCalendar extends VParentBase
     	this.vFreeBusys = vFreeBusys;
     	vFreeBusys.forEach(c -> orderChild(c));
 	}
-    public VCalendar withVFreeBusy(List<VFreeBusy> vFreeBusys) { setVFreeBusys(vFreeBusys); return this; }
-    public VCalendar withVFreeBusy(String...vFreeBusys)
+    public VCalendar withVFreeBusies(List<VFreeBusy> vFreeBusys)
+    {
+    	if (getVFreeBusies() == null)
+    	{
+    		setVFreeBusys(new ArrayList<>());
+    	}
+    	getVFreeBusies().addAll(vFreeBusys);
+    	if (vFreeBusys != null)
+    	{
+    		vFreeBusys.forEach(c -> orderChild(c));
+    	}
+        return this;
+	}
+    public VCalendar withVFreeBusies(String...vFreeBusys)
     {
     	List<VFreeBusy> list = Arrays.stream(vFreeBusys)
     			.map(c -> VFreeBusy.parse(c))
                 .collect(Collectors.toList());
-    	setVFreeBusys(list);
-        return this;
+    	return withVFreeBusies(list);
     }
-    public VCalendar withVFreeBusys(VFreeBusy...vFreeBusys)
+    public VCalendar withVFreeBusies(VFreeBusy...vFreeBusys)
     {
-    	setVFreeBusys(new ArrayList<>(Arrays.asList(vFreeBusys)));
-        return this;
+    	return withVFreeBusies(Arrays.asList(vFreeBusys));
     }
 
     /** 
@@ -378,16 +408,29 @@ public class VCalendar extends VParentBase
     	this.vTimeZones = vTimeZones;
     	vTimeZones.forEach(c -> orderChild(c));
 	}
-    public VCalendar withVTimeZones(List<VTimeZone> vTimeZones) { setVTimeZones(vTimeZones); return this; }
+    public VCalendar withVTimeZones(List<VTimeZone> vTimeZones)
+    {
+    	if (getVTimeZones() == null)
+    	{
+    		setVTimeZones(new ArrayList<>());
+    	}
+    	getVTimeZones().addAll(vTimeZones);
+    	if (vTimeZones != null)
+    	{
+    		vTimeZones.forEach(c -> orderChild(c));
+    	}
+        return this;
+	}
     public VCalendar withVTimeZones(String...vTimeZones)
     {
-        Arrays.stream(vTimeZones).forEach(c -> getVTimeZones().add(VTimeZone.parse(c)));
-        return this;
+    	List<VTimeZone> list = Arrays.stream(vTimeZones)
+    			.map(c -> VTimeZone.parse(c))
+                .collect(Collectors.toList());
+    	return withVTimeZones(list);
     }
     public VCalendar withVTimeZones(VTimeZone...vTimeZones)
     {
-    	setVTimeZones(new ArrayList<>(Arrays.asList(vTimeZones)));
-        return this;
+    	return withVTimeZones(Arrays.asList(vTimeZones));
     }
     
     /**
@@ -555,34 +598,34 @@ public class VCalendar extends VParentBase
 //        }
 //	}
     
-//    /**
-//     * A convenience method that returns parent list of the {@link VComponent} parameter.
-//     * Returns null if component is not in any {@link VComponent} list.
-//     * 
-//     * @param vComponent - VComponent to look up
-//     */
-//    public List<? extends VComponent> getVComponents(VComponent vComponent)
-//    {
-//        if (vComponent instanceof VEvent)
-//        {
-//            return (getVEvents().contains(vComponent)) ? getVEvents() : null;
-//        } else if (vComponent instanceof VTodo)
-//        {
-//            return (getVTodos().contains(vComponent)) ? getVTodos() : null;
-//        } else if (vComponent instanceof VJournal)
-//        {
-//            return (getVJournals().contains(vComponent)) ? getVJournals() : null;
-//        } else if (vComponent instanceof VFreeBusy)
-//        {
-//            return (getVFreeBusies().contains(vComponent)) ? getVFreeBusies() : null;
-//        } else if (vComponent instanceof VTimeZone)
-//        {
-//            return (getVTimeZones().contains(vComponent)) ? getVTimeZones() : null;
-//        } else
-//        {
-//            throw new RuntimeException("Unsuppored VComponent type:" + vComponent.getClass());
-//        }
-//    }
+    /**
+     * A convenience method that returns parent list of the {@link VComponent} parameter.
+     * Returns null if component is not in any {@link VComponent} list.
+     * 
+     * @param vComponent - VComponent to look up
+     */
+    public List<? extends VComponent> getVComponents(VComponent vComponent)
+    {
+        if (vComponent instanceof VEvent)
+        {
+            return getVEvents();
+        } else if (vComponent instanceof VTodo)
+        {
+            return getVTodos();
+        } else if (vComponent instanceof VJournal)
+        {
+            return getVJournals();
+        } else if (vComponent instanceof VFreeBusy)
+        {
+            return getVFreeBusies();
+        } else if (vComponent instanceof VTimeZone)
+        {
+            return getVTimeZones();
+        } else
+        {
+            throw new RuntimeException("Unsuppored VComponent type:" + vComponent.getClass());
+        }
+    }
     
     
     /** set AbstractITIPFactory to handle processing input VCalendar based on {@link Method} */

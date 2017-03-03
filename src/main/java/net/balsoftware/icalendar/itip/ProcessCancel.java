@@ -146,7 +146,7 @@ public class ProcessCancel implements Processable
                 VDisplayable<?> vDisplayable = ((VDisplayable<?>) c);
                 int newSequence = (vDisplayable.getSequence() == null) ? 0 : vDisplayable.getSequence().getValue();
                 UniqueIdentifier uid = vDisplayable.getUniqueIdentifier();
-                List<VDisplayable<?>> relatedVComponents = vDisplayable.calendarList()
+                List<VDisplayable<?>> relatedVComponents = mainVCalendar.getVComponents(vDisplayable)
                 		.stream()
                 		.map(v -> (VDisplayable<?>) v)
                 		.filter(v -> v.getUniqueIdentifier().equals(uid))
@@ -158,7 +158,7 @@ public class ProcessCancel implements Processable
                     // match RECURRENCE-ID (if deleting a parent)
                     if (recurrenceID == null)
                     { // delete all related VComponents
-                        List<? extends VComponent> myVComponents = vDisplayable.calendarList();
+                        List<? extends VComponent> myVComponents = mainVCalendar.getVComponents(vDisplayable);
                         myVComponents.removeAll(relatedVComponents);
                         log.add("SUCCESS: canceled " + vDisplayable.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue());
                     } else

@@ -164,6 +164,7 @@ public class SimplePublishTest
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponentOriginal);
+        mainVCalendar.orderChild(vComponentOriginal);
         
         String iTIPMessage =
                 "BEGIN:VCALENDAR" + System.lineSeparator() +
@@ -189,7 +190,7 @@ public class SimplePublishTest
         Collections.sort(vComponents, VPrimary.DTSTART_COMPARATOR);
         VEvent myComponentRepeats = vComponents.get(0);
 
-        // confirm change
+        // check results
         assertEquals(vComponentOriginal, myComponentRepeats);
         VEvent myComponentIndividual = vComponents.get(1);
         VEvent expectedComponentIndividual = ICalendarStaticComponents.getDaily1()

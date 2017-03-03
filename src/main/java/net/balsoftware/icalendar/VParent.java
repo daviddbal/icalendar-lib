@@ -19,14 +19,12 @@ public interface VParent extends VElement
      */
     List<VChild> childrenUnmodifiable();
     
+    void addChild(VChild child);
+    
 	/** Add the next child to the list */
+    @Deprecated // replace with addChild
 	void orderChild(VChild child);
 	
 	/** Add the child to particular index in the list */
 	void orderChild(int index, VChild child);
-    
-    /**
-     * Copy this {@link VParent} into destination {@link VParent}
-     */
-    void copyInto(VParent destination);
 }

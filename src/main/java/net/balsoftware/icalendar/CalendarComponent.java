@@ -80,7 +80,7 @@ public enum CalendarComponent
         @Override
         public void copyChild(VChild child, VCalendar destination)
         {
-        	throw new RuntimeException("not implemented");
+        	destination.addVComponent(new VEvent((VEvent) child));
         }
 
 //		@Override
@@ -261,9 +261,9 @@ public enum CalendarComponent
         return map;
     }
     /** get enum from map */
-    public static CalendarComponent enumFromClass(Class<? extends VComponent> myClass)
+    public static CalendarComponent enumFromClass(Class<? extends VChild> class1)
     {
-        return enumFromClassMap.get(myClass);
+        return enumFromClassMap.get(class1);
     }
     
     /*
@@ -281,6 +281,7 @@ public enum CalendarComponent
 
     // Getters stored here so they are made only once per class - maybe use static field in class instead
     private List<Method> getters;
+    @Deprecated
     public List<Method> childGetters() { return getters; }
     
     /*

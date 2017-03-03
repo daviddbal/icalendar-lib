@@ -78,6 +78,11 @@ import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     VDescribable2<VEvent>, VRepeatable<VEvent>
 {
+//	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VEvent.class);
+//    protected Method getSetter(VChild newChild)
+//    {
+//    	return SETTERS.get(newChild.getClass());
+//    }
     /**
      * DTEND
      * Date-Time End

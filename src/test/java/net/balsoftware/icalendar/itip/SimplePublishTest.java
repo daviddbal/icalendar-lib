@@ -258,7 +258,7 @@ public class SimplePublishTest
 
         // make recurrence
         VEvent vComponentRecurrence = ICalendarStaticComponents.getDaily1()
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(LocalDateTime.of(2015, 11, 12, 10, 0))
                 .withSummary("recurrence summary")
                 .withDateTimeStart(LocalDateTime.of(2015, 11, 12, 8, 30))

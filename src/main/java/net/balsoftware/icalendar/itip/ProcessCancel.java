@@ -202,6 +202,7 @@ public class ProcessCancel implements Processable
                                 .orElseThrow(() -> new RuntimeException("Can't add EXDATE: VComponent with Recurrence Rule can't be found for uid:" + uid));
                             } else
                             {
+//                                vDisplayable.setParent(mainVCalendar);
                                 parentVComponent = vDisplayable;
                             }
                             boolean isRecurrence = parentVComponent.isRecurrence(recurrenceID.getValue());
@@ -242,7 +243,7 @@ public class ProcessCancel implements Processable
                                         List<VDisplayable<?>> orphanedChildren = parentVComponent.orphanedRecurrenceChildren();
                                         if (! orphanedChildren.isEmpty())
                                         {
-                                            vDisplayable.calendarList().removeAll(orphanedChildren);
+                                        	mainVCalendar.getVComponents(vDisplayable).removeAll(orphanedChildren);
                                         }                                        
                                     } else
                                     {

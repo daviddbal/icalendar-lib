@@ -60,6 +60,11 @@ import net.balsoftware.icalendar.properties.component.descriptive.Description;
  */
 public class VJournal extends VDisplayable<VJournal>
 {
+//	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VJournal.class);
+//    protected Method getSetter(VChild newChild)
+//    {
+//    	return SETTERS.get(newChild.getClass());
+//    }
     /**
      * DESCRIPTION:
      * RFC 5545 iCalendar 3.8.1.12. page 84

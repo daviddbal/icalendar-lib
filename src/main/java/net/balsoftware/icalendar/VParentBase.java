@@ -1,5 +1,7 @@
 package net.balsoftware.icalendar;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +30,7 @@ public abstract class VParentBase implements VParent
     /** Return the {@link Orderer} for this {@link VParent} */
     
 	@Override
+	@Deprecated
 	public void orderChild(VChild addedChild)
 	{
 		orderer.orderChild(addedChild);
@@ -38,6 +41,18 @@ public abstract class VParentBase implements VParent
 	{
 		orderer.orderChild(index, addedChild);
 	}
+
+	@Override
+    public void addChild(VChild child)
+    {
+		Method setter = getSetter(child);
+		try {
+			setter.invoke(this, child);
+			orderer.orderChild(child);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+    }
     
     /* Strategy to build iCalendar content lines */
     protected ContentLineStrategy contentLineGenerator;
@@ -48,17 +63,27 @@ public abstract class VParentBase implements VParent
     }
     
     @Override
-    public void copyInto(VParent destination)
+    public void copyInto(VElement destination)
     {
-        if (! destination.getClass().equals(getClass()))
+        childrenUnmodifiable().forEach((childSource) -> 
         {
-            throw new IllegalArgumentException("Property class types must be equal (" + getClass().getSimpleName() +
-                    "," + destination.getClass().getSimpleName() + ")");
-        }
-        // Note: copy functionality in subclasses
+        	try {
+				VChild newChild = childSource.getClass().newInstance();
+				childSource.copyInto(newChild);
+				addChild(newChild);
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException e) {
+				e.printStackTrace();
+			}
+        });
     }
     
-    @Override
+    protected Method getSetter(VChild newChild)
+    {
+    	// MUST OVERRIDE - MAKE ABSTRACT LATER
+    	throw new RuntimeException("not implemented");
+    }
+
+	@Override
     public List<String> errors()
     {
         return childrenUnmodifiable().stream()

@@ -57,7 +57,12 @@ import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
  *
  */
 public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
-{    
+{
+//	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VTodo.class);
+//    protected Method getSetter(VChild newChild)
+//    {
+//    	return SETTERS.get(newChild.getClass());
+//    }
     /**
      * COMPLETED: Date-Time Completed
      * RFC 5545 iCalendar 3.8.2.1 page 94

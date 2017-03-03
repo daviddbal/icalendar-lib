@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import net.balsoftware.icalendar.VChild;
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.OrdererBase;
@@ -32,8 +33,8 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByR
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.BySecond;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByYearDay;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
+import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * RRULE
@@ -287,7 +288,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public RecurrenceRuleValue withWeekStart(DayOfWeek weekStart) { setWeekStart(weekStart); return this; }
     
     @Override
-    public void copyInto(VParent destination)
+    public void copyInto(VElement destination)
     {
         super.copyInto(destination);
         childrenUnmodifiable().forEach((childSource) -> 
@@ -313,6 +314,7 @@ public class RecurrenceRuleValue extends VParentBase implements VChild
     public RecurrenceRuleValue(RecurrenceRuleValue source)
     {
         this();
+        System.out.println("rrule:" + source);
         source.copyInto(this);
     }
     

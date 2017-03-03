@@ -18,6 +18,7 @@ import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VPrimary;
 import net.balsoftware.icalendar.properties.calendar.Version;
 import net.balsoftware.icalendar.properties.component.change.DateTimeStamp;
+import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.FrequencyType;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.relationship.RelatedTo;
@@ -184,7 +185,7 @@ public class HandleRecurrencesTest
         vComponents.add(vComponent1);
         // make recurrences
         VEvent vComponentRecurrence2 = ICalendarStaticComponents.getDaily1()
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(LocalDateTime.of(2016, 5, 17, 10, 0))
                 .withSummary("recurrence summary")
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 17, 8, 30))
@@ -192,7 +193,7 @@ public class HandleRecurrencesTest
         vComponents.add(vComponentRecurrence2);
         
         VEvent vComponentRecurrence3 = ICalendarStaticComponents.getDaily1()
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(LocalDateTime.of(2016, 5, 19, 10, 0))
                 .withSummary("recurrence summary2")
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 19, 7, 30))
@@ -279,7 +280,7 @@ public class HandleRecurrencesTest
         vComponents.add(vComponentEdited);
         // make recurrence
         VEvent vComponentRecurrence = ICalendarStaticComponents.getDaily1()
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(LocalDateTime.of(2016, 5, 17, 10, 0))
                 .withSummary("recurrence summary")
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 17, 8, 30))
@@ -356,7 +357,7 @@ public class HandleRecurrencesTest
 
         // make recurrence before
         VEvent vComponentRecurrenceBefore = ICalendarStaticComponents.getDaily1()
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(LocalDateTime.of(2015, 12, 25, 10, 0))
                 .withSummary("recurrence summary before")
                 .withDateTimeStart(LocalDateTime.of(2015, 12, 26, 0, 30))
@@ -365,7 +366,7 @@ public class HandleRecurrencesTest
 
         // make recurrence after
         VEvent vComponentRecurrenceAfter = ICalendarStaticComponents.getDaily1()
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(LocalDateTime.of(2016, 5, 17, 10, 0))
                 .withSummary("recurrence summary after")
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 17, 8, 30))
@@ -444,7 +445,7 @@ public class HandleRecurrencesTest
         assertEquals(expectedComponentFuture, myComponentFuture);
 
         VEvent expectedvComponentRecurrence = ICalendarStaticComponents.getDaily1()
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(LocalDateTime.of(2016, 5, 17, 9, 0))
                 .withSummary("recurrence summary after")
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 17, 8, 30))
@@ -542,7 +543,7 @@ public class HandleRecurrencesTest
         VEvent expectedvComponentRecurrence = ICalendarStaticComponents.getWholeDayDaily1()
                 .withUniqueIdentifier(new UniqueIdentifier(newVComponentFuture.getUniqueIdentifier()))
                 .withDateTimeStamp(new DateTimeStamp(newVComponentFuture.getDateTimeStamp())) // TODO - Decide if I should recycle old DTSTAMP?
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(ZonedDateTime.of(LocalDateTime.of(2016, 5, 17, 9, 0), ZoneId.of("Europe/London")))
                 .withSummary("recurrence summary")
                 .withDateTimeStart(ZonedDateTime.of(LocalDateTime.of(2016, 5, 17, 8, 30), ZoneId.of("Europe/London")))
@@ -559,9 +560,10 @@ public class HandleRecurrencesTest
         
         VEvent vComponent1 = ICalendarStaticComponents.getDaily1();
         vComponents.add(vComponent1);
+        mainVCalendar.orderChild(vComponent1);
         // make recurrence
         VEvent vComponentRecurrence = ICalendarStaticComponents.getDaily1()
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(LocalDateTime.of(2016, 5, 17, 10, 0))
                 .withSummary("recurrence summary")
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 17, 8, 30))
@@ -584,8 +586,7 @@ public class HandleRecurrencesTest
                 "RECURRENCE-ID;RANGE=THISANDFUTURE:20160515T100000" + System.lineSeparator() +
                 "END:VEVENT" + System.lineSeparator() +
                 "END:VCALENDAR";
-        mainVCalendar.processITIPMessage(iTIPMessage);
-        
+        List<String> log = mainVCalendar.processITIPMessage(iTIPMessage);
         assertEquals(1, vComponents.size());
         VEvent myComponent1 = vComponents.get(0);
         

@@ -1927,6 +1927,7 @@ public enum PropertyType
     public List<ParameterType> allowedParameters() { return allowedParameters; }
     
     private List<Method> getters;
+    @Deprecated
     public List<Method> childGetters() { return getters; }
     /*
      * CONSTRUCTOR

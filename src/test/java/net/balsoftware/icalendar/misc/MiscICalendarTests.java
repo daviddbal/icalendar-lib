@@ -46,7 +46,6 @@ public class MiscICalendarTests
         
         // Produce text like what is shown in RFC 5545
         String expectedContent = "BEGIN:VCALENDAR" + System.lineSeparator() + 
-        		"VERSION:2.0" + System.lineSeparator() + 
         		"END:VCALENDAR";
         String content = c.toString();
         assertEquals(expectedContent, content);

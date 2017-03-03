@@ -10,8 +10,7 @@ import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.VChild;
-import net.balsoftware.icalendar.VParent;
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.change.LastModified;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneIdentifier;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
@@ -264,6 +263,11 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
  */
 public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTimeZone>
 {
+//	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VTimeZone.class);
+//    protected Method getSetter(VChild newChild)
+//    {
+//    	return SETTERS.get(newChild.getClass());
+//    }
     /**
      * STANDARD or DAYLIGHT
      * Subcomponent of VTimeZone
@@ -462,10 +466,11 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     }
     
     @Override
-    public void copyInto(VParent destination)
+    public void copyInto(VElement destination)
     {
         super.copyInto(destination);
-        ((VChild) destination).setParent(getParent());
+        ((VComponentBase) destination).parent = getParent();
+//        ((VChild) destination).setParent(getParent());
         VTimeZone castDestination = (VTimeZone) destination;
         if (getStandardOrDaylight() != null)
         {

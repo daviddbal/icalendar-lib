@@ -3,6 +3,7 @@ package net.balsoftware.icalendar.parameters;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
@@ -80,6 +81,12 @@ abstract public class ParameterBase<U,T> implements Parameter<T>
     public ParameterType parameterType() { return parameterType; }
     final private ParameterType parameterType;
 
+	@Override
+	public void copyInto(VElement destination)
+	{
+		setValue(((Parameter<T>) destination).getValue());
+	}
+	
     @Override
     public String toString()
     {

@@ -31,14 +31,16 @@ public abstract class VComponentBase extends VParentBase implements VComponent
     private static final String FIRST_LINE_PREFIX = "BEGIN:";
     private static final String LAST_LINE_PREFIX = "END:";
     
-    private VParent myParent;
-    @Override public void setParent(VParent parent) { myParent = parent; }
-    @Override public VParent getParent() { return myParent; }
+    protected VParent parent;
+    @Override public void setParent(VParent parent) { this.parent = parent; }
+    @Override public VParent getParent() { return parent; }
     
     @Override
-    public void copyInto(VParent destination)
+    public void copyInto(VElement destination)
     {
         super.copyInto(destination);
+        System.out.println("children:");
+        childrenUnmodifiable().forEach(System.out::println);
         childrenUnmodifiable().forEach((child) -> 
         {
             PropertyType type = PropertyType.enumFromClass(child.getClass());
@@ -80,7 +82,7 @@ public abstract class VComponentBase extends VParentBase implements VComponent
         this();
         source.copyInto(this);
     }
-    
+
     @Override
     public List<String> parseContent(String content)
     {

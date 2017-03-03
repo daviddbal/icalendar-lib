@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import junit.runner.Version;
 import net.balsoftware.icalendar.VChild;
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.OrdererBase;
@@ -298,7 +299,7 @@ public abstract class PropertyBase<T,U> extends VParentBase implements Property<
     }
     
     @Override
-    public void copyInto(VParent destination)
+    public void copyInto(VElement destination)
     {
         super.copyInto(destination);
         PropertyBase<T,U> castDestination = (PropertyBase<T,U>) destination;

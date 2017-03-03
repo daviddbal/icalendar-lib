@@ -28,7 +28,10 @@ public class CopyCalendarTest extends ICalendarTestAbstract
                 .withVTimeZones(getTimeZone1())
                 .withVEvents(getYearly1())
                 .withVEvents(getMonthly6());
+        System.out.println(VCalendar.SETTERS.size());
         VCalendar c2 = new VCalendar(c);
+//        System.out.println(c);
+        System.out.println(c2);
         assertEquals(c, c2);
         assertFalse(c == c2);
     }

@@ -56,6 +56,11 @@ public class VCalendar extends VParentBase
     @Override public String name() { return NAME; }
     private static final String FIRST_CONTENT_LINE = "BEGIN:" + NAME;
     private static final String LAST_CONTENT_LINE = "END:" + NAME;
+    static
+    {
+    	ICalendarUtilities.collectSetters(VCalendar.class).forEach(System.out::println);
+    }
+	public static final Map<Class<?>,  java.lang.reflect.Method> SETTERS = ICalendarUtilities.collectSetterMap(VCalendar.class);
     
     /*
      * Calendar properties
@@ -520,6 +525,12 @@ public class VCalendar extends VParentBase
     {
         return addAllVComponents(Arrays.asList(newVComponents));
     }
+    
+	@Override
+	protected java.lang.reflect.Method getSetter(VChild newChild)
+	{
+		return SETTERS.get(newChild.getClass());
+	}
     
 //    public boolean removeVComponent(VComponent vComponent)
 //    {
@@ -1042,24 +1053,24 @@ public class VCalendar extends VParentBase
 //    }
     
     @Override
-    public void copyInto(VParent destination)
+    public void copyInto(VElement destination)
     {
         super.copyInto(destination);
-//        childrenUnmodifiable().forEach((childSource) -> 
-//        {
-//            CalendarComponent componentType = CalendarComponent.enumFromClass(childSource.getClass());
-//            if (componentType != null)
-//            {
-//                componentType.copyChild(childSource, (VCalendar) destination);
-//            } else
-//            {
-//                CalendarProperty propertyType = CalendarProperty.enumFromClass(childSource.getClass());
-//                if (propertyType != null)
-//                {
-//                    propertyType.copyChild(childSource, (VCalendar) destination);
-//                }
-//            }
-//        });
+        childrenUnmodifiable().forEach((childSource) -> 
+        {
+            CalendarComponent componentType = CalendarComponent.enumFromClass(childSource.getClass());
+            if (componentType != null)
+            {
+                componentType.copyChild(childSource, (VCalendar) destination);
+            } else
+            {
+                CalendarProperty propertyType = CalendarProperty.enumFromClass(childSource.getClass());
+                if (propertyType != null)
+                {
+                    propertyType.copyChild(childSource, (VCalendar) destination);
+                }
+            }
+        });
     }
     
     @Override
@@ -1085,7 +1096,6 @@ public class VCalendar extends VParentBase
     public VCalendar()
     {
         setMethodProcessFactory(new DefaultITIPFactory());
-        addListeners();
     	List<java.lang.reflect.Method> getters = ICalendarUtilities.collectGetters(getClass());
         orderer = new OrdererBase(this, getters);
         contentLineGenerator = new MultiLineContent(
@@ -1093,7 +1103,6 @@ public class VCalendar extends VParentBase
                 FIRST_CONTENT_LINE,
                 LAST_CONTENT_LINE,
                 1000);
-        setVersion(new Version()); // use default version
     }
   
     /** Copy constructor */
@@ -1106,11 +1115,6 @@ public class VCalendar extends VParentBase
     /*
      * OTHER METHODS
      */
-    
-    private void addListeners()
-    {
-
-    }
         
     @Override
     public List<String> parseContent(String content)

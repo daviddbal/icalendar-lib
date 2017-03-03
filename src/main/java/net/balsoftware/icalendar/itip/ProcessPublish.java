@@ -124,7 +124,7 @@ public class ProcessPublish implements Processable
                 final int newSequence = (vDisplayable.getSequence() == null) ? 0 : vDisplayable.getSequence().getValue();
                 boolean isNewSequenceHigher = true;
                 UniqueIdentifier uid = vDisplayable.getUniqueIdentifier();
-                List<VDisplayable<?>> relatedVComponents = mainVCalendar.childrenUnmodifiable()
+                List<VDisplayable<?>> relatedVComponents = mainVCalendar.getVComponents(vDisplayable)
                 	.stream()
                 	.filter(v -> v instanceof VDisplayable)
             		.map(v -> (VDisplayable<?>) v)
@@ -157,7 +157,7 @@ public class ProcessPublish implements Processable
                         if (! isNewSequenceHigher) throw new IllegalArgumentException("Can't process PUBLISH method: SEQUENCY property MUST be higher than previously published component (new=" + newSequence + " old=" + oldSequence + ")");
                         if (isNewSequenceHigher)
                         {
-                        	oldMatchingVComponent.calendarList().remove(oldMatchingVComponent); // remove old VComponent because we're replacing it
+                        	mainVCalendar.getVComponents(vDisplayable).remove(oldMatchingVComponent); // remove old VComponent because we're replacing it
                         }
                     }
                 }

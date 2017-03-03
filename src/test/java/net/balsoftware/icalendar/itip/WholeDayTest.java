@@ -18,6 +18,7 @@ import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VPrimary;
 import net.balsoftware.icalendar.properties.calendar.Version;
 import net.balsoftware.icalendar.properties.component.change.DateTimeStamp;
+import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.relationship.RelatedTo;
 import net.balsoftware.icalendar.properties.component.relationship.UniqueIdentifier;
@@ -241,7 +242,7 @@ public class WholeDayTest
                 .withDateTimeStamp(new DateTimeStamp(newVComponentFuture.getDateTimeStamp()));
 
         VEvent expectedvComponentRecurrence = ICalendarStaticComponents.getWholeDayDaily1()
-                .withRecurrenceRule((RecurrenceRuleValue) null)
+                .withRecurrenceRule((RecurrenceRule) null)
                 .withRecurrenceId(ZonedDateTime.of(LocalDateTime.of(2016, 5, 17, 9, 0), ZoneId.of("Europe/London")))
                 .withSummary("recurrence summary")
                 .withDateTimeStart(ZonedDateTime.of(LocalDateTime.of(2016, 5, 17, 8, 30), ZoneId.of("Europe/London")))

@@ -329,29 +329,52 @@ public final class ICalendarUtilities
 			if (VChild.class.isAssignableFrom(parameterType))
 			{
 				setters.put(parameterType, m);
-			} else if (List.class.isAssignableFrom(parameterType))
+			}
+//			} else if (List.class.isAssignableFrom(parameterType))
+//			{
+//				ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
+//				Type t = pt.getActualTypeArguments()[0];
+//				String s = t.getTypeName();
+//				
+////						System.out.println(s);
+//				int endIndex = s.indexOf("<");
+//				endIndex = endIndex < 0 ? s.length() : endIndex;
+//				s = s.substring(0, endIndex);
+////						System.out.println(s);
+//				try {
+//				Class<?> clazz2 = Class.forName(s);
+//				boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
+//				if (isListOfChildren)
+//				{
+//					setters.put(clazz2, m);
+//				}
+//				} catch (ClassNotFoundException e) {
+//					// no opp if class doesn't exist (e.g. ? extends VComponent)
+//				}
+//			}
+		}
+		
+		Iterator<Method> methodIterator2 = Arrays.stream(class1.getMethods())
+				.filter(m -> m.getParameters().length == 1)
+				.filter(m -> m.getName().startsWith("with"))
+//				.peek(System.out::println)
+				.iterator();
+		while (methodIterator2.hasNext())
+		{
+			Method m = methodIterator2.next();
+			Parameter p = m.getParameters()[0];
+			Class<?> parameterType = p.getType().getComponentType();
+//			System.out.println("parameterType:" + parameterType);
+//			Class<?> parameterType = p.getType();
+
+//			System.out.println("parameterType:" + parameterType + " " + parameterType.isArray());
+//			System.out.println(parameterType.getSimpleName() + " "+ VChild[].class.isAssignableFrom(parameterType) + " " + p.isVarArgs());
+			if ((parameterType != null) && VChild.class.isAssignableFrom(parameterType) && p.isVarArgs())
 			{
-				ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
-				Type t = pt.getActualTypeArguments()[0];
-				String s = t.getTypeName();
-				
-//						System.out.println(s);
-				int endIndex = s.indexOf("<");
-				endIndex = endIndex < 0 ? s.length() : endIndex;
-				s = s.substring(0, endIndex);
-//						System.out.println(s);
-				try {
-				Class<?> clazz2 = Class.forName(s);
-				boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
-				if (isListOfChildren)
-				{
-					setters.put(clazz2, m);
-				}
-				} catch (ClassNotFoundException e) {
-					// no opp if class doesn't exist (e.g. ? extends VComponent)
-				}
+				setters.put(parameterType, m);
 			}
 		}
+//		System.out.println(setters.size());
 		return setters;
 
 //				.filter(m -> m.getName().startsWith("set"))

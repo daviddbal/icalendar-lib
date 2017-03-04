@@ -1,6 +1,5 @@
 package net.balsoftware.icalendar.components;
 
-import java.lang.reflect.Method;
 import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -10,17 +9,14 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.properties.component.descriptive.PercentComplete;
 import net.balsoftware.icalendar.properties.component.time.DateTimeCompleted;
 import net.balsoftware.icalendar.properties.component.time.DateTimeDue;
 import net.balsoftware.icalendar.properties.component.time.DurationProp;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * VTODO
@@ -62,11 +58,11 @@ import net.balsoftware.icalendar.utilities.ICalendarUtilities;
  */
 public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
 {
-	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VTodo.class);
-    protected Method getSetter(VChild newChild)
-    {
-    	return SETTERS.get(newChild.getClass());
-    }
+//	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VTodo.class);
+//    protected Method getSetter(VChild newChild)
+//    {
+//    	return SETTERS.get(newChild.getClass());
+//    }
     /**
      * COMPLETED: Date-Time Completed
      * RFC 5545 iCalendar 3.8.2.1 page 94

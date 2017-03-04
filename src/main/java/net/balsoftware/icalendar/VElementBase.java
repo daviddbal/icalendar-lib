@@ -6,8 +6,8 @@ import java.util.Map;
 
 public abstract class VElementBase implements VElement
 {
-	static final  Map<VElement, Method> SETTERS = new HashMap<>();
-	static final  Map<VElement, Method> GETTERS = new HashMap<>();
+	public static final  Map<Class<?>, Method> SETTERS = new HashMap<>();
+	public static final  Map<Class<?>, Method> GETTERS = new HashMap<>();
 	
 	// TODO - Can I add setters and getters to the map as elements are added?
 

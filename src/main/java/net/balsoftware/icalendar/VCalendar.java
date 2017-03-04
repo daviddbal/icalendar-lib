@@ -61,7 +61,7 @@ public class VCalendar extends VParentBase
 //    	ICalendarUtilities.collectSetters(VCalendar.class).forEach(System.out::println);
 //    	System.out.println("HERE");
 //    }
-	public static final Map<Class<?>,  java.lang.reflect.Method> SETTERS = ICalendarUtilities.collectSetterMap(VCalendar.class);
+//	public static final Map<Class<?>, java.lang.reflect.Method> SETTERS = ICalendarUtilities.collectSetterMap(VCalendar.class);
     
     /*
      * Calendar properties
@@ -340,7 +340,7 @@ public class VCalendar extends VParentBase
     	this.vJournals = vJournals;
     	vJournals.forEach(c -> orderChild(c));
 	}
-    public VCalendar withVJournal(List<VJournal> vJournals)
+    public VCalendar withVJournals(List<VJournal> vJournals)
     {
     	if (getVJournals() == null)
     	{
@@ -353,16 +353,16 @@ public class VCalendar extends VParentBase
     	}
         return this;
 	}
-    public VCalendar withVJournal(String...vJournals)
+    public VCalendar withVJournals(String...vJournals)
     {
         List<VJournal> list = Arrays.stream(vJournals)
                 .map(c -> VJournal.parse(c))
                 .collect(Collectors.toList());
-        return withVJournal(list);
+        return withVJournals(list);
     }
     public VCalendar withVJournals(VJournal...vJournals)
     {
-    	return withVJournal(Arrays.asList(vJournals));
+    	return withVJournals(Arrays.asList(vJournals));
     }
 
     /** 
@@ -527,11 +527,11 @@ public class VCalendar extends VParentBase
         return addAllVComponents(Arrays.asList(newVComponents));
     }
     
-	@Override
-	protected java.lang.reflect.Method getSetter(VChild newChild)
-	{
-		return SETTERS.get(newChild.getClass());
-	}
+//	@Override
+//	protected java.lang.reflect.Method getSetter(VChild newChild)
+//	{
+//		return SETTERS.get(newChild.getClass());
+//	}
     
 //    public boolean removeVComponent(VComponent vComponent)
 //    {

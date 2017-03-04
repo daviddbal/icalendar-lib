@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.content.ContentLineStrategy;
 import net.balsoftware.icalendar.content.Orderer;
+import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * <p>Base class for parent calendar components.</p>
@@ -46,8 +47,9 @@ public abstract class VParentBase extends VElementBase implements VParent
     public void addChild(VChild child)
     {
 		Method setter = getSetter(child);
+		System.out.println(setter);
 		try {
-			setter.invoke(this, child);
+			setter.invoke(this, new Object[]{child});
 			orderer.orderChild(child);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
@@ -81,9 +83,11 @@ public abstract class VParentBase extends VElementBase implements VParent
     {
     	if (SETTERS.get(element) == null)
     	{
-    		// add setter
+    		System.out.println("add setter");
+    		System.out.println(ICalendarUtilities.collectSetterMap(getClass()).size());
+    		SETTERS.putAll(ICalendarUtilities.collectSetterMap(getClass()));
     	}
-    	return SETTERS.get(element);
+    	return SETTERS.get(element.getClass());
 //    	System.out.println(this.getClass().getSimpleName() + " " + newChild.getClass().getSimpleName());
 //    	// MUST OVERRIDE - MAKE ABSTRACT LATER
 //    	throw new RuntimeException("not implemented");

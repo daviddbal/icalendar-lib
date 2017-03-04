@@ -1,21 +1,17 @@
 package net.balsoftware.icalendar.components;
 
-import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency.TimeTransparencyType;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * VEVENT
@@ -82,11 +78,11 @@ import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     VDescribable2<VEvent>, VRepeatable<VEvent>
 {
-	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VEvent.class);
-    protected Method getSetter(VChild newChild)
-    {
-    	return SETTERS.get(newChild.getClass());
-    }
+//	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VEvent.class);
+//    protected Method getSetter(VChild newChild)
+//    {
+//    	return SETTERS.get(newChild.getClass());
+//    }
     /**
      * DTEND
      * Date-Time End

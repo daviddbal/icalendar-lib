@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.ICalendarTestAbstract;
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
@@ -127,6 +129,18 @@ public class GeneralCalendarTest extends ICalendarTestAbstract
 
         assertEquals(vCalendar, c);
         assertEquals(expectedContent, c.toString());
+    }
+    
+    @Test
+    public void canAddChild()
+    {
+    	VEvent[] v1 = new VEvent[]{ new VEvent()};
+    	System.out.println(v1.getClass());
+    	System.out.println(v1.getClass().getComponentType());
+    	VCalendar v = new VCalendar();
+    	VEvent e = ICalendarStaticComponents.getDaily1();
+    	v.addChild(e);
+    	VCalendar.SETTERS.entrySet().forEach(System.out::println);
     }
     
     @Test

@@ -1,13 +1,17 @@
 package net.balsoftware.icalendar.components;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.properties.component.descriptive.Description;
+import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * VJOURNAL
@@ -60,11 +64,11 @@ import net.balsoftware.icalendar.properties.component.descriptive.Description;
  */
 public class VJournal extends VDisplayable<VJournal>
 {
-//	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VJournal.class);
-//    protected Method getSetter(VChild newChild)
-//    {
-//    	return SETTERS.get(newChild.getClass());
-//    }
+	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VJournal.class);
+    protected Method getSetter(VChild newChild)
+    {
+    	return SETTERS.get(newChild.getClass());
+    }
     /**
      * DESCRIPTION:
      * RFC 5545 iCalendar 3.8.1.12. page 84

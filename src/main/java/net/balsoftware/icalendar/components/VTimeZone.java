@@ -1,19 +1,23 @@
 package net.balsoftware.icalendar.components;
 
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.change.LastModified;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneIdentifier;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
+import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * VTIMEZONE
@@ -263,11 +267,11 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
  */
 public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTimeZone>
 {
-//	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VTimeZone.class);
-//    protected Method getSetter(VChild newChild)
-//    {
-//    	return SETTERS.get(newChild.getClass());
-//    }
+	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VTimeZone.class);
+    protected Method getSetter(VChild newChild)
+    {
+    	return SETTERS.get(newChild.getClass());
+    }
     /**
      * STANDARD or DAYLIGHT
      * Subcomponent of VTimeZone

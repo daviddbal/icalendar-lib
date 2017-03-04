@@ -6,6 +6,8 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Spliterator;
@@ -309,45 +311,65 @@ public final class ICalendarUtilities
 					return false; // shouldn't get here
 				})
 				.filter(m -> m.getName().startsWith("get"))
-				.collect(Collectors.toMap(c -> c.getReturnType(), c -> c));
+				.collect(Collectors.toMap(m -> m.getReturnType(), m -> m));
 	}
 	
 	public static Map<Class<?>, Method> collectSetterMap(Class<?> class1)
 	{
-		return Arrays.stream(class1.getMethods())
+		Map<Class<?>, Method> setters = new HashMap<>();
+		Iterator<Method> methodIterator = Arrays.stream(class1.getMethods())
 				.filter(m -> m.getParameters().length == 1)
-				.filter(m ->
-				{
-					Parameter p = m.getParameters()[0];
-					Class<?> parameterType = p.getType();
-					if (VChild.class.isAssignableFrom(parameterType))
-					{
-						return true;
-					} else if (List.class.isAssignableFrom(parameterType))
-					{
-						ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
-//						System.out.println(pt);
-						Type t = pt.getActualTypeArguments()[0];
-						String s = t.getTypeName();
-						
-//						System.out.println(s);
-						int endIndex = s.indexOf("<");
-						endIndex = endIndex < 0 ? s.length() : endIndex;
-						s = s.substring(0, endIndex);
-//						System.out.println(s);
-						try {
-							Class<?> clazz2 = Class.forName(s);
-							boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
-							return isListOfChildren;
-						} catch (ClassNotFoundException e) {
-							// no opp if class doesn't exist (e.g. ? extends VComponent)
-						}
-					}
-					return false; // shouldn't get here
-				})
 				.filter(m -> m.getName().startsWith("set"))
-				.peek(System.out::println)
-				.collect(Collectors.toMap(c -> c.getParameters()[0].getType(), c -> c));
+				.iterator();
+		while (methodIterator.hasNext())
+		{
+			Method m = methodIterator.next();
+			Parameter p = m.getParameters()[0];
+			Class<?> parameterType = p.getType();
+			if (VChild.class.isAssignableFrom(parameterType))
+			{
+				setters.put(parameterType, m);
+			} else if (List.class.isAssignableFrom(parameterType))
+			{
+				ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
+				Type t = pt.getActualTypeArguments()[0];
+				String s = t.getTypeName();
+				
+//						System.out.println(s);
+				int endIndex = s.indexOf("<");
+				endIndex = endIndex < 0 ? s.length() : endIndex;
+				s = s.substring(0, endIndex);
+//						System.out.println(s);
+				try {
+				Class<?> clazz2 = Class.forName(s);
+				boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
+				if (isListOfChildren)
+				{
+					setters.put(clazz2, m);
+				}
+				} catch (ClassNotFoundException e) {
+					// no opp if class doesn't exist (e.g. ? extends VComponent)
+				}
+			}
+		}
+		return setters;
+
+//				.filter(m -> m.getName().startsWith("set"))
+//				.peek(m -> 
+//				{
+//					Parameter p = m.getParameters()[0];
+//					ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
+//					Type t = pt.getActualTypeArguments()[0];
+//					System.out.println((Class<?>) t);					
+//				})
+//				.collect(Collectors.toMap(m -> 
+//				{
+//					Parameter p = m.getParameters()[0];
+//					ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
+//					Type t = pt.getActualTypeArguments()[0];
+//					return (Class<?>) t;
+//				},
+//				m -> m));	}
 	}
 	
 	@Deprecated // use map instead
@@ -385,7 +407,7 @@ public final class ICalendarUtilities
 					return false; // shouldn't get here
 				})
 				.filter(m -> m.getName().startsWith("set"))
-				.peek(System.out::println)
+//				.peek(System.out::println)
 				.collect(Collectors.toList());
 	}
 }

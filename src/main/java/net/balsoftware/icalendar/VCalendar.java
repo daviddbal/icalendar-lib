@@ -56,10 +56,11 @@ public class VCalendar extends VParentBase
     @Override public String name() { return NAME; }
     private static final String FIRST_CONTENT_LINE = "BEGIN:" + NAME;
     private static final String LAST_CONTENT_LINE = "END:" + NAME;
-    static
-    {
-    	ICalendarUtilities.collectSetters(VCalendar.class).forEach(System.out::println);
-    }
+//    static
+//    {
+//    	ICalendarUtilities.collectSetters(VCalendar.class).forEach(System.out::println);
+//    	System.out.println("HERE");
+//    }
 	public static final Map<Class<?>,  java.lang.reflect.Method> SETTERS = ICalendarUtilities.collectSetterMap(VCalendar.class);
     
     /*

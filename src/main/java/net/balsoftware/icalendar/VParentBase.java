@@ -21,7 +21,7 @@ import net.balsoftware.icalendar.content.Orderer;
  * 
  * @author David Bal
  */
-public abstract class VParentBase implements VParent
+public abstract class VParentBase extends VElementBase implements VParent
 {
     /*
      * HANDLE SORT ORDER FOR CHILD ELEMENTS
@@ -77,10 +77,16 @@ public abstract class VParentBase implements VParent
         });
     }
     
-    protected Method getSetter(VChild newChild)
+    protected Method getSetter(VElement element)
     {
-    	// MUST OVERRIDE - MAKE ABSTRACT LATER
-    	throw new RuntimeException("not implemented");
+    	if (SETTERS.get(element) == null)
+    	{
+    		// add setter
+    	}
+    	return SETTERS.get(element);
+//    	System.out.println(this.getClass().getSimpleName() + " " + newChild.getClass().getSimpleName());
+//    	// MUST OVERRIDE - MAKE ABSTRACT LATER
+//    	throw new RuntimeException("not implemented");
     }
 
 	@Override

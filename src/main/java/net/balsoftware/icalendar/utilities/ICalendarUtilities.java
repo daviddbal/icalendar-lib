@@ -363,13 +363,14 @@ public final class ICalendarUtilities
 		{
 			Method m = methodIterator2.next();
 			Parameter p = m.getParameters()[0];
-			Class<?> parameterType = p.getType().getComponentType();
+//			Class<?> parameterType = p.getType().getComponentType();
+			Class<?> parameterType = p.getType();
 //			System.out.println("parameterType:" + parameterType);
 //			Class<?> parameterType = p.getType();
 
 //			System.out.println("parameterType:" + parameterType + " " + parameterType.isArray());
 //			System.out.println(parameterType.getSimpleName() + " "+ VChild[].class.isAssignableFrom(parameterType) + " " + p.isVarArgs());
-			if ((parameterType != null) && VChild.class.isAssignableFrom(parameterType) && p.isVarArgs())
+			if ((parameterType != null) && VChild[].class.isAssignableFrom(parameterType))
 			{
 				setters.put(parameterType, m);
 			}

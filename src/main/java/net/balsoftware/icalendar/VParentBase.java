@@ -1,5 +1,6 @@
 package net.balsoftware.icalendar;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -47,9 +48,18 @@ public abstract class VParentBase extends VElementBase implements VParent
     public void addChild(VChild child)
     {
 		Method setter = getSetter(child);
+		boolean isVarArgs = setter.getParameters()[0].isVarArgs();
 		System.out.println(setter);
 		try {
-			setter.invoke(this, new Object[]{child});
+//			setter.invoke(this, new Object[]{child});
+			if (isVarArgs)
+			{
+				VChild[] childArray = new VChild[] { child };
+				setter.invoke(this, (Object) childArray);				
+			} else
+			{
+				setter.invoke(this, child);
+			}
 			orderer.orderChild(child);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
@@ -87,7 +97,11 @@ public abstract class VParentBase extends VElementBase implements VParent
     		System.out.println(ICalendarUtilities.collectSetterMap(getClass()).size());
     		SETTERS.putAll(ICalendarUtilities.collectSetterMap(getClass()));
     	}
-    	return SETTERS.get(element.getClass());
+    	Method method = SETTERS.get(element.getClass());
+		if (method != null) return method;
+    	Class<? extends Object> listKey = Array.newInstance(element.getClass(), 0).getClass();
+    	System.out.println("listKey:" + listKey);
+		return SETTERS.get(listKey);
 //    	System.out.println(this.getClass().getSimpleName() + " " + newChild.getClass().getSimpleName());
 //    	// MUST OVERRIDE - MAKE ABSTRACT LATER
 //    	throw new RuntimeException("not implemented");

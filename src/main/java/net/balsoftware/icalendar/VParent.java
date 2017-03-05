@@ -21,6 +21,8 @@ public interface VParent extends VElement
     
     void addChild(VChild child);
     
+    VChild removeChild(VChild child);
+    
 	/** Add the next child to the list */
     @Deprecated // replace with addChild
 	void orderChild(VChild child);

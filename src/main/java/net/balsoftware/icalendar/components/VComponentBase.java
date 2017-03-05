@@ -26,7 +26,7 @@ import net.balsoftware.icalendar.utilities.UnfoldingStringIterator;;
  * 
  * @author David Bal
  */
-public abstract class VComponentBase extends VParentBase implements VComponent
+public abstract class VComponentBase<T> extends VParentBase<T> implements VComponent
 {
     private static final String FIRST_LINE_PREFIX = "BEGIN:";
     private static final String LAST_LINE_PREFIX = "END:";

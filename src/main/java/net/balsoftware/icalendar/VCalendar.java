@@ -48,7 +48,7 @@ import net.balsoftware.icalendar.utilities.UnfoldingStringIterator;
  * @author David Bal
  *
  */
-public class VCalendar extends VParentBase
+public class VCalendar extends VParentBase<VCalendar>
 {
     // version of this project, not associated with the iCalendar specification version
 //    public static String myVersion = "1.0";

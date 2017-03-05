@@ -3,6 +3,7 @@ package net.balsoftware.icalendar;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -23,7 +24,7 @@ import net.balsoftware.icalendar.utilities.ICalendarUtilities;
  * 
  * @author David Bal
  */
-public abstract class VParentBase extends VElementBase implements VParent
+public abstract class VParentBase<T> extends VElementBase implements VParent
 {
     /*
      * HANDLE SORT ORDER FOR CHILD ELEMENTS
@@ -55,7 +56,9 @@ public abstract class VParentBase extends VElementBase implements VParent
 			if (isVarArgs)
 			{
 				VChild[] childArray = new VChild[] { child };
-				setter.invoke(this, (Object) childArray);				
+				System.out.println("isVargs:" + childArray + " " + setter);
+				Arrays.stream(setter.getParameters()).forEach(System.out::println);
+				setter.invoke(this, (Object) childArray);
 			} else
 			{
 				setter.invoke(this, child);
@@ -65,11 +68,40 @@ public abstract class VParentBase extends VElementBase implements VParent
 			e.printStackTrace();
 		}
     }
-    
+	@Override
+	public VChild removeChild(VChild child)
+	{
+		throw new RuntimeException("not implemented yet");
+	}
+	public T withChild(VChild child)
+	{
+		addChild(child);
+		return (T) this;
+	}
+	
+    protected Method getSetter(VElement element)
+    {
+    	if (SETTERS.get(element) == null)
+    	{
+    		System.out.println("add setter");
+    		System.out.println(ICalendarUtilities.collectSetterMap(getClass()).size());
+    		SETTERS.putAll(ICalendarUtilities.collectSetterMap(getClass()));
+    	}
+    	Method method = SETTERS.get(element.getClass());
+		if (method != null) return method;
+    	Class<? extends Object> listKey = Array.newInstance(element.getClass(), 0).getClass();
+    	System.out.println("listKey:" + listKey);
+		return SETTERS.get(listKey);
+//    	System.out.println(this.getClass().getSimpleName() + " " + newChild.getClass().getSimpleName());
+//    	// MUST OVERRIDE - MAKE ABSTRACT LATER
+//    	throw new RuntimeException("not implemented");
+    }
+	
     /* Strategy to build iCalendar content lines */
     protected ContentLineStrategy contentLineGenerator;
         
-    public List<VChild> childrenUnmodifiable()
+    @Override
+	public List<VChild> childrenUnmodifiable()
     {
     	return orderer.childrenUnmodifiable();
     }
@@ -89,24 +121,6 @@ public abstract class VParentBase extends VElementBase implements VParent
         });
     }
     
-    protected Method getSetter(VElement element)
-    {
-    	if (SETTERS.get(element) == null)
-    	{
-    		System.out.println("add setter");
-    		System.out.println(ICalendarUtilities.collectSetterMap(getClass()).size());
-    		SETTERS.putAll(ICalendarUtilities.collectSetterMap(getClass()));
-    	}
-    	Method method = SETTERS.get(element.getClass());
-		if (method != null) return method;
-    	Class<? extends Object> listKey = Array.newInstance(element.getClass(), 0).getClass();
-    	System.out.println("listKey:" + listKey);
-		return SETTERS.get(listKey);
-//    	System.out.println(this.getClass().getSimpleName() + " " + newChild.getClass().getSimpleName());
-//    	// MUST OVERRIDE - MAKE ABSTRACT LATER
-//    	throw new RuntimeException("not implemented");
-    }
-
 	@Override
     public List<String> errors()
     {

@@ -18,7 +18,7 @@ import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
  *
  * @param <T> concrete subclass
  */
-public abstract class VCommon<T> extends VComponentBase
+public abstract class VCommon<T> extends VComponentBase<T>
 {
     /**
      * Provides a framework for defining non-standard properties.

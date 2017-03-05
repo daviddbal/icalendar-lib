@@ -73,7 +73,7 @@ import net.balsoftware.icalendar.utilities.ICalendarUtilities;
  *
  */
 // TODO - LISTENER TO PREVENT COUNT AND UNTIL FROM BOTH BEING SET
-public class RecurrenceRuleValue extends VParentBase implements VChild
+public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implements VChild
 {
     private VParent myParent;
     @Override public void setParent(VParent parent) { myParent = parent; }

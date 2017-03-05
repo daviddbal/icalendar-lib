@@ -2,11 +2,17 @@ package net.balsoftware.icalendar.calendar;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 
 import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.ICalendarTestAbstract;
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
@@ -132,8 +138,58 @@ public class GeneralCalendarTest extends ICalendarTestAbstract
     }
     
     @Test
-    public void canAddChild()
+    public void canAddChild() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException
     {
+//    	Method mm = Arrays.stream(this.getClass().getMethods()).filter(m -> m.getName().equals("someMethod")).findAny().get();
+//    	System.out.println(mm);
+//        String[] arguments1 = {"ciao"};
+//        String[] arguments2 = {"salve"};
+//        String[] arguments3 = {"buonasera"};
+//        
+//        mm.invoke(this, (Object) arguments2);
+//        System.exit(0);
+    	
+//    	Method mm = Arrays.stream(VCalendar.class.getMethods())
+//    			.filter(m -> m.getName().equals("withVEvents"))
+//    			.filter(m -> 
+//    			{
+//    				Parameter p = m.getParameters()[0];
+//    				Class<?> parameterType = p.getType();
+//    				return  ((parameterType != null) && VChild[].class.isAssignableFrom(parameterType));
+//    			})
+//    			.findAny().get();
+//    	System.out.println(mm);
+//    	
+//    	VCalendar v0 = new VCalendar();
+//    	VEvent e1 = ICalendarStaticComponents.getDaily1();
+//    	
+//    	mm.invoke(v0, (Object) new VEvent[] {e1});
+//    	System.out.println(v0);
+    	
+    	
+    	Method mm = Arrays.stream(VCalendar.class.getMethods())
+    			.filter(m -> m.getName().equals("getVEvents"))
+    			.findAny().get();
+    	System.out.println(mm);
+    	
+    	VCalendar v0 = new VCalendar();
+    	VEvent e1 = ICalendarStaticComponents.getDaily1();
+    	
+    	List<VChild> elements = (List<VChild>) mm.invoke(v0);
+    	if (elements == null)
+    	{
+    		elements = (List<VChild>) mm.getReturnType().newInstance();
+    	}
+    	elements.add(e1);
+    	Method m2 = Arrays.stream(VCalendar.class.getMethods())
+    			.filter(m -> m.getName().equals("setVEvents"))
+    			.findAny().get();
+    	m2.invoke(v0, elements);
+    	System.out.println(v0);
+    	
+    	
+    	System.exit(0);
+    	
     	VEvent[] v1 = new VEvent[]{ new VEvent()};
     	System.out.println(v1.getClass());
     	System.out.println(v1.getClass().getComponentType());
@@ -141,6 +197,13 @@ public class GeneralCalendarTest extends ICalendarTestAbstract
     	VEvent e = ICalendarStaticComponents.getDaily1();
     	v.addChild(e);
     	VCalendar.SETTERS.entrySet().forEach(System.out::println);
+    }
+    
+    public void someMethod(String... arguments){
+        // implementation is irrelevant but will add it for demo purpose
+        System.out.println("I have "+arguments.length +"arguments which are:");
+        for (String arg:arguments)
+            System.out.println(arg);
     }
     
     @Test

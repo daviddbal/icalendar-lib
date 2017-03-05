@@ -44,7 +44,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @param <U> - type of implementing subclass
  * @param <T> - type of property value
  */
-public abstract class PropertyBase<T,U> extends VParentBase implements Property<T>
+public abstract class PropertyBase<T,U> extends VParentBase<T> implements Property<T>
 {   
     private VParent myParent;
     @Override

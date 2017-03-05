@@ -3,16 +3,12 @@ package net.balsoftware.icalendar.calendar;
 import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Test;
 
 import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.ICalendarTestAbstract;
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
@@ -167,36 +163,39 @@ public class GeneralCalendarTest extends ICalendarTestAbstract
 //    	System.out.println(v0);
     	
     	
-    	Method mm = Arrays.stream(VCalendar.class.getMethods())
-    			.filter(m -> m.getName().equals("getVEvents"))
-    			.findAny().get();
-    	System.out.println(mm);
+//    	Method mm = Arrays.stream(VCalendar.class.getMethods())
+//    			.filter(m -> m.getName().equals("getVEvents"))
+//    			.findAny().get();
+//    	System.out.println(mm);
+//    	
+//    	VCalendar v0 = new VCalendar();
+//    	VEvent e1 = ICalendarStaticComponents.getDaily1();
+//    	
+//    	List<VChild> elements = (List<VChild>) mm.invoke(v0);
+//    	if (elements == null)
+//    	{
+//    		elements = (List<VChild>) mm.getReturnType().newInstance();
+//    	}
+//    	elements.add(e1);
+//    	Method m2 = Arrays.stream(VCalendar.class.getMethods())
+//    			.filter(m -> m.getName().equals("setVEvents"))
+//    			.findAny().get();
+//    	m2.invoke(v0, elements);
+//    	
+//    	VEvent e2 = ICalendarStaticComponents.getDaily2();
+//    	v0.getVEvents().add(e2);
+//    	System.out.println(v0);
+//    	
+//    	System.exit(0);
     	
-    	VCalendar v0 = new VCalendar();
-    	VEvent e1 = ICalendarStaticComponents.getDaily1();
-    	
-    	List<VChild> elements = (List<VChild>) mm.invoke(v0);
-    	if (elements == null)
-    	{
-    		elements = (List<VChild>) mm.getReturnType().newInstance();
-    	}
-    	elements.add(e1);
-    	Method m2 = Arrays.stream(VCalendar.class.getMethods())
-    			.filter(m -> m.getName().equals("setVEvents"))
-    			.findAny().get();
-    	m2.invoke(v0, elements);
-    	System.out.println(v0);
-    	
-    	
-    	System.exit(0);
-    	
-    	VEvent[] v1 = new VEvent[]{ new VEvent()};
-    	System.out.println(v1.getClass());
-    	System.out.println(v1.getClass().getComponentType());
+//    	VEvent[] v1 = new VEvent[]{ new VEvent()};
+//    	System.out.println(v1.getClass());
+//    	System.out.println(v1.getClass().getComponentType());
     	VCalendar v = new VCalendar();
     	VEvent e = ICalendarStaticComponents.getDaily1();
     	v.addChild(e);
     	VCalendar.SETTERS.entrySet().forEach(System.out::println);
+    	System.out.println(v);
     }
     
     public void someMethod(String... arguments){

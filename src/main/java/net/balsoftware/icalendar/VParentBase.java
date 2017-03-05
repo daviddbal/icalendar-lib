@@ -1,9 +1,7 @@
 package net.balsoftware.icalendar;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -45,26 +43,55 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		orderer.orderChild(index, addedChild);
 	}
 
+//	@Override
+//    public void addChild(VChild child)
+//    {
+//		Method setter = getSetter(child);
+//		boolean isVarArgs = setter.getParameters()[0].isVarArgs();
+//		System.out.println(setter);
+//		try {
+////			setter.invoke(this, new Object[]{child});
+//			if (isVarArgs)
+//			{
+//				VChild[] childArray = new VChild[] { child };
+//				System.out.println("isVargs:" + childArray + " " + setter);
+//				Arrays.stream(setter.getParameters()).forEach(System.out::println);
+//				setter.invoke(this, (Object) childArray);
+//			} else
+//			{
+//				setter.invoke(this, child);
+//			}
+//			orderer.orderChild(child);
+//		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//			e.printStackTrace();
+//		}
+//    }
 	@Override
     public void addChild(VChild child)
     {
 		Method setter = getSetter(child);
-		boolean isVarArgs = setter.getParameters()[0].isVarArgs();
+		boolean isList = List.class.isAssignableFrom(setter.getParameters()[0].getType());
 		System.out.println(setter);
 		try {
-//			setter.invoke(this, new Object[]{child});
-			if (isVarArgs)
+			if (isList)
 			{
-				VChild[] childArray = new VChild[] { child };
-				System.out.println("isVargs:" + childArray + " " + setter);
-				Arrays.stream(setter.getParameters()).forEach(System.out::println);
-				setter.invoke(this, (Object) childArray);
+				Method getter = getGetter(child);
+				List<VChild> list = (List<VChild>) getter.invoke(this);
+				if (list == null)
+				{
+					list = (List<VChild>) getter.getReturnType().newInstance();
+					list.add(child);
+					setter.invoke(this, list);
+				} else
+				{
+					list.add(child);					
+				}
 			} else
 			{
 				setter.invoke(this, child);
 			}
 			orderer.orderChild(child);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
 			e.printStackTrace();
 		}
     }
@@ -87,14 +114,26 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     		System.out.println(ICalendarUtilities.collectSetterMap(getClass()).size());
     		SETTERS.putAll(ICalendarUtilities.collectSetterMap(getClass()));
     	}
-    	Method method = SETTERS.get(element.getClass());
-		if (method != null) return method;
-    	Class<? extends Object> listKey = Array.newInstance(element.getClass(), 0).getClass();
-    	System.out.println("listKey:" + listKey);
-		return SETTERS.get(listKey);
-//    	System.out.println(this.getClass().getSimpleName() + " " + newChild.getClass().getSimpleName());
-//    	// MUST OVERRIDE - MAKE ABSTRACT LATER
-//    	throw new RuntimeException("not implemented");
+    	return SETTERS.get(element.getClass());
+//		if (method != null) return method;
+//    	Class<? extends Object> listKey = Array.newInstance(element.getClass(), 0).getClass();
+//    	System.out.println("listKey:" + listKey);
+//		return SETTERS.get(listKey);
+    }
+    
+    protected Method getGetter(VElement element)
+    {
+    	if (GETTERS.get(element) == null)
+    	{
+    		System.out.println("add Getter");
+    		System.out.println(ICalendarUtilities.collectGetterMap(getClass()).size());
+    		GETTERS.putAll(ICalendarUtilities.collectGetterMap(getClass()));
+    	}
+    	return GETTERS.get(element.getClass());
+//		if (method != null) return method;
+//    	Class<? extends Object> listKey = Array.newInstance(element.getClass(), 0).getClass();
+//    	System.out.println("listKey:" + listKey);
+//		return SETTERS.get(listKey);
     }
 	
     /* Strategy to build iCalendar content lines */

@@ -240,6 +240,7 @@ public final class ICalendarUtilities
        return StreamSupport.stream(takeWhile(stream.spliterator(), predicate), false);
     }
     
+    @Deprecated
 	public static List<Method> collectGetters(Class<?> clazz)
 	{
 		return Arrays.stream(clazz.getMethods())
@@ -279,39 +280,68 @@ public final class ICalendarUtilities
 
 	public static Map<Class<?>, Method> collectGetterMap(Class<?> class1)
 	{
-		return Arrays.stream(class1.getMethods())
-				.filter(m -> 
-				{
-					Class<?> returnType = m.getReturnType();
-					if (returnType == Void.class)
-					{
-						return false;
-					}
-//					System.out.println("returnType:");
-					if (VChild.class.isAssignableFrom(returnType))
-					{
-						return true;
-					} else if  (List.class.isAssignableFrom(returnType))
-					{
-//						System.out.println(c);
-						ParameterizedType p = (ParameterizedType) m.getGenericReturnType();
-						Type p0 = p.getActualTypeArguments()[0];
-						String s = p0.getTypeName();
-						int endIndex = s.indexOf("<");
-						endIndex = endIndex < 0 ? s.length() : endIndex;
-						s = s.substring(0, endIndex);
-						try {
-							Class<?> clazz2 = Class.forName(s);
-							boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
-							return isListOfChildren;
-						} catch (ClassNotFoundException e) {
-							// no opp if class doesn't exist (e.g. ? extends VComponent)
-						}
-					}
-					return false; // shouldn't get here
-				})
+		Map<Class<?>, Method> getters = new HashMap<>();
+		Iterator<Method> methodIterator = Arrays.stream(class1.getMethods())
+				.filter(m -> m.getParameters().length == 0)
 				.filter(m -> m.getName().startsWith("get"))
-				.collect(Collectors.toMap(m -> m.getReturnType(), m -> m));
+				.iterator();
+		while (methodIterator.hasNext())
+		{
+			Method m = methodIterator.next();
+			Class<?> returnType = m.getReturnType();
+			if (VChild.class.isAssignableFrom(returnType))
+			{
+				getters.put(returnType, m);
+			} else if (List.class.isAssignableFrom(returnType))
+			{
+				ParameterizedType p = (ParameterizedType) m.getGenericReturnType();
+				Class<?> listType = (Class<?>) p.getActualTypeArguments()[0];
+				getters.put(listType, m);				
+			}
+		}
+		return getters;
+
+//		return Arrays.stream(class1.getMethods())
+//				.filter(m -> 
+//				{
+//					Class<?> returnType = m.getReturnType();
+//					if (returnType == Void.class)
+//					{
+//						return false;
+//					}
+////					System.out.println("returnType:");
+//					if (VChild.class.isAssignableFrom(returnType))
+//					{
+//						return true;
+//					} else if  (List.class.isAssignableFrom(returnType))
+//					{
+////						System.out.println(c);
+//						ParameterizedType p = (ParameterizedType) m.getGenericReturnType();
+//						Type p0 = p.getActualTypeArguments()[0];
+//						System.out.println(p0);
+//						String s = p0.getTypeName();
+//						int endIndex = s.indexOf("<");
+//						endIndex = endIndex < 0 ? s.length() : endIndex;
+//						s = s.substring(0, endIndex);
+//						try {
+//							Class<?> clazz2 = Class.forName(s);
+//							boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
+//							return isListOfChildren;
+//						} catch (ClassNotFoundException e) {
+//							// no opp if class doesn't exist (e.g. ? extends VComponent)
+//						}
+//					}
+//					return false; // shouldn't get here
+//				})
+//				.filter(m -> m.getName().startsWith("get"))
+//				.peek(m -> System.out.println( m.getReturnType()))
+//				.collect(Collectors.toMap(m -> 
+//				{
+//					ParameterizedType p = (ParameterizedType) m.getGenericReturnType();
+//					Type p0 = p.getActualTypeArguments()[0];
+//					return (Class<?>) p0;
+//				},
+//				m -> m));
 	}
 	
 	public static Map<Class<?>, Method> collectSetterMap(Class<?> class1)
@@ -329,11 +359,12 @@ public final class ICalendarUtilities
 			if (VChild.class.isAssignableFrom(parameterType))
 			{
 				setters.put(parameterType, m);
-			}
-//			} else if (List.class.isAssignableFrom(parameterType))
-//			{
-//				ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
+			} else if (List.class.isAssignableFrom(parameterType))
+			{
+				ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
 //				Type t = pt.getActualTypeArguments()[0];
+				Class<?> clazz2 = (Class<?>) pt.getActualTypeArguments()[0];
+//				System.out.println(t);
 //				String s = t.getTypeName();
 //				
 ////						System.out.println(s);
@@ -343,38 +374,38 @@ public final class ICalendarUtilities
 ////						System.out.println(s);
 //				try {
 //				Class<?> clazz2 = Class.forName(s);
-//				boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
-//				if (isListOfChildren)
-//				{
-//					setters.put(clazz2, m);
-//				}
+				boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
+				if (isListOfChildren)
+				{
+					setters.put(clazz2, m);
+				}
 //				} catch (ClassNotFoundException e) {
 //					// no opp if class doesn't exist (e.g. ? extends VComponent)
 //				}
-//			}
-		}
-		
-		Iterator<Method> methodIterator2 = Arrays.stream(class1.getMethods())
-				.filter(m -> m.getParameters().length == 1)
-				.filter(m -> m.getName().startsWith("with"))
-//				.peek(System.out::println)
-				.iterator();
-		while (methodIterator2.hasNext())
-		{
-			Method m = methodIterator2.next();
-			Parameter p = m.getParameters()[0];
-//			Class<?> parameterType = p.getType().getComponentType();
-			Class<?> parameterType = p.getType();
-//			System.out.println("parameterType:" + parameterType);
-//			Class<?> parameterType = p.getType();
-
-//			System.out.println("parameterType:" + parameterType + " " + parameterType.isArray());
-//			System.out.println(parameterType.getSimpleName() + " "+ VChild[].class.isAssignableFrom(parameterType) + " " + p.isVarArgs());
-			if ((parameterType != null) && VChild[].class.isAssignableFrom(parameterType))
-			{
-				setters.put(parameterType, m);
 			}
 		}
+		
+//		Iterator<Method> methodIterator2 = Arrays.stream(class1.getMethods())
+//				.filter(m -> m.getParameters().length == 1)
+//				.filter(m -> m.getName().startsWith("set"))
+////				.peek(System.out::println)
+//				.iterator();
+//		while (methodIterator2.hasNext())
+//		{
+//			Method m = methodIterator2.next();
+//			Parameter p = m.getParameters()[0];
+////			Class<?> parameterType = p.getType().getComponentType();
+//			Class<?> parameterType = p.getType();
+////			System.out.println("parameterType:" + parameterType);
+////			Class<?> parameterType = p.getType();
+//
+////			System.out.println("parameterType:" + parameterType + " " + parameterType.isArray());
+////			System.out.println(parameterType.getSimpleName() + " "+ VChild[].class.isAssignableFrom(parameterType) + " " + p.isVarArgs());
+//			if ((parameterType != null) && VChild[].class.isAssignableFrom(parameterType))
+//			{
+//				setters.put(parameterType, m);
+//			}
+//		}
 //		System.out.println(setters.size());
 		return setters;
 

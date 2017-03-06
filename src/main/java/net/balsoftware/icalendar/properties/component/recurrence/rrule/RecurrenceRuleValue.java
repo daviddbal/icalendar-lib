@@ -1,15 +1,12 @@
 package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.DayOfWeek;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -99,7 +96,6 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     private Set<ByRule<?>> byRules;
     public void setByRules(Set<ByRule<?>> byRules)
     {
-    	System.out.println("SET BYRULE");
     	this.byRules = byRules;
     	byRules.forEach(b -> orderChild(b));
 	}
@@ -288,42 +284,64 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     public RecurrenceRuleValue withWeekStart(WeekStart weekStart) { setWeekStart(weekStart); return this; }
     public RecurrenceRuleValue withWeekStart(DayOfWeek weekStart) { setWeekStart(weekStart); return this; }
     
+//    // TODO - CAN I MAKE SMALL CHANGES TO VERSION IN PARENT BASE?
+//	@Override
+//    public void addChild(VChild child)
+//    {
+//		Method setter = getSetters().get(child.getClass());
+//		if ((setter == null) && (ByRule.class.isAssignableFrom(child.getClass())))
+//		{
+//			setter = getSetters().get(ByRule.class);
+//		}
+//		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
+//		try {
+//			if (isList)
+//			{
+//				Method getter = getGetters().get(child.getClass());
+//				if ((getter == null) && (ByRule.class.isAssignableFrom(child.getClass())))
+//				{
+//					getter = getGetters().get(ByRule.class);
+//				}
+//				Collection<VChild> list = (Collection<VChild>) getter.invoke(this);
+//				if (list == null)
+//				{
+//					list = (getter.getReturnType() == List.class) ? new ArrayList<>() :
+//						   (getter.getReturnType() == Set.class) ? new LinkedHashSet<>() : null;
+//					list.add(child);
+//					setter.invoke(this, list);
+//				} else
+//				{
+//					list.add(child);					
+//				}
+//			} else
+//			{
+//				setter.invoke(this, child);
+//			}
+//		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//			e.printStackTrace();
+//		}
+//    }
+	
 	@Override
-    public void addChild(VChild child)
-    {
+	protected Method getSetter(VChild child)
+	{
 		Method setter = getSetters().get(child.getClass());
 		if ((setter == null) && (ByRule.class.isAssignableFrom(child.getClass())))
 		{
 			setter = getSetters().get(ByRule.class);
 		}
-		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
-		try {
-			if (isList)
-			{
-				Method getter = getGetters().get(child.getClass());
-				if ((getter == null) && (ByRule.class.isAssignableFrom(child.getClass())))
-				{
-					getter = getGetters().get(ByRule.class);
-				}
-				Collection<VChild> list = (Collection<VChild>) getter.invoke(this);
-				if (list == null)
-				{
-					list = (getter.getReturnType() == List.class) ? new ArrayList<>() :
-						   (getter.getReturnType() == Set.class) ? new LinkedHashSet<>() : null;
-					list.add(child);
-					setter.invoke(this, list);
-				} else
-				{
-					list.add(child);					
-				}
-			} else
-			{
-				setter.invoke(this, child);
-			}
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
+		return setter;
+	}
+	@Override
+	protected Method getGetter(VChild child)
+	{
+		Method getter = getGetters().get(child.getClass());
+		if ((getter == null) && (ByRule.class.isAssignableFrom(child.getClass())))
+		{
+			getter = getGetters().get(ByRule.class);
 		}
-    }
+		return getter;
+	}
 	
 //    @Override
 //	protected Map<Class<? extends VChild>, Method> getSetters()

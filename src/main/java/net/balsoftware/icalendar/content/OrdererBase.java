@@ -63,7 +63,7 @@ public class OrdererBase implements Orderer
 			.filter(c -> ! allUnorderedChildren.contains(c))
 			.collect(Collectors.toList());
 //		System.out.println("orphans:" + orphans.size());
-//		orphans.forEach(c -> orderedChildren.remove(c));
+		orphans.forEach(c -> orderedChildren.remove(c));
 		List<VChild> allChildren = new ArrayList<>(orderedChildren);
 
 		// Add unordered children
@@ -139,7 +139,7 @@ public class OrdererBase implements Orderer
 			if (! orphans.isEmpty())
 			{ // replace orphan at same index location
 				int index = orderedChildren.indexOf(orphans.get(0));
-//				orphans.forEach(c -> orderedChildren.remove(c));
+				orphans.forEach(c -> orderedChildren.remove(c));
 				orderedChildren.add(index, newChild);				
 			} else
 			{
@@ -158,7 +158,7 @@ public class OrdererBase implements Orderer
 				.filter(c -> c.getClass().equals(newChild.getClass()))
 				.filter(c -> ! allUnorderedChildren.contains(c))
 				.collect(Collectors.toList());
-//		orphans.forEach(c -> orderedChildren.remove(c));
+		orphans.forEach(c -> orderedChildren.remove(c));
 	}
 
 //	@Override

@@ -51,12 +51,12 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	@Override
     public void addChild(VChild child)
     {
-		Method setter = getSetters().get(child.getClass());
+		Method setter = getSetter(child);
 		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
 		try {
 			if (isList)
 			{
-				Method getter = getGetters().get(child.getClass());
+				Method getter = getGetter(child);
 				Collection<VChild> list = (Collection<VChild>) getter.invoke(this);
 				if (list == null)
 				{
@@ -108,6 +108,14 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     	}
     	return GETTERS.get(getClass());
     }
+	protected Method getSetter(VChild child)
+	{
+		return getSetters().get(child.getClass());
+	}
+	protected Method getGetter(VChild child)
+	{
+		return getGetters().get(child);
+	}
 	
     /* Strategy to build iCalendar content lines */
     protected ContentLineStrategy contentLineGenerator;

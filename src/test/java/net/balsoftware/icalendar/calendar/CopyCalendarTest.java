@@ -29,8 +29,6 @@ public class CopyCalendarTest extends ICalendarTestAbstract
                 .withVEvents(getYearly1())
                 .withVEvents(getMonthly6());
         VCalendar c2 = new VCalendar(c);
-//        System.out.println(c);
-        System.out.println(c2);
         assertEquals(c, c2);
         assertFalse(c == c2);
     }

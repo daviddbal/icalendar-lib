@@ -92,7 +92,12 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 					return false;
 				} else
 				{
-					return list.remove(child);
+					boolean result = list.remove(child);
+					if (list.isEmpty())
+					{
+						setter.invoke(this, (Object) null);
+					}
+					return result;
 				}
 			} else
 			{
@@ -155,9 +160,12 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         {
         	try {
         		// use copy constructors to make copy of child
+//        		System.out.println("destination:" + destination.getClass().getSimpleName());
+//        		System.out.println("childSource:" + childSource.getClass().getSimpleName());
         		VChild newChild = childSource.getClass()
         				.getConstructor(childSource.getClass())
         				.newInstance(childSource);
+//        		System.out.println("newChild:" + newChild);
         		destination.addChild(newChild);
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();

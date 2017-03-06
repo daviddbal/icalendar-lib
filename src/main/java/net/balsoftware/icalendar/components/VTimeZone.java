@@ -1,5 +1,6 @@
 package net.balsoftware.icalendar.components;
 
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.properties.component.change.LastModified;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneIdentifier;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
@@ -262,11 +264,6 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
  */
 public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTimeZone>
 {
-//	private static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(VTimeZone.class);
-//    protected Method getSetter(VChild newChild)
-//    {
-//    	return SETTERS.get(newChild.getClass());
-//    }
     /**
      * STANDARD or DAYLIGHT
      * Subcomponent of VTimeZone
@@ -424,6 +421,27 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     {
         super(source);
     }
+    
+	@Override
+	protected Method getSetter(VChild child)
+	{
+		Method setter = getSetters().get(child.getClass());
+		if ((setter == null) && (StandardOrDaylight.class.isAssignableFrom(child.getClass())))
+		{
+			setter = getSetters().get(StandardOrDaylight.class);
+		}
+		return setter;
+	}
+	@Override
+	protected Method getGetter(VChild child)
+	{
+		Method getter = getGetters().get(child.getClass());
+		if ((getter == null) && (StandardOrDaylight.class.isAssignableFrom(child.getClass())))
+		{
+			getter = getGetters().get(StandardOrDaylight.class);
+		}
+		return getter;
+	}
     
     @Override
     public List<String> errors()

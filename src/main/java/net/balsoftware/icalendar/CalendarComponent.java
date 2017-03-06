@@ -1,6 +1,5 @@
 package net.balsoftware.icalendar;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTimeZone;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.PropertyType;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * <p>Enumerated type containing all the {@link VChild} elements that can be in a {@link VCalendar}</p>
@@ -279,18 +277,12 @@ public enum CalendarComponent
     private List<PropertyType> allowedProperties;
     public List<PropertyType> allowedProperties() { return allowedProperties; }
 
-    // Getters stored here so they are made only once per class - maybe use static field in class instead
-    private List<Method> getters;
-    @Deprecated
-    public List<Method> childGetters() { return getters; }
-    
     /*
      * CONSTRUCTOR
      */
     CalendarComponent(String name, Class<? extends VComponent> myClass)
     {
         this.name = name;
-        this.getters = ICalendarUtilities.collectGetters(myClass);
         this.myClass = myClass;
     }
 
@@ -299,6 +291,7 @@ public enum CalendarComponent
     /** Parses string and sets property.  Called by {@link VComponentBase#parseContent()} */
 //    abstract public VComponent parse(VCalendar vCalendar, Iterator<String> unfoldedLines);
     
+    @Deprecated
     abstract public void copyChild(VChild child, VCalendar destination);
 //    {
 //        throw new RuntimeException("not implemented");

@@ -1,6 +1,5 @@
 package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 
-import java.lang.reflect.Method;
 import java.time.DayOfWeek;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -19,10 +18,8 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import net.balsoftware.icalendar.VChild;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
-import net.balsoftware.icalendar.content.OrdererBase;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByHour;
@@ -81,9 +78,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     
     private static final String NAME = "RRULE";
     @Override public String name() { return NAME; }
-    
-    private static List<Method> getters = ICalendarUtilities.collectGetters(RecurrenceRuleValue.class);
-    
+        
     /** 
      * BYxxx Rules
      * RFC 5545, iCalendar 3.3.10 Page 42
@@ -287,19 +282,19 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     public RecurrenceRuleValue withWeekStart(WeekStart weekStart) { setWeekStart(weekStart); return this; }
     public RecurrenceRuleValue withWeekStart(DayOfWeek weekStart) { setWeekStart(weekStart); return this; }
     
-    @Override
-    public void copyInto(VElement destination)
-    {
-        super.copyInto(destination);
-        childrenUnmodifiable().forEach((childSource) -> 
-        {
-            RRuleElementType type = RRuleElementType.enumFromClass(childSource.getClass());
-            if (type != null)
-            {
-                type.copyElement((RRuleElement<?>) childSource, (RecurrenceRuleValue) destination);
-            } 
-        });
-    }
+//    @Override
+//    public void copyChildren(VElement destination)
+//    {
+//        super.copyChildren(destination);
+//        childrenUnmodifiable().forEach((childSource) -> 
+//        {
+//            RRuleElementType type = RRuleElementType.enumFromClass(childSource.getClass());
+//            if (type != null)
+//            {
+//                type.copyElement((RRuleElement<?>) childSource, (RecurrenceRuleValue) destination);
+//            } 
+//        });
+//    }
     
     /*
      * CONSTRUCTORS
@@ -307,15 +302,13 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     
     public RecurrenceRuleValue()
     {
-    	orderer = new OrdererBase(this, getters);
+    	super();
     }
 
     // Copy constructor
     public RecurrenceRuleValue(RecurrenceRuleValue source)
     {
-        this();
-        System.out.println("rrule:" + source);
-        source.copyInto(this);
+    	super(source);
     }
     
     /** Parse component from content line */

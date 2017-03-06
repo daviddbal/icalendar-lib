@@ -31,12 +31,7 @@ public interface VElement
      * @throws IllegalArgumentException  if calendar content is not valid, such as null
      */
     List<String> parseContent(String content) throws IllegalArgumentException;
-    
-    /**
-     * Copy this {@link VElement} into destination {@link VElement}
-     */
-    void copyInto(VElement destination);
-    
+        
     /**
      * Checks element to determine if necessary properties are set.
      * {@link #isValid()} is invoked recursively to test child elements if element is a parent

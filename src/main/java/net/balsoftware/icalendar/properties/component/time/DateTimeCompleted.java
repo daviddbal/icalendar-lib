@@ -1,13 +1,9 @@
 package net.balsoftware.icalendar.properties.component.time;
 
-import java.lang.reflect.Method;
 import java.time.ZonedDateTime;
-import java.util.Map;
 
-import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.PropBaseUTC;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * COMPLETED
@@ -26,13 +22,7 @@ import net.balsoftware.icalendar.utilities.ICalendarUtilities;
  * @see VTodo
  */
 public class DateTimeCompleted extends PropBaseUTC<DateTimeCompleted>
-{
-	public static final Map<Class<?>, Method> SETTERS = ICalendarUtilities.collectSetterMap(DateTimeCompleted.class);
-    protected Method getSetter(VChild newChild)
-    {
-    	return SETTERS.get(newChild.getClass());
-    }
-    
+{   
     public DateTimeCompleted(ZonedDateTime temporal)
     {
         super(temporal);

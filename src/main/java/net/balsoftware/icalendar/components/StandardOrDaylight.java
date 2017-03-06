@@ -25,7 +25,7 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneOffsetTo;
  * @author David Bal
  *
  */
-public abstract class StandardOrDaylight<T> extends VRepeatableBase<T>
+public abstract class StandardOrDaylight<T extends StandardOrDaylight<T>> extends VRepeatableBase<T>
 {
     /**
      * <p>This property specifies the customary designation for a time zone description.<br>

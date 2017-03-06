@@ -143,7 +143,7 @@ public class ExceptionDatesTest
         String content = "EXDATE:19960402T010000Z,19960403T010000Z,19960404T010000Z";
         ExceptionDates property1 = ExceptionDates.parse(content);
         ExceptionDates property2 = new ExceptionDates();
-        property1.copyInto(property2);
+        property1.copyChildrenInto(property2);
         assertEquals(property1, property2);
         assertFalse(property1 == property2);
         assertFalse(property1.getValue() == property2.getValue());

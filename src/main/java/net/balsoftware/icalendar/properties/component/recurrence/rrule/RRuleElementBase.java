@@ -5,7 +5,6 @@ import java.util.List;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 
 abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
@@ -60,11 +59,11 @@ abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
         return errors;
     }
     
-	@Override
-	public void copyInto(VElement destination)
-	{
-		setValue(((RRuleElement<T>) destination).getValue());
-	}
+//	@Override
+//	public void copyInto(VElement destination)
+//	{
+//		setValue(((RRuleElement<T>) destination).getValue());
+//	}
     
     @Override
     public String toString()

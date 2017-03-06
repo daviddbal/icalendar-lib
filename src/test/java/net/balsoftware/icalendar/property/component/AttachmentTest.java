@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 
 import org.junit.Test;
 
@@ -18,6 +19,7 @@ public class AttachmentTest
     @Test
     public void canParseAttachement1()
     {
+        Attachment<LocalDate> property0 = new Attachment<LocalDate>(LocalDate.class, "ATTACH:CID:jsmith.part3.960817T083000.xyzMail@example.com");
         Attachment<URI> property = new Attachment<URI>(URI.class, "ATTACH:CID:jsmith.part3.960817T083000.xyzMail@example.com");
         String expectedContentLine = "ATTACH:CID:jsmith.part3.960817T083000.xyzMail@example.com";
         String madeContentLine = property.toString();

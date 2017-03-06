@@ -53,7 +53,7 @@ public class CommentTest
         VEvent v = new VEvent().withComments(property1);
         assertTrue(v == property1.getParent());
         Comment propertyCopy = new Comment();
-        property1.copyInto(propertyCopy);
+        property1.copyChildrenInto(propertyCopy);
 //        propertyCopy.copyChildrenFrom(property1);
         assertEquals(propertyCopy, property1);
         v.getComments().add(propertyCopy);
@@ -66,7 +66,7 @@ public class CommentTest
         String content = "COMMENT;LANGUAGE=en:Department Party";
         Comment property1 = Comment.parse(content);
         Summary propertyCopy = new Summary();
-        property1.copyInto(propertyCopy);
+        property1.copyChildrenInto(propertyCopy);
 //        propertyCopy.copyChildrenFrom(property1);
     }
 }

@@ -70,6 +70,7 @@ public class DescribableTest
                     "SUMMARY;LANGUAGE=en-USA:a test summary" + System.lineSeparator() +
                     "END:" + componentName;
 
+            Attachment<?> a1 = builtComponent.getAttachments().get(0);
             VComponent parsedComponent = builtComponent.getClass().newInstance();
             parsedComponent.parseContent(expectedContent);
             assertEquals(parsedComponent, builtComponent);

@@ -1,7 +1,6 @@
 package net.balsoftware.icalendar.components;
 
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,8 +14,6 @@ import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.MultiLineContent;
-import net.balsoftware.icalendar.content.OrdererBase;
-import net.balsoftware.icalendar.properties.Property;
 import net.balsoftware.icalendar.properties.PropertyType;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 import net.balsoftware.icalendar.utilities.UnfoldingStringIterator;;
@@ -35,22 +32,22 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     @Override public void setParent(VParent parent) { this.parent = parent; }
     @Override public VParent getParent() { return parent; }
     
-    @Override
-    public void copyInto(VElement destination)
-    {
-        super.copyInto(destination);
-        System.out.println("children:");
-        childrenUnmodifiable().forEach(System.out::println);
-        childrenUnmodifiable().forEach((child) -> 
-        {
-            PropertyType type = PropertyType.enumFromClass(child.getClass());
-            if (type != null)
-            { /* Note: if type is null then element is a subcomponent such as a VALARM, STANDARD or DAYLIGHT
-               * and copying happens in overridden version of this method in subclasses */
-                type.copyProperty((Property<?>) child, (VComponent) destination);
-            } 
-        });
-    }
+//    @Override
+//    public void copyChildren(VElement destination)
+//    {
+//        super.copyChildren(destination);
+//        System.out.println("children:");
+//        childrenUnmodifiable().forEach(System.out::println);
+//        childrenUnmodifiable().forEach((child) -> 
+//        {
+//            PropertyType type = PropertyType.enumFromClass(child.getClass());
+//            if (type != null)
+//            { /* Note: if type is null then element is a subcomponent such as a VALARM, STANDARD or DAYLIGHT
+//               * and copying happens in overridden version of this method in subclasses */
+//                type.copyProperty((Property<?>) child, (VComponent) destination);
+//            } 
+//        });
+//    }
     
     private CalendarComponent componentType;
     @Override
@@ -64,9 +61,8 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
      */
     VComponentBase()
     {
+    	super();
     	componentType = CalendarComponent.enumFromClass(this.getClass());
-    	List<Method> getters = componentType.childGetters();
-        orderer = new OrdererBase(this, getters);
         contentLineGenerator = new MultiLineContent(
                 orderer,
                 FIRST_LINE_PREFIX + name(),
@@ -77,10 +73,9 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     /**
      * Creates a deep copy of a component
      */
-    VComponentBase(VComponentBase source)
+    VComponentBase(VComponentBase<T> source)
     {
-        this();
-        source.copyInto(this);
+    	super(source);
     }
 
     @Override

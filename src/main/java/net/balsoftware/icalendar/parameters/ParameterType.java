@@ -970,5 +970,6 @@ public enum ParameterType
     /** return default String converter associated with property value type */
     abstract public <T> StringConverter<T> getConverter();
     
+    @Deprecated
     abstract public void copyParameter(Parameter<?> child, Property<?> destination);
 }

@@ -1053,26 +1053,26 @@ public class VCalendar extends VParentBase<VCalendar>
 //        };
 //    }
     
-    @Override
-    public void copyInto(VElement destination)
-    {
-        super.copyInto(destination);
-        childrenUnmodifiable().forEach((childSource) -> 
-        {
-            CalendarComponent componentType = CalendarComponent.enumFromClass(childSource.getClass());
-            if (componentType != null)
-            {
-                componentType.copyChild(childSource, (VCalendar) destination);
-            } else
-            {
-                CalendarProperty propertyType = CalendarProperty.enumFromClass(childSource.getClass());
-                if (propertyType != null)
-                {
-                    propertyType.copyChild(childSource, (VCalendar) destination);
-                }
-            }
-        });
-    }
+//    @Override
+//    public void copyChildren(VElement destination)
+//    {
+//        super.copyChildren(destination);
+//        childrenUnmodifiable().forEach((childSource) -> 
+//        {
+//            CalendarComponent componentType = CalendarComponent.enumFromClass(childSource.getClass());
+//            if (componentType != null)
+//            {
+//                componentType.copyChild(childSource, (VCalendar) destination);
+//            } else
+//            {
+//                CalendarProperty propertyType = CalendarProperty.enumFromClass(childSource.getClass());
+//                if (propertyType != null)
+//                {
+//                    propertyType.copyChild(childSource, (VCalendar) destination);
+//                }
+//            }
+//        });
+//    }
     
     @Override
     public List<String> errors()
@@ -1097,8 +1097,8 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar()
     {
         setMethodProcessFactory(new DefaultITIPFactory());
-    	List<java.lang.reflect.Method> getters = ICalendarUtilities.collectGetters(getClass());
-        orderer = new OrdererBase(this, getters);
+//    	List<java.lang.reflect.Method> getters = ICalendarUtilities.collectGetters(getClass());
+        orderer = new OrdererBase(this, getGetters());
         contentLineGenerator = new MultiLineContent(
                 orderer,
                 FIRST_CONTENT_LINE,
@@ -1110,7 +1110,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar(VCalendar source)
     {
         this();
-        source.copyInto(this);  
+        source.copyChildrenInto(this);  
     }
 
     /*

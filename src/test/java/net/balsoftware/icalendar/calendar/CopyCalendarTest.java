@@ -11,14 +11,12 @@ import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
 import net.balsoftware.icalendar.properties.calendar.Version;
-import net.balsoftware.icalendar.properties.component.time.DateTimeCompleted;
 
 public class CopyCalendarTest extends ICalendarTestAbstract
 {
     @Test
     public void canCopyCalendar()
     {
-    	DateTimeCompleted.SETTERS.entrySet().forEach(System.out::println);
         VCalendar c = new VCalendar()
                 .withProductIdentifier(new ProductIdentifier())
                 .withVersion(new Version())

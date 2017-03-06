@@ -2,13 +2,16 @@ package net.balsoftware.icalendar;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.content.ContentLineStrategy;
 import net.balsoftware.icalendar.content.Orderer;
+import net.balsoftware.icalendar.content.OrdererBase;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
@@ -43,43 +46,19 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		orderer.orderChild(index, addedChild);
 	}
 
-//	@Override
-//    public void addChild(VChild child)
-//    {
-//		Method setter = getSetter(child);
-//		boolean isVarArgs = setter.getParameters()[0].isVarArgs();
-//		System.out.println(setter);
-//		try {
-////			setter.invoke(this, new Object[]{child});
-//			if (isVarArgs)
-//			{
-//				VChild[] childArray = new VChild[] { child };
-//				System.out.println("isVargs:" + childArray + " " + setter);
-//				Arrays.stream(setter.getParameters()).forEach(System.out::println);
-//				setter.invoke(this, (Object) childArray);
-//			} else
-//			{
-//				setter.invoke(this, child);
-//			}
-//			orderer.orderChild(child);
-//		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-//			e.printStackTrace();
-//		}
-//    }
 	@Override
     public void addChild(VChild child)
     {
-		Method setter = getSetter(child);
+		Method setter = getSetters().get(child.getClass());
 		boolean isList = List.class.isAssignableFrom(setter.getParameters()[0].getType());
-		System.out.println(setter);
 		try {
 			if (isList)
 			{
-				Method getter = getGetter(child);
+				Method getter = getGetters().get(child.getClass());;
 				List<VChild> list = (List<VChild>) getter.invoke(this);
 				if (list == null)
 				{
-					list = (List<VChild>) getter.getReturnType().newInstance();
+					list = new ArrayList<>();
 					list.add(child);
 					setter.invoke(this, list);
 				} else
@@ -88,10 +67,12 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 				}
 			} else
 			{
+				System.out.println(this + " " + child.getClass());
+				System.out.println(child);
 				setter.invoke(this, child);
 			}
 			orderer.orderChild(child);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e) {
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
     }
@@ -106,34 +87,26 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		return (T) this;
 	}
 	
-    protected Method getSetter(VElement element)
+    protected Map<Class<? extends VChild>, Method> getSetters()
     {
-    	if (SETTERS.get(element) == null)
+    	if (SETTERS.get(getClass()) == null)
     	{
-    		System.out.println("add setter");
-    		System.out.println(ICalendarUtilities.collectSetterMap(getClass()).size());
-    		SETTERS.putAll(ICalendarUtilities.collectSetterMap(getClass()));
+    		Map<Class<? extends VChild>, Method> setterMap = ICalendarUtilities.collectSetterMap(getClass());
+			SETTERS.put(getClass(), setterMap);
+			return setterMap;
     	}
-    	return SETTERS.get(element.getClass());
-//		if (method != null) return method;
-//    	Class<? extends Object> listKey = Array.newInstance(element.getClass(), 0).getClass();
-//    	System.out.println("listKey:" + listKey);
-//		return SETTERS.get(listKey);
+    	return SETTERS.get(getClass());
     }
     
-    protected Method getGetter(VElement element)
+    protected Map<Class<? extends VChild>, Method> getGetters()
     {
-    	if (GETTERS.get(element) == null)
+    	if (GETTERS.get(getClass()) == null)
     	{
-    		System.out.println("add Getter");
-    		System.out.println(ICalendarUtilities.collectGetterMap(getClass()).size());
-    		GETTERS.putAll(ICalendarUtilities.collectGetterMap(getClass()));
+    		Map<Class<? extends VChild>, Method> getterMap = ICalendarUtilities.collectGetterMap(getClass());
+			GETTERS.put(getClass(), getterMap);
+			return getterMap;
     	}
-    	return GETTERS.get(element.getClass());
-//		if (method != null) return method;
-//    	Class<? extends Object> listKey = Array.newInstance(element.getClass(), 0).getClass();
-//    	System.out.println("listKey:" + listKey);
-//		return SETTERS.get(listKey);
+    	return GETTERS.get(getClass());
     }
 	
     /* Strategy to build iCalendar content lines */
@@ -145,20 +118,37 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     	return orderer.childrenUnmodifiable();
     }
     
-    @Override
-    public void copyInto(VElement destination)
+    public void copyChildrenInto(VParent destination)
     {
         childrenUnmodifiable().forEach((childSource) -> 
         {
         	try {
-				VChild newChild = childSource.getClass().newInstance();
-				childSource.copyInto(newChild);
-				addChild(newChild);
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException e) {
+        		// use copy constructors to make copy of child
+        		VChild newChild = childSource.getClass()
+        				.getConstructor(childSource.getClass())
+        				.newInstance(childSource);
+        		destination.addChild(newChild);
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 			}
         });
     }
+    
+    /*
+     * CONSTRUCTOR
+     */
+    public VParentBase()
+    {
+    	orderer = new OrdererBase(this, getGetters());
+    }
+    
+    // copy constructor
+    public VParentBase(VParentBase<T> source)
+    {
+    	super();
+        source.copyChildrenInto(this);
+    }
+    
     
 	@Override
     public List<String> errors()

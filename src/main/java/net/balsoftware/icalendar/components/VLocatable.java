@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javafx.collections.FXCollections;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.descriptive.Description;
 import net.balsoftware.icalendar.properties.component.descriptive.GeographicPosition;
 import net.balsoftware.icalendar.properties.component.descriptive.Location;
@@ -327,22 +326,22 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
 //        }
 //    }
     
-    @Override
-    public void copyInto(VElement destination)
-    {
-        super.copyInto(destination);
-        ((VComponentBase) destination).parent = getParent();
-//        ((VChild) destination).setParent(getParent());
-        VLocatable<?> castDestination = (VLocatable<?>) destination;
-        if (getVAlarms() != null)
-        {
-            if (castDestination.getVAlarms() == null)
-            {
-                castDestination.setVAlarms(FXCollections.observableArrayList());
-            }
-            getVAlarms().forEach(a -> castDestination.getVAlarms().add(new VAlarm(a)));
-        }
-    }
+//    @Override
+//    public void copyChildren(VElement destination)
+//    {
+//        super.copyChildren(destination);
+//        ((VComponentBase) destination).parent = getParent();
+////        ((VChild) destination).setParent(getParent());
+//        VLocatable<?> castDestination = (VLocatable<?>) destination;
+//        if (getVAlarms() != null)
+//        {
+//            if (castDestination.getVAlarms() == null)
+//            {
+//                castDestination.setVAlarms(FXCollections.observableArrayList());
+//            }
+//            getVAlarms().forEach(a -> castDestination.getVAlarms().add(new VAlarm(a)));
+//        }
+//    }
     
     @Override
     public List<String> errors()

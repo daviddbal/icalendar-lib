@@ -1,7 +1,6 @@
 package net.balsoftware.icalendar.component;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -17,8 +16,6 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import net.balsoftware.icalendar.ICalendarTestAbstract;
-import net.balsoftware.icalendar.components.VComponent;
-import net.balsoftware.icalendar.components.VComponentBase;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
@@ -137,15 +134,14 @@ public class VEventTest extends ICalendarTestAbstract
         assertEquals(expectedDates, madeDates);
     }
 
-    /** use {@link VComponentBase#copyComponentFrom} */
-    @Test
-    public void canCopyComponent()
-    {
-        VEvent e = getYearly1();
-        VEvent e2 = new VEvent();
-        e.copyInto(e2);
-        assertEquals(e, e2);
-    }
+//    /** use {@link VComponentBase#copyComponentFrom} */
+//    @Test
+//    public void canCopyComponent()
+//    {
+//        VEvent e = getYearly1();
+//        VEvent e2 = new VEvent(e);
+//        assertEquals(e, e2);
+//    }
 
     // Use copy constructor
     @Test
@@ -156,21 +152,21 @@ public class VEventTest extends ICalendarTestAbstract
         assertEquals(e, e2);
     }
     
-    @Test // use reflection
-    public void canCopyComponent3()
-    {
-        VComponent e = getYearly1();
-        try
-        {
-            VComponent e2 = e.getClass().newInstance();
-            e.copyInto(e2);
-            assertEquals(e, e2);
-            assertFalse(e == e2);
-        } catch (InstantiationException | IllegalAccessException e1)
-        {
-            e1.printStackTrace();
-        }
-    }
+//    @Test // use reflection
+//    public void canCopyComponent3()
+//    {
+//        VComponent e = getYearly1();
+//        try
+//        {
+//            VComponent e2 = e.getClass().newInstance();
+//            e.copyChildren(e2);
+//            assertEquals(e, e2);
+//            assertFalse(e == e2);
+//        } catch (InstantiationException | IllegalAccessException e1)
+//        {
+//            e1.printStackTrace();
+//        }
+//    }
     
     @Test
     public void canChangeLocalDateToLocalDateTime()

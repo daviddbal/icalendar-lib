@@ -1,6 +1,5 @@
 package net.balsoftware.icalendar.properties;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -79,7 +78,6 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneName;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneOffsetFrom;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneOffsetTo;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 
 /**
@@ -1925,10 +1923,7 @@ public enum PropertyType
 
     private List<ParameterType> allowedParameters;
     public List<ParameterType> allowedParameters() { return allowedParameters; }
-    
-    private List<Method> getters;
-    @Deprecated
-    public List<Method> childGetters() { return getters; }
+
     /*
      * CONSTRUCTOR
      */
@@ -1941,7 +1936,6 @@ public enum PropertyType
     {
         this.allowedParameters = allowedParameters;
         this.name = name;
-        this.getters = ICalendarUtilities.collectGetters(myClass);
         this.valueTypes = valueTypes;
         this.myClass = myClass;
     }
@@ -1957,6 +1951,7 @@ public enum PropertyType
 //    abstract public VChild parse(VParent vParent, String propertyContent);
 
     /** copies the associated property from the source component to the vParent component */
+    @Deprecated
     abstract public void copyProperty(Property<?> childSource, VComponent vParent);
 //    abstract public void copyProperty(Property<?> childSource, VComponent vParent);
     

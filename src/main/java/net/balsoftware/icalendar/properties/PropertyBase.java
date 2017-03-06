@@ -11,13 +11,10 @@ import java.util.stream.Collectors;
 
 import junit.runner.Version;
 import net.balsoftware.icalendar.VChild;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
-import net.balsoftware.icalendar.content.OrdererBase;
 import net.balsoftware.icalendar.content.SingleLineContent;
 import net.balsoftware.icalendar.parameters.NonStandardParameter;
-import net.balsoftware.icalendar.parameters.Parameter;
 import net.balsoftware.icalendar.parameters.ParameterType;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
@@ -44,8 +41,8 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @param <U> - type of implementing subclass
  * @param <T> - type of property value
  */
-public abstract class PropertyBase<T,U> extends VParentBase<T> implements Property<T>
-{   
+public abstract class PropertyBase<T,U> extends VParentBase<U> implements Property<T>
+{
     private VParent myParent;
     @Override
     public void setParent(VParent parent)
@@ -298,24 +295,26 @@ public abstract class PropertyBase<T,U> extends VParentBase<T> implements Proper
     	return withNonStandard(Arrays.asList(nonStandardParams));
     }
     
-    @Override
-    public void copyInto(VElement destination)
-    {
-        super.copyInto(destination);
-        PropertyBase<T,U> castDestination = (PropertyBase<T,U>) destination;
-        castDestination.setConverter(getConverter());
-        T valueCopy = copyValue(getValue());
-        castDestination.setValue(valueCopy);
-        castDestination.setPropertyName(name());
-        childrenUnmodifiable().forEach((childSource) -> 
-        {
-            ParameterType type = ParameterType.enumFromClass(childSource.getClass());
-            if (type != null)
-            {
-                type.copyParameter((Parameter<?>) childSource, (Property<?>) destination);
-            } 
-        });
-    }
+//    @Override
+//    public void copyInto(VElement destination)
+//    {
+//        super.copyInto(destination);
+//        PropertyBase<T,U> castDestination = (PropertyBase<T,U>) destination;
+//        System.out.println("converter:" );
+//        castDestination.setConverter(getConverter());
+//        System.out.println("converter2:" );
+//        T valueCopy = copyValue(getValue());
+//        castDestination.setValue(valueCopy);
+//        castDestination.setPropertyName(name());
+////        childrenUnmodifiable().forEach((childSource) -> 
+////        {
+////            ParameterType type = ParameterType.enumFromClass(childSource.getClass());
+////            if (type != null)
+////            {
+////                type.copyParameter((Parameter<?>) childSource, (Property<?>) destination);
+////            } 
+////        });
+//    }
     
     // property value as string - kept if string converter changes the value can change
     // needed to make subsequent conversions if value type changes.
@@ -358,18 +357,19 @@ public abstract class PropertyBase<T,U> extends VParentBase<T> implements Proper
     
     protected PropertyBase()
     {
+    	super();
         propertyType = PropertyType.enumFromClass(getClass());
         if (propertyType != PropertyType.NON_STANDARD)
         {
             setPropertyName(propertyType.toString());
         }
-        orderer = new OrdererBase(this, propertyType.childGetters());
         contentLineGenerator  = new SingleLineContent(
                 orderer,
                 (Void) -> name(),
                 50);
     }
 
+    @Deprecated
     public PropertyBase(Class<T> valueClass, String contentLine)
     {
         this();
@@ -383,7 +383,7 @@ public abstract class PropertyBase<T,U> extends VParentBase<T> implements Proper
     {
         this();
         setConverter(source.getConverter());
-        source.copyInto(this);
+        source.copyChildrenInto(this);
         T valueCopy = copyValue(source.getValue());
         setValue(valueCopy);
         setPropertyName(source.name());

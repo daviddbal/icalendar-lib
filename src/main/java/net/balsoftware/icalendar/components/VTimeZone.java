@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.change.LastModified;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneIdentifier;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
@@ -337,7 +336,8 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     private LastModified lastModified;
     @Override
     public LastModified getDateTimeLastModified() { return lastModified; }
-    public void setDateTimeLastModified(LastModified lastModified)
+    @Override
+	public void setDateTimeLastModified(LastModified lastModified)
     {
     	this.lastModified = lastModified;
     	orderChild(lastModified);
@@ -465,36 +465,36 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
         }
     }
     
-    @Override
-    public void copyInto(VElement destination)
-    {
-        super.copyInto(destination);
-        ((VComponentBase) destination).parent = getParent();
-//        ((VChild) destination).setParent(getParent());
-        VTimeZone castDestination = (VTimeZone) destination;
-        if (getStandardOrDaylight() != null)
-        {
-            if (castDestination.getStandardOrDaylight() == null)
-            {
-                castDestination.setStandardOrDaylight(FXCollections.observableArrayList());
-            }
-            getStandardOrDaylight().forEach(s -> 
-            {
-                final StandardOrDaylight<?> newSubcomponent;
-                if (s instanceof StandardTime)
-                {
-                    newSubcomponent = new StandardTime((StandardTime) s);
-                } else if (s instanceof DaylightSavingTime)
-                {
-                    newSubcomponent = new DaylightSavingTime((DaylightSavingTime) s);                    
-                } else
-                {
-                    throw new IllegalArgumentException("Unsupported time zone subcomponent class:" + s.getClass());
-                }
-                castDestination.getStandardOrDaylight().add(newSubcomponent);
-            });
-        }
-    }
+//    @Override
+//    public void copyChildren(VElement destination)
+//    {
+//        super.copyChildren(destination);
+//        ((VComponentBase) destination).parent = getParent();
+////        ((VChild) destination).setParent(getParent());
+//        VTimeZone castDestination = (VTimeZone) destination;
+//        if (getStandardOrDaylight() != null)
+//        {
+//            if (castDestination.getStandardOrDaylight() == null)
+//            {
+//                castDestination.setStandardOrDaylight(FXCollections.observableArrayList());
+//            }
+//            getStandardOrDaylight().forEach(s -> 
+//            {
+//                final StandardOrDaylight<?> newSubcomponent;
+//                if (s instanceof StandardTime)
+//                {
+//                    newSubcomponent = new StandardTime((StandardTime) s);
+//                } else if (s instanceof DaylightSavingTime)
+//                {
+//                    newSubcomponent = new DaylightSavingTime((DaylightSavingTime) s);                    
+//                } else
+//                {
+//                    throw new IllegalArgumentException("Unsupported time zone subcomponent class:" + s.getClass());
+//                }
+//                castDestination.getStandardOrDaylight().add(newSubcomponent);
+//            });
+//        }
+//    }
     
 	@Override
 	public List<VTimeZone> calendarList()

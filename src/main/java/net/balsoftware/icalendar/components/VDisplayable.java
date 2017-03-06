@@ -309,7 +309,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
     public LastModified getDateTimeLastModified() { return lastModified; }
     private LastModified lastModified;
-    public void setDateTimeLastModified(LastModified lastModified)
+    @Override
+	public void setDateTimeLastModified(LastModified lastModified)
     {
     	this.lastModified = lastModified;
     	orderChild(lastModified);
@@ -457,7 +458,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
     public RecurrenceRule getRecurrenceRule() { return recurrenceRule; }
     private RecurrenceRule recurrenceRule;
-    public void setRecurrenceRule(RecurrenceRule recurrenceRule)
+    @Override
+	public void setRecurrenceRule(RecurrenceRule recurrenceRule)
     {
     	this.recurrenceRule = recurrenceRule;
     	orderChild(recurrenceRule);
@@ -577,7 +579,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
     public Summary getSummary() { return summary; }
     private Summary summary;
-    public void setSummary(Summary summary)
+    @Override
+	public void setSummary(Summary summary)
     {
     	this.summary = summary;
     	orderChild(summary);

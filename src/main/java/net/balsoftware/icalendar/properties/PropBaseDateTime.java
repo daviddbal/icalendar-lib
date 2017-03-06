@@ -27,7 +27,7 @@ import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
  * @see DateTimeEnd
  * @see RecurrenceId
  */
-public abstract class PropBaseDateTime<T, U> extends PropertyBase<T,U> implements PropDateTime<T>
+public abstract class PropBaseDateTime<T,U> extends PropertyBase<T,U> implements PropDateTime<T>
 {
     // reference to property value if T is not instance of Collection, or an element if T is a Collection
     private Object myElement;

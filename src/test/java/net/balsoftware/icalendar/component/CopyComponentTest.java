@@ -171,7 +171,7 @@ END:VEVENT
         VEvent component2 = getYearly1();
 //        System.out.println(component1);
 //        System.out.println(component1);
-        component2.copyInto(component1);
+        component2.copyChildrenInto(component1);
 //        component1.copyChildrenFrom(component2);
         String expectedContent = 
             "BEGIN:VEVENT" + System.lineSeparator() +
@@ -197,7 +197,7 @@ END:VEVENT
     {
         VEvent component2 = getYearly1();
         VEvent component1 = component2.getClass().newInstance();
-        component2.copyInto(component1);
+        component2.copyChildrenInto(component1);
 //        component1.copyChildrenFrom(component2);
         assertEquals(component1, component2);
         assertTrue(component1 != component2);
@@ -208,7 +208,7 @@ END:VEVENT
     {
         VEvent component1 = getWeekly3();
         VEvent component2 = getYearly1();
-        component1.copyInto(component2);
+        component1.copyChildrenInto(component2);
 //        component2.copyChildrenFrom(component1);
         String expectedContent = 
                 "BEGIN:VEVENT" + System.lineSeparator() +

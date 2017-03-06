@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
@@ -31,7 +32,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.Recurrenc
 public class OrdererBase implements Orderer
 {
     final private VParent parent;
-    final private List<Method> childGetters;
+    final private Map<Class<? extends VChild>, Method> childGetters;
     
     // TODO - SHOULD I USE A WEAK MAP??
     private List<VChild> orderedChildren = new ArrayList<>();
@@ -40,10 +41,10 @@ public class OrdererBase implements Orderer
      * CONSTRUCTOR
      */
     /** Create an {@link OrdererBase} for the {@link VParent} parameter */
-    public OrdererBase(VParent aParent, List<Method> childGetters)
+    public OrdererBase(VParent aParent, Map<Class<? extends VChild>, Method> map)
     {
         this.parent = aParent;
-        this.childGetters = childGetters;
+        this.childGetters = map;
     }
 
 	@Override
@@ -87,10 +88,12 @@ public class OrdererBase implements Orderer
 		return allChildren;
 	}
 	
-    private List<VChild> allUnorderedChildren(VParent parent, List<Method> childGetters)
+    private List<VChild> allUnorderedChildren(VParent parent, Map<Class<? extends VChild>, Method> childGetters2)
     {
-    	return Collections.unmodifiableList(childGetters
+    	return Collections.unmodifiableList(childGetters2
+			.entrySet()
     		.stream()
+    		.map(e -> e.getValue())
 //    		.peek(m -> System.out.println(m.getName()))
 //    		.filter(m -> m.getName().equals("getVAlarms"))
     		.map(m -> {

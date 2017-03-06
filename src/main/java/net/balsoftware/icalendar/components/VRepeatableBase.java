@@ -77,7 +77,7 @@ public abstract class VRepeatableBase<T> extends VPrimary<T> implements VRepeata
      */
     VRepeatableBase() { }
     
-    public VRepeatableBase(StandardOrDaylight<T> source)
+    public VRepeatableBase(VRepeatableBase<T> source)
     {
         super(source);
     }

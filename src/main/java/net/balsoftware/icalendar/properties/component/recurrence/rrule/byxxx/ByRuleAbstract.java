@@ -111,7 +111,7 @@ public abstract class ByRuleAbstract<T, U> extends RRuleElementBase<List<T>, U> 
     public int hashCode()
     {
         int hash = 5;
-        hash = (31 * hash) + getValue().hashCode();
+        if (getValue() != null) hash = (31 * hash) + getValue().hashCode();
         return hash;
     }
 

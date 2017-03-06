@@ -674,33 +674,6 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     /*
      * RECURRENCE CHILDREN - (RECURRENCE-IDs AND MATCHING UID)
      */
-//    public List<VDisplayable<?>> recurrenceChildren()
-//    {
-//    	if ((getParent() != null) && (getRecurrenceId() == null))
-//    	{
-//    		UniqueIdentifier myUid = getUniqueIdentifier();
-//    		return getParent().childrenUnmodifiable()
-//    			.stream()
-//    			.filter(c -> ! (c == this))
-//    			.filter(c ->
-//    			{
-//    				if (c instanceof VDisplayable)
-//    				{
-//    					boolean isRelative = ((VPersonal<?>) c).getUniqueIdentifier().equals(myUid);
-//    					return isRelative;
-//    				}
-//    				return false;
-//    			})
-//    			.map(c -> (VDisplayable) c)
-//				.filter(c -> c.getRecurrenceId() != null)
-//				.filter(c -> c.getUniqueIdentifier().equals(myUid))
-//				.collect(Collectors.toList());
-//    	} else
-//    	{
-//    		return null;
-//    	}
-//    }
-    
     public List<VDisplayable<?>> recurrenceChildren()
     {
     	if ((getParent() != null) && (getRecurrenceId() == null))
@@ -722,13 +695,6 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     /*
      * RECURRENCE PARENT - (the VComponent with matching UID and no RECURRENCEID)
      */
-//    private Callback<VDisplayable<?>, VDisplayable<?>> recurrenceParentCallBack;
-//
-//    public void setRecurrenceParentListCallBack(Callback<VDisplayable<?>, VDisplayable<?>> recurrenceParentCallBack)
-//    {
-//        this.recurrenceParentCallBack = recurrenceParentCallBack;
-//    }
-    
     public VDisplayable<?> recurrenceParent()
     {
     	if (getParent() != null && (getRecurrenceId() != null))

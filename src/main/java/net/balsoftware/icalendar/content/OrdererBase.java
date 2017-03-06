@@ -35,7 +35,6 @@ public class OrdererBase implements Orderer
     final private VParent parent;
     final private Map<Class<? extends VChild>, Method> childGetters;
     
-    // TODO - SHOULD I USE A WEAK MAP??
     private List<VChild> orderedChildren = new ArrayList<>();
 
     /*
@@ -57,7 +56,7 @@ public class OrdererBase implements Orderer
 
 		// Remove orphans
 		List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
-//		System.out.println("allUnorderedChildren:" + allUnorderedChildren.size() + " " + parent.name());
+//		System.out.println("allUnorderedChildren:" + allUnorderedChildren.size() + " " + orderedChildren.size());
 		List<VChild> orphans = orderedChildren
 			.stream()
 			.filter(c -> ! allUnorderedChildren.contains(c))

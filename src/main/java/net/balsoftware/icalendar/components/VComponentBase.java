@@ -49,7 +49,7 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
 //        });
 //    }
     
-    private CalendarComponent componentType;
+    final private CalendarComponent componentType;
     @Override
     public String name() { return componentType.toString(); }
 
@@ -76,6 +76,12 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     VComponentBase(VComponentBase<T> source)
     {
     	super(source);
+    	componentType = CalendarComponent.enumFromClass(this.getClass());
+        contentLineGenerator = new MultiLineContent(
+                orderer,
+                FIRST_LINE_PREFIX + name(),
+                LAST_LINE_PREFIX + name(),
+                400);
     }
 
     @Override
@@ -154,7 +160,8 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
                             {
 //                            	System.out.println("unfoldedLine:" + unfoldedLine);
                                 VChild child = propertyType.parse(this, unfoldedLine);
-                                orderChild(child);
+//                                System.out.println(child);
+//                                orderChild(child);
                             } catch (Exception e)
                             {
                                 if (propertyType.isRequired(this))

@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.component.descriptive.Comment;
-import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 public class CommentTest
@@ -52,21 +51,20 @@ public class CommentTest
         Comment property1 = Comment.parse(content);
         VEvent v = new VEvent().withComments(property1);
         assertTrue(v == property1.getParent());
-        Comment propertyCopy = new Comment();
-        property1.copyChildrenInto(propertyCopy);
-//        propertyCopy.copyChildrenFrom(property1);
+        Comment propertyCopy = new Comment(property1);
         assertEquals(propertyCopy, property1);
         v.getComments().add(propertyCopy);
         assertTrue(v == property1.getParent());
     }
     
-    @Test (expected = IllegalArgumentException.class)
-    public void canCatchDifferentCopyType()
-    {
-        String content = "COMMENT;LANGUAGE=en:Department Party";
-        Comment property1 = Comment.parse(content);
-        Summary propertyCopy = new Summary();
-        property1.copyChildrenInto(propertyCopy);
-//        propertyCopy.copyChildrenFrom(property1);
-    }
+//    @Test (expected = IllegalArgumentException.class)
+//    public void canCatchDifferentCopyType()
+//    {
+//        String content = "COMMENT;LANGUAGE=en:Department Party";
+//        Comment property1 = Comment.parse(content);
+//        Summary propertyCopy = new Summary();
+//        property1.copyChildrenInto(propertyCopy);
+//        System.out.println(propertyCopy);
+////        propertyCopy.copyChildrenFrom(property1);
+//    }
 }

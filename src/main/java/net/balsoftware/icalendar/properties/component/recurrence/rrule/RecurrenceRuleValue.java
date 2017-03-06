@@ -6,13 +6,11 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
@@ -94,9 +92,9 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
      * 
      * Each BYxxx rule can only occur once
      *  */
-    public Set<ByRule<?>> getByRules() { return byRules; }
-    private Set<ByRule<?>> byRules;
-    public void setByRules(Set<ByRule<?>> byRules)
+    public Collection<ByRule<?>> getByRules() { return byRules; }
+    private Collection<ByRule<?>> byRules;
+    public void setByRules(Collection<ByRule<?>> byRules)
     {
     	this.byRules = byRules;
     	byRules.forEach(b -> orderChild(b));
@@ -120,7 +118,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     }
     public RecurrenceRuleValue withByRules(ByRule<?>...byRules)
     {
-    	return withByRules(new ArrayList<>(Arrays.asList(byRules)));
+    	return withByRules(Arrays.asList(byRules));
     }
     public RecurrenceRuleValue withByRules(String...byRules)
     {

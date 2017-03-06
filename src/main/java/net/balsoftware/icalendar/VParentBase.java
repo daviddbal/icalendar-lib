@@ -36,7 +36,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     /** Return the {@link Orderer} for this {@link VParent} */
     
 	@Override
-	@Deprecated
 	public void orderChild(VChild addedChild)
 	{
 		orderer.orderChild(addedChild);
@@ -61,12 +60,13 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 				if (list == null)
 				{
 					list = (getter.getReturnType() == List.class) ? new ArrayList<>() :
-						   (getter.getReturnType() == Set.class) ? new LinkedHashSet<>() : null;
+						   (getter.getReturnType() == Set.class) ? new LinkedHashSet<>() : new ArrayList<>();
 					list.add(child);
 					setter.invoke(this, list);
 				} else
 				{
-					list.add(child);					
+					list.add(child);
+					orderChild(child);
 				}
 			} else
 			{

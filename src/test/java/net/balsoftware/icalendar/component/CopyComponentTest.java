@@ -107,9 +107,9 @@ public class CopyComponentTest extends ICalendarTestAbstract
    "X-MICROSOFT-CDO-INSTTYPE:0" + System.lineSeparator() +
    "X-MICROSOFT-DISALLOW-COUNTER:FALSE" + System.lineSeparator() +
    "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
-   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
-   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
-   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
+//   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
+//   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
+//   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
    "TRANSP:OPAQUE" + System.lineSeparator() +
 //   "STATUS:CONFIRMED" + System.lineSeparator() +
    "X-YAHOO-USER-STATUS:BUSY" + System.lineSeparator() +
@@ -123,6 +123,7 @@ public class CopyComponentTest extends ICalendarTestAbstract
         
         VEvent component1 = VEvent.parse(content);
         VEvent component2 = new VEvent(component1);
+//        System.out.println(component2);
         assertEquals(component1, component2);
         assertEquals(component1.toString(), component2.toString());
     }

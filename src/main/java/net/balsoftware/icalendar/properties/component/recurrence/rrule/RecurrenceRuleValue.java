@@ -1,5 +1,7 @@
 package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.time.DayOfWeek;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -7,8 +9,11 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
@@ -69,7 +74,6 @@ import net.balsoftware.icalendar.utilities.ICalendarUtilities;
  * @see RecurrenceRule
  *
  */
-// TODO - LISTENER TO PREVENT COUNT AND UNTIL FROM BOTH BEING SET
 public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implements VChild
 {
     private VParent myParent;
@@ -91,12 +95,13 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
      * 
      * Each BYxxx rule can only occur once
      *  */
-    public List<ByRule<?>> getByRules() { return byRules; }
-    private List<ByRule<?>> byRules = new ArrayList<>();
-    public void setByRules(List<ByRule<?>> byRules)
+    public Set<ByRule<?>> getByRules() { return byRules; }
+    private Set<ByRule<?>> byRules;
+    public void setByRules(Set<ByRule<?>> byRules)
     {
-    	byRules.forEach(b -> orderChild(b));
+    	System.out.println("SET BYRULE");
     	this.byRules = byRules;
+    	byRules.forEach(b -> orderChild(b));
 	}
     public void setByRules(String...byRules)
     {
@@ -104,13 +109,13 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
 	}
     public RecurrenceRuleValue withByRules(ByRule<?>...byRules)
     {
-    	setByRules(new ArrayList<>(Arrays.asList(byRules)));
+    	setByRules(new LinkedHashSet<>(Arrays.asList(byRules)));
     	getByRules().forEach(b -> orderChild(b));
     	return this;
     }
     public RecurrenceRuleValue withByRule(ByRule<?> byRule)
     {
-    	List<ByRule<?>> list = (getByRules() == null) ? new ArrayList<>() : getByRules();
+    	Set<ByRule<?>> list = (getByRules() == null) ? new LinkedHashSet<>() : getByRules();
     	list.add(byRule);
     	orderChild(byRule);
     	return this;
@@ -122,6 +127,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     }
     
     /** Return ByRule associated with class type */
+    @Deprecated
     public ByRule<?> lookupByRule(Class<? extends ByRule<?>> byRuleClass)
     {
         Optional<ByRule<?>> rule = getByRules()
@@ -250,8 +256,8 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     public Until getUntil() { return until; }
     public void setUntil(Until until)
     {
-    	orderChild(until);
     	this.until = until;
+    	orderChild(until);
 	}
     public void setUntil(Temporal until) { setUntil(new Until(until)); }
     public void setUntil(String until) { setUntil(DateTimeUtilities.temporalFromString(until)); }
@@ -282,6 +288,78 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     public RecurrenceRuleValue withWeekStart(WeekStart weekStart) { setWeekStart(weekStart); return this; }
     public RecurrenceRuleValue withWeekStart(DayOfWeek weekStart) { setWeekStart(weekStart); return this; }
     
+	@Override
+    public void addChild(VChild child)
+    {
+		Method setter = getSetters().get(child.getClass());
+		if ((setter == null) && (ByRule.class.isAssignableFrom(child.getClass())))
+		{
+			setter = getSetters().get(ByRule.class);
+		}
+		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
+		try {
+			if (isList)
+			{
+				Method getter = getGetters().get(child.getClass());
+				if ((getter == null) && (ByRule.class.isAssignableFrom(child.getClass())))
+				{
+					getter = getGetters().get(ByRule.class);
+				}
+				Collection<VChild> list = (Collection<VChild>) getter.invoke(this);
+				if (list == null)
+				{
+					list = (getter.getReturnType() == List.class) ? new ArrayList<>() :
+						   (getter.getReturnType() == Set.class) ? new LinkedHashSet<>() : null;
+					list.add(child);
+					setter.invoke(this, list);
+				} else
+				{
+					list.add(child);					
+				}
+			} else
+			{
+				setter.invoke(this, child);
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+    }
+	
+//    @Override
+//	protected Map<Class<? extends VChild>, Method> getSetters()
+//    {
+//    	Map<Class<? extends VChild>, Method> setters2 = super.getSetters();
+//		Map<Class<? extends VChild>, Method> setterMap = new HashMap<>(setters2);
+//		Method byRuleMethod = setterMap.remove(ByRule.class);
+//		setterMap.put(ByDay.class, byRuleMethod);
+//		setterMap.put(ByHour.class, byRuleMethod);
+//		setterMap.put(ByMinute.class, byRuleMethod);
+//		setterMap.put(ByMonth.class, byRuleMethod);
+//		setterMap.put(ByMonthDay.class, byRuleMethod);
+//		setterMap.put(BySecond.class, byRuleMethod);
+//		setterMap.put(BySetPosition.class, byRuleMethod);
+//		setterMap.put(ByWeekNumber.class, byRuleMethod);
+//		setterMap.put(ByYearDay.class, byRuleMethod);
+//		return setterMap;
+//    }
+//    
+//    @Override
+//	protected Map<Class<? extends VChild>, Method> getGetters()
+//    {
+//    	Map<Class<? extends VChild>, Method> getterMap = new HashMap<>(super.getGetters());
+//		Method byRuleMethod = getterMap.remove(ByRule.class);
+//		getterMap.put(ByDay.class, byRuleMethod);
+//		getterMap.put(ByHour.class, byRuleMethod);
+//		getterMap.put(ByMinute.class, byRuleMethod);
+//		getterMap.put(ByMonth.class, byRuleMethod);
+//		getterMap.put(ByMonthDay.class, byRuleMethod);
+//		getterMap.put(BySecond.class, byRuleMethod);
+//		getterMap.put(BySetPosition.class, byRuleMethod);
+//		getterMap.put(ByWeekNumber.class, byRuleMethod);
+//		getterMap.put(ByYearDay.class, byRuleMethod);
+//		return getterMap;
+//    }
+    
 //    @Override
 //    public void copyChildren(VElement destination)
 //    {
@@ -303,6 +381,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     public RecurrenceRuleValue()
     {
     	super();
+    	byRules = new LinkedHashSet<>();
     }
 
     // Copy constructor
@@ -329,7 +408,8 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
                         throw new IllegalArgumentException("Unsupported Recurrence Rule element: " + entry.getKey());                        
                     }
                 });
-        return errors();
+        return null;
+//        return errors();  // causes too many orderer runs
     }
 
     /**

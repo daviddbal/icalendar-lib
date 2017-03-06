@@ -6,6 +6,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -256,7 +257,7 @@ public final class ICalendarUtilities
 			if (VChild.class.isAssignableFrom(returnType))
 			{
 				getters.put(returnType, m);
-			} else if (List.class.isAssignableFrom(returnType))
+			} else if (Collection.class.isAssignableFrom(returnType))
 			{
 				ParameterizedType pt = (ParameterizedType) m.getGenericReturnType();
 				Type t = pt.getActualTypeArguments()[0];
@@ -287,7 +288,7 @@ public final class ICalendarUtilities
 			if (VChild.class.isAssignableFrom(parameterType))
 			{
 				setters.put(parameterType, m);
-			} else if (List.class.isAssignableFrom(parameterType))
+			} else if (Collection.class.isAssignableFrom(parameterType))
 			{
 				ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
 				Type t = pt.getActualTypeArguments()[0];

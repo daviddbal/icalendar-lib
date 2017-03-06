@@ -383,13 +383,13 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
     {
         this();
         setConverter(source.getConverter());
-        source.copyChildrenInto(this);
         T valueCopy = copyValue(source.getValue());
         setValue(valueCopy);
         setPropertyName(source.name());
+        source.copyChildrenInto(this);
     }
     
-    // constructor with only value parameter
+    // constructor with only value
     public PropertyBase(T value)
     {
         this();
@@ -494,7 +494,8 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
             throw new IllegalArgumentException("Error in parsing " + propertyType().toString() + " content line:" + System.lineSeparator()
                     + errors().stream().collect(Collectors.joining(System.lineSeparator())));
         }
-        return errors();
+        return null;
+//        return errors(); // causes too many orderer runs
     }
     
     @Override

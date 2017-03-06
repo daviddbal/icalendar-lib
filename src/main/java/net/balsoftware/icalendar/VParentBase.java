@@ -5,8 +5,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.content.ContentLineStrategy;
@@ -50,15 +52,16 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     public void addChild(VChild child)
     {
 		Method setter = getSetters().get(child.getClass());
-		boolean isList = List.class.isAssignableFrom(setter.getParameters()[0].getType());
+		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
 		try {
 			if (isList)
 			{
-				Method getter = getGetters().get(child.getClass());;
-				List<VChild> list = (List<VChild>) getter.invoke(this);
+				Method getter = getGetters().get(child.getClass());
+				Collection<VChild> list = (Collection<VChild>) getter.invoke(this);
 				if (list == null)
 				{
-					list = new ArrayList<>();
+					list = (getter.getReturnType() == List.class) ? new ArrayList<>() :
+						   (getter.getReturnType() == Set.class) ? new LinkedHashSet<>() : null;
 					list.add(child);
 					setter.invoke(this, list);
 				} else
@@ -67,11 +70,8 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 				}
 			} else
 			{
-				System.out.println(this + " " + child.getClass());
-				System.out.println(child);
 				setter.invoke(this, child);
 			}
-			orderer.orderChild(child);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
@@ -145,7 +145,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     // copy constructor
     public VParentBase(VParentBase<T> source)
     {
-    	super();
+    	this();
         source.copyChildrenInto(this);
     }
     

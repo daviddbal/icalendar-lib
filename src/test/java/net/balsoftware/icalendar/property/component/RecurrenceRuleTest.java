@@ -86,9 +86,29 @@ public class RecurrenceRuleTest
     @Test
     public void canCopyRecurrenceRule()
     {
-        String content = "RRULE:UNTIL=19730429T070000Z;FREQ=YEARLY;BYMONTH=4;BYDAY=-1SU";
+//    	ICalendarUtilities.collectSetterMap(RecurrenceRuleValue.class).entrySet().forEach(System.out::println);
+//    	ICalendarUtilities.collectGetterMap(RecurrenceRuleValue.class).entrySet().forEach(System.out::println);
+//    	System.out.println(ByRule.class.isAssignableFrom(ByMonth.class));
+//   	Arrays.stream(ByMonth.class.getGenericInterfaces()).forEach(System.out::println);
+//   	System.out.println(ByMonth.class.getGenericSuperclass() == ByRule.class);
+//    	System.exit(0);
+//    	String c1 = "UNTIL=19730429T070000Z;FREQ=YEARLY;BYMONTH=4;BYDAY=-1SU;BYMINUTE=1";
+//    	RecurrenceRuleValue r9 = RecurrenceRuleValue.parse(c1);
+//    	RecurrenceRuleValue r8 = new RecurrenceRuleValue(r9);
+//    	System.out.println(r8);
+//    	System.out.println(r8.getByRules().size());
+//    	System.exit(0);
+    	
+        String content = "RRULE:UNTIL=19730429T070000Z;FREQ=YEARLY;BYMONTH=4;BYDAY=-1SU;BYMINUTE=1";
         RecurrenceRule r1 = RecurrenceRule.parse(content);
+//        System.out.println(r1);
+//        System.exit(0);
         RecurrenceRule r2 = new RecurrenceRule(r1);
+        System.out.println(r2.getValue().getByRules().size());
+        System.out.println(r1.getValue().childrenUnmodifiable().size());
+        System.out.println("r1:" + r1.getValue());
+        System.out.println(r2.getValue().childrenUnmodifiable().size());
+        System.out.println("r2" + r2.getValue() +  " " + System.identityHashCode(r2.getValue()));
         assertEquals(r1, r2);
         assertTrue(r1 != r2);
         assertTrue(r1.equals(r2));

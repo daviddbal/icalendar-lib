@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,7 @@ public class OrdererBase implements Orderer
 	@Override
 	public List<VChild> childrenUnmodifiable()
 	{
+//		System.out.println("run childrenUnmodifiable");
 //		childGetters.forEach(System.out::println);
 //		System.out.println("childUN:" + unorderedChildren(parent, childGetters).size() + " " + orderedChildren.size());
 
@@ -61,7 +63,7 @@ public class OrdererBase implements Orderer
 			.filter(c -> ! allUnorderedChildren.contains(c))
 			.collect(Collectors.toList());
 //		System.out.println("orphans:" + orphans.size());
-		orphans.forEach(c -> orderedChildren.remove(c));
+//		orphans.forEach(c -> orderedChildren.remove(c));
 		List<VChild> allChildren = new ArrayList<>(orderedChildren);
 
 		// Add unordered children
@@ -85,6 +87,8 @@ public class OrdererBase implements Orderer
 						allChildren.add(unorderedChild); // no match, put at end
 					}
 				});
+//		throw new RuntimeException("hi");
+
 		return allChildren;
 	}
 	
@@ -108,9 +112,9 @@ public class OrdererBase implements Orderer
 //    		.peek(System.out::println)
     		.flatMap(p -> 
     		{
-    			if (p instanceof List)
+    			if (Collection.class.isAssignableFrom(p.getClass()))
     			{
-    				return ((List<VChild>) p).stream();
+    				return ((Collection<VChild>) p).stream();
     			} else
     			{
     				return Arrays.stream(new VChild[]{ (VChild) p });
@@ -135,7 +139,7 @@ public class OrdererBase implements Orderer
 			if (! orphans.isEmpty())
 			{ // replace orphan at same index location
 				int index = orderedChildren.indexOf(orphans.get(0));
-				orphans.forEach(c -> orderedChildren.remove(c));
+//				orphans.forEach(c -> orderedChildren.remove(c));
 				orderedChildren.add(index, newChild);				
 			} else
 			{
@@ -154,7 +158,7 @@ public class OrdererBase implements Orderer
 				.filter(c -> c.getClass().equals(newChild.getClass()))
 				.filter(c -> ! allUnorderedChildren.contains(c))
 				.collect(Collectors.toList());
-		orphans.forEach(c -> orderedChildren.remove(c));
+//		orphans.forEach(c -> orderedChildren.remove(c));
 	}
 
 //	@Override

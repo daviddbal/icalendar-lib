@@ -6,7 +6,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -103,18 +105,22 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     {
     	Arrays.stream(byRules).forEach(c -> parseContent(c));
 	}
+    public RecurrenceRuleValue withByRules(Collection<ByRule<?>> byRules)
+    {
+    	if (getByRules() == null)
+    	{
+    		setByRules(new LinkedHashSet<>());
+    	}
+    	getByRules().addAll(byRules);
+    	if (byRules != null)
+    	{
+    		byRules.forEach(c -> orderChild(c));
+    	}
+        return this;
+    }
     public RecurrenceRuleValue withByRules(ByRule<?>...byRules)
     {
-    	setByRules(new LinkedHashSet<>(Arrays.asList(byRules)));
-    	getByRules().forEach(b -> orderChild(b));
-    	return this;
-    }
-    public RecurrenceRuleValue withByRule(ByRule<?> byRule)
-    {
-    	Set<ByRule<?>> list = (getByRules() == null) ? new LinkedHashSet<>() : getByRules();
-    	list.add(byRule);
-    	orderChild(byRule);
-    	return this;
+    	return withByRules(new ArrayList<>(Arrays.asList(byRules)));
     }
     public RecurrenceRuleValue withByRules(String...byRules)
     {

@@ -114,7 +114,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	}
 	protected Method getGetter(VChild child)
 	{
-		return getGetters().get(child);
+		return getGetters().get(child.getClass());
 	}
 	
     /* Strategy to build iCalendar content lines */

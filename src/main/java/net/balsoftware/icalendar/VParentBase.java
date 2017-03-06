@@ -77,9 +77,32 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		}
     }
 	@Override
-	public VChild removeChild(VChild child)
+	public boolean removeChild(VChild child)
 	{
-		throw new RuntimeException("not implemented yet");
+
+		Method setter = getSetter(child);
+		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
+		try {
+			if (isList)
+			{
+				Method getter = getGetter(child);
+				List<VChild> list = (List<VChild>) getter.invoke(this);
+				if (list == null)
+				{
+					return false;
+				} else
+				{
+					return list.remove(child);
+				}
+			} else
+			{
+				setter.invoke(this, (Object) null);
+				return true;
+			}
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	public T withChild(VChild child)
 	{

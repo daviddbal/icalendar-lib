@@ -2,14 +2,10 @@ package net.balsoftware.icalendar.calendar;
 
 import static org.junit.Assert.assertEquals;
 
-import java.lang.reflect.InvocationTargetException;
-
 import org.junit.Test;
 
-import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.ICalendarTestAbstract;
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
@@ -131,16 +127,6 @@ public class GeneralCalendarTest extends ICalendarTestAbstract
 
         assertEquals(vCalendar, c);
         assertEquals(expectedContent, c.toString());
-    }
-    
-    @Test
-    public void canAddChild() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, InstantiationException
-    {
-    	VCalendar v = new VCalendar();
-    	VEvent e = ICalendarStaticComponents.getDaily1();
-    	v.addChild(e);
-//    	VCalendar.SETTERS.entrySet().forEach(System.out::println);
-    	System.out.println(v);
     }
     
     @Test

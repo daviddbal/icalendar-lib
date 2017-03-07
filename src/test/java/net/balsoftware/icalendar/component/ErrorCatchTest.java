@@ -6,9 +6,12 @@ import static org.junit.Assert.assertTrue;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.component.recurrence.ExceptionDates;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
@@ -60,7 +63,8 @@ public class ErrorCatchTest
             "END:VEVENT";
             VEvent v = new VEvent();
             boolean useRequestStatus = true;
-            v.parseContent(content, useRequestStatus);
+            Map<VElement, List<String>> e = v.parseContent(content, useRequestStatus);
+            e.entrySet().forEach(System.out::println);
             
             VEvent expected = new VEvent()
                     .withSummary("#1")
@@ -87,6 +91,8 @@ public class ErrorCatchTest
                     .withNonStandard("X-CUSTOM-PROP:THE DATA")
                     .withRequestStatus("2.4;Success; unknown, non-standard property ignored.;IGNORE THIS LINE")
                     ;
+            System.out.println(expected);
+            System.out.println(v);
             assertEquals(expected, v);
     }
 }

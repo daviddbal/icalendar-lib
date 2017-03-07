@@ -143,6 +143,8 @@ public class GeneralPropertyTest
     {
         String content = "SUMMARY;X-PARAM1=VALUE1;X-PARAM2=VALUE2:Department Party";
         Summary madeProperty = Summary.parse(content);
+        System.out.println(content);
+        System.out.println(madeProperty);
         assertEquals(content, madeProperty.toString());
         Summary expectedProperty = new Summary()
                 .withValue("Department Party")

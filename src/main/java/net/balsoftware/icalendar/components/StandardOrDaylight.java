@@ -60,9 +60,10 @@ public abstract class StandardOrDaylight<T extends StandardOrDaylight<T>> extend
     	{
     		setTimeZoneNames(new ArrayList<>());
     	}
+    	getTimeZoneNames().addAll(timeZoneNames);
     	if (timeZoneNames != null)
     	{
-    		getTimeZoneNames().addAll(timeZoneNames);
+    		timeZoneNames.forEach(c -> orderChild(c));
     	}
         return (T) this;
     }
@@ -73,15 +74,10 @@ public abstract class StandardOrDaylight<T extends StandardOrDaylight<T>> extend
      */
     public T withTimeZoneNames(String...timeZoneNames)
     {
-    	if (getTimeZoneNames() == null)
-    	{
-    		setTimeZoneNames(new ArrayList<>());
-    	}
-        List<TimeZoneName> list = Arrays.stream(timeZoneNames)
+        List<TimeZoneName> newElements = Arrays.stream(timeZoneNames)
                 .map(c -> TimeZoneName.parse(c))
                 .collect(Collectors.toList());
-    	getTimeZoneNames().addAll(list);
-        return (T) this;
+        return withTimeZoneNames(newElements);
     }
     /**
      * Sets the value of the {@link #timeZoneNamesProperty()} from a vararg of {@link TimeZoneName} objects.
@@ -90,12 +86,7 @@ public abstract class StandardOrDaylight<T extends StandardOrDaylight<T>> extend
      */
     public T withTimeZoneNames(TimeZoneName...timeZoneNames)
     {
-    	if (getTimeZoneNames() == null)
-    	{
-    		setTimeZoneNames(new ArrayList<>());
-    	}
-    	getTimeZoneNames().addAll(Arrays.asList(timeZoneNames));
-        return (T) this;
+    	return withTimeZoneNames(Arrays.asList(timeZoneNames));
     }
     
     /**

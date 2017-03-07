@@ -442,17 +442,19 @@ public enum ParameterType
         @Override
         public VChild parse(Property<?> property, String content)
         {
-            final List<NonStandardParameter> list;
-            if (property.getNonStandard() == null)
-            {
-                list = new ArrayList<>();
-                property.setNonStandard(list);
-            } else
-            {
-                list = property.getNonStandard();
-            }
+//            final List<NonStandardParameter> list;
+//            if (property.getNonStandard() == null)
+//            {
+//                list = new ArrayList<>();
+//                property.setNonStandard(list);
+//            } else
+//            {
+//                list = property.getNonStandard();
+//            }
             NonStandardParameter child = NonStandardParameter.parse(content);
-			list.add(child);
+            property.addChild(child);
+//			list.add(child);
+//			property.orderChild(child);
 			return child;
         }
 

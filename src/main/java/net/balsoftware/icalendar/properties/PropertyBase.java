@@ -267,7 +267,10 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
         	setNonStandard(new ArrayList<>());
     	}
     	getNonStandard().addAll(nonStandardParams);
-    	nonStandardParams.forEach(c -> orderChild(c));
+    	if (nonStandardParams != null)
+    	{
+    		nonStandardParams.forEach(c -> orderChild(c));
+    	}
         return (U) this;
     }
     /**
@@ -294,27 +297,6 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
     {
     	return withNonStandard(Arrays.asList(nonStandardParams));
     }
-    
-//    @Override
-//    public void copyInto(VElement destination)
-//    {
-//        super.copyInto(destination);
-//        PropertyBase<T,U> castDestination = (PropertyBase<T,U>) destination;
-//        System.out.println("converter:" );
-//        castDestination.setConverter(getConverter());
-//        System.out.println("converter2:" );
-//        T valueCopy = copyValue(getValue());
-//        castDestination.setValue(valueCopy);
-//        castDestination.setPropertyName(name());
-////        childrenUnmodifiable().forEach((childSource) -> 
-////        {
-////            ParameterType type = ParameterType.enumFromClass(childSource.getClass());
-////            if (type != null)
-////            {
-////                type.copyParameter((Parameter<?>) childSource, (Property<?>) destination);
-////            } 
-////        });
-//    }
     
     // property value as string - kept if string converter changes the value can change
     // needed to make subsequent conversions if value type changes.
@@ -369,7 +351,7 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
                 50);
     }
 
-    @Deprecated
+    // Used by Attachment
     public PropertyBase(Class<T> valueClass, String contentLine)
     {
         this();

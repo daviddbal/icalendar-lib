@@ -65,26 +65,26 @@ public class OrdererBase implements Orderer
 		orphans.forEach(c -> orderedChildren.remove(c));
 		List<VChild> allChildren = new ArrayList<>(orderedChildren);
 
-//		// Add unordered children
-//		allUnorderedChildren
-//				.stream()
-//				.filter(c -> ! orderedChildren.contains(c))
-//				.forEach(unorderedChild -> 
-//				{
-//					Class<? extends VChild> clazz = unorderedChild.getClass();
-//					List<VChild> matchedChildren = allChildren.stream()
-//						.filter(c2 -> c2.getClass().equals(clazz))
-//						.collect(Collectors.toList());
-//					if (! matchedChildren.isEmpty())
-//					{
-//						VChild lastMatchedChild = matchedChildren.get(matchedChildren.size()-1);
-//						int index = allChildren.indexOf(lastMatchedChild)+1;
-//						allChildren.add(index, unorderedChild); // put after last matched child
-//					} else
-//					{
-//						allChildren.add(unorderedChild); // no match, put at end
-//					}
-//				});
+		// Add unordered children
+		allUnorderedChildren
+				.stream()
+				.filter(c -> ! orderedChildren.contains(c))
+				.forEach(unorderedChild -> 
+				{
+					Class<? extends VChild> clazz = unorderedChild.getClass();
+					List<VChild> matchedChildren = allChildren.stream()
+						.filter(c2 -> c2.getClass().equals(clazz))
+						.collect(Collectors.toList());
+					if (! matchedChildren.isEmpty())
+					{
+						VChild lastMatchedChild = matchedChildren.get(matchedChildren.size()-1);
+						int index = allChildren.indexOf(lastMatchedChild)+1;
+						allChildren.add(index, unorderedChild); // put after last matched child
+					} else
+					{
+						allChildren.add(unorderedChild); // no match, put at end
+					}
+				});
 
 		return allChildren;
 	}

@@ -207,9 +207,28 @@ public class VCalendar extends VParentBase<VCalendar>
     public List<NonStandardProperty> getNonStandard() { return nonStandardProps; }
     public void setNonStandard(List<NonStandardProperty> nonStandardProps)
     {
-    	nonStandardProps.forEach(c -> orderChild(c));
     	this.nonStandardProps = nonStandardProps;
+    	nonStandardProps.forEach(c -> orderChild(c));
 	}
+    /**
+     * Sets the value of the {@link #nonStandardProperty()}
+     * 
+     * @return - this class for chaining
+     */
+    public VCalendar withNonStandard(List<NonStandardProperty> nonStandardProps)
+    {
+    	nonStandardProps.forEach(c -> addChild(c));
+//    	if (getNonStandard() == null)
+//    	{
+//    		setNonStandard(new ArrayList<>());
+//    	}
+//    	getNonStandard().addAll(nonStandardProps);
+//    	if (nonStandardProps != null)
+//    	{
+//    		nonStandardProps.forEach(c -> orderChild(c));
+//    	}
+        return this;
+    }
     /**
      * Sets the value of the {@link #nonStandardProperty()} by parsing a vararg of
      * iCalendar content text representing individual {@link NonStandardProperty} objects.
@@ -218,20 +237,9 @@ public class VCalendar extends VParentBase<VCalendar>
      */
     public VCalendar withNonStandard(String...nonStandardProps)
     {
-        List<NonStandardProperty> list = Arrays.stream(nonStandardProps)
-                .map(c -> NonStandardProperty.parse(c))
-                .collect(Collectors.toList());
-        setNonStandard(list);
-        return this;
-    }
-    /**
-     * Sets the value of the {@link #nonStandardProperty()}
-     * 
-     * @return - this class for chaining
-     */
-    public VCalendar withNonStandard(List<NonStandardProperty> nonStandardProps)
-    {
-        setNonStandard(nonStandardProps);
+        Arrays.stream(nonStandardProps)
+                .map(s -> NonStandardProperty.parse(s))
+                .forEach(c -> addChild(c));
         return this;
     }
     /**
@@ -241,7 +249,8 @@ public class VCalendar extends VParentBase<VCalendar>
      */    
     public VCalendar withNonStandard(NonStandardProperty...nonStandardProps)
     {
-        setNonStandard(new ArrayList<>(Arrays.asList(nonStandardProps)));
+    	Arrays.asList(nonStandardProps).forEach(c -> addChild(c));
+//        setNonStandard(new ArrayList<>(Arrays.asList(nonStandardProps)));
         return this;
     }
    
@@ -823,7 +832,8 @@ public class VCalendar extends VParentBase<VCalendar>
                     boolean isNonStandard = propertyName.substring(0, PropertyType.NON_STANDARD.toString().length()).equals(PropertyType.NON_STANDARD.toString());
                     if (isNonStandard)
                     {
-                        child = CalendarProperty.NON_STANDARD.parse(this, unfoldedLine);
+                    	child = NonStandardProperty.parse(unfoldedLine);
+                    	addChild(child);
                     } else
                     {
                         // ignore unknown properties
@@ -833,7 +843,11 @@ public class VCalendar extends VParentBase<VCalendar>
                 {
                     vCalendarMessages.add("Unknown line is ignored:" + unfoldedLine);                    
                 }
-                if (child != null) vCalendarMessages.addAll(child.errors());
+                if (child != null) 
+            	{
+                	vCalendarMessages.addAll(child.errors());
+//                	addChild(child); // TODO - USE WHEN NO USING ENUM PARSE ANYMORE.
+            	}
             }
         }
      // TODO - Log status messages if not using RequestStatus

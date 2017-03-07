@@ -64,7 +64,6 @@ public class ErrorCatchTest
             VEvent v = new VEvent();
             boolean useRequestStatus = true;
             Map<VElement, List<String>> e = v.parseContent(content, useRequestStatus);
-            e.entrySet().forEach(System.out::println);
             
             VEvent expected = new VEvent()
                     .withSummary("#1")
@@ -91,8 +90,6 @@ public class ErrorCatchTest
                     .withNonStandard("X-CUSTOM-PROP:THE DATA")
                     .withRequestStatus("2.4;Success; unknown, non-standard property ignored.;IGNORE THIS LINE")
                     ;
-            System.out.println(expected);
-            System.out.println(v);
             assertEquals(expected, v);
     }
 }

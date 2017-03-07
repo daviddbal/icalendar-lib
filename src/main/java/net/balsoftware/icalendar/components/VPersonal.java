@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.change.DateTimeStamp;
 import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
@@ -275,11 +274,10 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
         Map<VElement, List<String>> statusMessages = super.parseContent(lineIterator, useRequestStatus);
         if (useRequestStatus)
         { // Set REQUEST-STATUS for each message
-            setRequestStatus(FXCollections.observableArrayList());
-            statusMessages.entrySet()
-                    .stream()
-                    .flatMap(e -> e.getValue().stream())
-                    .forEach(e -> getRequestStatus().add(RequestStatus.parse(e)));
+        	statusMessages.entrySet()
+	            .stream()
+	            .flatMap(e -> e.getValue().stream())
+	            .forEach(e -> addChild(RequestStatus.parse(e)));
         }
         return statusMessages;
     }

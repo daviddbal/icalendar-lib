@@ -94,16 +94,8 @@ public class ParseCalendarTest extends ICalendarTestAbstract
        "END:VEVENT" + System.lineSeparator() +
        "END:VCALENDAR";
         
-//        Iterator<String> iterator = Arrays.stream(content.split(System.lineSeparator())).iterator();
-
         VCalendar vCalendar = VCalendar.parse(content);
-        
-//        System.out.println(vCalendar.toString());
-//        System.out.println(content);
-//        System.out.println(vCalendar.toString());
         assertEquals(content, vCalendar.toString());
-//        VEventNew e = vCalendar.getVEvents().get(1);
-//        e.getNonStandardProperties().stream().forEach(System.out::println);
     }
     
     
@@ -167,7 +159,6 @@ public class ParseCalendarTest extends ICalendarTestAbstract
         assertEquals(3, c.getVEvents().size());
         assertEquals(1, c.getVEvents().get(0).recurrenceChildren().size());
         assertEquals(c.getVEvents().get(0), c.getVEvents().get(2).recurrenceParent());
-        System.out.println(c.errors());
         assertTrue(c.isValid());
     }
     

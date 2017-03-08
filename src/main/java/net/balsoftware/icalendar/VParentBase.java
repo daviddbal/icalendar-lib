@@ -231,10 +231,10 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         	.map(e -> e.getValue())
         	.allMatch(m ->
         	{
-        		Object v1;
 				try {
-					v1 = m.invoke(this);
+					Object v1 = m.invoke(this);
 	        		Object v2 = m.invoke(testObj);
+//	        		if (v1 != null) System.out.println(v1 + " "  +v2 + Objects.equals(v1, v2) + " " + v1.getClass().getSimpleName());
 	        		return Objects.equals(v1, v2);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					e1.printStackTrace();

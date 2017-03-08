@@ -131,6 +131,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     @Deprecated
     public ByRule<?> lookupByRule(Class<? extends ByRule<?>> byRuleClass)
     {
+    	if (getByRules() == null) return null;
         Optional<ByRule<?>> rule = getByRules()
                 .stream()
                 .filter(r -> byRuleClass.isInstance(r))
@@ -325,7 +326,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     public RecurrenceRuleValue()
     {
     	super();
-    	byRules = new LinkedHashSet<>();
+//    	byRules = new LinkedHashSet<>();
     }
 
     // Copy constructor
@@ -379,13 +380,16 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
                     // process byRules
                     chronoUnit = getFrequency().getValue().getChronoUnit(); // initial chronoUnit from Frequency
                     myStream = Arrays.asList(value).stream();
-                    getByRules().stream()
-                            .sorted()
-                            .forEach(rule ->
-                            {
-                                myStream = rule.streamRecurrences(myStream, chronoUnit, start);
-                                chronoUnit = rule.getChronoUnit();
-                            });
+                    if (getByRules() != null)
+                    {
+	                    getByRules().stream()
+	                            .sorted()
+	                            .forEach(rule ->
+	                            {
+	                                myStream = rule.streamRecurrences(myStream, chronoUnit, start);
+	                                chronoUnit = rule.getChronoUnit();
+	                            });
+                    }
                     // must filter out too early recurrences
                     return myStream.filter(r -> ! DateTimeUtilities.isBefore(r, start));
                 });

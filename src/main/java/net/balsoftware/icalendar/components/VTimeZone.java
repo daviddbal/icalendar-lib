@@ -336,8 +336,8 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     @Override
 	public void setDateTimeLastModified(LastModified lastModified)
     {
+    	orderChild(this.lastModified, lastModified);
     	this.lastModified = lastModified;
-    	orderChild(lastModified);
 	}
     
     /**
@@ -359,8 +359,8 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     public TimeZoneIdentifier getTimeZoneIdentifier() { return timeZoneIdentifier; }
     public void setTimeZoneIdentifier(TimeZoneIdentifier timeZoneIdentifier)
     {
+		orderChild(this.timeZoneIdentifier, timeZoneIdentifier);
     	this.timeZoneIdentifier = timeZoneIdentifier;
-		orderChild(timeZoneIdentifier);
 	}
     public void setTimeZoneIdentifier(String timeZoneIdentifier) { setTimeZoneIdentifier(TimeZoneIdentifier.parse(timeZoneIdentifier)); }
     public VTimeZone withTimeZoneIdentifier(TimeZoneIdentifier timeZoneIdentifier)
@@ -390,8 +390,8 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     public TimeZoneURL getTimeZoneURL() { return timeZoneURL; }
     public void setTimeZoneURL(TimeZoneURL timeZoneURL)
     {
+    	orderChild(this.timeZoneURL, timeZoneURL);
     	this.timeZoneURL = timeZoneURL;
-    	orderChild(timeZoneURL);
 	}
     public void setTimeZoneURL(String timeZoneURL) { setTimeZoneURL(TimeZoneURL.parse(timeZoneURL)); }
     public void setTimeZoneURL(URI timeZoneURL) { setTimeZoneURL(new TimeZoneURL(timeZoneURL)); }

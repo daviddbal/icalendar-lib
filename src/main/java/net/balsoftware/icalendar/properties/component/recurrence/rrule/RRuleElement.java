@@ -1,6 +1,5 @@
 package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 
-import javafx.beans.property.ObjectProperty;
 import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VElement;
 
@@ -17,9 +16,6 @@ public interface RRuleElement<T> extends VElement, VChild
      * with iCalendar content line output.
      */
     T getValue();
-    
-    /** object property of parameter's value */
-    ObjectProperty<T> valueProperty();
   
     /** Set the value of this parameter */  
     void setValue(T value);

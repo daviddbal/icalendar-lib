@@ -33,4 +33,10 @@ public interface Orderer
 
 	/** Add the next child to the list */
 	void orderChild(int index, VChild newChild);
+
+//	/** Remove child from ordered list.  Returns former index of child */
+//	int removeChild(VChild child);
+
+	/** Replace oldChild with newChild in ordered list */
+	void orderChild(VChild oldChild, VChild newChild);
 }

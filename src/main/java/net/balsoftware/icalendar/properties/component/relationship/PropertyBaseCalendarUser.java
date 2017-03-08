@@ -48,7 +48,7 @@ public abstract class PropertyBaseCalendarUser<T,U> extends PropBaseLanguage<T,U
     @Override
     public void setCommonName(CommonName commonName)
     {
-    	orderChild(commonName);
+    	orderChild(this.commonName, commonName);
     	this.commonName = commonName;
 	}
     public void setCommonName(String content) { setCommonName(CommonName.parse(content)); }

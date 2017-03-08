@@ -205,7 +205,8 @@ public enum RRuleElementType
             if (recurrenceRule.lookupByRule(ByMonth.class) == null)
             {
                 ByMonth child = ByMonth.parse(content);
-				recurrenceRule.getByRules().add(child);
+                recurrenceRule.addChild(child);
+//				recurrenceRule.getByRules().add(child);
 				return child;
             } else
             {
@@ -239,7 +240,8 @@ public enum RRuleElementType
             if (recurrenceRule.lookupByRule(ByWeekNumber.class) == null)
             {
                 ByWeekNumber child = ByWeekNumber.parse(content);
-				recurrenceRule.getByRules().add(child);
+                recurrenceRule.addChild(child);
+//				recurrenceRule.getByRules().add(child);
 				return child;
             } else
             {
@@ -273,7 +275,8 @@ public enum RRuleElementType
             if (recurrenceRule.lookupByRule(ByYearDay.class) == null)
             {
                 ByYearDay child = ByYearDay.parse(content);
-				recurrenceRule.getByRules().add(child);
+                recurrenceRule.addChild(child);
+//				recurrenceRule.getByRules().add(child);
 				return child;
             } else
             {
@@ -307,7 +310,8 @@ public enum RRuleElementType
             if (recurrenceRule.lookupByRule(ByMonthDay.class) == null)
             {
                 ByMonthDay child = ByMonthDay.parse(content);
-				recurrenceRule.getByRules().add(child);
+                recurrenceRule.addChild(child);
+//				recurrenceRule.getByRules().add(child);
 				return child;
             } else
             {
@@ -341,7 +345,8 @@ public enum RRuleElementType
             if (recurrenceRule.lookupByRule(ByDay.class) == null)
             {
                 ByDay child = ByDay.parse(content);
-				recurrenceRule.getByRules().add(child);
+                recurrenceRule.addChild(child);
+//				recurrenceRule.getByRules().add(child);
 				return child;
             } else
             {
@@ -375,7 +380,8 @@ public enum RRuleElementType
             if (recurrenceRule.lookupByRule(ByHour.class) == null)
             {
                 ByHour child = ByHour.parse(content);
-				recurrenceRule.getByRules().add(child);
+                recurrenceRule.addChild(child);
+//				recurrenceRule.getByRules().add(child);
 				return child;
             } else
             {
@@ -409,7 +415,8 @@ public enum RRuleElementType
             if (recurrenceRule.lookupByRule(ByMinute.class) == null)
             {
                 ByMinute child = ByMinute.parse(content);
-				recurrenceRule.getByRules().add(child);
+                recurrenceRule.addChild(child);
+//				recurrenceRule.getByRules().add(child);
 				return child;
             } else
             {
@@ -443,7 +450,8 @@ public enum RRuleElementType
             if (recurrenceRule.lookupByRule(BySecond.class) == null)
             {
                 ByMinute child = BySecond.parse(content);
-				recurrenceRule.getByRules().add(child);
+                recurrenceRule.addChild(child);
+//				recurrenceRule.getByRules().add(child);
 				return child;
             } else
             {
@@ -477,7 +485,8 @@ public enum RRuleElementType
             if (recurrenceRule.lookupByRule(BySetPosition.class) == null)
             {
                 BySetPosition child = BySetPosition.parse(content);
-				recurrenceRule.getByRules().add(child);
+                recurrenceRule.addChild(child);
+//				recurrenceRule.getByRules().add(child);
 				return child;
             } else
             {

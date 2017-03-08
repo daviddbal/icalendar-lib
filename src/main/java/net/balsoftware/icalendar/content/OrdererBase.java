@@ -134,6 +134,7 @@ public class OrdererBase implements Orderer
 	@Override
 	public void orderChild(VChild newChild)
 	{
+		
 //		System.out.println("adding:" + newChild + "  " + System.identityHashCode(newChild) + " " + orderedChildren.contains(newChild));
 //		boolean isPresentInList = orderedChildren.contains(newChild);
 //		final boolean isNotPresentInList;
@@ -188,13 +189,42 @@ public class OrdererBase implements Orderer
 	{
 		if (newChild != null)
 		{
-			if (orderedChildren.contains(newChild))
-			{
-				orderedChildren.remove(newChild);
-			}
-			removeOrphans(newChild);
+//			if (orderedChildren.contains(newChild))
+//			{
+//				orderedChildren.remove(newChild);
+//			}
+//			removeOrphans(newChild);
 			orderedChildren.add(index, newChild);
 			newChild.setParent(parent);
 		}
 	}
+	
+	@Override
+	public void orderChild(VChild oldChild, VChild newChild)
+	{
+		if (newChild == null)
+		{
+			if (oldChild != null)
+			{
+				orderedChildren.remove(oldChild);
+			}
+		} else if (oldChild == null)
+		{
+			orderChild(newChild);
+		} else
+		{
+			int index = orderedChildren.indexOf(oldChild);
+			orderedChildren.set(index, newChild);
+		}
+	}
+
+//	@Override
+//	public int removeChild(VChild child)
+//	{
+//		int index = orderedChildren.indexOf(child);
+//		System.out.println("index:" + index);
+//		boolean isRemoved = orderedChildren.remove(child);
+//		if (! isRemoved) return -1;
+//		return index;
+//	}
 }

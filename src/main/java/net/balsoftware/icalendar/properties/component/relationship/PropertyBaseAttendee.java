@@ -4,15 +4,15 @@ import java.net.URI;
 import java.util.List;
 
 import net.balsoftware.icalendar.parameters.CalendarUser;
+import net.balsoftware.icalendar.parameters.CalendarUser.CalendarUserType;
 import net.balsoftware.icalendar.parameters.Delegatees;
 import net.balsoftware.icalendar.parameters.Delegators;
 import net.balsoftware.icalendar.parameters.GroupMembership;
 import net.balsoftware.icalendar.parameters.ParticipationRole;
-import net.balsoftware.icalendar.parameters.ParticipationStatus;
-import net.balsoftware.icalendar.parameters.RSVP;
-import net.balsoftware.icalendar.parameters.CalendarUser.CalendarUserType;
 import net.balsoftware.icalendar.parameters.ParticipationRole.ParticipationRoleType;
+import net.balsoftware.icalendar.parameters.ParticipationStatus;
 import net.balsoftware.icalendar.parameters.ParticipationStatus.ParticipationStatusType;
+import net.balsoftware.icalendar.parameters.RSVP;
 import net.balsoftware.icalendar.properties.PropAttendee;
 
 /**
@@ -43,7 +43,7 @@ public abstract class PropertyBaseAttendee<T,U> extends PropertyBaseCalendarUser
     @Override
     public void setCalendarUser(CalendarUser calendarUser)
     {
-    	orderChild(calendarUser);
+    	orderChild(this.calendarUser, calendarUser);
     	this.calendarUser = calendarUser;
 	}
     public void setCalendarUser(String value) { setCalendarUser(CalendarUser.parse(value)); }

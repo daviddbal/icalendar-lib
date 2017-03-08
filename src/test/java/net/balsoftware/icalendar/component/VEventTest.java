@@ -151,23 +151,7 @@ public class VEventTest extends ICalendarTestAbstract
         VEvent e2 = new VEvent(e);
         assertEquals(e, e2);
     }
-    
-//    @Test // use reflection
-//    public void canCopyComponent3()
-//    {
-//        VComponent e = getYearly1();
-//        try
-//        {
-//            VComponent e2 = e.getClass().newInstance();
-//            e.copyChildren(e2);
-//            assertEquals(e, e2);
-//            assertFalse(e == e2);
-//        } catch (InstantiationException | IllegalAccessException e1)
-//        {
-//            e1.printStackTrace();
-//        }
-//    }
-    
+
     @Test
     public void canChangeLocalDateToLocalDateTime()
     {

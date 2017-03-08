@@ -3,19 +3,19 @@ package net.balsoftware.icalendar.properties.component.misc;
 import java.net.URI;
 
 import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship;
+import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship.AlarmTriggerRelationshipType;
 import net.balsoftware.icalendar.parameters.AlternateText;
 import net.balsoftware.icalendar.parameters.Encoding;
+import net.balsoftware.icalendar.parameters.Encoding.EncodingType;
 import net.balsoftware.icalendar.parameters.FormatType;
 import net.balsoftware.icalendar.parameters.FreeBusyType;
+import net.balsoftware.icalendar.parameters.FreeBusyType.FreeBusyTypeEnum;
 import net.balsoftware.icalendar.parameters.ParameterType;
 import net.balsoftware.icalendar.parameters.Range;
-import net.balsoftware.icalendar.parameters.Relationship;
-import net.balsoftware.icalendar.parameters.TimeZoneIdentifierParameter;
-import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship.AlarmTriggerRelationshipType;
-import net.balsoftware.icalendar.parameters.Encoding.EncodingType;
-import net.balsoftware.icalendar.parameters.FreeBusyType.FreeBusyTypeEnum;
 import net.balsoftware.icalendar.parameters.Range.RangeType;
+import net.balsoftware.icalendar.parameters.Relationship;
 import net.balsoftware.icalendar.parameters.Relationship.RelationshipType;
+import net.balsoftware.icalendar.parameters.TimeZoneIdentifierParameter;
 import net.balsoftware.icalendar.properties.PropAlarmTrigger;
 import net.balsoftware.icalendar.properties.PropAltText;
 import net.balsoftware.icalendar.properties.PropAttachment;
@@ -76,7 +76,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setAlternateText(AlternateText alternateText)
     {
-    	orderChild(alternateText);
+    	orderChild(this.alternateText, alternateText);
     	this.alternateText = alternateText;
 	}
     public void setAlternateText(String value) { setAlternateText(AlternateText.parse(value)); }
@@ -101,7 +101,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setEncoding(Encoding encoding)
     {
-    	orderChild(encoding);
+    	orderChild(this.encoding, encoding);
     	this.encoding = encoding;
 	}
     public U withEncoding(Encoding encoding) { setEncoding(encoding); return (U) this; }
@@ -121,7 +121,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setFreeBusyType(FreeBusyType freeBusyType)
     {
-    	orderChild(freeBusyType);
+    	orderChild(this.freeBusyType, freeBusyType);
     	this.freeBusyType = freeBusyType;
 	}
     public void setFreeBusyType(FreeBusyTypeEnum type) { setFreeBusyType(new FreeBusyType(type)); }
@@ -140,7 +140,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setFormatType(FormatType formatType)
     {
-    	orderChild(formatType);
+    	orderChild(this.formatType, formatType);
     	this.formatType = formatType;
 	}
     public void setFormatType(String formatType) { setFormatType(FormatType.parse(formatType)); }
@@ -168,7 +168,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setRange(Range range)
     {
-    	orderChild(range);
+    	orderChild(this.range, range);
     	this.range = range;
 	}
     public void setRange(String value) { setRange(new Range(value)); }
@@ -215,7 +215,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setRelationship(Relationship relationship)
     {
-    	orderChild(relationship);
+    	orderChild(this.relationship, relationship);
     	this.relationship = relationship;
 	}
     public void setRelationship(String value) { setRelationship(Relationship.parse(value)); }
@@ -238,7 +238,7 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     @Override
     public void setTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier)
     {
-    	orderChild(timeZoneIdentifier);
+    	orderChild(this.timeZoneIdentifier, timeZoneIdentifier);
     	this.timeZoneIdentifier = timeZoneIdentifier;
 	}
     public void setTimeZoneIdentifier(String value) { setTimeZoneIdentifier(TimeZoneIdentifierParameter.parse(value)); }

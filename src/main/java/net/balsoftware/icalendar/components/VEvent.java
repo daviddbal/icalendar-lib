@@ -95,10 +95,10 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     public DateTimeEnd getDateTimeEnd() { return dateTimeEnd; }
     private DateTimeEnd dateTimeEnd;
     @Override
-	public void setDateTimeEnd(DateTimeEnd dtEnd)
+	public void setDateTimeEnd(DateTimeEnd dateTimeEnd)
     {
-    	this.dateTimeEnd = dtEnd;
-    	orderChild(dtEnd);
+    	orderChild(this.dateTimeEnd, dateTimeEnd);
+    	this.dateTimeEnd = dateTimeEnd;
 	}
     /** add listener to Duration to ensure both DURATION and DTEND are not both set */
 
@@ -120,8 +120,8 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     public void setTimeTransparency(String timeTransparency) { setTimeTransparency(TimeTransparency.parse(timeTransparency)); }
     public void setTimeTransparency(TimeTransparency timeTransparency)
     {
+    	orderChild(this.timeTransparency, timeTransparency);
     	this.timeTransparency = timeTransparency;
-    	orderChild(timeTransparency);
 	}
     public void setTimeTransparency(TimeTransparencyType timeTransparency) { setTimeTransparency(new TimeTransparency(timeTransparency)); }
     public VEvent withTimeTransparency(TimeTransparency timeTransparency)

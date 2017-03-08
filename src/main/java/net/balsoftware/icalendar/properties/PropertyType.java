@@ -1814,7 +1814,7 @@ public enum PropertyType
         public Object getProperty(VComponent vComponent)
         {
             VPersonal<?> castComponent = (VPersonal<?> ) vComponent;
-            return castComponent.getUniformResourceLocator();
+            return castComponent.getURL();
         }
 
         @Override
@@ -1822,7 +1822,7 @@ public enum PropertyType
         {
             VPersonal<?> castComponent = (VPersonal<?> ) vParent;
             UniformResourceLocator child = UniformResourceLocator.parse(propertyContent);
-            castComponent.setUniformResourceLocator(child);
+            castComponent.setURL(child);
             return child;
         }
 
@@ -1831,7 +1831,7 @@ public enum PropertyType
         {
             VPersonal<?> castvParent = (VPersonal<?>) vParent;
             UniformResourceLocator propertyCopy = new UniformResourceLocator((UniformResourceLocator) childSource);
-            castvParent.setUniformResourceLocator(propertyCopy);
+            castvParent.setURL(propertyCopy);
         }
         
         @Override

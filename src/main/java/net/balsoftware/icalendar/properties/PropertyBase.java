@@ -190,7 +190,7 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
     {
         if (valueType == null || isValueTypeValid(valueType.getValue()))
         {
-        	orderChild(valueType);
+        	orderChild(this.valueType, valueType);
             this.valueType = valueType;
             valueParamenterConverter(valueType); // convert new value
         } else
@@ -440,7 +440,6 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
             .forEach(entry ->
             {
                 ParameterType parameterType = ParameterType.enumFromName(entry.getKey());
-//                System.out.println("parameterType:"+parameterType);
                 boolean isAllowed = propertyType().allowedParameters().contains(parameterType);
                 if (parameterType != null && isAllowed)
                 {

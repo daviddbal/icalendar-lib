@@ -70,26 +70,26 @@ public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
      */
     private DateTimeCompleted dateTimeCompleted;
     public DateTimeCompleted getDateTimeCompleted() { return dateTimeCompleted; }
-    public void setDateTimeCompleted(String completed) { setDateTimeCompleted(DateTimeCompleted.parse(completed)); }
-    public void setDateTimeCompleted(DateTimeCompleted completed)
+    public void setDateTimeCompleted(String dateTimeCompleted) { setDateTimeCompleted(DateTimeCompleted.parse(dateTimeCompleted)); }
+    public void setDateTimeCompleted(DateTimeCompleted dateTimeCompleted)
     {
-    	this.dateTimeCompleted = completed;
-    	orderChild(completed);
+    	orderChild(this.dateTimeCompleted, dateTimeCompleted);
+    	this.dateTimeCompleted = dateTimeCompleted;
 	}
-    public void setDateTimeCompleted(ZonedDateTime completed) { setDateTimeCompleted(new DateTimeCompleted(completed)); }
-    public VTodo withDateTimeCompleted(ZonedDateTime completed)
+    public void setDateTimeCompleted(ZonedDateTime dateTimeCompleted) { setDateTimeCompleted(new DateTimeCompleted(dateTimeCompleted)); }
+    public VTodo withDateTimeCompleted(ZonedDateTime dateTimeCompleted)
     {
-    	setDateTimeCompleted(completed);
+    	setDateTimeCompleted(dateTimeCompleted);
     	return this;
 	}
-    public VTodo withDateTimeCompleted(String completed)
+    public VTodo withDateTimeCompleted(String dateTimeCompleted)
     {
-    	setDateTimeCompleted(completed);
+    	setDateTimeCompleted(dateTimeCompleted);
     	return this;
 	}
-    public VTodo withDateTimeCompleted(DateTimeCompleted completed)
+    public VTodo withDateTimeCompleted(DateTimeCompleted dateTimeCompleted)
     {
-    	setDateTimeCompleted(completed);
+    	setDateTimeCompleted(dateTimeCompleted);
     	return this;
 	}
     
@@ -105,36 +105,36 @@ public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
      */
     private DateTimeDue dateTimeDue;
     public DateTimeDue getDateTimeDue() { return dateTimeDue; }
-    public void setDateTimeDue(String due) { setDateTimeDue(DateTimeDue.parse(due)); }
-    public void setDateTimeDue(DateTimeDue due)
+    public void setDateTimeDue(String dateTimeDue) { setDateTimeDue(DateTimeDue.parse(dateTimeDue)); }
+    public void setDateTimeDue(DateTimeDue dateTimeDue)
     {
-    	this.dateTimeDue = due;
-    	orderChild(due);
+    	orderChild(this.dateTimeDue, dateTimeDue);
+    	this.dateTimeDue = dateTimeDue;
 	}
-    public void setDateTimeDue(Temporal due)
+    public void setDateTimeDue(Temporal dateTimeDue)
     {
-        if ((due instanceof LocalDate) || (due instanceof LocalDateTime) || (due instanceof ZonedDateTime))
+        if ((dateTimeDue instanceof LocalDate) || (dateTimeDue instanceof LocalDateTime) || (dateTimeDue instanceof ZonedDateTime))
         {
-            setDateTimeDue(new DateTimeDue(due));            
+            setDateTimeDue(new DateTimeDue(dateTimeDue));            
         } else
         {
             throw new DateTimeException("Only LocalDate, LocalDateTime and ZonedDateTime supported. "
-                    + due.getClass().getSimpleName() + " is not supported");
+                    + dateTimeDue.getClass().getSimpleName() + " is not supported");
         }
     }
-    public VTodo withDateTimeDue(Temporal due)
+    public VTodo withDateTimeDue(Temporal dateTimeDue)
     {
-    	setDateTimeDue(due);
+    	setDateTimeDue(dateTimeDue);
     	return this;
 	}
-    public VTodo withDateTimeDue(String due)
+    public VTodo withDateTimeDue(String dateTimeDue)
     {
-    	setDateTimeDue(due);
+    	setDateTimeDue(dateTimeDue);
     	return this;
 	}
-    public VTodo withDateTimeDue(DateTimeDue due) 
+    public VTodo withDateTimeDue(DateTimeDue dateTimeDue) 
     { 
-    	setDateTimeDue(due); 
+    	setDateTimeDue(dateTimeDue); 
     	return this; 
 	}
 
@@ -167,8 +167,8 @@ public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
     public void setPercentComplete(Integer percentComplete) { setPercentComplete(new PercentComplete(percentComplete)); }
     public void setPercentComplete(PercentComplete percentComplete)
     {
+    	orderChild(this.percentComplete, percentComplete);
     	this.percentComplete = percentComplete;
-    	orderChild(percentComplete);
 	}
     public VTodo withPercentComplete(PercentComplete percentComplete)
     { 

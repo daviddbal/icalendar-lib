@@ -30,6 +30,26 @@ import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
  */
 public class Until extends RRuleElementBase<Temporal, Until>
 {
+	@Override
+	public void setValue(Temporal value)
+	{
+        if (value != null)
+        {
+            DateTimeType type = DateTimeUtilities.DateTimeType.of(value);
+            boolean isDate = type == DateTimeType.DATE;
+            boolean isUTC = type == DateTimeType.DATE_WITH_UTC_TIME;
+            if (! (isDate || isUTC))
+            {
+                throw new DateTimeException(elementType() + " can't be " + type + " It must be either " +
+                        DateTimeType.DATE + "(LocalDate) or " + DateTimeType.DATE_WITH_UTC_TIME + " (ZonedDateTime with Z as zone)");
+            }
+        }
+        super.setValue(value);	
+	}
+	
+	/*
+	 * CONSTRUCTORS
+	 */
     public Until(Temporal until)
     {
         this();
@@ -39,21 +59,6 @@ public class Until extends RRuleElementBase<Temporal, Until>
     public Until()
     {
         super();
-        valueProperty().addListener((obs, oldValue, newValue) ->
-        {
-            if (newValue != null)
-            {
-                DateTimeType type = DateTimeUtilities.DateTimeType.of(newValue);
-                boolean isDate = type == DateTimeType.DATE;
-                boolean isUTC = type == DateTimeType.DATE_WITH_UTC_TIME;
-                if (! (isDate || isUTC))
-                {
-                    setValue(oldValue);
-                    throw new DateTimeException(elementType() + " can't be " + type + " It must be either " +
-                            DateTimeType.DATE + "(LocalDate) or " + DateTimeType.DATE_WITH_UTC_TIME + " (ZonedDateTime with Z as zone)");
-                }
-            }
-        });
     }
 
     public Until(Until source)

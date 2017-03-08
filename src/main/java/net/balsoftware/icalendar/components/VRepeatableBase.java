@@ -68,8 +68,8 @@ public abstract class VRepeatableBase<T> extends VPrimary<T> implements VRepeata
 	@Override
 	public void setRecurrenceRule(RecurrenceRule recurrenceRule)
 	{
+		orderChild(this.recurrenceRule, recurrenceRule);
 		this.recurrenceRule = recurrenceRule;
-		orderChild(recurrenceRule);
 	}
 
     /*

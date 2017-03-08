@@ -40,6 +40,12 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	{
 		orderer.orderChild(addedChild);
 	}
+	
+	@Override
+	public void orderChild(VChild oldChild, VChild newChild)
+	{
+		orderer.orderChild(oldChild, newChild);
+	}
 
 	@Override
 	public void orderChild(int index, VChild addedChild)
@@ -79,7 +85,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	@Override
 	public boolean removeChild(VChild child)
 	{
-
 		Method setter = getSetter(child);
 		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
 		try {
@@ -240,8 +245,8 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 //        System.out.println("equals");
 //        Collection<VChild> c1 = childrenUnmodifiable();
 //        Collection<VChild> c2 = testObj.childrenUnmodifiable();
-//        Collection<VChild> c1 = orderer.childrenUnmodifiableFast();
-//        Collection<VChild> c2 = ((VParentBase) testObj).orderer.childrenUnmodifiableFast();
+//        Collection<VChild> c1 = orderer.childrenUnmodifiable();
+//        Collection<VChild> c2 = ((VParentBase) testObj).orderer.childrenUnmodifiable();
 //        if (c1.size() == c2.size())
 //        {
 //            Iterator<VChild> i1 = c1.iterator();

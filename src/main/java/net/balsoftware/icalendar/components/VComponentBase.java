@@ -32,23 +32,6 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     @Override public void setParent(VParent parent) { this.parent = parent; }
     @Override public VParent getParent() { return parent; }
     
-//    @Override
-//    public void copyChildren(VElement destination)
-//    {
-//        super.copyChildren(destination);
-//        System.out.println("children:");
-//        childrenUnmodifiable().forEach(System.out::println);
-//        childrenUnmodifiable().forEach((child) -> 
-//        {
-//            PropertyType type = PropertyType.enumFromClass(child.getClass());
-//            if (type != null)
-//            { /* Note: if type is null then element is a subcomponent such as a VALARM, STANDARD or DAYLIGHT
-//               * and copying happens in overridden version of this method in subclasses */
-//                type.copyProperty((Property<?>) child, (VComponent) destination);
-//            } 
-//        });
-//    }
-    
     final private CalendarComponent componentType;
     @Override
     public String name() { return componentType.toString(); }
@@ -127,15 +110,15 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
             if (propertyName.equals("BEGIN"))
             {
                 boolean isMainComponent = unfoldedLine.substring(nameEndIndex+1).equals(name());
-//                if  (! isMainComponent)
-//                {
-//                    String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
-//                    VComponent subcomponent = SimpleVComponentFactory.emptyVComponent(subcomponentName);
-//                    Map<VElement, List<String>> subMessages = subcomponent.parseContent(unfoldedLineIterator, collectErrorMessages);
-//                    messageMap.putAll(subMessages);
-//                    addSubcomponent(subcomponent);
-//                    orderChild(subcomponent);
-//                }
+                if  (! isMainComponent)
+                {
+                    String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
+                    VComponent subcomponent = SimpleVComponentFactory.emptyVComponent(subcomponentName);
+                    Map<VElement, List<String>> subMessages = subcomponent.parseContent(unfoldedLineIterator, collectErrorMessages);
+                    messageMap.putAll(subMessages);
+                    addSubcomponent(subcomponent);
+                    orderChild(subcomponent);
+                }
             } else if (propertyName.equals("END"))
             {
                 break; // exit when end found

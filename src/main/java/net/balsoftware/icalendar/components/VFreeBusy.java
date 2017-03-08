@@ -108,8 +108,8 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
     public void setContact(String contact) { setContact(Contact.parse(contact)); }
     public void setContact(Contact contact)
     {
+    	orderChild(this.contact, contact);
     	this.contact = contact;
-    	orderChild(contact);
 	}
     public VFreeBusy withContact(Contact contact)
     {
@@ -139,10 +139,11 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
     @Override
     public DateTimeEnd getDateTimeEnd() { return dateTimeEnd; }
     private DateTimeEnd dateTimeEnd;
-    public void setDateTimeEnd(DateTimeEnd dtEnd)
+    @Override
+	public void setDateTimeEnd(DateTimeEnd dateTimeEnd)
     {
-    	this.dateTimeEnd = dtEnd;
-    	orderChild(dtEnd);
+    	orderChild(this.dateTimeEnd, dateTimeEnd);
+    	this.dateTimeEnd = dateTimeEnd;
 	}
     
     /**
@@ -174,8 +175,8 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
     public void setFreeBusyTime(List<Pair<ZonedDateTime, TemporalAmount>> freeBusyTime) { setFreeBusyTime(new FreeBusyTime(freeBusyTime)); }
     public void setFreeBusyTime(FreeBusyTime freeBusyTime)
     {
+    	orderChild(this.freeBusyTime, freeBusyTime);
     	this.freeBusyTime = freeBusyTime;
-    	orderChild(freeBusyTime);
 	}
     public VFreeBusy withFreeBusyTime(FreeBusyTime freeBusyTime)
     {

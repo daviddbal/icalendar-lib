@@ -41,8 +41,8 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     @Override
 	public void setDescription(Description description)
     {
+    	orderChild(this.description, description);
     	this.description = description;
-    	orderChild(description);
 	}
 
     /** 
@@ -89,8 +89,8 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     public GeographicPosition getGeographicPosition() { return geographicPosition; }
     public void setGeographicPosition(GeographicPosition geographicPosition)
     {
+    	orderChild(this.geographicPosition, geographicPosition);
     	this.geographicPosition = geographicPosition;
-    	orderChild(geographicPosition);
 	}
     public void setGeographicPosition(String geographicPosition) { setGeographicPosition(GeographicPosition.parse(geographicPosition)); }
     public void setGeographicPosition(double latitude, double longitude)
@@ -126,8 +126,8 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     public Location getLocation() { return location; }
     public void setLocation(Location location)
     {
+    	orderChild(this.location, location);
     	this.location = location;
-    	orderChild(location);
 	}
     public void setLocation(String location) { setLocation(Location.parse(location)); }
     public T withLocation(Location location)
@@ -154,8 +154,8 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     public Priority getPriority() { return priority; }
     public void setPriority(Priority priority)
     {
+    	orderChild(this.priority, priority);
     	this.priority = priority;
-    	orderChild(priority);
 	}
     public void setPriority(String priority) { setPriority(Priority.parse(priority)); }
     public void setPriority(int priority) { setPriority(new Priority(priority)); }

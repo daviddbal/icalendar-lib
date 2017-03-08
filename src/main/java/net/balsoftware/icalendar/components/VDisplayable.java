@@ -141,8 +141,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     public void setClassification(String classification) { setClassification(Classification.parse(classification)); }
     public void setClassification(Classification classification)
     {
+    	orderChild(this.classification, classification);
     	this.classification = classification;
-    	orderChild(classification);
 	}
     public void setClassification(ClassificationType classification) { setClassification(new Classification(classification)); }
     public T withClassification(Classification classification)
@@ -220,26 +220,26 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
      */
     public DateTimeCreated getDateTimeCreated() { return dateTimeCreated; }
     private DateTimeCreated dateTimeCreated;
-    public void setDateTimeCreated(String dtCreated) { setDateTimeCreated(DateTimeCreated.parse(dtCreated)); }
-    public void setDateTimeCreated(DateTimeCreated dtCreated)
+    public void setDateTimeCreated(String dateTimeCreated) { setDateTimeCreated(DateTimeCreated.parse(dateTimeCreated)); }
+    public void setDateTimeCreated(DateTimeCreated dateTimeCreated)
     {
-    	this.dateTimeCreated = dtCreated;
-    	orderChild(dtCreated);
+    	orderChild(this.dateTimeCreated, dateTimeCreated);
+    	this.dateTimeCreated = dateTimeCreated;
 	}
-    public void setDateTimeCreated(ZonedDateTime dtCreated) { setDateTimeCreated(new DateTimeCreated(dtCreated)); }
-    public T withDateTimeCreated(ZonedDateTime dtCreated)
+    public void setDateTimeCreated(ZonedDateTime dateTimeCreated) { setDateTimeCreated(new DateTimeCreated(dateTimeCreated)); }
+    public T withDateTimeCreated(ZonedDateTime dateTimeCreated)
     {
-        setDateTimeCreated(dtCreated);
+        setDateTimeCreated(dateTimeCreated);
         return (T) this;
     }
-    public T withDateTimeCreated(String dtCreated)
+    public T withDateTimeCreated(String dateTimeCreated)
     {
-        setDateTimeCreated(dtCreated);
+        setDateTimeCreated(dateTimeCreated);
         return (T) this;
     }
-    public T withDateTimeCreated(DateTimeCreated dtCreated)
+    public T withDateTimeCreated(DateTimeCreated dateTimeCreated)
     {
-        setDateTimeCreated(dtCreated);
+        setDateTimeCreated(dateTimeCreated);
         return (T) this;
     }
     
@@ -312,8 +312,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
 	public void setDateTimeLastModified(LastModified lastModified)
     {
+    	orderChild(this.lastModified, lastModified);
     	this.lastModified = lastModified;
-    	orderChild(lastModified);
 	}
     // Other setters are default methods in interface
     
@@ -353,8 +353,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private RecurrenceId recurrenceId;
     public void setRecurrenceId(RecurrenceId recurrenceId)
     {
+    	orderChild(this.recurrenceId, recurrenceId);
     	this.recurrenceId = recurrenceId;
-    	orderChild(recurrenceId);
 	}
     public void setRecurrenceId(String recurrenceId) { setRecurrenceId(RecurrenceId.parse(recurrenceId)); }
     public void setRecurrenceId(Temporal temporal)
@@ -461,8 +461,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
 	public void setRecurrenceRule(RecurrenceRule recurrenceRule)
     {
+    	orderChild(this.recurrenceRule, recurrenceRule);
     	this.recurrenceRule = recurrenceRule;
-    	orderChild(recurrenceRule);
 	}
  
     /**
@@ -484,8 +484,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private Sequence sequence;
     public void setSequence(Sequence sequence)
     {
+    	orderChild(this.sequence, sequence);
     	this.sequence = sequence;
-    	orderChild(sequence);
 	}
     public void setSequence(String sequence) { setSequence(Sequence.parse(sequence)); }
     public void setSequence(Integer sequence) { setSequence(new Sequence(sequence)); }
@@ -546,8 +546,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private Status status;
     public void setStatus(Status status)
     {
+    	orderChild(this.status, status);
     	this.status = status;
-    	orderChild(status);
 	}
     public void setStatus(String status) { setStatus(Status.parse(status)); }
     public void setStatus(StatusType status) { setStatus(new Status(status)); }
@@ -582,8 +582,8 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
 	public void setSummary(Summary summary)
     {
+    	orderChild(this.summary, summary);
     	this.summary = summary;
-    	orderChild(summary);
 	}
 
     

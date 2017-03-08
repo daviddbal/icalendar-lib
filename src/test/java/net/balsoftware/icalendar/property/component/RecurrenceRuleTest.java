@@ -129,8 +129,8 @@ public class RecurrenceRuleTest
         assertEquals("COUNT=2", element.toString());
     }
     
-    @Test
-    public void canCatchNegativeCount()
+    @Test (expected = IllegalArgumentException.class)
+    public void canCatchNonPositiveCount()
     {
         Count element = new Count(5);
         assertEquals((Integer) 5, element.getValue());

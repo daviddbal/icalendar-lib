@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 import net.balsoftware.icalendar.properties.PropBaseDateTime;
 import net.balsoftware.icalendar.properties.ValueType;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
-import net.balsoftware.icalendar.utilities.StringConverter;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
+import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**
  * Abstract class for Exceptions and Recurrences
@@ -105,7 +105,6 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
             }
         }
         super.setValue(value);
-//        setupListener();
     }
         
     @Override
@@ -131,14 +130,6 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
         		errors.add("Recurrences DateTimeType \"" + notMatchDateTimeType.get() +
                         "\" doesn't match previous recurrences DateTimeType \"" + sampleType + "\"");
         	}
-        	
-//        	// DTSTART check - DO IN COMPONENT ERROR TEST
-//            DateTimeType dateTimeStartType = DateTimeUtilities.DateTimeType.of(dtstart.getValue());
-//            if (sampleType != dateTimeStartType)
-//            {
-//                errors.add("Recurrences DateTimeType (" + sampleType +
-//                        ") must be same as the DateTimeType of DateTimeStart (" + dateTimeStartType + ")");
-//            }
             
             // ensure all ZoneId values are the same
             if (sampleTemporal instanceof ZonedDateTime)

@@ -49,7 +49,7 @@ public abstract class PropBaseDateTime<T,U> extends PropertyBase<T,U> implements
     {
         if ((myElement == null) || (myElement instanceof ZonedDateTime))
         {
-        	orderChild(timeZoneIdentifier);
+        	orderChild(this.timeZoneIdentifier, timeZoneIdentifier);
             this.timeZoneIdentifier = timeZoneIdentifier;
         } else
         {

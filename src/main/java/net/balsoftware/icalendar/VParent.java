@@ -26,12 +26,24 @@ public interface VParent extends VElement
     
     void addChild(VChild child);
     
+    /**
+     * Remove child from parent.
+     * 
+     * @param child
+     * @return true is success, false if failure
+     */
     boolean removeChild(VChild child);
     
-	/** Add the next child to the list */
-    @Deprecated // replace with addChild
+	/** Add the child to the end of the ordered list 
+	 * Should only be used for list-based children that are added by accessing the
+	 * list.  A better alternative would be to use the {@link addChild} method which
+	 * automatically adds a child and orders it.  
+	 * */
 	void orderChild(VChild child);
 	
-	/** Add the child to particular index in the list */
+	/** Insert the child at the index in the ordered list */
 	void orderChild(int index, VChild child);
+
+	/** Replace the oldChild with the newChild in the ordered list */
+	void orderChild(VChild oldChild, VChild newChild);
 }

@@ -229,7 +229,7 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     public void setAction(String action) { setAction(Action.parse(action)); }
     public void setAction(Action action)
     {
-    	orderer.orderChild(action);
+    	orderer.orderChild(this.action, action);
     	this.action = action;
 	}
     public void setAction(ActionType action) { setAction(new Action(action)); }
@@ -302,10 +302,11 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     @Override
     public Description getDescription() { return description; }
     private Description description;
-    public void setDescription(Description description)
+    @Override
+	public void setDescription(Description description)
     {
+    	orderer.orderChild(this.description, description);
     	this.description = description;
-    	orderer.orderChild(description);
 	}
     
     /*
@@ -322,8 +323,8 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
 	@Override
 	public void setDuration(DurationProp duration)
 	{
+    	orderer.orderChild(this.duration, duration);
 		this.duration = duration;
-    	orderer.orderChild(duration);
 	}
     
     /**
@@ -346,8 +347,8 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     public RepeatCount getRepeatCount() { return repeatCount; }
     public void setRepeatCount(RepeatCount repeatCount)
     {
+    	orderChild(this.repeatCount, repeatCount);
     	this.repeatCount = repeatCount;
-    	orderChild(repeatCount);
 	}
     public void setRepeatCount(int repeatCount) { setRepeatCount(new RepeatCount(repeatCount)); }
     public void setRepeatCount(String repeatCount) { setRepeatCount(RepeatCount.parse(repeatCount)); }
@@ -396,7 +397,7 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     public void setTrigger(String trigger) { setTrigger(Trigger.parse(trigger)); }
     public void setTrigger(Trigger<?> trigger)
     {
-    	orderChild(trigger);    	
+    	orderChild(this.trigger, trigger);    	
     	this.trigger = trigger;
 	}
     public void setTrigger(Duration trigger) { setTrigger(new Trigger<Duration>(trigger)); }

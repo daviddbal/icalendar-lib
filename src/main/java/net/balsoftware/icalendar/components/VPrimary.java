@@ -84,26 +84,26 @@ public abstract class VPrimary<T> extends VCommon<T>
     
     public DateTimeStart getDateTimeStart() { return dateTimeStart; }
     private DateTimeStart dateTimeStart;
-    public void setDateTimeStart(DateTimeStart dtStart)
+    public void setDateTimeStart(DateTimeStart dateTimeStart)
     {
-    	this.dateTimeStart = dtStart;
-    	orderChild(dtStart);
+    	orderChild(this.dateTimeStart, dateTimeStart);
+    	this.dateTimeStart = dateTimeStart;
 	}
-    public void setDateTimeStart(String dtStart) { setDateTimeStart(DateTimeStart.parse(dtStart)); }
+    public void setDateTimeStart(String dateTimeStart) { setDateTimeStart(DateTimeStart.parse(dateTimeStart)); }
     public void setDateTimeStart(Temporal temporal) { setDateTimeStart(new DateTimeStart(temporal)); }
-    public T withDateTimeStart(DateTimeStart dtStart)
+    public T withDateTimeStart(DateTimeStart dateTimeStart)
     {
-        setDateTimeStart(dtStart);
+        setDateTimeStart(dateTimeStart);
         return (T) this;
     }
-    public T withDateTimeStart(String dtStart)
+    public T withDateTimeStart(String dateTimeStart)
     {
-        setDateTimeStart(dtStart);
+        setDateTimeStart(dateTimeStart);
         return (T) this;
     }
-    public T withDateTimeStart(Temporal dtStart)
+    public T withDateTimeStart(Temporal dateTimeStart)
     {
-        setDateTimeStart(dtStart);
+        setDateTimeStart(dateTimeStart);
         return (T) this;
     }
     

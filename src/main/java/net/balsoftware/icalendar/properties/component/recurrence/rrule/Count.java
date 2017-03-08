@@ -12,6 +12,19 @@ import java.util.List;
  */
 public class Count extends RRuleElementBase<Integer, Count>
 {
+	@Override
+	public void setValue(Integer value)
+	{
+        if ((value != null) && (value < 1))
+        {
+            throw new IllegalArgumentException(elementType() + " is " + value + ".  It can't be less than 1");
+        }
+        super.setValue(value);	
+	}
+	
+	/*
+	 * CONSTRUCTORS
+	 */
     public Count(int count)
     {
         this();
@@ -21,14 +34,6 @@ public class Count extends RRuleElementBase<Integer, Count>
     public Count()
     {
         super();
-        valueProperty().addListener((obs, oldValue, newValue) ->
-        {
-            if ((newValue != null) && (newValue < 1))
-            {
-                setValue(oldValue);
-                throw new IllegalArgumentException(elementType() + " is " + newValue + ".  It can't be less than 1");
-            }
-        });
     }
 
     public Count(Count source)

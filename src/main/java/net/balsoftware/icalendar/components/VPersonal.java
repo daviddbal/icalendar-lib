@@ -65,26 +65,26 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      */
     private DateTimeStamp dateTimeStamp;
     public DateTimeStamp getDateTimeStamp() { return dateTimeStamp; }
-    public void setDateTimeStamp(String dtStamp) { setDateTimeStamp(DateTimeStamp.parse(dtStamp)); }
-    public void setDateTimeStamp(DateTimeStamp dtStamp)
+    public void setDateTimeStamp(String dateTimeStamp) { setDateTimeStamp(DateTimeStamp.parse(dateTimeStamp)); }
+    public void setDateTimeStamp(DateTimeStamp dateTimeStamp)
     {
-    	this.dateTimeStamp = dtStamp;
-    	orderChild(dtStamp);
+    	orderChild(this.dateTimeStamp, dateTimeStamp);
+    	this.dateTimeStamp = dateTimeStamp;
 	}
-    public void setDateTimeStamp(ZonedDateTime dtStamp) { setDateTimeStamp(new DateTimeStamp(dtStamp)); }
-    public T withDateTimeStamp(ZonedDateTime dtStamp)
+    public void setDateTimeStamp(ZonedDateTime dateTimeStamp) { setDateTimeStamp(new DateTimeStamp(dateTimeStamp)); }
+    public T withDateTimeStamp(ZonedDateTime dateTimeStamp)
     {
-        setDateTimeStamp(dtStamp);
+        setDateTimeStamp(dateTimeStamp);
         return (T) this;
     }
-    public T withDateTimeStamp(String dtStamp)
+    public T withDateTimeStamp(String dateTimeStamp)
     {
-        setDateTimeStamp(dtStamp);
+        setDateTimeStamp(dateTimeStamp);
         return (T) this;
     }
-    public T withDateTimeStamp(DateTimeStamp dtStamp)
+    public T withDateTimeStamp(DateTimeStamp dateTimeStamp)
     {
-        setDateTimeStamp(dtStamp);
+        setDateTimeStamp(dateTimeStamp);
         return (T) this;
     }
 
@@ -100,8 +100,8 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     private Organizer organizer;
     public void setOrganizer(Organizer organizer)
     {
+    	orderChild(this.organizer, organizer);
     	this.organizer = organizer;
-    	orderChild(organizer);
 	}
     public void setOrganizer(String organizer) { setOrganizer(Organizer.parse(organizer)); }
     public T withOrganizer(String organizer)
@@ -174,8 +174,8 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     public UniqueIdentifier getUniqueIdentifier() { return uniqueIdentifier; }
     public void setUniqueIdentifier(UniqueIdentifier uniqueIdentifier)
     {
+    	orderChild(this.uniqueIdentifier, uniqueIdentifier);
     	this.uniqueIdentifier = uniqueIdentifier;
-    	orderChild(uniqueIdentifier);
 	}
     public void setUniqueIdentifier(String uniqueIdentifier) { setUniqueIdentifier(UniqueIdentifier.parse(uniqueIdentifier)); }
     /** Set uniqueIdentifier by calling uidGeneratorCallback */
@@ -233,28 +233,28 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
      * Example:
      * URL:http://example.com/pub/calendars/jsmith/mytime.ics
      */
-    public UniformResourceLocator getUniformResourceLocator() { return uniformResourceLocator; }
-    private UniformResourceLocator uniformResourceLocator;
-    public void setUniformResourceLocator(UniformResourceLocator url)
+    public UniformResourceLocator getURL() { return url; }
+    private UniformResourceLocator url;
+    public void setURL(UniformResourceLocator url)
     {
-    	this.uniformResourceLocator = url;
-    	orderChild(url);
+    	orderChild(this.url, url);
+    	this.url = url;
 	};
-    public void setUniformResourceLocator(String url) { setUniformResourceLocator(UniformResourceLocator.parse(url)); };
-    public void setUniformResourceLocator(URI url) { setUniformResourceLocator(new UniformResourceLocator(url)); };
-    public T withUniformResourceLocator(String url)
+    public void setURL(String url) { setURL(UniformResourceLocator.parse(url)); };
+    public void setURL(URI url) { setURL(new UniformResourceLocator(url)); };
+    public T withURL(String url)
     {
-        setUniformResourceLocator(url);
+        setURL(url);
         return (T) this;
     }
-    public T withUniformResourceLocator(URI url)
+    public T withURL(URI url)
     {
-        setUniformResourceLocator(url);
+        setURL(url);
         return (T) this;
     }
-    public T withUniformResourceLocator(UniformResourceLocator url)
+    public T withURL(UniformResourceLocator url)
     {
-        setUniformResourceLocator(url);
+        setURL(url);
         return (T) this;
     }
     

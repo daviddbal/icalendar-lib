@@ -104,7 +104,7 @@ public abstract class StandardOrDaylight<T extends StandardOrDaylight<T>> extend
     public TimeZoneOffsetFrom getTimeZoneOffsetFrom() { return timeZoneOffsetFrom; }
     public void setTimeZoneOffsetFrom(TimeZoneOffsetFrom timeZoneOffsetFrom)
     {
-    	orderChild(timeZoneOffsetFrom);
+    	orderChild(this.timeZoneOffsetFrom, timeZoneOffsetFrom);
     	this.timeZoneOffsetFrom = timeZoneOffsetFrom;
 	}
     public void setTimeZoneOffsetFrom(ZoneOffset zoneOffset) { setTimeZoneOffsetFrom(new TimeZoneOffsetFrom(zoneOffset)); }
@@ -157,7 +157,7 @@ public abstract class StandardOrDaylight<T extends StandardOrDaylight<T>> extend
     public TimeZoneOffsetTo getTimeZoneOffsetTo() { return timeZoneOffsetTo; }
     public void setTimeZoneOffsetTo(TimeZoneOffsetTo timeZoneOffsetTo)
     {
-    	orderChild(timeZoneOffsetTo);
+    	orderChild(this.timeZoneOffsetTo, timeZoneOffsetTo);
     	this.timeZoneOffsetTo = timeZoneOffsetTo;
 	}
     public void setTimeZoneOffsetTo(ZoneOffset zoneOffset) { setTimeZoneOffsetTo(new TimeZoneOffsetTo(zoneOffset)); }

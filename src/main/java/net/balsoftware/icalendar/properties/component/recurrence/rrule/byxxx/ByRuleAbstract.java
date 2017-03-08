@@ -95,17 +95,20 @@ public abstract class ByRuleAbstract<T, U> extends RRuleElementBase<List<T>, U> 
         return errors;
     }
     
-    @Override
-    public boolean equals(Object obj)
-    {
-        if (obj == this) return true;
-        if((obj == null) || (obj.getClass() != getClass())) {
-            return false;
-        }
-        ByRuleAbstract<T, U> testObj = (ByRuleAbstract<T, U>) obj;
-        boolean valueEquals = getValue().equals(testObj.getValue());
-        return valueEquals;
-    }
+//    @Override
+//    public boolean equals(Object obj)
+//    {
+//    	if super.equals(obj);
+//    	System.out.println("by equals:");
+//        if (obj == this) return true;
+//        if((obj == null) || (obj.getClass() != getClass())) {
+//            return false;
+//        }
+//        ByRuleAbstract<T, U> testObj = (ByRuleAbstract<T, U>) obj;
+//        System.out.println(this.getValue() + " " + getValue().equals(testObj.getValue()));
+//        boolean valueEquals = getValue().equals(testObj.getValue());
+//        return valueEquals;
+//    }
     
     @Override
     public int hashCode()

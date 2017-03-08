@@ -3,8 +3,6 @@ package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import net.balsoftware.icalendar.VParent;
 
 abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
@@ -19,13 +17,15 @@ abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
      * 
      */
     @Override
-    public T getValue() { return value.get(); }
+    public T getValue() { return value; }
+    private T value;
     @Override
-    public ObjectProperty<T> valueProperty() { return value; }
-    private ObjectProperty<T> value;
-    @Override
-    public void setValue(T value) { this.value.set(value); }
-    public U withValue(T value) { setValue(value); return (U) this; }
+    public void setValue(T value) { this.value = value; }
+    public U withValue(T value)
+    {
+    	setValue(value);
+    	return (U) this;
+	}
     
     /**
      * ELEMENT TYPE
@@ -45,7 +45,6 @@ abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
     protected RRuleElementBase()
     {
         elementType = RRuleElementType.enumFromClass(getClass());
-        value = new SimpleObjectProperty<>(this, RRuleElementType.enumFromClass(getClass()).toString());
     }
     
     @Override
@@ -58,12 +57,6 @@ abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
         }
         return errors;
     }
-    
-//	@Override
-//	public void copyInto(VElement destination)
-//	{
-//		setValue(((RRuleElement<T>) destination).getValue());
-//	}
     
     @Override
     public String toString()
@@ -98,9 +91,9 @@ abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
         return true;
     }
     
-	@Override
-	public List<String> parseContent(String content) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented");
-	}
+//	@Override
+//	public List<String> parseContent(String content) throws IllegalArgumentException {
+//		// TODO Auto-generated method stub
+//		throw new RuntimeException("not implemented");
+//	}
 }

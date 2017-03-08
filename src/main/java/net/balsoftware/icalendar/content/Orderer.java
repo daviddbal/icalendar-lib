@@ -38,5 +38,5 @@ public interface Orderer
 //	int removeChild(VChild child);
 
 	/** Replace oldChild with newChild in ordered list */
-	void orderChild(VChild oldChild, VChild newChild);
+	void replaceChild(VChild oldChild, VChild newChild);
 }

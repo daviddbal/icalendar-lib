@@ -1,5 +1,6 @@
 package net.balsoftware.icalendar.components;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,11 +38,15 @@ public interface VAttendee<T> extends VComponent
      */
     default T withAttendees(List<Attendee> attendees)
     {
-        setAttendees(attendees);
-        if (attendees != null)
-        {
-        	attendees.forEach(c -> orderChild(c));
-        }
+    	if (getAttendees() == null)
+    	{
+    		setAttendees(new ArrayList<>());
+    	}
+    	getAttendees().addAll(attendees);
+    	if (attendees != null)
+    	{
+    		attendees.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     /**

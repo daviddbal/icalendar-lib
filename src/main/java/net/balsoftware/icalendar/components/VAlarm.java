@@ -229,7 +229,7 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     public void setAction(String action) { setAction(Action.parse(action)); }
     public void setAction(Action action)
     {
-    	orderer.orderChild(this.action, action);
+    	orderer.replaceChild(this.action, action);
     	this.action = action;
 	}
     public void setAction(ActionType action) { setAction(new Action(action)); }
@@ -305,7 +305,7 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     @Override
 	public void setDescription(Description description)
     {
-    	orderer.orderChild(this.description, description);
+    	orderer.replaceChild(this.description, description);
     	this.description = description;
 	}
     
@@ -323,7 +323,7 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
 	@Override
 	public void setDuration(DurationProp duration)
 	{
-    	orderer.orderChild(this.duration, duration);
+    	orderer.replaceChild(this.duration, duration);
 		this.duration = duration;
 	}
     

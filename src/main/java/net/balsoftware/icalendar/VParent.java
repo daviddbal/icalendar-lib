@@ -19,20 +19,50 @@ public interface VParent extends VElement
      */
     List<VChild> childrenUnmodifiable();
     
-//    /**
-//     * Copy this {@link VElement} into destination {@link VElement}
-//     */
-//    void copyChildren(VParent destination);
-    
-    void addChild(VChild child);
-    
+
     /**
+     * 
+     * @param child element to add to ordered list
+     */
+    void addChild(VChild child);
+
+    /**
+     * 
+     * @param index index where child element is to be put
+     * @param child element to add to ordered list
+     */
+	void addChild(int index, VChild child);
+
+	/**
      * Remove child from parent.
      * 
-     * @param child
+     * @param child element to add to ordered list
      * @return true is success, false if failure
      */
     boolean removeChild(VChild child);
+
+    /**
+     * 
+     * @param index index of old child element to be removed
+     * @param child new child element to put at index
+     * @return
+     */
+	boolean replaceChild(int index, VChild child);
+
+	/**
+	 * 
+	 * @param oldChild old child element to be removed
+	 * @param newChild new child element to put at index where oldChild was
+	 * @return
+	 */
+	boolean replaceChild(VChild oldChild, VChild newChild);
+	
+    /**
+     * 
+     * @param index  index of child element to be removed
+     * @return true is success, false if failure
+     */
+    boolean removeChild(int index);
     
 	/** Add the child to the end of the ordered list 
 	 * Should only be used for list-based children that are added by accessing the

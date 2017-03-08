@@ -11,8 +11,8 @@ import org.junit.Test;
 
 import net.balsoftware.icalendar.components.VAlarm;
 import net.balsoftware.icalendar.properties.component.alarm.Action;
-import net.balsoftware.icalendar.properties.component.alarm.RepeatCount;
 import net.balsoftware.icalendar.properties.component.alarm.Action.ActionType;
+import net.balsoftware.icalendar.properties.component.alarm.RepeatCount;
 import net.balsoftware.icalendar.properties.component.relationship.Attendee;
 
 public class VAlarmTest

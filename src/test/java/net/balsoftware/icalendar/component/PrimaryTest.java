@@ -2,6 +2,7 @@ package net.balsoftware.icalendar.component;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -96,7 +97,7 @@ public class PrimaryTest
         assertEquals(LocalDateTime.of(2015, 11, 9, 9, 0), v.getDateTimeStart().getValue());
     }
     
-    @Test (expected=IllegalArgumentException.class)
+    @Test (expected=DateTimeException.class)
     public void canCatchInvalidProperty()
     {
         String content = 

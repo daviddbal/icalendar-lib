@@ -44,7 +44,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	@Override
 	public void orderChild(VChild oldChild, VChild newChild)
 	{
-		orderer.orderChild(oldChild, newChild);
+		orderer.replaceChild(oldChild, newChild);
 	}
 
 	@Override
@@ -83,6 +83,12 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		}
     }
 	@Override
+    public void addChild(int index, VChild child)
+    {
+		addChild(child);
+		orderChild(index, child);
+    }
+	@Override
 	public boolean removeChild(VChild child)
 	{
 		Method setter = getSetter(child);
@@ -113,6 +119,23 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 			e.printStackTrace();
 		}
 		return false;
+	}
+	@Override
+	public boolean removeChild(int index)
+	{
+		return removeChild(childrenUnmodifiable().get(index));
+	}
+	@Override
+	public boolean replaceChild(int index, VChild child)
+	{
+		removeChild(index);
+		addChild(index, child);
+		return true;
+	}
+	@Override
+	public boolean replaceChild(VChild oldChild, VChild newChild)
+	{
+		return replaceChild(childrenUnmodifiable().indexOf(oldChild), newChild);
 	}
 	public T withChild(VChild child)
 	{
@@ -234,7 +257,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 				try {
 					Object v1 = m.invoke(this);
 	        		Object v2 = m.invoke(testObj);
-//	        		if (v1 != null) System.out.println(v1 + " "  +v2 + Objects.equals(v1, v2) + " " + v1.getClass().getSimpleName());
+	        		if (v1 != null) System.out.println(v1 + " "  +v2 + Objects.equals(v1, v2) + " " + v1.getClass().getSimpleName());
 	        		return Objects.equals(v1, v2);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					e1.printStackTrace();

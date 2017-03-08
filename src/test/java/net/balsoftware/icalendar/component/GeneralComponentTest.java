@@ -91,13 +91,11 @@ public class GeneralComponentTest
         builtComponent.getCategories().add(category2);
         builtComponent.orderChild(category2);
         builtComponent.setClassification(ClassificationType.PRIVATE);
-        DateTimeStart s = DateTimeStart.parse("20171109T110000Z");
-        builtComponent.setDateTimeStart(s);
-        builtComponent.orderChild(0,s);
+        builtComponent.replaceChild(1, DateTimeStart.parse("20171109T110000Z"));
         
         String contentLines2 = "BEGIN:VEVENT" + System.lineSeparator()
-        		+ "DTSTART:20171109T110000Z" + System.lineSeparator()
                 + "DTSTAMP:20150110T080000Z" + System.lineSeparator()
+        		+ "DTSTART:20171109T110000Z" + System.lineSeparator()
                 + "DTEND:20151109T110000Z" + System.lineSeparator()
                 + "UID:20150110T080000-0@jfxtras.org" + System.lineSeparator()
                 + "CATEGORIES:group03" + System.lineSeparator()

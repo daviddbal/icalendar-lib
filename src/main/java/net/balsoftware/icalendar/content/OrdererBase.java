@@ -189,10 +189,10 @@ public class OrdererBase implements Orderer
 	{
 		if (newChild != null)
 		{
-//			if (orderedChildren.contains(newChild))
-//			{
-//				orderedChildren.remove(newChild);
-//			}
+			if (orderedChildren.contains(newChild))
+			{
+				orderedChildren.remove(newChild);
+			}
 //			removeOrphans(newChild);
 			orderedChildren.add(index, newChild);
 			newChild.setParent(parent);
@@ -200,7 +200,7 @@ public class OrdererBase implements Orderer
 	}
 	
 	@Override
-	public void orderChild(VChild oldChild, VChild newChild)
+	public void replaceChild(VChild oldChild, VChild newChild)
 	{
 		if (newChild == null)
 		{

@@ -257,6 +257,18 @@ public class ParseCalendarTest extends ICalendarTestAbstract
     }
     
     @Test
+    public void canHandleDuplicate()
+    {
+            String content = "BEGIN:VCALENDAR" + System.lineSeparator() +
+            "X-CUSTOM-PROP:THE DATA" + System.lineSeparator() +
+            "X-CUSTOM-PROP:THE DATA" + System.lineSeparator() +
+            "END:VCALENDAR";
+            VCalendar v = VCalendar.parse(content);
+            System.out.println(v);
+            assertEquals(content, v.toString());
+    }
+    
+    @Test
     public void canGetErrorMessageFromBadLine()
     {
             String content = "BEGIN:VCALENDAR" + System.lineSeparator() +

@@ -58,10 +58,6 @@ public class DateTimeEndTest
     @Test (expected = DateTimeException.class)
     public void canCatchWrongDateType()
     {
-        Thread.setDefaultUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
         new VEvent()
                 .withDateTimeStart(LocalDate.of(1997, 3, 1))
                 .withDateTimeEnd("20160306T080000Z");
@@ -70,10 +66,6 @@ public class DateTimeEndTest
     @Test (expected = DateTimeException.class)
     public void canCatchWrongDateType2()
     {
-        Thread.setDefaultUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
        VEvent v = new VEvent()
                 .withDateTimeEnd("20160306T080000Z")
                 .withDateTimeStart(LocalDate.of(1997, 3, 1));
@@ -82,10 +74,6 @@ public class DateTimeEndTest
     @Test (expected = DateTimeException.class)
     public void canCatchWrongDateType3()
     {
-        Thread.setDefaultUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
         VEvent builtComponent = new VEvent();
         builtComponent.setDateTimeEnd(new DateTimeEnd(LocalDateTime.of(2016, 3, 6, 8, 0)));
         builtComponent.setDateTimeStart(new DateTimeStart(LocalDate.of(1997, 3, 1)));

@@ -5,7 +5,9 @@ import static org.junit.Assert.assertEquals;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -16,8 +18,10 @@ import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
 import net.balsoftware.icalendar.properties.component.descriptive.Categories;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.recurrence.ExceptionDates;
+import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
+import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 
-public class MiscOrdererTest
+public class OrdererTest
 {
     @Test
     public void canReplaceListElement()
@@ -131,5 +135,47 @@ public class MiscOrdererTest
         		"EXDATE:20160428T120000" + System.lineSeparator() +
         		"END:VEVENT";
         assertEquals(expectedContent, v.toString());
+    }
+    
+    @Test // can remove a property and avoid null pointer with toString
+    public void canRemoveProperty()
+    {
+        VEvent vComponent = new VEvent()
+                .withSummary("example")
+                .withRecurrenceRule("RRULE:FREQ=DAILY");
+        vComponent.setRecurrenceRule((RecurrenceRule) null); // remove Recurrence Rule
+        assertEquals(1, vComponent.childrenUnmodifiable().size());
+        String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
+                                 "SUMMARY:example" + System.lineSeparator() +
+                                 "END:VEVENT";
+        assertEquals(expectedContent, vComponent.toString());
+    }
+    
+    @Test // can remove a property and avoid null pointer with toString
+    public void canRemoveListProperty()
+    {
+        VEvent vComponent = new VEvent()
+                .withSummary("example")
+                .withRecurrenceDates("RDATE;VALUE=DATE:19970304,19970504,19970704,19970904");
+        List<RecurrenceDates> r = new ArrayList<>(vComponent.getRecurrenceDates());
+        r.forEach(c -> vComponent.removeChild(c));
+        System.out.println(vComponent);
+//        vComponent.setRecurrenceDates(null); // remove Recurrence Rule
+        assertEquals(1, vComponent.childrenUnmodifiable().size());
+        String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
+                                 "SUMMARY:example" + System.lineSeparator() +
+                                 "END:VEVENT";
+        assertEquals(expectedContent, vComponent.toString());
+    }
+    
+    @Test // shows removing null property does nothing
+    public void canRemoveEmptyProperty()
+    {
+        VEvent vComponent = new VEvent();
+        vComponent.setRecurrenceRule((RecurrenceRule) null); // remove null Recurrence Rule
+        assertEquals(0, vComponent.childrenUnmodifiable().size());
+        String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
+                                 "END:VEVENT";
+        assertEquals(expectedContent, vComponent.toString());
     }
 }

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,7 +19,6 @@ import net.balsoftware.icalendar.properties.component.relationship.UniformResour
 import net.balsoftware.icalendar.properties.component.relationship.UniqueIdentifier;
 import net.balsoftware.icalendar.utilities.Callback;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
-import net.balsoftware.icalendar.utilities.UnfoldingStringIterator;
 
 /**
  * Components with the following properties:
@@ -269,7 +269,7 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     }
     
     @Override
-    public Map<VElement, List<String>> parseContent(UnfoldingStringIterator lineIterator, boolean useRequestStatus)
+    public Map<VElement, List<String>> parseContent(Iterator<String> lineIterator, boolean useRequestStatus)
     {
         Map<VElement, List<String>> statusMessages = super.parseContent(lineIterator, useRequestStatus);
         if (useRequestStatus)

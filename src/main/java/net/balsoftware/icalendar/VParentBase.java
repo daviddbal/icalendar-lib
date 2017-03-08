@@ -4,10 +4,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -192,6 +192,8 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	@Override
     public List<String> errors()
     {
+//		System.out.println("error check");
+//        return orderer.childrenUnmodifiableFast().stream()
         return childrenUnmodifiable().stream()
                 .flatMap(c -> c.errors().stream())
                 .collect(Collectors.toList());
@@ -218,26 +220,46 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         }
         VParent testObj = (VParent) obj;
         
-        Collection<VChild> c1 = childrenUnmodifiable();
-        Collection<VChild> c2 = testObj.childrenUnmodifiable();
-        if (c1.size() == c2.size())
-        {
-            Iterator<VChild> i1 = childrenUnmodifiable().iterator();
-            Iterator<VChild> i2 = testObj.childrenUnmodifiable().iterator();
-            for (int i=0; i<c1.size(); i++)
-            {
-                VChild child1 = i1.next();
-                VChild child2 = i2.next();
-                if (! child1.equals(child2))
-                {
-                    return false;
-                }
-            }
-        } else
-        {
-            return false;
-        }
-        return true;
+        Map<Class<? extends VChild>, Method> getters = getGetters();
+        return getters.entrySet()
+        	.stream()
+        	.map(e -> e.getValue())
+        	.allMatch(m ->
+        	{
+        		Object v1;
+				try {
+					v1 = m.invoke(this);
+	        		Object v2 = m.invoke(testObj);
+	        		return Objects.equals(v1, v2);
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+					e1.printStackTrace();
+				}
+				return false;
+        	});
+        
+//        System.out.println("equals");
+//        Collection<VChild> c1 = childrenUnmodifiable();
+//        Collection<VChild> c2 = testObj.childrenUnmodifiable();
+//        Collection<VChild> c1 = orderer.childrenUnmodifiableFast();
+//        Collection<VChild> c2 = ((VParentBase) testObj).orderer.childrenUnmodifiableFast();
+//        if (c1.size() == c2.size())
+//        {
+//            Iterator<VChild> i1 = c1.iterator();
+//            Iterator<VChild> i2 = c2.iterator();
+//            for (int i=0; i<c1.size(); i++)
+//            {
+//                VChild child1 = i1.next();
+//                VChild child2 = i2.next();
+//                if (! child1.equals(child2))
+//                {
+//                    return false;
+//                }
+//            }
+//        } else
+//        {
+//            return false;
+//        }
+//        return true;
     }
     
     @Override

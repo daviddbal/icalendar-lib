@@ -120,10 +120,6 @@ public class LocatableTest
     @Test (expected = DateTimeException.class)
     public void canCatchNegativeDuration()
     {
-        Thread.setDefaultUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
         VEvent vEvent = new VEvent()
                 .withDuration(Duration.ofHours(-1))
                 .withSummary("test");

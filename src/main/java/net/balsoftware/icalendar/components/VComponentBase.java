@@ -1,9 +1,9 @@
 package net.balsoftware.icalendar.components;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -107,41 +107,35 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     }
 
     @Override
-    public Map<VElement, List<String>> parseContent(UnfoldingStringIterator unfoldedLineIterator, boolean collectErrorMessages)
+    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator, boolean collectErrorMessages)
     {
         if (unfoldedLineIterator == null)
         {
-            throw new IllegalArgumentException("Calendar component content string can't be null");
+            throw new IllegalArgumentException("Calendar component content iterator can't be null");
         }
         Map<VElement, List<String>> messageMap = new HashMap<>();
         List<String> myMessages = new ArrayList<>();
-        
-        // handle exceptions in JavxFx threads by re-throwing
-        Thread t = Thread.currentThread();
-        UncaughtExceptionHandler originalExceptionHandler = t.getUncaughtExceptionHandler();
-        t.setUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
+        int line = 0;
         while (unfoldedLineIterator.hasNext())
         {
             String unfoldedLine = unfoldedLineIterator.next();
-//            System.out.println("unfoldedLine:" + unfoldedLine);
+//            System.out.println("unfoldedLine:" + line++ + unfoldedLine + " " + unfoldedLineIterator.hasNext());
             int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
             String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
+//            System.out.println(propertyName);
             // Parse subcomponent
             if (propertyName.equals("BEGIN"))
             {
                 boolean isMainComponent = unfoldedLine.substring(nameEndIndex+1).equals(name());
-                if  (! isMainComponent)
-                {
-                    String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
-                    VComponent subcomponent = SimpleVComponentFactory.emptyVComponent(subcomponentName);
-                    Map<VElement, List<String>> subMessages = subcomponent.parseContent(unfoldedLineIterator, collectErrorMessages);
-                    messageMap.putAll(subMessages);
-                    addSubcomponent(subcomponent);
-                    orderChild(subcomponent);
-                }
+//                if  (! isMainComponent)
+//                {
+//                    String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
+//                    VComponent subcomponent = SimpleVComponentFactory.emptyVComponent(subcomponentName);
+//                    Map<VElement, List<String>> subMessages = subcomponent.parseContent(unfoldedLineIterator, collectErrorMessages);
+//                    messageMap.putAll(subMessages);
+//                    addSubcomponent(subcomponent);
+//                    orderChild(subcomponent);
+//                }
             } else if (propertyName.equals("END"))
             {
                 break; // exit when end found
@@ -154,41 +148,20 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
                     Object existingProperty = propertyType.getProperty(this);
                     if (existingProperty == null || existingProperty instanceof List)
                     {
-                        try
-                        {
-                            try
-                            {
-//                            	System.out.println("unfoldedLine:" + unfoldedLine);
-                                VChild child = propertyType.parse(this, unfoldedLine);
-//                                System.out.println(child);
-//                                orderChild(child);
-                            } catch (Exception e)
-                            {
-                                if (propertyType.isRequired(this))
-                                {
-                                    myMessages.add("3.2;Invalid property value;" + unfoldedLine);
-                                } else
-                                {
-                                    myMessages.add("2.2;Success; invalid property ignored;" + unfoldedLine);
-                                }
-                            }
-                        } catch (Exception e)
-                        { // exceptions from JavaFX thread
-                            if (propertyType.isRequired(this))
-                            {
-                                myMessages.add("3.2;Invalid property value;" + unfoldedLine);
-                            } else
-                            {
-                                myMessages.add("2.2;Success; invalid property ignored;" + unfoldedLine);
-                            }
-                        }
-                    } else
-                    {
-                        myMessages.add("2.2;Success; invalid property ignored.  Property can only occur once in a calendar component.  Subsequent property is ignored;" + unfoldedLine);
+//                    	System.out.println(propertyType);
+//                    	if (propertyType == PropertyType.DATE_TIME_START)
+//                    	{
+//                    		System.out.println(unfoldedLine);
+//                    	}
+//                    		addChild(DateTimeStart.parse(unfoldedLine));
+//                    		System.out.println(unfoldedLine);
+//                    	long t1 = System.currentTimeMillis();
+                        VChild child = propertyType.parse(this, unfoldedLine);
+//                    	long t2 = System.currentTimeMillis();
+//                    	System.out.println("time:" + (t2-t1));
+//                        System.out.println(((VParentBase) getParent()).childrenUnmodifiable().size());
+//                    	}
                     }
-                } else
-                {
-                    myMessages.add("2.4;Success; unknown, non-standard property ignored.;" + unfoldedLine);
                 }
             }
         }
@@ -198,7 +171,6 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
         }
 //        System.out.println(System.identityHashCode(this) + " " + this.name() + " " + myMessages);
         messageMap.put(this, myMessages);
-        t.setUncaughtExceptionHandler(originalExceptionHandler); // return original exception handler
         // TODO - Log status messages if not using RequestStatus
         return messageMap;
     }

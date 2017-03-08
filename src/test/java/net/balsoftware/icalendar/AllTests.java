@@ -7,7 +7,6 @@ import org.junit.runners.Suite.SuiteClasses;
 import net.balsoftware.icalendar.calendar.CalendarScaleTest;
 import net.balsoftware.icalendar.calendar.CopyCalendarTest;
 import net.balsoftware.icalendar.calendar.GeneralCalendarTest;
-import net.balsoftware.icalendar.calendar.OrdererTest;
 import net.balsoftware.icalendar.calendar.ParseCalendarTest;
 import net.balsoftware.icalendar.calendar.ReadICSFileTest;
 import net.balsoftware.icalendar.calendar.RecurrenceIDParentValidTest;
@@ -45,7 +44,7 @@ import net.balsoftware.icalendar.misc.AddAndRemoveChildrenTests;
 import net.balsoftware.icalendar.misc.ErrorDetectingTest;
 import net.balsoftware.icalendar.misc.FoldingAndUnfoldingTest;
 import net.balsoftware.icalendar.misc.MiscICalendarTests;
-import net.balsoftware.icalendar.misc.MiscOrdererTest;
+import net.balsoftware.icalendar.misc.OrdererTest;
 import net.balsoftware.icalendar.parameter.AlternateTextRepresentationTest;
 import net.balsoftware.icalendar.parameter.CommonNameTest;
 import net.balsoftware.icalendar.parameter.DelegateesTest;
@@ -120,7 +119,7 @@ import net.balsoftware.icalendar.property.component.UniqueIdentifierTest;
 		ErrorDetectingTest.class,
         FoldingAndUnfoldingTest.class,
         MiscICalendarTests.class,
-        MiscOrdererTest.class,
+        OrdererTest.class,
         
         // iTIP tests
         CancelRecurrenceTest.class,

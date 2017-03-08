@@ -1,6 +1,7 @@
 package net.balsoftware.icalendar.components;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
-import net.balsoftware.icalendar.utilities.UnfoldingStringIterator;
 
 /**
  * <h2>RFC 5545, 3.6. Calendar Components</h2>
@@ -115,5 +115,5 @@ public interface VComponent extends VParent, VChild
      * @return  list of error messages if collectErrorMessages is true, otherwise empty list
      */
     @Deprecated // try to move to base classes
-    Map<VElement, List<String>> parseContent(UnfoldingStringIterator contentLines, boolean collectErrorMessages);
+    Map<VElement, List<String>> parseContent(Iterator<String> contentLines, boolean collectErrorMessages);
 }

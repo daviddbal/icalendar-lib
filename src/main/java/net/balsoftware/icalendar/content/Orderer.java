@@ -14,9 +14,20 @@ public interface Orderer
 {
 	/**
 	 * List of children in proper order
+	 * 
+	 * Orphaned children are automatically removed
+	 * Non-ordered children are included
 	 */
 	List<VChild> childrenUnmodifiable();
 
+	/**
+	 * List of children in proper order
+	 * 
+	 * Only includes ordered children.  No orphan removal occurs.  No inclusion of non-ordered children.
+	 * About 10x faster than the complete version.
+	 */
+//	List<VChild> childrenUnmodifiableFast();
+	
 	/** Add the next child to the list */
 	void orderChild(VChild newChild);
 

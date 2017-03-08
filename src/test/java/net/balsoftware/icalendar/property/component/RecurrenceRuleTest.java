@@ -129,13 +129,9 @@ public class RecurrenceRuleTest
         assertEquals("COUNT=2", element.toString());
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test
     public void canCatchNegativeCount()
     {
-        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-        {
-            throw (RuntimeException) e;
-        });
         Count element = new Count(5);
         assertEquals((Integer) 5, element.getValue());
         element.setValue(0);

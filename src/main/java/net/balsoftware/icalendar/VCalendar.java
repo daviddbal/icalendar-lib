@@ -799,10 +799,13 @@ public class VCalendar extends VParentBase<VCalendar>
             throw new IllegalArgumentException("Content lines must begin with BEGIN:VCALENDAR");
         }
         // wrap lineIterator in UnfoldingStringIterator decorator
+//        int line = 0;
         UnfoldingStringIterator unfoldedLineIterator = new UnfoldingStringIterator(lineIterator);
         while (unfoldedLineIterator.hasNext())
         {
             String unfoldedLine = unfoldedLineIterator.next();
+//            System.out.println("unfoldedLine:" + unfoldedLine);
+//            if (line++ > 20000) System.exit(0);
             int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
             String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
             
@@ -810,12 +813,22 @@ public class VCalendar extends VParentBase<VCalendar>
             if (propertyName.equals("BEGIN"))
             {
                 String componentName = unfoldedLine.substring(nameEndIndex+1);
+//            	System.out.println(componentName);
                 VComponent newComponent = SimpleVComponentFactory.emptyVComponent(componentName);
-                // TODO - USE ADD CHILD
                 Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
-                addChild(newComponent);
-//                addVComponent(newComponent);
+                addVComponent(newComponent);
+//                System.out.println(childrenUnmodifiable().size());
                 messageMap.putAll(newComponentMessages);
+
+                
+//                String componentName = unfoldedLine.substring(nameEndIndex+1);
+//                VComponent newComponent = SimpleVComponentFactory.emptyVComponent(componentName);
+//                // TODO - USE ADD CHILD
+//                System.out.println("new component");
+//                Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
+////                addChild(newComponent);
+//                addVComponent(newComponent);
+//                messageMap.putAll(newComponentMessages);
             } else if (propertyName.equals("END"))
             {
                 break;
@@ -931,7 +944,8 @@ public class VCalendar extends VParentBase<VCalendar>
     public static VCalendar parse(Reader reader) throws IOException
     {
         BufferedReader br = new BufferedReader(reader);
-        UnfoldingStringIterator unfoldedLineIterator = new UnfoldingStringIterator(br.lines().iterator());
+        Iterator<String> unfoldedLineIterator = new UnfoldingStringIterator(br.lines().iterator());
+//        Iterator<String> unfoldedLineIterator = br.lines().iterator();
 //        UnfoldingBufferedReader unfoldingReader = new UnfoldingBufferedReader(reader);
 //        Iterator<String> unfoldedLineIterator = unfoldingReader.lines().iterator();
         VCalendar vCalendar = new VCalendar();

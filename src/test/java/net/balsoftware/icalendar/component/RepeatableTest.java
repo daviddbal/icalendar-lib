@@ -210,13 +210,9 @@ public class RepeatableTest //extends Application
         assertTrue(hasError);
     }
 
-    @Test //(expected = DateTimeException.class)
+    @Test
     public void canCatchDifferentRepeatableTypes()
     {
-//        Thread.currentThread().setUncaughtExceptionHandler((t1, e) ->
-//        {
-//            throw (RuntimeException) e;
-//        });
         VEvent builtComponent = new VEvent()
                 .withRecurrenceDates("RDATE;VALUE=DATE:19970304,19970504,19970704,19970904");
         Set<Temporal> expectedValues = new LinkedHashSet<>(Arrays.asList(

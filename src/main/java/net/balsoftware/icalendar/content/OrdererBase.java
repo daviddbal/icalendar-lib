@@ -47,47 +47,57 @@ public class OrdererBase implements Orderer
         this.childGetters = map;
     }
 
+//	@Override
+//	public List<VChild> childrenUnmodifiable()
+//	{
+////		StackTraceElement[] st = Thread.currentThread().getStackTrace();
+////		System.out.println(st[3].getMethodName());
+////		System.out.println("run childrenUnmodifiable");
+////		childGetters.forEach(System.out::println);
+////		System.out.println("childUN:" + unorderedChildren(parent, childGetters).size() + " " + orderedChildren.size());
+//
+//		// Remove orphans
+//		List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
+////		System.out.println("allUnorderedChildren:" + allUnorderedChildren.size() + " " + orderedChildren.size());
+//		List<VChild> orphans = orderedChildren
+//			.stream()
+//			.filter(c -> ! allUnorderedChildren.contains(c))
+//			.collect(Collectors.toList());
+////		System.out.println("orphans:" + orphans.size());
+//		orphans.forEach(c -> orderedChildren.remove(c));
+//		List<VChild> allChildren = new ArrayList<>(orderedChildren);
+//
+//		// Add unordered children
+//		allUnorderedChildren
+//				.stream()
+//				.filter(c -> ! orderedChildren.contains(c))
+//				.forEach(unorderedChild -> 
+//				{
+//					Class<? extends VChild> clazz = unorderedChild.getClass();
+//					List<VChild> matchedChildren = allChildren.stream()
+//						.filter(c2 -> c2.getClass().equals(clazz))
+//						.collect(Collectors.toList());
+//					if (! matchedChildren.isEmpty())
+//					{
+//						VChild lastMatchedChild = matchedChildren.get(matchedChildren.size()-1);
+//						int index = allChildren.indexOf(lastMatchedChild)+1;
+//						allChildren.add(index, unorderedChild); // put after last matched child
+//					} else
+//					{
+//						allChildren.add(unorderedChild); // no match, put at end
+//					}
+//				});
+//
+//		return allChildren;
+//	}
+	
 	@Override
 	public List<VChild> childrenUnmodifiable()
 	{
-//		System.out.println("run childrenUnmodifiable");
-//		childGetters.forEach(System.out::println);
-//		System.out.println("childUN:" + unorderedChildren(parent, childGetters).size() + " " + orderedChildren.size());
-
-		// Remove orphans
-		List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
-//		System.out.println("allUnorderedChildren:" + allUnorderedChildren.size() + " " + orderedChildren.size());
-		List<VChild> orphans = orderedChildren
-			.stream()
-			.filter(c -> ! allUnorderedChildren.contains(c))
-			.collect(Collectors.toList());
-//		System.out.println("orphans:" + orphans.size());
-		orphans.forEach(c -> orderedChildren.remove(c));
-		List<VChild> allChildren = new ArrayList<>(orderedChildren);
-
-		// Add unordered children
-		allUnorderedChildren
-				.stream()
-				.filter(c -> ! orderedChildren.contains(c))
-				.forEach(unorderedChild -> 
-				{
-					Class<? extends VChild> clazz = unorderedChild.getClass();
-					List<VChild> matchedChildren = allChildren.stream()
-						.filter(c2 -> c2.getClass().equals(clazz))
-						.collect(Collectors.toList());
-					if (! matchedChildren.isEmpty())
-					{
-						VChild lastMatchedChild = matchedChildren.get(matchedChildren.size()-1);
-						int index = allChildren.indexOf(lastMatchedChild)+1;
-						allChildren.add(index, unorderedChild); // put after last matched child
-					} else
-					{
-						allChildren.add(unorderedChild); // no match, put at end
-					}
-				});
-
-		return allChildren;
+		return orderedChildren;
 	}
+	
+//	public 
 	
     private List<VChild> allUnorderedChildren(VParent parent, Map<Class<? extends VChild>, Method> childGetters2)
     {
@@ -125,25 +135,40 @@ public class OrdererBase implements Orderer
 	public void orderChild(VChild newChild)
 	{
 //		System.out.println("adding:" + newChild + "  " + System.identityHashCode(newChild) + " " + orderedChildren.contains(newChild));
-		if ((! orderedChildren.contains(newChild)) && (newChild != null))
-		{
-			List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
-			List<VChild> orphans = orderedChildren
-					.stream()
-					.filter(c -> c.getClass().equals(newChild.getClass()))
-					.filter(c -> ! allUnorderedChildren.contains(c))
-					.collect(Collectors.toList());
-			if (! orphans.isEmpty())
-			{ // replace orphan at same index location
-				int index = orderedChildren.indexOf(orphans.get(0));
-				orphans.forEach(c -> orderedChildren.remove(c));
-				orderedChildren.add(index, newChild);				
-			} else
-			{
-				orderedChildren.add(newChild);
-			}
-			newChild.setParent(parent);
-		}
+//		boolean isPresentInList = orderedChildren.contains(newChild);
+//		final boolean isNotPresentInList;
+//		int index = orderedChildren.indexOf(newChild);
+//		if (index > -1)
+//		{
+//			VChild match = orderedChildren.get(index);
+//			isNotPresentInList = newChild != match;
+//		} else
+//		{
+//			isNotPresentInList = true;
+//		}
+//		if (isNotPresentInList && (newChild != null))
+//		{
+//			List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
+//			List<VChild> orphans = orderedChildren
+//					.stream()
+//					.filter(c -> c.getClass().equals(newChild.getClass()))
+//					.filter(c -> ! allUnorderedChildren.contains(c))
+//					.collect(Collectors.toList());
+//			if (! orphans.isEmpty())
+//			{ // replace orphan at same index location
+//				int index2 = orderedChildren.indexOf(orphans.get(0));
+//				orphans.forEach(c -> orderedChildren.remove(c));
+//				orderedChildren.add(index2, newChild);				
+//			} else
+//			{
+//				orderedChildren.add(newChild);
+//			}
+//			newChild.setParent(parent);
+//		}
+		
+		orderedChildren.add(newChild);
+		newChild.setParent(parent);
+
 	}
 	
 	/* Remove orphans matching newChild's class type */
@@ -157,34 +182,6 @@ public class OrdererBase implements Orderer
 				.collect(Collectors.toList());
 		orphans.forEach(c -> orderedChildren.remove(c));
 	}
-
-//	@Override
-//	public void orderChild(VChild oldChild, VChild newChild)
-//	{
-////		System.out.println("adding:" + newChild);
-//		if (oldChild == null)
-//		{
-//			if (! orderedChildren.contains(newChild))
-//			{
-//				orderedChildren.add(newChild);
-//				newChild.setParent(parent);
-//			}
-//		} else
-//		{
-//			int index = orderedChildren.indexOf(oldChild);
-//			orderedChildren.remove(oldChild);
-//			if (newChild != null)
-//			{
-//				if (index >= 0)
-//				{
-//					orderedChildren.add(index, newChild);
-//				} else
-//				{
-//					orderedChildren.add(newChild);				
-//				}
-//			}
-//		}
-//	}
 
 	@Override
 	public void orderChild(int index, VChild newChild)

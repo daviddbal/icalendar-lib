@@ -54,7 +54,6 @@ public class ReadICSFileTest
         br.close();
 
         VCalendar vCalendar = VCalendar.parse(icsFilePath);
-//        System.out.println(vCalendar);
         
         Iterator<String> contentIterator = Arrays.stream(vCalendar.toString().split(System.lineSeparator())).iterator();
         UnfoldingStringIterator unfoldedContentLineIterator = new UnfoldingStringIterator(contentIterator);
@@ -62,7 +61,7 @@ public class ReadICSFileTest
         unfoldedContentLineIterator.forEachRemaining(line -> contentLines.add(line));
         String unfoldedContent = contentLines.stream().collect(Collectors.joining(System.lineSeparator()));
         
-        System.out.println(expectedUnfoldedContent);
+//        System.out.println(expectedUnfoldedContent);
         assertEquals(expectedUnfoldedContent, unfoldedContent);
         assertEquals(13217, expectedLines.size());
     }

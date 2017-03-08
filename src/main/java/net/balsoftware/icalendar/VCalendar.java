@@ -268,8 +268,9 @@ public class VCalendar extends VParentBase<VCalendar>
     private List<VEvent> vEvents = new ArrayList<>();
     public void setVEvents(List<VEvent> vEvents)
     {
+    	System.out.println("set vevents:" + vEvents);
     	this.vEvents = vEvents;
-    	vEvents.forEach(c -> orderChild(c));
+    	if (vEvents != null) vEvents.forEach(c -> orderChild(c));
 	}
     public VCalendar withVEvents(List<VEvent> vEvents)
     {

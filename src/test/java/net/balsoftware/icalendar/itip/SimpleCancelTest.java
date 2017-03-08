@@ -44,7 +44,7 @@ public class SimpleCancelTest
               "END:VEVENT" + System.lineSeparator() + 
               "END:VCALENDAR";
         VCalendar inputVCalendar = VCalendar.parse(publish);
-        main.processITIPMessage(inputVCalendar);
+        List<String> log = main.processITIPMessage(inputVCalendar);
         String expectedContent = 
                 "BEGIN:VCALENDAR" + System.lineSeparator() +
                 "VERSION:2.0" + System.lineSeparator() + 

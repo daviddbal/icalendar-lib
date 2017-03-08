@@ -107,12 +107,14 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 					if (list.isEmpty())
 					{
 						setter.invoke(this, (Object) null);
+						orderChild(child, null);
 					}
 					return result;
 				}
 			} else
 			{
 				setter.invoke(this, (Object) null);
+				orderChild(child, null);
 				return true;
 			}
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
@@ -220,8 +222,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	@Override
     public List<String> errors()
     {
-//		System.out.println("error check");
-//        return orderer.childrenUnmodifiableFast().stream()
         return childrenUnmodifiable().stream()
                 .flatMap(c -> c.errors().stream())
                 .collect(Collectors.toList());
@@ -257,37 +257,13 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 				try {
 					Object v1 = m.invoke(this);
 	        		Object v2 = m.invoke(testObj);
-	        		if (v1 != null) System.out.println(v1 + " "  +v2 + Objects.equals(v1, v2) + " " + v1.getClass().getSimpleName());
+//	        		if (v1 != null) System.out.println(v1 + " "  +v2 + Objects.equals(v1, v2) + " " + v1.getClass().getSimpleName());
 	        		return Objects.equals(v1, v2);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					e1.printStackTrace();
 				}
 				return false;
         	});
-        
-//        System.out.println("equals");
-//        Collection<VChild> c1 = childrenUnmodifiable();
-//        Collection<VChild> c2 = testObj.childrenUnmodifiable();
-//        Collection<VChild> c1 = orderer.childrenUnmodifiable();
-//        Collection<VChild> c2 = ((VParentBase) testObj).orderer.childrenUnmodifiable();
-//        if (c1.size() == c2.size())
-//        {
-//            Iterator<VChild> i1 = c1.iterator();
-//            Iterator<VChild> i2 = c2.iterator();
-//            for (int i=0; i<c1.size(); i++)
-//            {
-//                VChild child1 = i1.next();
-//                VChild child2 = i2.next();
-//                if (! child1.equals(child2))
-//                {
-//                    return false;
-//                }
-//            }
-//        } else
-//        {
-//            return false;
-//        }
-//        return true;
     }
     
     @Override

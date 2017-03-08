@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.CalendarComponent;
-import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
@@ -131,20 +130,26 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
                     Object existingProperty = propertyType.getProperty(this);
                     if (existingProperty == null || existingProperty instanceof List)
                     {
-//                    	System.out.println(propertyType);
-//                    	if (propertyType == PropertyType.DATE_TIME_START)
-//                    	{
-//                    		System.out.println(unfoldedLine);
-//                    	}
-//                    		addChild(DateTimeStart.parse(unfoldedLine));
-//                    		System.out.println(unfoldedLine);
-//                    	long t1 = System.currentTimeMillis();
-                        VChild child = propertyType.parse(this, unfoldedLine);
-//                    	long t2 = System.currentTimeMillis();
-//                    	System.out.println("time:" + (t2-t1));
-//                        System.out.println(((VParentBase) getParent()).childrenUnmodifiable().size());
-//                    	}
+                            try
+                            {
+                                propertyType.parse(this, unfoldedLine);
+                            } catch (Exception e)
+                            {
+                                if (propertyType.isRequired(this))
+                                {
+                                    myMessages.add("3.2;Invalid property value;" + unfoldedLine);
+                                } else
+                                {
+                                    myMessages.add("2.2;Success; invalid property ignored;" + unfoldedLine);
+                                }
+                            }
+                    } else
+                    {
+                        myMessages.add("2.2;Success; invalid property ignored.  Property can only occur once in a calendar component.  Subsequent property is ignored;" + unfoldedLine);
                     }
+                } else
+                {
+                    myMessages.add("2.4;Success; unknown, non-standard property ignored.;" + unfoldedLine);
                 }
             }
         }

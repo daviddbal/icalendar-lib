@@ -158,8 +158,7 @@ public class ProcessCancel implements Processable
                     // match RECURRENCE-ID (if deleting a parent)
                     if (recurrenceID == null)
                     { // delete all related VComponents
-                        List<? extends VComponent> myVComponents = mainVCalendar.getVComponents(vDisplayable);
-                        myVComponents.removeAll(relatedVComponents);
+                        relatedVComponents.forEach(v -> mainVCalendar.removeChild(v));
                         log.add("SUCCESS: canceled " + vDisplayable.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue());
                     } else
                     {

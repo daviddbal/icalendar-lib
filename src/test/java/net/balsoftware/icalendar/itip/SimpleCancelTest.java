@@ -258,10 +258,11 @@ public class SimpleCancelTest
     public void canDeleteThisAndFuture2()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponentOriginal = ICalendarStaticComponents.getWeeklyZoned();
-        vComponents.add(vComponentOriginal);
+        mainVCalendar.addChild(vComponentOriginal);
+        final List<VEvent> vComponents = mainVCalendar.getVEvents();
+        assertEquals(1, vComponents.size());
 
         String iTIPMessage =
                 "BEGIN:VCALENDAR" + System.lineSeparator() +

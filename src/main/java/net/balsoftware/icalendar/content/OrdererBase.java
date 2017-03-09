@@ -213,8 +213,6 @@ public class OrdererBase implements Orderer
 			orderChild(newChild);
 		} else
 		{
-			System.out.println(oldChild);
-			System.out.println(orderedChildren.contains(oldChild));
 			int index = orderedChildren.indexOf(oldChild);
 			VChild result = orderedChildren.set(index, newChild);
 			return result.equals(oldChild);

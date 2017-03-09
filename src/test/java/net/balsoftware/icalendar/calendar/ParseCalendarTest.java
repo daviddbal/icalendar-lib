@@ -264,7 +264,6 @@ public class ParseCalendarTest extends ICalendarTestAbstract
             "X-CUSTOM-PROP:THE DATA" + System.lineSeparator() +
             "END:VCALENDAR";
             VCalendar v = VCalendar.parse(content);
-            System.out.println(v);
             assertEquals(content, v.toString());
     }
     

@@ -34,16 +34,14 @@ public class RecurrenceIDParentValidTest
     @Test
     public void canCatchWrongRecurrenceIdType2()
     {
-        VCalendar c = new VCalendar();
         VEvent parentComponent = new VEvent()
                 .withUniqueIdentifier("testRecurrenceID08242016")
                 .withDateTimeStart(LocalDate.of(1997, 3, 1));
         VEvent childComponent = new VEvent()
                 .withUniqueIdentifier("testRecurrenceID08242016")
                 .withRecurrenceId(LocalDate.of(1997, 3, 1));
-        c.addAllVComponents(parentComponent, childComponent);
-        c.orderChild(parentComponent);
-        c.orderChild(childComponent);
+        VCalendar c = new VCalendar()
+        		.withVEvents(parentComponent, childComponent);
         parentComponent.setDateTimeStart(LocalDateTime.of(1997, 4, 1, 8, 0));
         String errorPrefix = PropertyType.RECURRENCE_IDENTIFIER.toString();
         boolean hasError = childComponent.errors().stream()

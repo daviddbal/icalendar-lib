@@ -162,6 +162,7 @@ public class ProcessPublish implements Processable
                     }
                 }
             	mainVCalendar.addChild(c);
+
                 log.add("SUCCESS: added " + c.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue());
                 
                 // Remove orphaned recurrence children

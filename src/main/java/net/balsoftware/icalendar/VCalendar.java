@@ -269,7 +269,7 @@ public class VCalendar extends VParentBase<VCalendar>
      * 
      */
     public List<VEvent> getVEvents() { return vEvents; }
-    private List<VEvent> vEvents = new ArrayList<>();
+    private List<VEvent> vEvents;
     public void setVEvents(List<VEvent> vEvents)
     {
     	if (this.vEvents != null)
@@ -314,7 +314,7 @@ public class VCalendar extends VParentBase<VCalendar>
      * 
      */
     public List<VTodo> getVTodos() { return vTodos; }
-    private List<VTodo> vTodos = new ArrayList<>();
+    private List<VTodo> vTodos;
     public void setVTodos(List<VTodo> vTodos)
     {
     	if (this.vTodos != null)
@@ -361,7 +361,7 @@ public class VCalendar extends VParentBase<VCalendar>
      * @see VJournal
      */
     public List<VJournal> getVJournals() { return vJournals; }
-    private List<VJournal> vJournals = new ArrayList<>();
+    private List<VJournal> vJournals;
     public void setVJournals(List<VJournal> vJournals)
     {
     	if (this.vJournals != null)
@@ -405,7 +405,7 @@ public class VCalendar extends VParentBase<VCalendar>
      * @see VFreeBusy
      */
     public List<VFreeBusy> getVFreeBusies() { return vFreeBusys; }
-    private List<VFreeBusy> vFreeBusys = new ArrayList<>();
+    private List<VFreeBusy> vFreeBusys;
     public void setVFreeBusys(List<VFreeBusy> vFreeBusys)
     {
     	if (this.vFreeBusys != null)
@@ -449,7 +449,7 @@ public class VCalendar extends VParentBase<VCalendar>
      * @see VTimeZone
      */
     public List<VTimeZone> getVTimeZones() { return vTimeZones; }
-    private List<VTimeZone> vTimeZones = new ArrayList<>();
+    private List<VTimeZone> vTimeZones;
     public void setVTimeZones(List<VTimeZone> vTimeZones)
     {
     	if (this.vTimeZones != null)
@@ -494,6 +494,7 @@ public class VCalendar extends VParentBase<VCalendar>
      * @param newVComponent - VComponent to add
      * @return  true if add was successful, false otherwise
      */
+    @Deprecated
     public boolean addVComponent(VComponent newVComponent)
     {
         if (newVComponent instanceof VEvent)
@@ -544,11 +545,12 @@ public class VCalendar extends VParentBase<VCalendar>
     
     /** Create a VComponent by parsing component text and add it to the appropriate list 
      * @see #addVComponent(VComponent)*/
+    @Deprecated
     public void addVComponent(String contentText)
     {
         VComponent vComponent = SimpleVComponentFactory.emptyVComponent(contentText);
         vComponent.parseContent(contentText);
-        addVComponent(vComponent);
+        addChild(vComponent);
     }
     
     /** Add a collection of {@link VComponent} to the correct List based on
@@ -855,7 +857,8 @@ public class VCalendar extends VParentBase<VCalendar>
 //            	System.out.println(componentName);
                 VComponent newComponent = SimpleVComponentFactory.emptyVComponent(componentName);
                 Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
-                addVComponent(newComponent);
+                addChild(newComponent);
+//                addVComponent(newComponent);
 //                System.out.println(childrenUnmodifiable().size());
                 messageMap.putAll(newComponentMessages);
 

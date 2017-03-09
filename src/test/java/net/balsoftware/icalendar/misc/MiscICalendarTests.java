@@ -12,7 +12,6 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.temporal.Temporal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,11 +24,11 @@ import net.balsoftware.icalendar.components.StandardTime;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VTimeZone;
 import net.balsoftware.icalendar.components.VTodo;
+import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
 import net.balsoftware.icalendar.properties.calendar.Version;
 import net.balsoftware.icalendar.properties.component.descriptive.Comment;
-import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.FrequencyType;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay;
@@ -65,8 +64,6 @@ public class MiscICalendarTests
         // the last three setters the API builds new DateTimeStart objects for you.
         calendar.getVEvents().add(event); // add the event to the calendar
         calendar.setProductIdentifier("-//jfxtras/iCalendarFx//EN"); // PRODID calendar property
-                
-//        System.out.println(calendar.toString());
     }
     
     @Test
@@ -92,7 +89,6 @@ public class MiscICalendarTests
                             new ByDay(DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY))) // BYDAY rrule value element 
             .withUniqueIdentifier("20150110T080000-0@jfxtras.org"); // UID component property
         String content = event.toString();
-//        System.out.println(content);
     }
     
     @Test
@@ -174,7 +170,6 @@ public class MiscICalendarTests
                                 .withByRules(new ByMonth(Month.NOVEMBER, Month.DECEMBER),  // BYMONTH rrule value element 
                                         new ByDay(DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.FRIDAY))) // BYDAY rrule value element 
                     .withUniqueIdentifier("20150110T080000-0@jfxtras.org")); // UID component property
-//        System.out.println(c.toString());
     }
         
     @Test // parse a string
@@ -194,7 +189,6 @@ public class MiscICalendarTests
                 "END:VEVENT" + nl +
                 "END:VCALENDAR";
         VCalendar c = VCalendar.parse(content); // Note: can also parse files and readers
-//        System.out.println(c.toString());
     }
     
     @Test // Can check if RFC 5545 rules are followed.
@@ -287,51 +281,11 @@ public class MiscICalendarTests
         VEvent e = VEvent.parse(content);
         
         List<VChild> eChildren = e.childrenUnmodifiable();
-        eChildren.stream().map(c -> c.name())
-         .forEach(System.out::println);   
-        
         DateTimeStart d = e.getDateTimeStart();
+        assertTrue(eChildren.contains(d));
+
         List<VChild> dChildren = d.childrenUnmodifiable();
-        dChildren.stream().map(c -> c.name())
-         .forEach(System.out::println);
-        System.out.println(d.getParent().name());
+        ValueParameter dt = d.getValueType();
+        assertTrue(dChildren.contains(dt));
     }
-    
-    // A number of calendar components (e.g. VEVENT) can be repeatable - done by the recurrence rule property.
-    /*
-     * Daily for 10 occurrences:
-     * 
-     DTSTART;TZID=America/New_York:19970902T090000
-     RRULE:FREQ=DAILY;COUNT=10
-     */
-    @Test
-    public void canStreamRRule1()
-    {
-        String s = "RRULE:FREQ=DAILY;COUNT=10";
-        RecurrenceRule rRule = RecurrenceRule.parse(s);
-        Temporal start = LocalDateTime.of(1997, 9, 2, 9, 0);
-        rRule.getValue()
-                .streamRecurrences(start)
-                .forEach(System.out::println);
-    }
-    
-    // Streams are great for an endless series of date/times (calculate values lazily)
-    /*
-     * Every Friday the 13th, forever:
-     * 
-    DTSTART;VALUE=DATE:19980213
-    RRULE:FREQ=MONTHLY;BYDAY=FR;BYMONTHDAY=13
-    */
-    @Test
-    public void canStreamRRule2()
-    {
-		String s = "FREQ=MONTHLY;BYDAY=FR;BYMONTHDAY=13";
-		RecurrenceRule rRule = RecurrenceRule.parse(s);
-		Temporal dateTimeStart = LocalDate.of(2016, 5, 13);
-		rRule.getValue()
-		        .streamRecurrences(dateTimeStart)
-		        .limit(5) // must limit or goes forever
-		        .forEach(System.out::println);
-    }
-    
 }

@@ -18,9 +18,16 @@ public interface VParent extends VElement
      * @return  unmodifiable list of children
      */
     List<VChild> childrenUnmodifiable();
-    
 
     /**
+     * Add child element to parent by parsing content text
+     * 
+     * @param child element to add to ordered list
+     */
+    void addChild(String childContent);
+    
+    /**
+     * Add child element to parent.
      * 
      * @param child element to add to ordered list
      */

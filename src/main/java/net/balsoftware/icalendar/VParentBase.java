@@ -89,6 +89,11 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		orderChild(index, child);
     }
 	@Override
+	public void addChild(String childContent)
+	{
+		throw new RuntimeException("not implemented yet");
+	}
+	@Override
 	public boolean removeChild(VChild child)
 	{
 		Method setter = getSetter(child);
@@ -104,11 +109,12 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 				} else
 				{
 					boolean result = list.remove(child);
-					if (list.isEmpty())
-					{
-						setter.invoke(this, (Object) null);
-						orderChild(child, null);
-					}
+					orderChild(child, null);
+					// Should I leave empty lists? - below code removes empty lists
+//					if (list.isEmpty())
+//					{
+//						setter.invoke(this, (Object) null);
+//					}
 					return result;
 				}
 			} else

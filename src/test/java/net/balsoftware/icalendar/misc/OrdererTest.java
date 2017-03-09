@@ -5,9 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.Test;
 
@@ -16,9 +14,9 @@ import net.balsoftware.icalendar.parameters.Encoding.EncodingType;
 import net.balsoftware.icalendar.properties.ValueType;
 import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
 import net.balsoftware.icalendar.properties.component.descriptive.Categories;
+import net.balsoftware.icalendar.properties.component.descriptive.Comment;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.recurrence.ExceptionDates;
-import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 
 public class OrdererTest
@@ -156,14 +154,15 @@ public class OrdererTest
     {
         VEvent vComponent = new VEvent()
                 .withSummary("example")
-                .withRecurrenceDates("RDATE;VALUE=DATE:19970304,19970504,19970704,19970904");
-        List<RecurrenceDates> r = new ArrayList<>(vComponent.getRecurrenceDates());
-        r.forEach(c -> vComponent.removeChild(c));
-        System.out.println(vComponent);
-//        vComponent.setRecurrenceDates(null); // remove Recurrence Rule
-        assertEquals(1, vComponent.childrenUnmodifiable().size());
+                .withComments("DOG","CAT","FROG");
+        Comment secondComment = vComponent.getComments().get(1);
+        vComponent.removeChild(secondComment);
+        assertEquals(3, vComponent.childrenUnmodifiable().size());
+        assertEquals(2, vComponent.getComments().size());
         String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
                                  "SUMMARY:example" + System.lineSeparator() +
+                                 "COMMENT:DOG" + System.lineSeparator() +
+                                 "COMMENT:FROG" + System.lineSeparator() +
                                  "END:VEVENT";
         assertEquals(expectedContent, vComponent.toString());
     }

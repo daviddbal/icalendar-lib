@@ -1,5 +1,6 @@
 package net.balsoftware.icalendar.components;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,11 +41,15 @@ public interface VDescribable<T> extends VComponent
      */
     default T withAttachments(List<Attachment<?>> attachments)
     {
-        setAttachments(attachments);
-        if (attachments != null)
-        {
-        	attachments.forEach(c -> orderChild(c));
-        }
+    	if (getAttachments() == null)
+    	{
+    		setAttachments(new ArrayList<>());
+    	}
+    	getAttachments().addAll(attachments);
+    	if (attachments != null)
+    	{
+    		attachments.forEach(c -> orderChild(c));
+    	}
         return (T) this;
     }
     /**

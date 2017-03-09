@@ -157,17 +157,11 @@ public class ProcessPublish implements Processable
                         if (! isNewSequenceHigher) throw new IllegalArgumentException("Can't process PUBLISH method: SEQUENCY property MUST be higher than previously published component (new=" + newSequence + " old=" + oldSequence + ")");
                         if (isNewSequenceHigher)
                         {
-//                        	mainVCalendar.removeChild(oldMatchingVComponent); // remove old VComponent because we're replacing it
-//                        	mainVCalendar.getVComponents(vDisplayable).remove(oldMatchingVComponent); // remove old VComponent because we're replacing it
-                        	mainVCalendar.replaceChild(oldMatchingVComponent, c); // remove from orderer
+                        	mainVCalendar.removeChild(oldMatchingVComponent);
                         }
                     }
-                } else
-                {
-                	mainVCalendar.addChild(c);
                 }
-//                mainVCalendar.addVComponent(c);
-//                mainVCalendar.orderChild(c); // TODO - need index from remove
+            	mainVCalendar.addChild(c);
                 log.add("SUCCESS: added " + c.getClass().getSimpleName() + " with UID:" + vDisplayable.getUniqueIdentifier().getValue());
                 
                 // Remove orphaned recurrence children

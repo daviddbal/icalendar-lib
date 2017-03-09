@@ -37,6 +37,8 @@ public interface Orderer
 //	/** Remove child from ordered list.  Returns former index of child */
 //	int removeChild(VChild child);
 
-	/** Replace oldChild with newChild in ordered list */
-	void replaceChild(VChild oldChild, VChild newChild);
+	/** Replace oldChild with newChild in ordered list 
+	 * @return true if success, false if failure
+	 * */
+	boolean replaceChild(VChild oldChild, VChild newChild);
 }

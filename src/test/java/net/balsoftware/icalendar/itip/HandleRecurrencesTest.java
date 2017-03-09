@@ -33,7 +33,7 @@ public class HandleRecurrencesTest
         final List<VEvent> vComponents = mainVCalendar.getVEvents();
         
         VEvent vComponent1 = ICalendarStaticComponents.getDaily1();
-        vComponents.add(vComponent1);
+        mainVCalendar.addChild(vComponent1);
         // make recurrences
         VEvent vComponentRecurrence = ICalendarStaticComponents.getDaily1()
                 .withRecurrenceRule((RecurrenceRuleValue) null)
@@ -41,7 +41,7 @@ public class HandleRecurrencesTest
                 .withSummary("recurrence summary")
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 17, 8, 30))
                 .withDateTimeEnd(LocalDateTime.of(2016, 5, 17, 9, 30));
-        vComponents.add(vComponentRecurrence);
+        mainVCalendar.addChild(vComponentRecurrence);
         
         VEvent vComponentRecurrence2 = ICalendarStaticComponents.getDaily1()
                 .withRecurrenceRule((RecurrenceRuleValue) null)
@@ -49,7 +49,7 @@ public class HandleRecurrencesTest
                 .withSummary("recurrence summary2")
                 .withDateTimeStart(LocalDateTime.of(2016, 5, 19, 7, 30))
                 .withDateTimeEnd(LocalDateTime.of(2016, 5, 19, 8, 30));
-        vComponents.add(vComponentRecurrence2);
+        mainVCalendar.addChild(vComponentRecurrence2);
         
         String iTIPMessage =
                 "BEGIN:VCALENDAR" + System.lineSeparator() +

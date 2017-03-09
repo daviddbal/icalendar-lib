@@ -200,22 +200,26 @@ public class OrdererBase implements Orderer
 	}
 	
 	@Override
-	public void replaceChild(VChild oldChild, VChild newChild)
+	public boolean replaceChild(VChild oldChild, VChild newChild)
 	{
 		if (newChild == null)
 		{
 			if (oldChild != null)
 			{
-				orderedChildren.remove(oldChild);
+				return orderedChildren.remove(oldChild);
 			}
 		} else if (oldChild == null)
 		{
 			orderChild(newChild);
 		} else
 		{
+			System.out.println(oldChild);
+			System.out.println(orderedChildren.contains(oldChild));
 			int index = orderedChildren.indexOf(oldChild);
-			orderedChildren.set(index, newChild);
+			VChild result = orderedChildren.set(index, newChild);
+			return result.equals(oldChild);
 		}
+		return false;
 	}
 
 //	@Override

@@ -137,7 +137,8 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	@Override
 	public boolean replaceChild(VChild oldChild, VChild newChild)
 	{
-		return replaceChild(childrenUnmodifiable().indexOf(oldChild), newChild);
+		return orderer.replaceChild(oldChild, newChild);
+//		return replaceChild(childrenUnmodifiable().indexOf(oldChild), newChild);
 	}
 	public T withChild(VChild child)
 	{

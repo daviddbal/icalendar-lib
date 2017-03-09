@@ -2,6 +2,7 @@ package net.balsoftware.icalendar.misc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -86,6 +87,6 @@ public class AddAndRemoveChildrenTests
         VEvent v = ICalendarStaticComponents.getDaily1();
         Categories category = v.getCategories().get(0);
         v.removeChild(category);
-        assertNull(v.getCategories());
+        assertTrue(v.getCategories().isEmpty());
     }
 }

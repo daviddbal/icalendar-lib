@@ -124,12 +124,21 @@ public class ProcessPublish implements Processable
                 final int newSequence = (vDisplayable.getSequence() == null) ? 0 : vDisplayable.getSequence().getValue();
                 boolean isNewSequenceHigher = true;
                 UniqueIdentifier uid = vDisplayable.getUniqueIdentifier();
-                List<VDisplayable<?>> relatedVComponents = mainVCalendar.getVComponents(vDisplayable)
-                	.stream()
-                	.filter(v -> v instanceof VDisplayable)
-            		.map(v -> (VDisplayable<?>) v)
-            		.filter(v -> v.getUniqueIdentifier().equals(uid))
-            		.collect(Collectors.toList());
+                
+                final List<VDisplayable<?>> relatedVComponents;
+                List<? extends VComponent> list = mainVCalendar.getVComponents(vDisplayable);
+                if (list == null)
+                {
+                	relatedVComponents = null;
+                } else
+                {
+	                relatedVComponents = mainVCalendar.getVComponents(vDisplayable)
+	                	.stream()
+	                	.filter(v -> v instanceof VDisplayable)
+	            		.map(v -> (VDisplayable<?>) v)
+	            		.filter(v -> v.getUniqueIdentifier().equals(uid))
+	            		.collect(Collectors.toList());
+                }
                 final Temporal recurrenceID = (vDisplayable.getRecurrenceId() != null) ? vDisplayable.getRecurrenceId().getValue() : null;
 
                 // check for previous match to remove it

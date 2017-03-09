@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -160,11 +161,9 @@ public class SimplePublishTest
     public void canEditOneRecurrence()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final List<VEvent> vComponents = mainVCalendar.getVEvents();
-        
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
-        vComponents.add(vComponentOriginal);
-        mainVCalendar.orderChild(vComponentOriginal);
+        final List<VEvent> vComponents = new ArrayList<>(Arrays.asList(vComponentOriginal));
+        mainVCalendar.setVEvents(vComponents);
         
         String iTIPMessage =
                 "BEGIN:VCALENDAR" + System.lineSeparator() +
@@ -263,8 +262,8 @@ public class SimplePublishTest
                 .withSummary("recurrence summary")
                 .withDateTimeStart(LocalDateTime.of(2015, 11, 12, 8, 30))
                 .withDateTimeEnd(LocalDateTime.of(2015, 11, 12, 9, 30));
-        final List<VEvent> vComponents = mainVCalendar.getVEvents();
-        vComponents.addAll(Arrays.asList(vComponentEdited, vComponentRecurrence));
+        final List<VEvent> vComponents = new ArrayList<>(Arrays.asList(vComponentEdited, vComponentRecurrence));
+        mainVCalendar.setVEvents(vComponents);
                 
         // Publish change to ALL VEvents (recurrence gets deleted)
         String publish = new String("BEGIN:VCALENDAR" + System.lineSeparator() + 
@@ -318,10 +317,9 @@ public class SimplePublishTest
     public void canEditThisAndFuture()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final List<VEvent> vComponents = mainVCalendar.getVEvents();
-        
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
-        vComponents.add(vComponentOriginal);
+        final List<VEvent> vComponents = new ArrayList<>(Arrays.asList(vComponentOriginal));
+        mainVCalendar.setVEvents(vComponents);
         
         String iTIPMessage =
                 "BEGIN:VCALENDAR" + System.lineSeparator() +
@@ -373,10 +371,9 @@ public class SimplePublishTest
     public void canEditThisAndFuture2()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final List<VEvent> vComponents = mainVCalendar.getVEvents();
-        
         VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
-        vComponents.add(vComponentOriginal);
+        final List<VEvent> vComponents = new ArrayList<>(Arrays.asList(vComponentOriginal));
+        mainVCalendar.setVEvents(vComponents);
 
         String iTIPMessage =
                 "BEGIN:VCALENDAR" + System.lineSeparator() +
@@ -429,11 +426,9 @@ public class SimplePublishTest
     public void canAddRRuleToAll()
     {
         VCalendar mainVCalendar = new VCalendar();
-        final List<VEvent> vComponents = mainVCalendar.getVEvents();
-        
         VEvent vComponentOriginal = ICalendarStaticComponents.getIndividualZoned();
-        VEvent vComponentEdited = new VEvent(vComponentOriginal);
-        vComponents.add(vComponentEdited);
+        final List<VEvent> vComponents = new ArrayList<>(Arrays.asList(vComponentOriginal));
+        mainVCalendar.setVEvents(vComponents);
         
         String iTIPMessage =
                 "BEGIN:VCALENDAR" + System.lineSeparator() +

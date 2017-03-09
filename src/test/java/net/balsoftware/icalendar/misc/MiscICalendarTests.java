@@ -12,6 +12,7 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,8 +63,16 @@ public class MiscICalendarTests
         event.setDateTimeStart("DTSTART:20071104T020000"); // by parsing iCalendar content
         event.setDateTimeStart("20071104T020000"); // parsing iCalendar value (tag omitted)
         // the last three setters the API builds new DateTimeStart objects for you.
-        calendar.getVEvents().add(event); // add the event to the calendar
+        calendar.setVEvents(new ArrayList<>(Arrays.asList(event))); // add the event to the calendar
         calendar.setProductIdentifier("-//jfxtras/iCalendarFx//EN"); // PRODID calendar property
+        
+        String expectedContent = "BEGIN:VCALENDAR" + System.lineSeparator() + 
+        		"BEGIN:VEVENT" + System.lineSeparator() + 
+        		"DTSTART:20071104T020000" + System.lineSeparator() + 
+        		"END:VEVENT" + System.lineSeparator() + 
+        		"PRODID:-//jfxtras/iCalendarFx//EN" + System.lineSeparator() + 
+        		"END:VCALENDAR";
+        assertEquals(expectedContent, calendar.toString());
     }
     
     @Test

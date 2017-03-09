@@ -53,13 +53,11 @@ public class OrdererTest
                 .withAttachments(Attachment.parse("ATTACH;FMTTYPE=text/plain;ENCODING=BASE64;VALUE=BINARY:TG9yZW"));
         Attachment<?> a1 = Attachment.parse("ATTACH;FMTTYPE=application/postscript:ftp://example.com/reports/r-960812.ps");
         Attachment<?> a2 = new Attachment<String>(String.class, "TG9yZW")
-        .withFormatType("text/plain")
-        .withEncoding(EncodingType.BASE64)
-        .withValueType(ValueType.BINARY);
-		v.withAttachments(Arrays.asList(
-                a1,
-                a2));
-		v.orderChild(0,a1);
+	        .withFormatType("text/plain")
+	        .withEncoding(EncodingType.BASE64)
+	        .withValueType(ValueType.BINARY);
+        v.setAttachments(Arrays.asList(a1,a2));
+        v.orderChild(0,a1);
 		v.orderChild(2,a2);
         String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
                 "ATTACH;FMTTYPE=application/postscript:ftp://example.com/reports/r-960812.ps" + System.lineSeparator() +
@@ -68,6 +66,7 @@ public class OrdererTest
                 "END:VEVENT";
         VEvent expectedVEvent = VEvent.parse(expectedContent);
         assertEquals(expectedVEvent, v);
+        assertEquals(expectedContent, v.toString());
     }
     
     @Test
@@ -109,15 +108,16 @@ public class OrdererTest
         VEvent v = new VEvent().withExceptionDates(LocalDate.of(2016, 4, 27));
         v.setSummary("here:");
         ExceptionDates e2 = new ExceptionDates(LocalDateTime.of(2016, 4, 28, 12, 0));
-        v.getExceptionDates().add(e2);
+        v.addChild(e2);
         ExceptionDates e3 = new ExceptionDates(LocalDateTime.of(2016, 4, 29, 12, 0));
-        v.getExceptionDates().add(e3);
+        v.addChild(e3);
         String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
         		"EXDATE;VALUE=DATE:20160427" + System.lineSeparator() +
+        		"SUMMARY:here:" + System.lineSeparator() +
         		"EXDATE:20160428T120000" + System.lineSeparator() +
         		"EXDATE:20160429T120000" + System.lineSeparator() +
-        		"SUMMARY:here:" + System.lineSeparator() +
         		"END:VEVENT";
+        System.out.println(v);
         assertEquals(expectedContent, v.toString());
     }
     

@@ -43,6 +43,10 @@ public abstract class StandardOrDaylight<T extends StandardOrDaylight<T>> extend
     public List<TimeZoneName> getTimeZoneNames() { return timeZoneNames; }
     public void setTimeZoneNames(List<TimeZoneName> timeZoneNames)
     {
+    	if (this.timeZoneNames != null)
+    	{
+    		this.timeZoneNames.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.timeZoneNames = timeZoneNames;
     	if (timeZoneNames != null)
     	{

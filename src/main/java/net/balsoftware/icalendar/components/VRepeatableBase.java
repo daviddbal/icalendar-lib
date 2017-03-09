@@ -44,10 +44,14 @@ public abstract class VRepeatableBase<T> extends VPrimary<T> implements VRepeata
     @Override
     public void setRecurrenceDates(List<RecurrenceDates> recurrenceDates)
     {
+    	if (this.recurrenceDates != null)
+    	{
+    		this.recurrenceDates.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.recurrenceDates = recurrenceDates;
     	if (recurrenceDates != null)
     	{
-    		recurrenceDates.forEach(c -> orderChild(c));
+    		recurrenceDates.forEach(c -> orderChild(c)); // order new elements
     	}
 	}
 

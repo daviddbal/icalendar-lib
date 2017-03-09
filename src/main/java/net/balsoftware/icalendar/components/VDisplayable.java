@@ -81,8 +81,15 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     @Override
     public void setAttachments(List<Attachment<?>> attachments)
     {
+    	if (this.attachments != null)
+    	{
+    		this.attachments.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.attachments = attachments;
-    	attachments.forEach(c -> orderChild(c));
+    	if (attachments != null)
+    	{
+    		attachments.forEach(e -> orderChild(e));
+    	}
 	}
     
     /**
@@ -97,10 +104,14 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private List<Categories> categories;
     public void setCategories(List<Categories> categories)
     {
+    	if (this.categories != null)
+    	{
+    		this.categories.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.categories = categories;
     	if (categories != null)
     	{
-    		categories.forEach(c -> orderChild(c));
+    		categories.forEach(e -> orderChild(e));
     	}
 	}
     public T withCategories(List<Categories> categories)
@@ -177,6 +188,10 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private List<Contact> contacts;
     public void setContacts(List<Contact> contacts)
     {
+    	if (this.contacts != null)
+    	{
+    		this.contacts.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.contacts = contacts;
     	if (contacts != null)
     	{
@@ -255,10 +270,14 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private List<ExceptionDates> exceptionDates;
     public void setExceptionDates(List<ExceptionDates> exceptionDates)
     {
+    	if (this.exceptionDates != null)
+    	{
+    		this.exceptionDates.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
         this.exceptionDates = exceptionDates;
         if (exceptionDates != null)
         {
-        	exceptionDates.forEach(e -> orderChild(e));
+        	exceptionDates.forEach(e -> orderChild(e)); // order new elements
         }
     }
     public T withExceptionDates(List<ExceptionDates> exceptions)
@@ -422,12 +441,27 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
     private List<RelatedTo> relatedTo;
     public void setRelatedTo(List<RelatedTo> relatedTo)
     {
+    	if (this.relatedTo != null)
+    	{
+    		this.relatedTo.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.relatedTo = relatedTo;
-    	relatedTo.forEach(c -> orderChild(c));
+    	if (relatedTo != null)
+    	{
+        	relatedTo.forEach(c -> orderChild(c));
+    	}
 	}
     public T withRelatedTo(List<RelatedTo> relatedTo)
     {
-    	setRelatedTo(relatedTo);
+    	if (getRelatedTo() == null)
+    	{
+    		setRelatedTo(new ArrayList<>());
+    	}
+    	getRelatedTo().addAll(relatedTo);
+    	if (relatedTo != null)
+    	{
+    		relatedTo.forEach(c -> orderChild(c));
+    	}
     	return (T) this;
 	}
     public T withRelatedTo(String...relatedTo)
@@ -435,13 +469,11 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
         List<RelatedTo> list = Arrays.stream(relatedTo)
                 .map(c -> RelatedTo.parse(c))
                 .collect(Collectors.toList());
-        setRelatedTo(list);
-        return (T) this;
+        return withRelatedTo(list);
     }
     public T withRelatedTo(RelatedTo...relatedTo)
     {
-    	setRelatedTo(new ArrayList<>(Arrays.asList(relatedTo)));
-        return (T) this;
+    	return withRelatedTo(Arrays.asList(relatedTo));
     }
     
     /**

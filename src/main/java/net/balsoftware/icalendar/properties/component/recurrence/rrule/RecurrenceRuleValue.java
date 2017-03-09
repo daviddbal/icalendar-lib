@@ -97,8 +97,15 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     private Set<ByRule<?>> byRules;
     public void setByRules(Set<ByRule<?>> byRules)
     {
+    	if (this.byRules != null)
+    	{
+    		this.byRules.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.byRules = byRules;
-    	byRules.forEach(b -> orderChild(b));
+    	if (byRules != null)
+    	{
+    		byRules.forEach(e -> orderChild(e));
+    	}
 	}
     public void setByRules(String...byRules)
     {

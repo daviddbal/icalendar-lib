@@ -37,6 +37,10 @@ public abstract class VDescribableBase<T> extends VCommon<T> implements VDescrib
     @Override
     public void setAttachments(List<Attachment<?>> attachments)
     {
+    	if (this.attachments != null)
+    	{
+    		this.attachments.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.attachments = attachments;
     	if (attachments != null)
     	{

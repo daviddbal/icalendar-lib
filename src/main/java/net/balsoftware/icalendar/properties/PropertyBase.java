@@ -252,8 +252,15 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
     @Override
     public void setNonStandard(List<NonStandardParameter> nonStandardParams)
     {
+    	if (this.nonStandardParams != null)
+    	{
+    		this.nonStandardParams.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
         this.nonStandardParams = nonStandardParams;
-    	nonStandardParams.forEach(c -> orderChild(c));
+    	if (nonStandardParams != null)
+    	{
+        	nonStandardParams.forEach(e -> orderChild(e));
+    	}
     }
     /**
      * Sets the value of the {@link #NonStandardParameter()}

@@ -279,10 +279,14 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     private List<StandardOrDaylight<?>> standardOrDaylight;
     public void setStandardOrDaylight(List<StandardOrDaylight<?>> standardOrDaylight)
     {
+    	if (this.standardOrDaylight != null)
+    	{
+    		this.standardOrDaylight.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.standardOrDaylight = standardOrDaylight;
     	if (standardOrDaylight != null)
     	{
-    		standardOrDaylight.forEach(c -> orderChild(c));
+    		standardOrDaylight.forEach(c -> orderChild(c)); // order new elements
     	}
 	}
     public VTimeZone withStandardOrDaylight(List<StandardOrDaylight<?>> standardOrDaylight)

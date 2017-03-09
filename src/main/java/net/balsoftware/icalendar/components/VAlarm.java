@@ -278,6 +278,10 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
     @Override
     public void setAttendees(List<Attendee> attendees)
     {
+    	if (this.attendees != null)
+    	{
+    		this.attendees.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.attendees = attendees;
     	if (attendees != null)
     	{

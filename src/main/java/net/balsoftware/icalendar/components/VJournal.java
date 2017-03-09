@@ -76,10 +76,14 @@ public class VJournal extends VDisplayable<VJournal>
     private List<Description> descriptions;
     public void setDescriptions(List<Description> descriptions)
     {
+    	if (this.descriptions != null)
+    	{
+    		this.descriptions.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.descriptions = descriptions;
     	if (descriptions != null)
     	{
-    		descriptions.forEach(c -> orderChild(c));
+    		descriptions.forEach(c -> orderChild(c)); // order new elements
     	}
 	}
     public VJournal withDescriptions(List<Description> descriptions)

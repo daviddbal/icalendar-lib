@@ -207,8 +207,15 @@ public class VCalendar extends VParentBase<VCalendar>
     public List<NonStandardProperty> getNonStandard() { return nonStandardProps; }
     public void setNonStandard(List<NonStandardProperty> nonStandardProps)
     {
+    	if (this.nonStandardProps != null)
+    	{
+    		this.nonStandardProps.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.nonStandardProps = nonStandardProps;
-    	nonStandardProps.forEach(c -> orderChild(c));
+    	if (nonStandardProps != null)
+    	{
+    		nonStandardProps.forEach(c -> orderChild(c)); // order new elements
+    	}
 	}
     /**
      * Sets the value of the {@link #nonStandardProperty()}
@@ -217,16 +224,15 @@ public class VCalendar extends VParentBase<VCalendar>
      */
     public VCalendar withNonStandard(List<NonStandardProperty> nonStandardProps)
     {
-    	nonStandardProps.forEach(c -> addChild(c));
-//    	if (getNonStandard() == null)
-//    	{
-//    		setNonStandard(new ArrayList<>());
-//    	}
-//    	getNonStandard().addAll(nonStandardProps);
-//    	if (nonStandardProps != null)
-//    	{
-//    		nonStandardProps.forEach(c -> orderChild(c));
-//    	}
+    	if (getNonStandard() == null)
+    	{
+        	setNonStandard(new ArrayList<>());
+    	}
+    	getNonStandard().addAll(nonStandardProps);
+    	if (nonStandardProps != null)
+    	{
+    		nonStandardProps.forEach(c -> orderChild(c));
+    	}
         return this;
     }
     /**
@@ -237,10 +243,10 @@ public class VCalendar extends VParentBase<VCalendar>
      */
     public VCalendar withNonStandard(String...nonStandardProps)
     {
-        Arrays.stream(nonStandardProps)
-                .map(s -> NonStandardProperty.parse(s))
-                .forEach(c -> addChild(c));
-        return this;
+        List<NonStandardProperty> newElements = Arrays.stream(nonStandardProps)
+                .map(c -> NonStandardProperty.parse(c))
+                .collect(Collectors.toList());
+        return withNonStandard(newElements);
     }
     /**
      * Sets the value of the {@link #nonStandardProperty()} from a vararg of {@link NonStandardProperty} objects.
@@ -249,9 +255,7 @@ public class VCalendar extends VParentBase<VCalendar>
      */    
     public VCalendar withNonStandard(NonStandardProperty...nonStandardProps)
     {
-    	Arrays.asList(nonStandardProps).forEach(c -> addChild(c));
-//        setNonStandard(new ArrayList<>(Arrays.asList(nonStandardProps)));
-        return this;
+    	return withNonStandard(Arrays.asList(nonStandardProps));
     }
    
     /*
@@ -268,9 +272,15 @@ public class VCalendar extends VParentBase<VCalendar>
     private List<VEvent> vEvents = new ArrayList<>();
     public void setVEvents(List<VEvent> vEvents)
     {
-    	System.out.println("set vevents:" + vEvents);
+    	if (this.vEvents != null)
+    	{
+    		this.vEvents.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.vEvents = vEvents;
-    	if (vEvents != null) vEvents.forEach(c -> orderChild(c));
+    	if (vEvents != null)
+		{
+    		vEvents.forEach(c -> orderChild(c)); // order new elements
+		}
 	}
     public VCalendar withVEvents(List<VEvent> vEvents)
     {
@@ -307,8 +317,15 @@ public class VCalendar extends VParentBase<VCalendar>
     private List<VTodo> vTodos = new ArrayList<>();
     public void setVTodos(List<VTodo> vTodos)
     {
+    	if (this.vTodos != null)
+    	{
+    		this.vTodos.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.vTodos = vTodos;
-    	vTodos.forEach(c -> orderChild(c));
+    	if (vTodos != null)
+		{
+    		vTodos.forEach(c -> orderChild(c)); // order new elements
+		}
 	}
     public VCalendar withVTodos(List<VTodo> vTodos)
     {
@@ -347,8 +364,15 @@ public class VCalendar extends VParentBase<VCalendar>
     private List<VJournal> vJournals = new ArrayList<>();
     public void setVJournals(List<VJournal> vJournals)
     {
+    	if (this.vJournals != null)
+    	{
+    		this.vJournals.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.vJournals = vJournals;
-    	vJournals.forEach(c -> orderChild(c));
+    	if (vJournals != null)
+		{
+    		vJournals.forEach(c -> orderChild(c)); // order new elements
+		}
 	}
     public VCalendar withVJournals(List<VJournal> vJournals)
     {
@@ -384,8 +408,15 @@ public class VCalendar extends VParentBase<VCalendar>
     private List<VFreeBusy> vFreeBusys = new ArrayList<>();
     public void setVFreeBusys(List<VFreeBusy> vFreeBusys)
     {
+    	if (this.vFreeBusys != null)
+    	{
+    		this.vFreeBusys.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.vFreeBusys = vFreeBusys;
-    	vFreeBusys.forEach(c -> orderChild(c));
+    	if (vFreeBusys != null)
+		{
+    		vFreeBusys.forEach(c -> orderChild(c)); // order new elements
+		}
 	}
     public VCalendar withVFreeBusies(List<VFreeBusy> vFreeBusys)
     {
@@ -421,8 +452,15 @@ public class VCalendar extends VParentBase<VCalendar>
     private List<VTimeZone> vTimeZones = new ArrayList<>();
     public void setVTimeZones(List<VTimeZone> vTimeZones)
     {
+    	if (this.vTimeZones != null)
+    	{
+    		this.vTimeZones.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.vTimeZones = vTimeZones;
-    	vTimeZones.forEach(c -> orderChild(c));
+    	if (vTimeZones != null)
+		{
+    		vTimeZones.forEach(c -> orderChild(c)); // order new elements
+		}
 	}
     public VCalendar withVTimeZones(List<VTimeZone> vTimeZones)
     {

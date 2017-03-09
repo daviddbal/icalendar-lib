@@ -51,10 +51,14 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     @Override
     public void setAttendees(List<Attendee> attendees)
     {
+    	if (this.attendees != null)
+    	{
+    		this.attendees.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.attendees = attendees;
     	if (attendees != null)
     	{
-    		attendees.forEach(c -> orderChild(c));
+    		attendees.forEach(c -> orderChild(c)); // order new elements
     	}
 	}
     
@@ -130,10 +134,14 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     private List<RequestStatus> requestStatus;
     public void setRequestStatus(List<RequestStatus> requestStatus)
     {
+    	if (this.requestStatus != null)
+    	{
+    		this.requestStatus.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.requestStatus = requestStatus;
     	if (requestStatus != null)
     	{
-    		requestStatus.forEach(c -> orderChild(c));
+    		requestStatus.forEach(c -> orderChild(c)); // order new elements
     	}
 	}
     public T withRequestStatus(List<RequestStatus> requestStatus)

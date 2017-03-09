@@ -33,6 +33,10 @@ public abstract class VCommon<T> extends VComponentBase<T>
     public List<NonStandardProperty> getNonStandard() { return nonStandardProps; }
     public void setNonStandard(List<NonStandardProperty> nonStandardProps)
     {
+    	if (this.nonStandardProps != null)
+    	{
+    		this.nonStandardProps.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.nonStandardProps = nonStandardProps;
     	if (nonStandardProps != null)
     	{

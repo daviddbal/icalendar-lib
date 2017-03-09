@@ -69,8 +69,8 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
                 throw new DateTimeException("DURATION is negative (" + duration + "). DURATION MUST be positive.");
             }
         }
+        orderChild(this.duration, duration);
         this.duration = duration;
-        orderChild(duration);
     }
     
     /**
@@ -189,10 +189,14 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     private List<Resources> resources;
     public void setResources(List<Resources> resources)
     {
+    	if (this.resources != null)
+    	{
+    		this.resources.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.resources = resources;
     	if (resources != null)
     	{
-    		resources.forEach(c -> orderChild(c));
+    		resources.forEach(c -> orderChild(c)); // order new elements
     	}
 	}
     public T withResources(List<Resources> resources)
@@ -234,10 +238,14 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     private List<VAlarm> vAlarms;
     public void setVAlarms(List<VAlarm> vAlarms)
     {
+    	if (this.vAlarms != null)
+    	{
+    		this.vAlarms.forEach(e -> orderChild(e, null)); // remove old elements
+    	}
     	this.vAlarms = vAlarms;
     	if (vAlarms != null)
     	{
-    		vAlarms.forEach(c -> orderChild(c));
+    		vAlarms.forEach(c -> orderChild(c)); // order new elements
     	}
 	}
     public T withVAlarms(List<VAlarm> vAlarms)
@@ -309,40 +317,6 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
         }        
     }
     
-//    /** copy VAlarms */
-//    @Override
-//    @Deprecated
-//    public void copyChildrenFrom(VParent source)
-//    {
-//        super.copyChildrenFrom(source);
-//        VLocatable<?> castSource = (VLocatable<?>) source;
-//        if (castSource.getVAlarms() != null)
-//        {
-//            if (getVAlarms() == null)
-//            {
-//                setVAlarms(FXCollections.observableArrayList());
-//            }
-//            castSource.getVAlarms().forEach(a -> this.getVAlarms().add(new VAlarm(a)));            
-//        }
-//    }
-    
-//    @Override
-//    public void copyChildren(VElement destination)
-//    {
-//        super.copyChildren(destination);
-//        ((VComponentBase) destination).parent = getParent();
-////        ((VChild) destination).setParent(getParent());
-//        VLocatable<?> castDestination = (VLocatable<?>) destination;
-//        if (getVAlarms() != null)
-//        {
-//            if (castDestination.getVAlarms() == null)
-//            {
-//                castDestination.setVAlarms(FXCollections.observableArrayList());
-//            }
-//            getVAlarms().forEach(a -> castDestination.getVAlarms().add(new VAlarm(a)));
-//        }
-//    }
-    
     @Override
     public List<String> errors()
     {
@@ -363,28 +337,6 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
         }
         return errors;
     }
-    
-//    @Override // include VAlarms
-//    public boolean equals(Object obj)
-//    {
-//    	if (super.equals(obj) == false) return false;
-//        VLocatable<?> testObj = (VLocatable<?>) obj;
-//        final boolean isVAlarmsEqual;
-//        if (getVAlarms() != null)
-//        {
-//            if (testObj.getVAlarms() == null)
-//            {
-//                isVAlarmsEqual = false;
-//            } else
-//            {
-//                isVAlarmsEqual = getVAlarms().equals(testObj.getVAlarms());
-//            }
-//        } else
-//        {
-//            isVAlarmsEqual = true;
-//        }
-//        return isVAlarmsEqual && super.equals(obj);
-//    }
     
     @Override // include VAlarms
     public int hashCode()

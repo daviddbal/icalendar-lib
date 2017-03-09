@@ -189,10 +189,10 @@ public class OrdererBase implements Orderer
 	{
 		if (newChild != null)
 		{
-			if (orderedChildren.contains(newChild))
-			{
+//			if (orderedChildren.contains(newChild))
+//			{
 				orderedChildren.remove(newChild);
-			}
+//			}
 //			removeOrphans(newChild);
 			orderedChildren.add(index, newChild);
 			newChild.setParent(parent);

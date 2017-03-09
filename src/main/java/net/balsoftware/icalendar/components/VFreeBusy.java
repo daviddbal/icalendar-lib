@@ -168,7 +168,6 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
      * FREEBUSY;FBTYPE=FREE:19970308T160000Z/PT3H,19970308T200000Z/PT1H
      *  ,19970308T230000Z/PT1H
      */
-    // TODO - MAKE A LIST
     private FreeBusyTime freeBusyTime;
     public FreeBusyTime getFreeBusyTime() { return freeBusyTime; }
     public void setFreeBusyTime(String freeBusyTime) { setFreeBusyTime(FreeBusyTime.parse(freeBusyTime)); }

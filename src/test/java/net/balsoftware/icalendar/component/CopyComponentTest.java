@@ -107,9 +107,9 @@ public class CopyComponentTest extends ICalendarTestAbstract
    "X-MICROSOFT-CDO-INSTTYPE:0" + System.lineSeparator() +
    "X-MICROSOFT-DISALLOW-COUNTER:FALSE" + System.lineSeparator() +
    "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
-//   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
-//   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
-//   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
+   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
+   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
+   "X-YAHOO-YID:yahoo.calendar.acl.writer" + System.lineSeparator() +
    "TRANSP:OPAQUE" + System.lineSeparator() +
 //   "STATUS:CONFIRMED" + System.lineSeparator() +
    "X-YAHOO-USER-STATUS:BUSY" + System.lineSeparator() +
@@ -170,10 +170,7 @@ END:VEVENT
     {
         VEvent component1 = getWeekly3();
         VEvent component2 = getYearly1();
-//        System.out.println(component1);
-//        System.out.println(component1);
         component2.copyChildrenInto(component1);
-//        component1.copyChildrenFrom(component2);
         String expectedContent = 
             "BEGIN:VEVENT" + System.lineSeparator() +
             "DTSTART:20151109T100000" + System.lineSeparator() +
@@ -188,8 +185,6 @@ END:VEVENT
             "LAST-MODIFIED:20151110T183000Z" + System.lineSeparator() +
             "UID:20151109T082900-0@jfxtras.org" + System.lineSeparator() +
             "END:VEVENT";
-//        System.out.println(expectedContent);
-//        System.out.println(component1);
         assertEquals(expectedContent, component1.toString());
     }
     
@@ -199,7 +194,6 @@ END:VEVENT
         VEvent component2 = getYearly1();
         VEvent component1 = component2.getClass().newInstance();
         component2.copyChildrenInto(component1);
-//        component1.copyChildrenFrom(component2);
         assertEquals(component1, component2);
         assertTrue(component1 != component2);
     }
@@ -210,7 +204,6 @@ END:VEVENT
         VEvent component1 = getWeekly3();
         VEvent component2 = getYearly1();
         component1.copyChildrenInto(component2);
-//        component2.copyChildrenFrom(component1);
         String expectedContent = 
                 "BEGIN:VEVENT" + System.lineSeparator() +
                 "CATEGORIES:group13" + System.lineSeparator() +
@@ -227,23 +220,4 @@ END:VEVENT
                 "END:VEVENT";
         assertEquals(expectedContent, component2.toString());
     }
-//    
-//    @Test
-//    public void canCopyVEvent8()
-//    {
-//        VCalendar vCalendar = new VCalendar();
-//        final ObservableList<VEvent> vComponents = vCalendar.getVEvents();
-//        VEvent vComponentOriginal = ICalendarStaticComponents.getDaily1();
-//        VEvent vComponentOriginalCopy = new VEvent(vComponentOriginal);
-//        vComponents.add(vComponentOriginal);
-//        // make recurrence
-//        VEvent vComponentRecurrence = ICalendarStaticComponents.getDaily1();
-//        vComponentRecurrence.setRecurrenceRule((RecurrenceRule2) null);
-//        vComponentRecurrence.setRecurrenceId(LocalDateTime.of(2016, 5, 17, 10, 0));
-//        vComponentRecurrence.setSummary("recurrence summary");
-//        vComponentRecurrence.setDateTimeStart(LocalDateTime.of(2016, 5, 17, 8, 30));
-//        vComponentRecurrence.setDateTimeEnd(LocalDateTime.of(2016, 5, 17, 9, 30));
-//        vComponents.add(vComponentRecurrence);
-
-//    }
 }

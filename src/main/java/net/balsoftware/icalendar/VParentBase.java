@@ -190,12 +190,9 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         {
         	try {
         		// use copy constructors to make copy of child
-//        		System.out.println("destination:" + destination.getClass().getSimpleName());
-//        		System.out.println("childSource:" + childSource.getClass().getSimpleName());
         		VChild newChild = childSource.getClass()
         				.getConstructor(childSource.getClass())
         				.newInstance(childSource);
-//        		System.out.println("newChild:" + newChild);
         		destination.addChild(newChild);
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
@@ -247,7 +244,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
             return false;
         }
         VParent testObj = (VParent) obj;
-        
         Map<Class<? extends VChild>, Method> getters = getGetters();
         return getters.entrySet()
         	.stream()
@@ -257,7 +253,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 				try {
 					Object v1 = m.invoke(this);
 	        		Object v2 = m.invoke(testObj);
-//	        		if (v1 != null) System.out.println(v1 + " "  +v2 + Objects.equals(v1, v2) + " " + v1.getClass().getSimpleName());
+//	        		if (v1 != null) System.out.println("equals:" + v1 + " "  +v2 + ":" + Objects.equals(v1, v2) + " " + v1.getClass().getSimpleName());
 	        		return Objects.equals(v1, v2);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					e1.printStackTrace();

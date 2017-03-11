@@ -16,7 +16,7 @@ import net.balsoftware.icalendar.parameters.ValueParameter;
  *
  * @param <T> - type of value stored in Property
  */
-public interface Property<T> extends VParent, VChild
+public interface VProperty<T> extends VParent, VChild
 {    
     /**
      * The value of the property.

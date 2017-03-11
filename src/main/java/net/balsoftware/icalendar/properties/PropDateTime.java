@@ -12,7 +12,7 @@ import net.balsoftware.icalendar.properties.component.misc.UnknownProperty;
  * @see PropBaseDateTime
  * @see UnknownProperty
  */
-public interface PropDateTime<T> extends Property<T>
+public interface PropDateTime<T> extends VProperty<T>
 {
     /*
      * default Time Zone methods are overridden by classes that require them

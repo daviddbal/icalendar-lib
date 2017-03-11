@@ -14,7 +14,7 @@ import net.balsoftware.icalendar.VChild;
  * @param <T> - parameter value type
  *
  */
-public interface Parameter<T> extends VChild
+public interface VParameter<T> extends VChild
 {    
     /**
      * The value of the parameter.

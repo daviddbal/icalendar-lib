@@ -13,9 +13,9 @@ import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.MultiLineContent;
+import net.balsoftware.icalendar.content.UnfoldingStringIterator;
 import net.balsoftware.icalendar.properties.PropertyType;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;
-import net.balsoftware.icalendar.utilities.UnfoldingStringIterator;;
+import net.balsoftware.icalendar.utilities.ICalendarUtilities;;
 
 /**
  * <p>Base class implementation of a {@link VComponent}</p>
@@ -88,8 +88,8 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
         return parseContent(unfoldedLineIterator, useRequestStatus);
     }
 
-    @Override
-    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator, boolean collectErrorMessages)
+//    @Override
+    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator, boolean useRequestStatus)
     {
         if (unfoldedLineIterator == null)
         {
@@ -97,7 +97,6 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
         }
         Map<VElement, List<String>> messageMap = new HashMap<>();
         List<String> myMessages = new ArrayList<>();
-        int line = 0;
         while (unfoldedLineIterator.hasNext())
         {
             String unfoldedLine = unfoldedLineIterator.next();
@@ -112,8 +111,10 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
                 if  (! isMainComponent)
                 {
                     String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
+//                    VComponent subcomponent = SimpleVElementFactory.newElement(unfoldedLineIterator);
+                    // TODO - TRY TO REPLACE WITH SOMETHING BETTER - A METHOD IN VELEMENT OR VPARENT?
                     VComponent subcomponent = SimpleVComponentFactory.emptyVComponent(subcomponentName);
-                    Map<VElement, List<String>> subMessages = subcomponent.parseContent(unfoldedLineIterator, collectErrorMessages);
+                    Map<VElement, List<String>> subMessages = subcomponent.parseContent(unfoldedLineIterator, useRequestStatus);
                     messageMap.putAll(subMessages);
                     addSubcomponent(subcomponent);
                     orderChild(subcomponent);
@@ -132,6 +133,11 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
                     {
                             try
                             {
+//                            	ElementType elementType = ElementType.getEnum(this, propertyName);
+//                            	ElementType.parse(this, unfoldedLine);
+//                            	Class<? extends Property> clazz = propertyType.getPropertyClass();
+//                            	Property n = clazz.getConstructor().newInstance();
+//                            	n.
                                 propertyType.parse(this, unfoldedLine);
                             } catch (Exception e)
                             {

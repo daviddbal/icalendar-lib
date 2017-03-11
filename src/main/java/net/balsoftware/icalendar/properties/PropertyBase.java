@@ -41,7 +41,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @param <U> - type of implementing subclass
  * @param <T> - type of property value
  */
-public abstract class PropertyBase<T,U> extends VParentBase<U> implements Property<T>
+public abstract class PropertyBase<T,U> extends VParentBase<U> implements VProperty<T>
 {
     private VParent myParent;
     @Override
@@ -397,6 +397,11 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
         // do nothing - hook to override in subclass for functionality
     }
     
+//    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator)
+//    {
+//    	
+//    }
+    
     /** Parse content line into calendar property */
     @Override
     public List<String> parseContent(String unfoldedContent)
@@ -477,11 +482,11 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements Proper
                 }
             });
         
-        if (! isValid())
-        {
-            throw new IllegalArgumentException("Error in parsing " + propertyType().toString() + " content line:" + System.lineSeparator()
-                    + errors().stream().collect(Collectors.joining(System.lineSeparator())));
-        }
+//        if (! isValid())
+//        {
+//            throw new IllegalArgumentException("Error in parsing " + propertyType().toString() + " content line:" + System.lineSeparator()
+//                    + errors().stream().collect(Collectors.joining(System.lineSeparator())));
+//        }
         return null;
 //        return errors(); // causes too many orderer runs
     }

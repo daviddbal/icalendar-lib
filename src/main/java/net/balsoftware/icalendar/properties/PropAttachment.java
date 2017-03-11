@@ -3,7 +3,7 @@ package net.balsoftware.icalendar.properties;
 import net.balsoftware.icalendar.parameters.Encoding;
 import net.balsoftware.icalendar.parameters.FormatType;
 
-public interface PropAttachment<T> extends Property<T>
+public interface PropAttachment<T> extends VProperty<T>
 {
     /**
      * FMTTYPE: Format type parameter

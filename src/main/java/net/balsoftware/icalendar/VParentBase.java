@@ -3,7 +3,11 @@ package net.balsoftware.icalendar;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +15,15 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.content.ContentLineStrategy;
 import net.balsoftware.icalendar.content.Orderer;
 import net.balsoftware.icalendar.content.OrdererBase;
+import net.balsoftware.icalendar.content.UnfoldingStringIterator;
+import net.balsoftware.icalendar.parameters.VParameter;
+import net.balsoftware.icalendar.properties.VProperty;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
@@ -27,8 +37,15 @@ import net.balsoftware.icalendar.utilities.ICalendarUtilities;
  * 
  * @author David Bal
  */
-public abstract class VParentBase<T> extends VElementBase implements VParent
+public abstract class VParentBase<T> implements VParent
 {
+	/* Setter, getter maps
+	 * The first key is the VParent class
+	 * The second key is the VChild of that VParent
+	 */
+	private static final  Map<Class<? extends VParent>, Map<Class<? extends VChild>, Method>> SETTERS = new HashMap<>();
+	private static final  Map<Class<? extends VParent>, Map<Class<? extends VChild>, Method>> GETTERS = new HashMap<>();
+
     /*
      * HANDLE SORT ORDER FOR CHILD ELEMENTS
      */
@@ -144,7 +161,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	public boolean replaceChild(VChild oldChild, VChild newChild)
 	{
 		return orderer.replaceChild(oldChild, newChild);
-//		return replaceChild(childrenUnmodifiable().indexOf(oldChild), newChild);
 	}
 	public T withChild(VChild child)
 	{
@@ -182,6 +198,68 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		return getGetters().get(child.getClass());
 	}
 	
+    @Override
+    public List<String> parseContent(String content)
+    {
+        Iterator<String> i = Arrays.asList(content.split(System.lineSeparator())).iterator();
+        Map<VElement, List<String>> log = parseContent(new UnfoldingStringIterator(i));
+        return log.entrySet()
+        		.stream()
+        		.flatMap(e -> e.getValue().stream())
+        		.collect(Collectors.toList());
+    }
+    
+    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator)
+    {
+    	final Class<? extends VElement> multilineChildClass;
+    	final Class<? extends VElement> singlelineChildClass;
+    	if (VCalendar.class.isAssignableFrom(getClass()))
+		{
+    		multilineChildClass = VComponent.class;
+    		singlelineChildClass = VProperty.class;
+		} else if (VComponent.class.isAssignableFrom(getClass()))
+		{
+    		multilineChildClass = null;
+    		singlelineChildClass = VProperty.class;			
+		} else if (VProperty.class.isAssignableFrom(getClass()))
+		{
+    		multilineChildClass = null;
+    		singlelineChildClass = VParameter.class;			
+		} else if (RecurrenceRuleValue.class.isAssignableFrom(getClass()))
+		{
+    		multilineChildClass = null;
+    		singlelineChildClass = RRuleElement.class;			
+		} else
+		{
+    		throw new RuntimeException("Not supported parent class:" + getClass());		
+		}
+    	
+        while (unfoldedLineIterator.hasNext())
+        {
+            String unfoldedLine = unfoldedLineIterator.next();
+            int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
+            String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
+            boolean isMultiLineElement = propertyName.equals("BEGIN");
+			if (isMultiLineElement)
+            {
+                String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
+				VParentBase<?> p = (VParentBase<?>) Elements.newEmptyVElement(multilineChildClass, subcomponentName);
+                p.parseContent(unfoldedLineIterator);
+                addChild((VChild) p);
+            } else if (propertyName.equals("END"))
+            {
+                break; // exit when end found
+            } else
+            {  // parse single-line element
+//            	System.out.println(singlelineChildClass);
+                VChild c = (VChild) Elements.parseNewElement(singlelineChildClass, propertyName, unfoldedLine);
+                addChild(c);
+            }
+        }
+        return Collections.EMPTY_MAP;
+    }
+
+	
     /* Strategy to build iCalendar content lines */
     protected ContentLineStrategy contentLineGenerator;
         
@@ -190,6 +268,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     {
     	return orderer.childrenUnmodifiable();
     }
+    
     
     public void copyChildrenInto(VParent destination)
     {
@@ -221,7 +300,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     	this();
         source.copyChildrenInto(this);
     }
-    
     
 	@Override
     public List<String> errors()

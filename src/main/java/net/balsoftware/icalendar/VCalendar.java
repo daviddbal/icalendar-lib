@@ -24,6 +24,7 @@ import net.balsoftware.icalendar.components.VTimeZone;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.content.MultiLineContent;
 import net.balsoftware.icalendar.content.OrdererBase;
+import net.balsoftware.icalendar.content.UnfoldingStringIterator;
 import net.balsoftware.icalendar.itip.AbstractITIPFactory;
 import net.balsoftware.icalendar.itip.DefaultITIPFactory;
 import net.balsoftware.icalendar.itip.Processable;
@@ -37,7 +38,6 @@ import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
-import net.balsoftware.icalendar.utilities.UnfoldingStringIterator;
 
 /**
  * iCalendar Object
@@ -709,7 +709,8 @@ public class VCalendar extends VParentBase<VCalendar>
         UnfoldingStringIterator unfoldedLines = new UnfoldingStringIterator(contentLines.iterator());
 //        Iterator<String> unfoldedLines = ICalendarUtilities.unfoldLines(contentLines).iterator();
         boolean useRequestStatus = true;
-        vComponent.parseContent(unfoldedLines, useRequestStatus);
+//        vComponent.parseContent(unfoldedLines, useRequestStatus);
+        vComponent.parseContent(unfoldedLines);
 //        requestStatusErrors.stream().forEach(System.out::println);
         // TODO - only check conflict if opaque
         String conflict = (vComponent instanceof VEvent) ? DateTimeUtilities.checkScheduleConflict((VEvent) vComponent, getVEvents()) : null;
@@ -823,7 +824,8 @@ public class VCalendar extends VParentBase<VCalendar>
     }
 
     /** Parse unfolded content line iterator into calendar object */
-    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator)
+    @Override
+	public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator)
     {
         boolean useResourceStatus = false;
         return parseContent(unfoldedLineIterator, useResourceStatus);
@@ -856,7 +858,9 @@ public class VCalendar extends VParentBase<VCalendar>
                 String componentName = unfoldedLine.substring(nameEndIndex+1);
 //            	System.out.println(componentName);
                 VComponent newComponent = SimpleVComponentFactory.emptyVComponent(componentName);
-                Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
+//                Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
+                Map<VElement, List<String>> newComponentMessages = ((VParentBase) newComponent).parseContent(unfoldedLineIterator);
+                // TODO - USE ELEMENTS STATICS
                 addChild(newComponent);
 //                addVComponent(newComponent);
 //                System.out.println(childrenUnmodifiable().size());

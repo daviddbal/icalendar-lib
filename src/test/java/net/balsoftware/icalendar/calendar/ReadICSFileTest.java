@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.utilities.UnfoldingStringIterator;
+import net.balsoftware.icalendar.content.UnfoldingStringIterator;
 
 public class ReadICSFileTest
 {

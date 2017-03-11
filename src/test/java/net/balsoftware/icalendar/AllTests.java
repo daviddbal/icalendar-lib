@@ -41,6 +41,7 @@ import net.balsoftware.icalendar.itip.SimpleCancelTest;
 import net.balsoftware.icalendar.itip.SimplePublishTest;
 import net.balsoftware.icalendar.itip.WholeDayTest;
 import net.balsoftware.icalendar.misc.AddAndRemoveChildrenTests;
+import net.balsoftware.icalendar.misc.CreateElementsTests;
 import net.balsoftware.icalendar.misc.ErrorDetectingTest;
 import net.balsoftware.icalendar.misc.FoldingAndUnfoldingTest;
 import net.balsoftware.icalendar.misc.MiscICalendarTests;
@@ -116,6 +117,7 @@ import net.balsoftware.icalendar.property.component.UniqueIdentifierTest;
         
         // misc tests
 		AddAndRemoveChildrenTests.class,
+        CreateElementsTests.class,
 		ErrorDetectingTest.class,
         FoldingAndUnfoldingTest.class,
         MiscICalendarTests.class,

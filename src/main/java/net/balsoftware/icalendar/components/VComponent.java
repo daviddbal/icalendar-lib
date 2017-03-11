@@ -1,18 +1,14 @@
 package net.balsoftware.icalendar.components;
 
 import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import junit.runner.Version;
 import net.balsoftware.icalendar.VChild;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
-import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
 
 /**
  * <h2>RFC 5545, 3.6. Calendar Components</h2>
@@ -114,6 +110,6 @@ public interface VComponent extends VParent, VChild
      * @param collectErrorMessages  true causes return List to contain error messages, false causes empty list
      * @return  list of error messages if collectErrorMessages is true, otherwise empty list
      */
-    @Deprecated // try to move to base classes
-    Map<VElement, List<String>> parseContent(Iterator<String> contentLines, boolean collectErrorMessages);
+//    @Deprecated // try to move to base classes
+//    Map<VElement, List<String>> parseContent(Iterator<String> contentLines, boolean collectErrorMessages);
 }

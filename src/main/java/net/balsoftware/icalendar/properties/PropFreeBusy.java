@@ -2,7 +2,7 @@ package net.balsoftware.icalendar.properties;
 
 import net.balsoftware.icalendar.parameters.FreeBusyType;
 
-public interface PropFreeBusy<T> extends Property<T>
+public interface PropFreeBusy<T> extends VProperty<T>
 {
     /**
      * FBTYPE: Incline Free/Busy Time Type

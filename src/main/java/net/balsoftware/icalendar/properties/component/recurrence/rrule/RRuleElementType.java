@@ -584,6 +584,7 @@ public enum RRuleElementType
     
     /** copies the associated element from the source RecurrenceRule to the destination RecurrenceRule */
 //    abstract public void copyElement(RecurrenceRule2 source, RecurrenceRule2 destination);
+    @Deprecated
     abstract public void copyElement(RRuleElement<?> child, RecurrenceRuleValue destination);
 //    {
 //        throw new RuntimeException("not implemented");

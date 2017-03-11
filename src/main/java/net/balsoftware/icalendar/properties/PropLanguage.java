@@ -16,7 +16,7 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneName;
  * @see Categories
  * @see TimeZoneName
  */
-public interface PropLanguage<T> extends Property<T>
+public interface PropLanguage<T> extends VProperty<T>
 {
     /**
      * LANGUAGE

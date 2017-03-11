@@ -15,7 +15,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @param <T> - type of value stored in the Parameter, such as String for text-based, or the enumerated type of the classes based on an enum
  * @param <U> - implemented subclass
  */
-abstract public class ParameterBase<U,T> implements Parameter<T>
+abstract public class ParameterBase<U,T> implements VParameter<T>
 {
     private VParent myParent;
     @Override public void setParent(VParent parent) { myParent = parent; }
@@ -54,7 +54,7 @@ abstract public class ParameterBase<U,T> implements Parameter<T>
     @Override
     public List<String> parseContent(String content)
     {
-        String valueString = Parameter.extractValue(content);
+        String valueString = VParameter.extractValue(content);
         T value = getConverter().fromString(valueString);
         setValue(value);
         return errors();

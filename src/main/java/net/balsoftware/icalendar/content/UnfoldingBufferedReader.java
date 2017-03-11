@@ -1,4 +1,4 @@
-package net.balsoftware.icalendar.utilities;
+package net.balsoftware.icalendar.content;
 
 import java.io.BufferedReader;
 import java.io.IOException;

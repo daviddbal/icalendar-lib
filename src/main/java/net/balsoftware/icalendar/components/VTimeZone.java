@@ -311,8 +311,9 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     	List<StandardOrDaylight<?>> newElements = Arrays.stream(standardOrDaylight)
                 .map(c -> 
                 {
-                	VComponent v = SimpleVComponentFactory.emptyVComponent(c);
-                	return (StandardOrDaylight<?>) v.parseContent(c);
+                	StandardOrDaylight<?> v = (StandardOrDaylight<?>) SimpleVComponentFactory.emptyVComponent(c);
+                	v.parseContent(c);
+                	return v;
                 })
                 .collect(Collectors.toList());
     	return withStandardOrDaylight(newElements);

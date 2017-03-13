@@ -75,4 +75,13 @@ public class CreateElementsTests
     	Summary s = Summary.parse(content);
     	System.out.println(s);
     }
+    
+    @Test
+    public void canParseNewSummary3()
+    {
+    	String content = "SUMMARY;LANGUAGE=en:Department Party";
+    	Summary s = new Summary();
+    	s.parseContent(content);
+    	System.out.println(s);
+    }
 }

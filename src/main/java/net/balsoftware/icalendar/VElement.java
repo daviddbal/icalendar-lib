@@ -30,8 +30,8 @@ public interface VElement
      * @return  log of information and error messages
      * @throws IllegalArgumentException  if calendar content is not valid, such as null
      */
-    @Deprecated
-    List<String> parseContent(String content) throws IllegalArgumentException;
+//    @Deprecated
+//    List<String> parseContent(String content) throws IllegalArgumentException;
         
     /**
      * Checks element to determine if necessary properties are set.

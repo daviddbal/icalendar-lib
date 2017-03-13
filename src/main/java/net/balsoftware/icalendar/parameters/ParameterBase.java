@@ -1,8 +1,12 @@
 package net.balsoftware.icalendar.parameters;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import net.balsoftware.icalendar.VElement;
+import net.balsoftware.icalendar.VElementBase;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
@@ -15,7 +19,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @param <T> - type of value stored in the Parameter, such as String for text-based, or the enumerated type of the classes based on an enum
  * @param <U> - implemented subclass
  */
-abstract public class ParameterBase<U,T> implements VParameter<T>
+abstract public class ParameterBase<U,T> extends VElementBase implements VParameter<T>
 {
     private VParent myParent;
     @Override public void setParent(VParent parent) { myParent = parent; }
@@ -52,12 +56,12 @@ abstract public class ParameterBase<U,T> implements VParameter<T>
     }
     
     @Override
-    public List<String> parseContent(String content)
+    protected Map<VElement, List<String>> parseContent(String content)
     {
         String valueString = VParameter.extractValue(content);
         T value = getConverter().fromString(valueString);
         setValue(value);
-        return errors();
+        return Collections.EMPTY_MAP;
     }
     
     /**

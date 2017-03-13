@@ -2,8 +2,12 @@ package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjuster;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
+
+import net.balsoftware.icalendar.VElement;
 
 /**
  * FREQUENCY
@@ -197,10 +201,10 @@ public class Frequency extends RRuleElementBase<FrequencyType, Frequency>
     }
 
     @Override
-    public List<String> parseContent(String content)
+    public Map<VElement, List<String>> parseContent(String content)
     {
         setValue(FrequencyType.valueOf(content.toUpperCase()));
-        return errors();
+        return Collections.EMPTY_MAP;
     }
     
     public static Frequency parse(String content)

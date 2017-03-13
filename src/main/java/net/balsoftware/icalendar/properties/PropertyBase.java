@@ -5,17 +5,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import junit.runner.Version;
-import net.balsoftware.icalendar.VChild;
+import net.balsoftware.icalendar.Elements;
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.SingleLineContent;
 import net.balsoftware.icalendar.parameters.NonStandardParameter;
-import net.balsoftware.icalendar.parameters.ParameterType;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
@@ -404,8 +406,9 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
     
     /** Parse content line into calendar property */
     @Override
-    public List<String> parseContent(String unfoldedContent)
+    protected Map<VElement, List<String>> parseContent(String unfoldedContent)
     {
+    	Map<VElement, List<String>> messages = new HashMap<>();
         // perform tests, make changes if necessary
         final String propertyValue;
         List<Integer> indices = new ArrayList<>();
@@ -419,8 +422,8 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
         {
             int endNameIndex = hasPropertyName.get();
             String propertyName = (endNameIndex > 0) ? unfoldedContent.subSequence(0, endNameIndex).toString().toUpperCase() : null;
-            boolean isMatch = propertyName.equals(propertyType.toString());
-            boolean isNonStandardProperty = propertyName.substring(0, PropertyType.NON_STANDARD.toString().length()).equals(PropertyType.NON_STANDARD.toString());
+            boolean isMatch = propertyName.equals(name());
+            boolean isNonStandardProperty = propertyName.startsWith(Elements.NON_STANDARD_PROPERTY.toString());
             if (isMatch || isNonStandardProperty)
             {
                 if (isNonStandardProperty)
@@ -430,14 +433,14 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
                 propertyValue = unfoldedContent.substring(endNameIndex, unfoldedContent.length()); // strip off property name
             } else
             {
-                if (PropertyType.enumFromName(propertyName) == null)
+                if (! Elements.names.contains(propertyName))
                 {
                     propertyValue = ":" + unfoldedContent; // doesn't match a known property name, assume its all a property value
                 } else
                 {
                     throw new IllegalArgumentException("Property name " + propertyName + " doesn't match class " +
                             getClass().getSimpleName() + ".  Property name associated with class " + 
-                            getClass().getSimpleName() + " is " +  propertyType.toString());
+                            getClass().getSimpleName() + " is " +  name());
                 }
             }
         } else
@@ -445,27 +448,13 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
             propertyValue = ":" + unfoldedContent;
         }
         
-        // parse parameters
+        // parse value and parameters
         List<Pair<String, String>> list = ICalendarUtilities.contentToParameterListPair(propertyValue);
         list.stream()
-//        .peek(System.out::println)
             .forEach(entry ->
-            {
-                ParameterType parameterType = ParameterType.enumFromName(entry.getKey());
-                boolean isAllowed = propertyType().allowedParameters().contains(parameterType);
-                if (parameterType != null && isAllowed)
-                {
-                    Object existingParemeter = parameterType.getParameter(this);
-                    if (existingParemeter == null || existingParemeter instanceof List)
-                    {
-                        VChild child = parameterType.parse(this, entry.getKey() + "=" + entry.getValue());
-                    } else
-                    {
-                        throw new IllegalArgumentException(parameterType + " can only occur once in a calendar component");
-                    }
-                } else if (entry.getKey() == ICalendarUtilities.PROPERTY_VALUE_KEY)
-                {
-                 // save property value
+            { // add property value
+            	if (entry.getKey() == ICalendarUtilities.PROPERTY_VALUE_KEY)
+            	{
                     propertyValueString = entry.getValue();
                     T value = getConverter().fromString(getPropertyValueString());
                     if (value == null)
@@ -479,16 +468,12 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
                             setUnknownValue(propertyValueString);
                         }
                     }
-                }
+            	} else
+            	{ // add parameters
+	            	processInLineChild(messages, entry);
+            	}
             });
-        
-//        if (! isValid())
-//        {
-//            throw new IllegalArgumentException("Error in parsing " + propertyType().toString() + " content line:" + System.lineSeparator()
-//                    + errors().stream().collect(Collectors.joining(System.lineSeparator())));
-//        }
-        return null;
-//        return errors(); // causes too many orderer runs
+        return messages;
     }
     
     @Override

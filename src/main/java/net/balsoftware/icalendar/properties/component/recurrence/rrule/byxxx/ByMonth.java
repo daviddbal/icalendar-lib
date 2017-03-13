@@ -6,10 +6,13 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
 
 /** BYMONTH from RFC 5545, iCalendar 3.3.10, page 42 */
@@ -145,14 +148,14 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
 //    }
 
     @Override
-    public List<String> parseContent(String content)
+    public Map<VElement, List<String>> parseContent(String content)
     {
         Month[] monthArray = Arrays.asList(content.split(","))
                 .stream()
                 .map(s -> Month.of(Integer.parseInt(s)))
                 .toArray(size -> new Month[size]);
         setValue(monthArray);
-        return errors();
+        return Collections.EMPTY_MAP;
     }
     
     public static ByMonth parse(String content)

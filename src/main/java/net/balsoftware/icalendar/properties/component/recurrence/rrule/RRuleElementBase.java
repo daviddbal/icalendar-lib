@@ -3,9 +3,10 @@ package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.balsoftware.icalendar.VElementBase;
 import net.balsoftware.icalendar.VParent;
 
-abstract public class RRuleElementBase<T, U> implements RRuleElement<T>
+abstract public class RRuleElementBase<T, U> extends VElementBase implements RRuleElement<T>
 {
     private VParent myParent;
     @Override public void setParent(VParent parent) { myParent = parent; }

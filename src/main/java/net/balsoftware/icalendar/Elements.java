@@ -5,7 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.components.DaylightSavingTime;
 import net.balsoftware.icalendar.components.StandardTime;
@@ -61,6 +63,7 @@ import net.balsoftware.icalendar.properties.component.descriptive.Priority;
 import net.balsoftware.icalendar.properties.component.descriptive.Resources;
 import net.balsoftware.icalendar.properties.component.descriptive.Status;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
+import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
 import net.balsoftware.icalendar.properties.component.recurrence.ExceptionDates;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
@@ -136,6 +139,7 @@ public enum Elements
     LAST_MODIFIED ("LAST-MODIFIED", VProperty.class, LastModified.class),
     LOCATION ("LOCATION", VProperty.class, Location.class),
     METHOD ("METHOD", VProperty.class, net.balsoftware.icalendar.properties.calendar.Method.class),
+    NON_STANDARD_PROPERTY ("X-", VProperty.class, NonStandardProperty.class),
     ORGANIZER ("ORGANIZER", VProperty.class, Organizer.class),
     PERCENT_COMPLETE ("PERCENT-COMPLETE", VProperty.class, PercentComplete.class),
     PRIORITY ("PRIORITY", VProperty.class, Priority.class),
@@ -206,13 +210,15 @@ public enum Elements
     	Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> map = new HashMap<>();
     	Elements[] values = Elements.values();
     	Arrays.stream(values)
-    		.filter(v -> 
-    		{
-    			boolean isVCalendar = v.superClass == VCalendar.class;
-    			boolean isVComponent = v.superClass == VComponent.class;
-    			boolean isMultiLineElement = isVCalendar || isVComponent;
-    			return isMultiLineElement;
-    		})
+//    		.filter(v -> 
+//    		{
+//    			boolean isParent = VParent.class.isAssignableFrom(v.myClass);
+//    			return isParent;
+////    			boolean isVCalendar = v.superClass == VCalendar.class;
+////    			boolean isVComponent = v.superClass == VComponent.class;
+////    			boolean isMultiLineElement = isVCalendar || isVComponent;
+////    			return isMultiLineElement;
+//    		})
     		.forEach(v ->
 	    	{
 	    		Pair<Class<? extends VElement>, String> key = new Pair<>(v.superClass, v.name);
@@ -278,7 +284,7 @@ public enum Elements
 	public static VChild newEmptyVElement(Class<? extends VElement> superclass, String name)
 	{
 		try {
-			System.out.println(superclass + " " + name);
+			System.out.println(superclass + " " + name + " " + NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name)));
 			return (VChild) NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name)).newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
@@ -286,5 +292,10 @@ public enum Elements
 		}
 		return null;
 	}
+	
+	public static List<String> names = Arrays
+			.stream(values())
+			.map(v -> v.name)
+			.collect(Collectors.toList());
 
 }

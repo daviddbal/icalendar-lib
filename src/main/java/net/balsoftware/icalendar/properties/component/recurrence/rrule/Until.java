@@ -2,8 +2,11 @@ package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 
 import java.time.DateTimeException;
 import java.time.temporal.Temporal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 
@@ -74,10 +77,10 @@ public class Until extends RRuleElementBase<Temporal, Until>
     }
 
     @Override
-    public List<String> parseContent(String content)
+    protected Map<VElement, List<String>> parseContent(String content)
     {
         setValue(DateTimeUtilities.temporalFromString(content));
-        return errors();
+        return Collections.EMPTY_MAP;
     }
 
     public static Until parse(String content)

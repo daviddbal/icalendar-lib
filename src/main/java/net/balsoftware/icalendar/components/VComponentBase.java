@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.CalendarComponent;
 import net.balsoftware.icalendar.VElement;
@@ -67,13 +66,9 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     }
 
     @Override
-    public List<String> parseContent(String content)
+    protected Map<VElement, List<String>> parseContent(String content)
     {
-        return parseContent(content, false)
-                .entrySet()
-                .stream()
-                .flatMap(e -> e.getValue().stream().map(v -> e.getKey().name() + ":" + v))
-                .collect(Collectors.toList());
+        return parseContent(content, false);
     }
     
     public Map<VElement, List<String>> parseContent(String content, boolean useRequestStatus)
@@ -113,7 +108,7 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
                     String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
 //                    VComponent subcomponent = SimpleVElementFactory.newElement(unfoldedLineIterator);
                     // TODO - TRY TO REPLACE WITH SOMETHING BETTER - A METHOD IN VELEMENT OR VPARENT?
-                    VComponent subcomponent = SimpleVComponentFactory.emptyVComponent(subcomponentName);
+                    VComponentBase subcomponent = (VComponentBase) SimpleVComponentFactory.emptyVComponent(subcomponentName);
                     Map<VElement, List<String>> subMessages = subcomponent.parseContent(unfoldedLineIterator, useRequestStatus);
                     messageMap.putAll(subMessages);
                     addSubcomponent(subcomponent);

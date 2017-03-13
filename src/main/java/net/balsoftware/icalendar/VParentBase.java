@@ -25,6 +25,7 @@ import net.balsoftware.icalendar.properties.VProperty;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
+import net.balsoftware.icalendar.utilities.Pair;
 
 /**
  * <p>Base class for parent calendar components.</p>
@@ -37,7 +38,7 @@ import net.balsoftware.icalendar.utilities.ICalendarUtilities;
  * 
  * @author David Bal
  */
-public abstract class VParentBase<T> implements VParent
+public abstract class VParentBase<T> extends VElementBase implements VParent
 {
 	/* Setter, getter maps
 	 * The first key is the VParent class
@@ -108,7 +109,8 @@ public abstract class VParentBase<T> implements VParent
 	@Override
 	public void addChild(String childContent)
 	{
-		throw new RuntimeException("not implemented yet");
+		parseContent(childContent);
+//		throw new RuntimeException("not implemented yet");
 	}
 	@Override
 	public boolean removeChild(VChild child)
@@ -199,17 +201,17 @@ public abstract class VParentBase<T> implements VParent
 	}
 	
     @Override
-    public List<String> parseContent(String content)
+	protected Map<VElement, List<String>> parseContent(String content)
     {
         Iterator<String> i = Arrays.asList(content.split(System.lineSeparator())).iterator();
-        Map<VElement, List<String>> log = parseContent(new UnfoldingStringIterator(i));
-        return log.entrySet()
-        		.stream()
-        		.flatMap(e -> e.getValue().stream())
-        		.collect(Collectors.toList());
+        return parseContent(new UnfoldingStringIterator(i));
+//        return log.entrySet()
+//        		.stream()
+//        		.flatMap(e -> e.getValue().stream())
+//        		.collect(Collectors.toList());
     }
     
-    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator)
+    protected Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator)
     {
     	final Class<? extends VElement> multilineChildClass;
     	final Class<? extends VElement> singlelineChildClass;
@@ -239,26 +241,89 @@ public abstract class VParentBase<T> implements VParent
             String unfoldedLine = unfoldedLineIterator.next();
             int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
             String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
+            final String childName;
+            final VElementBase p;
             boolean isMultiLineElement = propertyName.equals("BEGIN");
 			if (isMultiLineElement)
             {
-                String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
-				VParentBase<?> p = (VParentBase<?>) Elements.newEmptyVElement(multilineChildClass, subcomponentName);
-                p.parseContent(unfoldedLineIterator);
-                addChild((VChild) p);
+                childName = unfoldedLine.substring(nameEndIndex+1);
+                p = (VElementBase) Elements.newEmptyVElement(multilineChildClass, childName);
             } else if (propertyName.equals("END"))
             {
                 break; // exit when end found
             } else
-            {  // parse single-line element
-//            	System.out.println(singlelineChildClass);
-                VChild c = (VChild) Elements.parseNewElement(singlelineChildClass, propertyName, unfoldedLine);
-                addChild(c);
+            {
+            	childName = propertyName;
+                p = (VElementBase) Elements.newEmptyVElement(singlelineChildClass, childName);
             }
+			// PARAMETER AND PROPERTY MUST HAVE OVERRIDDEN PARSECONTENT (to handle value part)
+            p.parseContent(unfoldedLine);
+            addChild((VChild) p);
         }
+        // TODO - work on returning messages
         return Collections.EMPTY_MAP;
     }
-
+	
+	private Class<? extends VElement> singleLineChildClass()
+	{
+    	if (VCalendar.class.isAssignableFrom(getClass()))
+		{
+    		return VProperty.class;
+		} else if (VComponent.class.isAssignableFrom(getClass()))
+		{
+    		return VProperty.class;			
+		} else if (VProperty.class.isAssignableFrom(getClass()))
+		{
+    		return VParameter.class;			
+		} else if (RecurrenceRuleValue.class.isAssignableFrom(getClass()))
+		{
+    		return RRuleElement.class;			
+		} else
+		{
+    		throw new RuntimeException("Not supported parent class:" + getClass());		
+		}
+	}
+    	
+	protected void processInLineChild(Map<VElement, List<String>> messages, Pair<String, String> entry)
+	{
+		VChild newChild = (VChild) Elements.parseNewElement(singleLineChildClass(), entry.getKey(), entry.getValue());
+		Method getter = getGetter(newChild);
+		boolean isChildAllowed = getter == null;
+		if (isChildAllowed)
+		{
+			final List<String> myMessages;
+			if ((messages.get(this) == null))
+			{
+				myMessages = new ArrayList<>();
+				messages.put(this, myMessages);
+			} else
+			{
+				myMessages = messages.get(this);
+			}
+			myMessages.add(entry.getKey() + " not allowed in " + name());
+		}
+		boolean isChildAlreadyPresent = true;
+		try {
+			VChild currentParameter = (VChild) getter.invoke(this);
+			isChildAlreadyPresent = currentParameter != null;
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		if (isChildAlreadyPresent)
+		{
+			final List<String> myMessages;
+			if ((messages.get(this) == null))
+			{
+				myMessages = new ArrayList<>();
+				messages.put(this, myMessages);
+			} else
+			{
+				myMessages = messages.get(this);
+			}
+			myMessages.add(newChild.getClass().getSimpleName() + " can only occur once in a calendar component.  Ignoring instances beyond first.");
+		}
+		if (isChildAllowed && ! isChildAlreadyPresent) addChild(newChild);
+	}
 	
     /* Strategy to build iCalendar content lines */
     protected ContentLineStrategy contentLineGenerator;
@@ -266,6 +331,8 @@ public abstract class VParentBase<T> implements VParent
     @Override
 	public List<VChild> childrenUnmodifiable()
     {
+    	System.out.println("orderer:" + orderer);
+    	System.out.println("orderer1:" + orderer.childrenUnmodifiable().size());
     	return orderer.childrenUnmodifiable();
     }
     

@@ -1,6 +1,10 @@
 package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import net.balsoftware.icalendar.VElement;
 
 /**
  * COUNT:
@@ -43,10 +47,10 @@ public class Count extends RRuleElementBase<Integer, Count>
     }
 
     @Override
-    public List<String> parseContent(String content)
+    public Map<VElement, List<String>> parseContent(String content)
     {
         setValue(Integer.parseInt(content));
-        return errors();
+        return Collections.EMPTY_MAP;
     }
 
     public static Count parse(String content)

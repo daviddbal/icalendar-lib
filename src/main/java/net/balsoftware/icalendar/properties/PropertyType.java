@@ -94,6 +94,7 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
  * @author David Bal
  *
  */
+@Deprecated
 public enum PropertyType
 {
     // Alarm

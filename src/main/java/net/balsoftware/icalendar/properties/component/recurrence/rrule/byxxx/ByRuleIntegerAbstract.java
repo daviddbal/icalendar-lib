@@ -2,10 +2,13 @@ package net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
 
 public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U>
@@ -70,13 +73,13 @@ public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U
     }
     
     @Override
-    public List<String> parseContent(String content)
+    public Map<VElement, List<String>> parseContent(String content)
     {
         Integer[] monthDayArray = Arrays.asList(content.split(","))
                 .stream()
                 .map(s -> Integer.parseInt(s))
                 .toArray(size -> new Integer[size]);
         setValue(monthDayArray);
-        return errors();
+        return Collections.EMPTY_MAP;
     }
 }

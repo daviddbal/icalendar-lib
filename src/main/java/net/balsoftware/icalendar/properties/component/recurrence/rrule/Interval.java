@@ -1,6 +1,10 @@
 package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import net.balsoftware.icalendar.VElement;
 
 /**
  * INTERVAL
@@ -47,10 +51,10 @@ public class Interval extends RRuleElementBase<Integer, Interval>
     }
 
     @Override
-    public List<String> parseContent(String content)
+    public Map<VElement, List<String>> parseContent(String content)
     {
         setValue(Integer.parseInt(content));
-        return errors();
+        return Collections.EMPTY_MAP;
     }
 
     public static Interval parse(String content)

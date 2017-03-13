@@ -17,12 +17,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javafx.collections.FXCollections;
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
@@ -395,7 +396,7 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
     }
     
     @Override
-    public List<String> parseContent(String dayPairs)
+    public Map<VElement, List<String>> parseContent(String dayPairs)
     {
         List<ByDayPair> dayPairsList = new ArrayList<ByDayPair>();
         Pattern p = Pattern.compile("(-?[0-9]+)?([A-Z]{2})");
@@ -420,8 +421,8 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
                 dayPairsList.add(new ByDayPair(dayOfWeek, 0));
             }
         }
-        setValue(FXCollections.observableArrayList(dayPairsList));
-        return errors();
+        setValue(dayPairsList);
+        return Collections.EMPTY_MAP;
     }
 
     public static ByDay parse(String content)

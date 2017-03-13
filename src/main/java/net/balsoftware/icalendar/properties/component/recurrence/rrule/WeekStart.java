@@ -2,7 +2,11 @@ package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 
 import java.time.DayOfWeek;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import net.balsoftware.icalendar.VElement;
 
 /**
  * Week Start
@@ -48,14 +52,14 @@ public class WeekStart extends RRuleElementBase<DayOfWeek, WeekStart>
     }
 
     @Override
-    public List<String> parseContent(String content)
+    public Map<VElement, List<String>> parseContent(String content)
     {
         DayOfWeek dayOfWeek = Arrays.stream(DayOfWeek.values())
             .filter(d -> d.toString().substring(0, 2).equals(content))
             .findAny()
             .get();
         setValue(dayOfWeek);
-        return errors();
+        return Collections.EMPTY_MAP;
     }
     
     public static WeekStart parse(String content)

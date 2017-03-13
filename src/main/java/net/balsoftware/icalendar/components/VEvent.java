@@ -5,9 +5,11 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency.TimeTransparencyType;
@@ -239,14 +241,19 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     public static VEvent parse(String foldedContent)
     {
         VEvent component = new VEvent();
-        List<String> messages = component.parseContent(foldedContent);
+        Map<VElement, List<String>> messages = component.parseContent(foldedContent);
         // filter out Success messages
-        String filteredMessages = messages.stream()
+        String filteredMessages = messages.entrySet()
+    		.stream()
+    		.flatMap(e -> e.getValue().stream())
             .filter(m ->! m.contains(";Success"))
             .collect(Collectors.joining(System.lineSeparator()));
         if (! filteredMessages.isEmpty())
         {
-            throw new IllegalArgumentException(messages.stream().collect(Collectors.joining(System.lineSeparator())));
+            throw new IllegalArgumentException(messages.entrySet()
+            		.stream()
+            		.flatMap(e -> e.getValue().stream().map(v -> e.getKey().name() + ":" + v))
+            		.collect(Collectors.joining(System.lineSeparator())));
         }
         return component;
     }

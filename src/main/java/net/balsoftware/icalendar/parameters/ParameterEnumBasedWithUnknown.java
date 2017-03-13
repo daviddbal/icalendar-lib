@@ -1,6 +1,10 @@
 package net.balsoftware.icalendar.parameters;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import net.balsoftware.icalendar.VElement;
 
 public abstract class ParameterEnumBasedWithUnknown<U,T> extends ParameterBase<U,T>
 {
@@ -33,7 +37,7 @@ public abstract class ParameterEnumBasedWithUnknown<U,T> extends ParameterBase<U
     }
     
     @Override
-    public List<String> parseContent(String content)
+    protected Map<VElement, List<String>> parseContent(String content)
     {
         super.parseContent(content);
         if (getValue().toString().equals("UNKNOWN"))
@@ -41,6 +45,6 @@ public abstract class ParameterEnumBasedWithUnknown<U,T> extends ParameterBase<U
             String valueString = VParameter.extractValue(content);
             nonStandardValue = valueString;
         }
-        return errors();
+        return Collections.EMPTY_MAP;
     }
 }

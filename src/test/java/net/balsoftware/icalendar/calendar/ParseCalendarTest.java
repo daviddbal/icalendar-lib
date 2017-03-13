@@ -153,9 +153,12 @@ public class ParseCalendarTest extends ICalendarTestAbstract
         VCalendar c = new VCalendar()
                 .withProductIdentifier("")
                 .withVersion(new Version());
-        c.addVComponent(vEventString1);
-        c.addVComponent(vEventString2);
-        c.addVComponent(vEventString3);
+        System.out.println("add1");
+        c.addChild(vEventString1);
+        System.out.println("add2");
+        c.addChild(vEventString2);
+        System.out.println("add3");
+        c.addChild(vEventString3);
         assertEquals(3, c.getVEvents().size());
         assertEquals(1, c.getVEvents().get(0).recurrenceChildren().size());
         assertEquals(c.getVEvents().get(0), c.getVEvents().get(2).recurrenceParent());
@@ -276,7 +279,8 @@ public class ParseCalendarTest extends ICalendarTestAbstract
             "UNKNOWN-PROP:SOMETHING" + System.lineSeparator() +
             "END:VCALENDAR";
             VCalendar v = new VCalendar();
-            List<String> messages = v.parseContent(content);
+            v.addChild(content);
+            List<String> messages = null; // v.parseContent(content);
             List<String> expectedMessages = Arrays.asList("VCALENDAR:Unknown line is ignored:IGNORE THIS LINE", "VCALENDAR:Unknown property is ignored:UNKNOWN-PROP:SOMETHING");
             assertEquals(expectedMessages, messages);
     }

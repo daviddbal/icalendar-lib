@@ -274,7 +274,8 @@ public enum Elements
 	public static VElement parseNewElement(Class<? extends VElement> superclass, String name, String unfoldedLine)
 	{
 		try {
-			Method factory = PARSE_FACTORIES.get(new Pair<>(superclass, name));
+			String name2 = (name.startsWith("X-")) ? "X-" : name;
+			Method factory = PARSE_FACTORIES.get(new Pair<>(superclass, name2));
 			if (factory == null) return null;
 			return (VElement) factory.invoke(null, unfoldedLine);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
@@ -298,5 +299,22 @@ public enum Elements
 			.stream(values())
 			.map(v -> v.name)
 			.collect(Collectors.toList());
+	
+    public static String extractValue(String content)
+    {
+        int equalsIndex = content.indexOf('=');
+        final String valueString;
+        if (equalsIndex > 0)
+        {
+            String name = content.substring(0, equalsIndex);
+            boolean hasName1 = names.contains(name.toUpperCase());
+//            boolean hasName2 = (IANAParameter.getRegisteredIANAParameters() != null) ? IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase()) : false;
+            valueString = (hasName1) ? content.substring(equalsIndex+1) : content;    
+        } else
+        {
+            valueString = content;
+        }
+        return valueString;
+    }
 
 }

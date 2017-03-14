@@ -74,6 +74,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	@Override
     public void addChild(VChild child)
     {
+//		System.out.println("Child:" + child);
 		Method setter = getSetter(child);
 		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
 		try {
@@ -284,7 +285,8 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     	
 	protected void processInLineChild(Map<VElement, List<String>> messages, Pair<String, String> entry)
 	{
-		VChild newChild = (VChild) Elements.parseNewElement(singleLineChildClass(), entry.getKey(), entry.getValue());
+		VChild newChild = (VChild) Elements.parseNewElement(singleLineChildClass(), entry.getKey(), entry.getKey() + "=" + entry.getValue());
+//		VChild newChild = (VChild) Elements.parseNewElement(singleLineChildClass(), entry.getKey(), entry.getValue());
 		if (newChild == null)
 		{
 			addToList(messages, "Ignored invalid element:" + entry.getValue());
@@ -295,7 +297,9 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		boolean isChildAllowed = getter != null;
 		if (isChildAllowed)
 		{
-			addToList(messages, entry.getKey() + " not allowed in " + name());
+			String newMessage = entry.getKey() + " not allowed in " + name();
+//			throw new IllegalArgumentException(newMessage);
+			addToList(messages, newMessage);
 		}
 		final boolean isChildAlreadyPresent;
 		Object currentParameter = null;
@@ -315,9 +319,9 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		if (isChildAlreadyPresent)
 		{
 			// TODO - SHOULD I ADD AS MESSAGE OR USE EXCEPTION?
-			String message = newChild.getClass().getSimpleName() + " can only occur once in a calendar component.  Ignoring instances beyond first.";
-			addToList(messages, message);
-//			throw new IllegalArgumentException(message);
+			String newMessage = newChild.getClass().getSimpleName() + " can only occur once in a calendar component.  Ignoring instances beyond first.";
+//			addToList(messages, message);
+			throw new IllegalArgumentException(newMessage);
 		}
 		if (isChildAllowed && ! isChildAlreadyPresent)
 		{

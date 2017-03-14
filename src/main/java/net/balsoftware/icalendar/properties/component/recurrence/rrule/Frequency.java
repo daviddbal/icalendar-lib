@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElement;
 
 /**
@@ -166,13 +167,6 @@ public class Frequency extends RRuleElementBase<FrequencyType, Frequency>
         setValue(frequencyType);
     }
     
-//    // Copy constructor
-//    public Frequency2(Frequency source)
-//    {
-//        this(source.frequencyType());
-//        source.byRules().stream().forEach(b -> byRules().add(b.byRuleType().newInstance(b))); // copy each ByRule
-//    }
-    
     public Frequency()
     {
         super();
@@ -203,7 +197,8 @@ public class Frequency extends RRuleElementBase<FrequencyType, Frequency>
     @Override
     public Map<VElement, List<String>> parseContent(String content)
     {
-        setValue(FrequencyType.valueOf(content.toUpperCase()));
+    	String valueString = Elements.extractValue(content);
+        setValue(FrequencyType.valueOf(valueString.toUpperCase()));
         return Collections.EMPTY_MAP;
     }
     

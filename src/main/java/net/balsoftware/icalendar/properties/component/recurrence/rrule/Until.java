@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
@@ -79,7 +80,8 @@ public class Until extends RRuleElementBase<Temporal, Until>
     @Override
     protected Map<VElement, List<String>> parseContent(String content)
     {
-        setValue(DateTimeUtilities.temporalFromString(content));
+    	String valueString = Elements.extractValue(content);
+        setValue(DateTimeUtilities.temporalFromString(valueString));
         return Collections.EMPTY_MAP;
     }
 

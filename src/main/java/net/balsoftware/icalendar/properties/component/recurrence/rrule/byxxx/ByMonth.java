@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
 
@@ -150,7 +151,8 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
     @Override
     public Map<VElement, List<String>> parseContent(String content)
     {
-        Month[] monthArray = Arrays.asList(content.split(","))
+    	String valueString = Elements.extractValue(content);
+        Month[] monthArray = Arrays.asList(valueString.split(","))
                 .stream()
                 .map(s -> Month.of(Integer.parseInt(s)))
                 .toArray(size -> new Month[size]);

@@ -91,10 +91,4 @@ abstract public class RRuleElementBase<T, U> extends VElementBase implements RRu
             return false;
         return true;
     }
-    
-//	@Override
-//	public List<String> parseContent(String content) throws IllegalArgumentException {
-//		// TODO Auto-generated method stub
-//		throw new RuntimeException("not implemented");
-//	}
 }

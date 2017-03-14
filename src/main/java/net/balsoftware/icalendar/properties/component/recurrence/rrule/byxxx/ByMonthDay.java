@@ -206,16 +206,6 @@ public class ByMonthDay extends ByRuleIntegerAbstract<ByMonthDay>
         return dates;
     }
     
-//    @Override
-//    public void parseContent(String content)
-//    {
-//        Integer[] monthDayArray = Arrays.asList(content.split(","))
-//                .stream()
-//                .map(s -> Integer.parseInt(s))
-//                .toArray(size -> new Integer[size]);
-//        setValue(FXCollections.observableArrayList(monthDayArray));
-//    }
-    
     public static ByMonthDay parse(String content)
     {
         ByMonthDay element = new ByMonthDay();

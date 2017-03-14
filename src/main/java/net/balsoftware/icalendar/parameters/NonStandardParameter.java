@@ -20,6 +20,7 @@ public class NonStandardParameter extends ParameterBase<NonStandardParameter, St
         int equalsIndex = content.indexOf('=');
         name = (equalsIndex >= 0) ? content.substring(0, equalsIndex) : content;
         String value = (equalsIndex >= 0) ? content.substring(equalsIndex+1) : null;
+        System.out.println("NEW NON-STAND:" + name + " " + value + "::" + content);
         setValue(value);
     }
 

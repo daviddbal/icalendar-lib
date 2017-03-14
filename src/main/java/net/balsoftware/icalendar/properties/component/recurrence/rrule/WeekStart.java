@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElement;
 
 /**
@@ -54,8 +55,9 @@ public class WeekStart extends RRuleElementBase<DayOfWeek, WeekStart>
     @Override
     public Map<VElement, List<String>> parseContent(String content)
     {
+    	String valueString = Elements.extractValue(content);
         DayOfWeek dayOfWeek = Arrays.stream(DayOfWeek.values())
-            .filter(d -> d.toString().substring(0, 2).equals(content))
+            .filter(d -> d.toString().substring(0, 2).equals(valueString))
             .findAny()
             .get();
         setValue(dayOfWeek);

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
 
@@ -75,7 +76,8 @@ public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U
     @Override
     public Map<VElement, List<String>> parseContent(String content)
     {
-        Integer[] monthDayArray = Arrays.asList(content.split(","))
+    	String valueString = Elements.extractValue(content);
+        Integer[] monthDayArray = Arrays.asList(valueString.split(","))
                 .stream()
                 .map(s -> Integer.parseInt(s))
                 .toArray(size -> new Integer[size]);

@@ -32,6 +32,17 @@ public class ByDayTest
         assertEquals("BYDAY=-1SU", element.toString());
     }
     
+    @Test
+    public void canParseByDay2()
+    {
+        ByDay element = ByDay.parse("BYDAY=SU");
+        System.out.println(element);
+        ByDayPair byDayPair = new ByDayPair()
+                .withDayOfWeek(DayOfWeek.SUNDAY);
+        assertEquals(byDayPair, element.getValue().get(0));
+        assertEquals("BYDAY=SU", element.toString());
+    }
+    
     /*
     DTSTART:20160503T100000
     RRULE:FREQ=YEARLY;BYDAY=-1SU,2MO

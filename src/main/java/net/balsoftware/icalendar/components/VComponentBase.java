@@ -1,20 +1,9 @@
 package net.balsoftware.icalendar.components;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import net.balsoftware.icalendar.CalendarComponent;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
-import net.balsoftware.icalendar.content.MultiLineContent;
-import net.balsoftware.icalendar.content.UnfoldingStringIterator;
-import net.balsoftware.icalendar.properties.PropertyType;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;;
+import net.balsoftware.icalendar.content.MultiLineContent;;
 
 /**
  * <p>Base class implementation of a {@link VComponent}</p>
@@ -65,104 +54,104 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
                 400);
     }
 
-    @Override
-    protected Map<VElement, List<String>> parseContent(String content)
-    {
-        return parseContent(content, false);
-    }
-    
-    public Map<VElement, List<String>> parseContent(String content, boolean useRequestStatus)
-    {
-        if (content == null)
-        {
-            throw new IllegalArgumentException("Calendar component content string can't be null");
-        }
-        content.indexOf(System.lineSeparator());
-        List<String> contentLines = Arrays.asList(content.split(System.lineSeparator()));
-        UnfoldingStringIterator unfoldedLineIterator = new UnfoldingStringIterator(contentLines.iterator());
-        return parseContent(unfoldedLineIterator, useRequestStatus);
-    }
-
 //    @Override
-    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator, boolean useRequestStatus)
-    {
-        if (unfoldedLineIterator == null)
-        {
-            throw new IllegalArgumentException("Calendar component content iterator can't be null");
-        }
-        Map<VElement, List<String>> messageMap = new HashMap<>();
-        List<String> myMessages = new ArrayList<>();
-        while (unfoldedLineIterator.hasNext())
-        {
-            String unfoldedLine = unfoldedLineIterator.next();
-//            System.out.println("unfoldedLine:" + line++ + unfoldedLine + " " + unfoldedLineIterator.hasNext());
-            int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
-            String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
-//            System.out.println(propertyName);
-            // Parse subcomponent
-            if (propertyName.equals("BEGIN"))
-            {
-                boolean isMainComponent = unfoldedLine.substring(nameEndIndex+1).equals(name());
-                if  (! isMainComponent)
-                {
-                    String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
-//                    VComponent subcomponent = SimpleVElementFactory.newElement(unfoldedLineIterator);
-                    // TODO - TRY TO REPLACE WITH SOMETHING BETTER - A METHOD IN VELEMENT OR VPARENT?
-                    VComponentBase subcomponent = (VComponentBase) SimpleVComponentFactory.emptyVComponent(subcomponentName);
-                    Map<VElement, List<String>> subMessages = subcomponent.parseContent(unfoldedLineIterator, useRequestStatus);
-                    messageMap.putAll(subMessages);
-                    addSubcomponent(subcomponent);
-                    orderChild(subcomponent);
-                }
-            } else if (propertyName.equals("END"))
-            {
-                break; // exit when end found
-            } else
-                // TODO - GENERATE RFC 5546 REQUEST STATUS MESSAGES
-            {  // parse properties - ignore unknown properties
-                PropertyType propertyType = PropertyType.enumFromName(propertyName);
-                if (propertyType != null)
-                {
-                    Object existingProperty = propertyType.getProperty(this);
-                    if (existingProperty == null || existingProperty instanceof List)
-                    {
-                            try
-                            {
-//                            	ElementType elementType = ElementType.getEnum(this, propertyName);
-//                            	ElementType.parse(this, unfoldedLine);
-//                            	Class<? extends Property> clazz = propertyType.getPropertyClass();
-//                            	Property n = clazz.getConstructor().newInstance();
-//                            	n.
-                                propertyType.parse(this, unfoldedLine);
-                            } catch (Exception e)
-                            {
-                                if (propertyType.isRequired(this))
-                                {
-                                    myMessages.add("3.2;Invalid property value;" + unfoldedLine);
-                                } else
-                                {
-                                    myMessages.add("2.2;Success; invalid property ignored;" + unfoldedLine);
-                                }
-                            }
-                    } else
-                    {
-                        myMessages.add("2.2;Success; invalid property ignored.  Property can only occur once in a calendar component.  Subsequent property is ignored;" + unfoldedLine);
-                    }
-                } else
-                {
-                    myMessages.add("2.4;Success; unknown, non-standard property ignored.;" + unfoldedLine);
-                }
-            }
-        }
-        if (myMessages.isEmpty())
-        {
-            myMessages.add("2.0;Success");
-        }
-//        System.out.println(System.identityHashCode(this) + " " + this.name() + " " + myMessages);
-        messageMap.put(this, myMessages);
-        // TODO - Log status messages if not using RequestStatus
-        return messageMap;
-    }
+//    protected Map<VElement, List<String>> parseContent(String content)
+//    {
+//        return parseContent(content, false);
+//    }
+//    
+//    public Map<VElement, List<String>> parseContent(String content, boolean useRequestStatus)
+//    {
+//        if (content == null)
+//        {
+//            throw new IllegalArgumentException("Calendar component content string can't be null");
+//        }
+//        content.indexOf(System.lineSeparator());
+//        List<String> contentLines = Arrays.asList(content.split(System.lineSeparator()));
+//        UnfoldingStringIterator unfoldedLineIterator = new UnfoldingStringIterator(contentLines.iterator());
+//        return parseContent(unfoldedLineIterator, useRequestStatus);
+//    }
+//
+////    @Override
+//    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator, boolean useRequestStatus)
+//    {
+//        if (unfoldedLineIterator == null)
+//        {
+//            throw new IllegalArgumentException("Calendar component content iterator can't be null");
+//        }
+//        Map<VElement, List<String>> messageMap = new HashMap<>();
+//        List<String> myMessages = new ArrayList<>();
+//        while (unfoldedLineIterator.hasNext())
+//        {
+//            String unfoldedLine = unfoldedLineIterator.next();
+////            System.out.println("unfoldedLine:" + line++ + unfoldedLine + " " + unfoldedLineIterator.hasNext());
+//            int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
+//            String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
+////            System.out.println(propertyName);
+//            // Parse subcomponent
+//            if (propertyName.equals("BEGIN"))
+//            {
+//                boolean isMainComponent = unfoldedLine.substring(nameEndIndex+1).equals(name());
+//                if  (! isMainComponent)
+//                {
+//                    String subcomponentName = unfoldedLine.substring(nameEndIndex+1);
+////                    VComponent subcomponent = SimpleVElementFactory.newElement(unfoldedLineIterator);
+//                    // TODO - TRY TO REPLACE WITH SOMETHING BETTER - A METHOD IN VELEMENT OR VPARENT?
+//                    VComponentBase subcomponent = (VComponentBase) SimpleVComponentFactory.emptyVComponent(subcomponentName);
+//                    Map<VElement, List<String>> subMessages = subcomponent.parseContent(unfoldedLineIterator, useRequestStatus);
+//                    messageMap.putAll(subMessages);
+//                    addSubcomponent(subcomponent);
+//                    orderChild(subcomponent);
+//                }
+//            } else if (propertyName.equals("END"))
+//            {
+//                break; // exit when end found
+//            } else
+//                // TODO - GENERATE RFC 5546 REQUEST STATUS MESSAGES
+//            {  // parse properties - ignore unknown properties
+//                PropertyType propertyType = PropertyType.enumFromName(propertyName);
+//                if (propertyType != null)
+//                {
+//                    Object existingProperty = propertyType.getProperty(this);
+//                    if (existingProperty == null || existingProperty instanceof List)
+//                    {
+//                            try
+//                            {
+////                            	ElementType elementType = ElementType.getEnum(this, propertyName);
+////                            	ElementType.parse(this, unfoldedLine);
+////                            	Class<? extends Property> clazz = propertyType.getPropertyClass();
+////                            	Property n = clazz.getConstructor().newInstance();
+////                            	n.
+//                                propertyType.parse(this, unfoldedLine);
+//                            } catch (Exception e)
+//                            {
+//                                if (propertyType.isRequired(this))
+//                                {
+//                                    myMessages.add("3.2;Invalid property value;" + unfoldedLine);
+//                                } else
+//                                {
+//                                    myMessages.add("2.2;Success; invalid property ignored;" + unfoldedLine);
+//                                }
+//                            }
+//                    } else
+//                    {
+//                        myMessages.add("2.2;Success; invalid property ignored.  Property can only occur once in a calendar component.  Subsequent property is ignored;" + unfoldedLine);
+//                    }
+//                } else
+//                {
+//                    myMessages.add("2.4;Success; unknown, non-standard property ignored.;" + unfoldedLine);
+//                }
+//            }
+//        }
+//        if (myMessages.isEmpty())
+//        {
+//            myMessages.add("2.0;Success");
+//        }
+////        System.out.println(System.identityHashCode(this) + " " + this.name() + " " + myMessages);
+//        messageMap.put(this, myMessages);
+//        // TODO - Log status messages if not using RequestStatus
+//        return messageMap;
+//    }
    
     /**
      * Hook to add subcomponent such as {@link #VAlarm}, {@link #StandardTime} and {@link #DaylightSavingTime}

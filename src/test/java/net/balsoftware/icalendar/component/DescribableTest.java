@@ -72,7 +72,7 @@ public class DescribableTest
 
             Attachment<?> a1 = builtComponent.getAttachments().get(0);
             VComponent parsedComponent = builtComponent.getClass().newInstance();
-            parsedComponent.parseContent(expectedContent);
+            parsedComponent.addChild(expectedContent);
             assertEquals(parsedComponent, builtComponent);
             assertEquals(expectedContent, builtComponent.toString());            
         }
@@ -98,7 +98,7 @@ public class DescribableTest
                     "END:" + componentName;
                     
             VComponent parsedComponent = builtComponent.getClass().newInstance();
-            parsedComponent.parseContent(expectedContent);
+            parsedComponent.addChild(expectedContent);
             
             assertEquals(parsedComponent, builtComponent);
             assertEquals(expectedContent, builtComponent.toString());            

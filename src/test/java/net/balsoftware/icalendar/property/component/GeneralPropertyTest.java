@@ -125,7 +125,8 @@ public class GeneralPropertyTest
     public void canCatchDuplicateParameter()
     {
         String contentLines = "SUMMARY;LANGUAGE=en;LANGUAGE=fr:TEST SUMMARY";
-        Summary.parse(contentLines);
+        Summary s = Summary.parse(contentLines);
+        System.out.println(s);
     }
     
     @Test
@@ -143,8 +144,6 @@ public class GeneralPropertyTest
     {
         String content = "SUMMARY;X-PARAM1=VALUE1;X-PARAM2=VALUE2:Department Party";
         Summary madeProperty = Summary.parse(content);
-        System.out.println(content);
-        System.out.println(madeProperty);
         assertEquals(content, madeProperty.toString());
         Summary expectedProperty = new Summary()
                 .withValue("Department Party")

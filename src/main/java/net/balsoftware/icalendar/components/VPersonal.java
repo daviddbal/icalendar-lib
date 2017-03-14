@@ -276,33 +276,34 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
         super(source);
     }
     
-    @Override
-    public Map<VElement, List<String>> parseContent(Iterator<String> lineIterator, boolean useRequestStatus)
-    {
-        Map<VElement, List<String>> statusMessages = super.parseContent(lineIterator, useRequestStatus);
-        if (useRequestStatus)
-        { // Set REQUEST-STATUS for each message
-        	statusMessages.entrySet()
-	            .stream()
-	            .flatMap(e -> e.getValue().stream())
-	            .forEach(e -> addChild(RequestStatus.parse(e)));
-        }
-        return statusMessages;
-    }
-    
-////    @Override
-//    public Map<VElement, List<String>> parseContent(Iterator<String> lineIterator)
+//    @Override
+//    public Map<VElement, List<String>> parseContent(Iterator<String> lineIterator, boolean useRequestStatus)
 //    {
-//        Map<VElement, List<String>> statusMessages = super.parseContent(lineIterator);
-////        if (useRequestStatus)
-////        { // Set REQUEST-STATUS for each message
+//        Map<VElement, List<String>> statusMessages = super.parseContent(lineIterator, useRequestStatus);
+//        if (useRequestStatus)
+//        { // Set REQUEST-STATUS for each message
 //        	statusMessages.entrySet()
 //	            .stream()
 //	            .flatMap(e -> e.getValue().stream())
 //	            .forEach(e -> addChild(RequestStatus.parse(e)));
-////        }
+//        }
 //        return statusMessages;
 //    }
+    
+//    @Override
+    @Override
+	public Map<VElement, List<String>> parseContent(Iterator<String> lineIterator)
+    {
+        Map<VElement, List<String>> statusMessages = super.parseContent(lineIterator);
+//        if (useRequestStatus)
+//        { // Set REQUEST-STATUS for each message
+        	statusMessages.entrySet()
+	            .stream()
+	            .flatMap(e -> e.getValue().stream())
+	            .forEach(e -> addChild(RequestStatus.parse(e)));
+//        }
+        return statusMessages;
+    }
     
     @Override
     public List<String> errors()

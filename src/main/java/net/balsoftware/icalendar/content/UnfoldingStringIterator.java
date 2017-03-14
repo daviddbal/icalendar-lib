@@ -20,7 +20,7 @@ public class UnfoldingStringIterator implements Iterator<String>
     /**
      * Constructor.
      *
-     * @param iterator  the iterator to decorate
+     * @param iterator  the iterator to decorate as unfolding
      */
     public UnfoldingStringIterator(final Iterator<String> iterator)
     {

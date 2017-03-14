@@ -312,7 +312,7 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
                 .map(c -> 
                 {
                 	StandardOrDaylight<?> v = (StandardOrDaylight<?>) SimpleVComponentFactory.emptyVComponent(c);
-                	v.parseContent(c);
+                	v.addChild(c);
                 	return v;
                 })
                 .collect(Collectors.toList());

@@ -29,11 +29,6 @@ public class NonStandardParameter extends ParameterBase<NonStandardParameter, St
         this.name = source.name;
     }
 
-    public static NonStandardParameter parse(String content)
-    {
-        return new NonStandardParameter(content);
-    }
-    
     @Override
     public List<String> errors()
     {
@@ -49,5 +44,10 @@ public class NonStandardParameter extends ParameterBase<NonStandardParameter, St
     public String toString()
     {
         return (getValue() != null) ? name() + "=" + getValue() : null;
+    }
+    
+    public static NonStandardParameter parse(String content)
+    {
+        return new NonStandardParameter(content);
     }
 }

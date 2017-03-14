@@ -248,7 +248,7 @@ public class ParseComponentTest extends ICalendarTestAbstract
                               + " far away." + System.lineSeparator()
                               + "END:VEVENT";
         VComponent vEvent = SimpleVComponentFactory.emptyVComponent(vEventString);
-        vEvent.parseContent(vEventString);
+        vEvent.addChild(vEventString);
         VEvent expectedVEvent = getWholeDayDaily1()
                 .withComments("This is a multiline comment.")
                 .withDescription("A dog ran far away.");

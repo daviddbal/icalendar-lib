@@ -39,7 +39,12 @@ import net.balsoftware.icalendar.utilities.DateTimeUtilities;
  */
 public class DateTimeStamp extends PropBaseUTC<DateTimeStamp>
 {    
-    public DateTimeStamp(ZonedDateTime temporal)
+    public DateTimeStamp()
+    {
+        super();
+    }
+
+	public DateTimeStamp(ZonedDateTime temporal)
     {
         super(temporal);
     }
@@ -48,7 +53,7 @@ public class DateTimeStamp extends PropBaseUTC<DateTimeStamp>
     {
         super(source);
     }
-    
+        
     public static DateTimeStamp parse(String value)
     {
         Temporal t = DateTimeUtilities.temporalFromString(value);

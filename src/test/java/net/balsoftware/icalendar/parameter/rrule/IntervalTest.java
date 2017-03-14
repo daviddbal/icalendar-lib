@@ -15,7 +15,8 @@ public class IntervalTest
         RecurrenceRuleValue r = RecurrenceRuleValue.parse("FREQ=DAILY;INTERVAL=2");
         r.setInterval((Interval) null);
         String expectedContent = "FREQ=DAILY";
-        RecurrenceRuleValue expectedVEvent = RecurrenceRuleValue.parse(expectedContent);
+        RecurrenceRuleValue expectedVEvent = new RecurrenceRuleValue()
+        		.withFrequency("DAILY");
         assertEquals(expectedVEvent, r);
         assertEquals(expectedContent, r.toString());
     }

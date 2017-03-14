@@ -52,7 +52,7 @@ public class LastModifiedTest
                     "END:" + componentName;
                     
             VComponent parsedComponent = builtComponent.getClass().newInstance();
-            parsedComponent.parseContent(expectedContent);
+            parsedComponent.addChild(expectedContent);
             
             assertEquals(parsedComponent, builtComponent);
             assertEquals(expectedContent, builtComponent.toString());            

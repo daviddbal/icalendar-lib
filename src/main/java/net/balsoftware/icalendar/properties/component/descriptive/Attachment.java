@@ -159,7 +159,7 @@ public class Attachment<T> extends PropertyBase<T, Attachment<T>> implements Pro
    }
    
    /** Create default Attachment with no value set */
-   Attachment()
+   public Attachment()
    {
        super();
    }

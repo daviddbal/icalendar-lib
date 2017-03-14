@@ -30,7 +30,7 @@ public class Organizer extends PropertyBaseCalendarUser<URI, Organizer> implemen
         super(source);
     }
     
-    Organizer()
+    public Organizer()
     {
         super();
     }

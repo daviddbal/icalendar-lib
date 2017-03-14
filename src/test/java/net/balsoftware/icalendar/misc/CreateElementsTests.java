@@ -81,7 +81,7 @@ public class CreateElementsTests
     {
     	String content = "SUMMARY;LANGUAGE=en:Department Party";
     	Summary s = new Summary();
-    	s.parseContent(content);
+    	s.addChild(content);
     	System.out.println(s);
     }
 }

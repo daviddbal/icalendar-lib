@@ -159,7 +159,7 @@ public class Attendee extends PropertyBaseAttendee<URI, Attendee>
     }
     
     /** Create default Attendee with no value set */
-    Attendee()
+    public Attendee()
     {
         super();
     }

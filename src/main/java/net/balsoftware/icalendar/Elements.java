@@ -176,7 +176,7 @@ public enum Elements
     FREE_BUSY_TIME_TYPE ("FBTYPE", VParameter.class, FreeBusyType.class),
     LANGUAGE ("LANGUAGE", VParameter.class, Language.class),
     GROUP_OR_LIST_MEMBERSHIP ("MEMBER", VParameter.class, GroupMembership.class),
-    NON_STANDARD_PARAMETER ("X-", VParameter.class, NonStandardParameter.class),
+    NON_STANDARD_PARAMETER ("X-", VParameter.class, NonStandardParameter.class), // NOTE: Has no no-arg constructor
     PARTICIPATION_STATUS ("PARTSTAT", VParameter.class, ParticipationStatus.class),
     RECURRENCE_IDENTIFIER_RANGE ("RANGE", VParameter.class, Range.class),
     ALARM_TRIGGER_RELATIONSHIP ("RELATED", VParameter.class, AlarmTriggerRelationship.class),
@@ -210,19 +210,20 @@ public enum Elements
     	Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> map = new HashMap<>();
     	Elements[] values = Elements.values();
     	Arrays.stream(values)
-//    		.filter(v -> 
-//    		{
-//    			boolean isParent = VParent.class.isAssignableFrom(v.myClass);
-//    			return isParent;
-////    			boolean isVCalendar = v.superClass == VCalendar.class;
-////    			boolean isVComponent = v.superClass == VComponent.class;
-////    			boolean isMultiLineElement = isVCalendar || isVComponent;
-////    			return isMultiLineElement;
-//    		})
+    		.filter(v -> 
+    		{
+    			boolean isParent = VParent.class.isAssignableFrom(v.myClass);
+    			return isParent;
+//    			boolean isVCalendar = v.superClass == VCalendar.class;
+//    			boolean isVComponent = v.superClass == VComponent.class;
+//    			boolean isMultiLineElement = isVCalendar || isVComponent;
+//    			return isMultiLineElement;
+    		})
     		.forEach(v ->
 	    	{
 	    		Pair<Class<? extends VElement>, String> key = new Pair<>(v.superClass, v.name);
 				try {
+//					System.out.println(v.name);
 					Constructor<? extends VElement> constructor = v.myClass.getConstructor();
 					map.put(key, constructor);
 				} catch (NoSuchMethodException | SecurityException e) {
@@ -273,8 +274,9 @@ public enum Elements
 	public static VElement parseNewElement(Class<? extends VElement> superclass, String name, String unfoldedLine)
 	{
 		try {
-			System.out.println(superclass + " " + name);
-			return (VElement) PARSE_FACTORIES.get(new Pair<>(superclass, name)).invoke(null, unfoldedLine);
+			Method factory = PARSE_FACTORIES.get(new Pair<>(superclass, name));
+			if (factory == null) return null;
+			return (VElement) factory.invoke(null, unfoldedLine);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
@@ -284,7 +286,6 @@ public enum Elements
 	public static VChild newEmptyVElement(Class<? extends VElement> superclass, String name)
 	{
 		try {
-			System.out.println(superclass + " " + name + " " + NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name)));
 			return (VChild) NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name)).newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {

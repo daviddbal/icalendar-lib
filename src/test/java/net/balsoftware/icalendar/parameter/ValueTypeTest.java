@@ -22,7 +22,7 @@ public class ValueTypeTest
     public void canParseValueParameter()
     {
         ValueParameter parameter = new ValueParameter();
-        parameter.parseContent("URI");
+        parameter.setValue(ValueType.enumFromName("URI"));
         String expectedContent = "VALUE=URI";
         assertEquals(expectedContent, parameter.toString());
         assertEquals(parameter.getValue(), ValueType.UNIFORM_RESOURCE_IDENTIFIER);

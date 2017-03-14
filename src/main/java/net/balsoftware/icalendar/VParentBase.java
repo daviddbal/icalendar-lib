@@ -205,10 +205,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     {
         Iterator<String> i = Arrays.asList(content.split(System.lineSeparator())).iterator();
         return parseContent(new UnfoldingStringIterator(i));
-//        return log.entrySet()
-//        		.stream()
-//        		.flatMap(e -> e.getValue().stream())
-//        		.collect(Collectors.toList());
     }
     
     protected Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator)
@@ -221,7 +217,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     		singlelineChildClass = VProperty.class;
 		} else if (VComponent.class.isAssignableFrom(getClass()))
 		{
-    		multilineChildClass = null;
+    		multilineChildClass = VComponent.class;
     		singlelineChildClass = VProperty.class;			
 		} else if (VProperty.class.isAssignableFrom(getClass()))
 		{
@@ -241,26 +237,28 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
             String unfoldedLine = unfoldedLineIterator.next();
             int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
             String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
+            boolean isMultiLineElement = propertyName.equals("BEGIN");
+            boolean isMainComponent = unfoldedLine.substring(nameEndIndex+1).equals(name()) && isMultiLineElement;
+            if (isMainComponent) continue; // skip main component
+			if (propertyName.equals("END"))
+            {
+                return Collections.EMPTY_MAP; // exit when end found
+            }
             final String childName;
             final VElementBase p;
-            boolean isMultiLineElement = propertyName.equals("BEGIN");
 			if (isMultiLineElement)
             {
                 childName = unfoldedLine.substring(nameEndIndex+1);
                 p = (VElementBase) Elements.newEmptyVElement(multilineChildClass, childName);
-            } else if (propertyName.equals("END"))
-            {
-                break; // exit when end found
+                ((VParentBase<?>) p).parseContent(unfoldedLineIterator); // recursively parse child parent
             } else
             {
             	childName = propertyName;
-                p = (VElementBase) Elements.newEmptyVElement(singlelineChildClass, childName);
+                p = (VElementBase) Elements.parseNewElement(singlelineChildClass, childName, unfoldedLine);
             }
 			// PARAMETER AND PROPERTY MUST HAVE OVERRIDDEN PARSECONTENT (to handle value part)
-            p.parseContent(unfoldedLine);
             addChild((VChild) p);
         }
-        // TODO - work on returning messages
         return Collections.EMPTY_MAP;
     }
 	
@@ -287,42 +285,58 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	protected void processInLineChild(Map<VElement, List<String>> messages, Pair<String, String> entry)
 	{
 		VChild newChild = (VChild) Elements.parseNewElement(singleLineChildClass(), entry.getKey(), entry.getValue());
+		if (newChild == null)
+		{
+			addToList(messages, "Ignored invalid element:" + entry.getValue());
+			return;
+		}
+//		VChild newChild = (VChild) Elements.newEmptyVElement(singleLineChildClass(), entry.getKey());
 		Method getter = getGetter(newChild);
-		boolean isChildAllowed = getter == null;
+		boolean isChildAllowed = getter != null;
 		if (isChildAllowed)
 		{
-			final List<String> myMessages;
-			if ((messages.get(this) == null))
-			{
-				myMessages = new ArrayList<>();
-				messages.put(this, myMessages);
-			} else
-			{
-				myMessages = messages.get(this);
-			}
-			myMessages.add(entry.getKey() + " not allowed in " + name());
+			addToList(messages, entry.getKey() + " not allowed in " + name());
 		}
-		boolean isChildAlreadyPresent = true;
+		final boolean isChildAlreadyPresent;
+		Object currentParameter = null;
 		try {
-			VChild currentParameter = (VChild) getter.invoke(this);
-			isChildAlreadyPresent = currentParameter != null;
+			currentParameter = getter.invoke(this);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		if (currentParameter instanceof Collection)
+		{
+			isChildAlreadyPresent = ((Collection<?>) currentParameter).contains(newChild);
+		} else
+		{
+			isChildAlreadyPresent = currentParameter != null;			
+		}
+//		System.out.println("isChildAlreadyPresent:" + isChildAlreadyPresent + " " + newChild);
 		if (isChildAlreadyPresent)
 		{
-			final List<String> myMessages;
-			if ((messages.get(this) == null))
-			{
-				myMessages = new ArrayList<>();
-				messages.put(this, myMessages);
-			} else
-			{
-				myMessages = messages.get(this);
-			}
-			myMessages.add(newChild.getClass().getSimpleName() + " can only occur once in a calendar component.  Ignoring instances beyond first.");
+			// TODO - SHOULD I ADD AS MESSAGE OR USE EXCEPTION?
+			String message = newChild.getClass().getSimpleName() + " can only occur once in a calendar component.  Ignoring instances beyond first.";
+			addToList(messages, message);
+//			throw new IllegalArgumentException(message);
 		}
-		if (isChildAllowed && ! isChildAlreadyPresent) addChild(newChild);
+		if (isChildAllowed && ! isChildAlreadyPresent)
+		{
+			addChild(newChild);
+		}
+	}
+	
+	private void addToList(Map<VElement, List<String>> messages, String newMessage)
+	{
+		final List<String> myMessages;
+		if ((messages.get(this) == null))
+		{
+			myMessages = new ArrayList<>();
+			messages.put(this, myMessages);
+		} else
+		{
+			myMessages = messages.get(this);
+		}
+		myMessages.add(newMessage);
 	}
 	
     /* Strategy to build iCalendar content lines */
@@ -331,8 +345,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     @Override
 	public List<VChild> childrenUnmodifiable()
     {
-    	System.out.println("orderer:" + orderer);
-    	System.out.println("orderer1:" + orderer.childrenUnmodifiable().size());
     	return orderer.childrenUnmodifiable();
     }
     
@@ -405,7 +417,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 				try {
 					Object v1 = m.invoke(this);
 	        		Object v2 = m.invoke(testObj);
-//	        		if (v1 != null) System.out.println("equals:" + v1 + " "  +v2 + ":" + Objects.equals(v1, v2) + " " + v1.getClass().getSimpleName());
 	        		return Objects.equals(v1, v2);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
 					e1.printStackTrace();

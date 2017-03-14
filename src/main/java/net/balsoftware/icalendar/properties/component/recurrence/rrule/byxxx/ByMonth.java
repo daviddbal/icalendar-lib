@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
+import net.balsoftware.icalendar.utilities.Pair;
 
 /** BYMONTH from RFC 5545, iCalendar 3.3.10, page 42 */
 public class ByMonth extends ByRuleAbstract<Month, ByMonth>
@@ -149,7 +150,7 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
 //    }
 
     @Override
-    public Map<VElement, List<String>> parseContent(String content)
+    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
     {
     	String valueString = Elements.extractValue(content);
         Month[] monthArray = Arrays.asList(valueString.split(","))

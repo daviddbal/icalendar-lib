@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElement;
+import net.balsoftware.icalendar.utilities.Pair;
 
 /**
  * FREQUENCY
@@ -195,7 +196,7 @@ public class Frequency extends RRuleElementBase<FrequencyType, Frequency>
     }
 
     @Override
-    public Map<VElement, List<String>> parseContent(String content)
+    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
     {
     	String valueString = Elements.extractValue(content);
         setValue(FrequencyType.valueOf(valueString.toUpperCase()));

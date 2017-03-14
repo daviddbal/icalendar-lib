@@ -14,6 +14,7 @@ import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency.TimeTransparencyType;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
+import net.balsoftware.icalendar.utilities.Pair;
 
 /**
  * VEVENT
@@ -241,15 +242,18 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     public static VEvent parse(String foldedContent)
     {
         VEvent component = new VEvent();
-        Map<VElement, List<String>> messages = component.parseContent(foldedContent);
+        Map<VElement, List<Pair<String, MessageEffect>>> messages = component.parseContent(foldedContent);
         // filter out Success messages
         String filteredMessages = messages.entrySet()
     		.stream()
     		.flatMap(e -> e.getValue().stream())
+    		.filter(v -> v.getValue() == MessageEffect.THROW_EXCEPTION)
+    		.map(v -> v.getKey())
             .filter(m ->! m.contains(";Success"))
             .collect(Collectors.joining(System.lineSeparator()));
         if (! filteredMessages.isEmpty())
         {
+        	// TODO - log messages? RequestStatus?
             throw new IllegalArgumentException(messages.entrySet()
             		.stream()
             		.flatMap(e -> e.getValue().stream().map(v -> e.getKey().name() + ":" + v))

@@ -5,7 +5,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -202,13 +201,13 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	}
 	
     @Override
-	protected Map<VElement, List<String>> parseContent(String content)
+	protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
     {
         Iterator<String> i = Arrays.asList(content.split(System.lineSeparator())).iterator();
         return parseContent(new UnfoldingStringIterator(i));
     }
     
-    protected Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator)
+    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(Iterator<String> unfoldedLineIterator)
     {
     	final Class<? extends VElement> multilineChildClass;
     	final Class<? extends VElement> singlelineChildClass;
@@ -233,6 +232,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     		throw new RuntimeException("Not supported parent class:" + getClass());		
 		}
     	
+    	Map<VElement, List<Pair<String, MessageEffect>>> messages = new HashMap<>();
         while (unfoldedLineIterator.hasNext())
         {
             String unfoldedLine = unfoldedLineIterator.next();
@@ -243,7 +243,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
             if (isMainComponent) continue; // skip main component
 			if (propertyName.equals("END"))
             {
-                return Collections.EMPTY_MAP; // exit when end found
+                return messages; // exit when end found
             }
             final String childName;
             final VElementBase p;
@@ -258,9 +258,18 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
                 p = (VElementBase) Elements.parseNewElement(singlelineChildClass, childName, unfoldedLine);
             }
 			// PARAMETER AND PROPERTY MUST HAVE OVERRIDDEN PARSECONTENT (to handle value part)
-            addChild((VChild) p);
+            if (p != null )
+        	{
+//            	try {
+            		processChild(messages, unfoldedLine, propertyName, (VChild) p);
+//            	} catch (Exception e)
+//            	{
+//            		addToList(messages, e.getMessage());
+//            	}
+//            	addChild((VChild) p);
+        	}
         }
-        return Collections.EMPTY_MAP;
+        return messages;
     }
 	
 	private Class<? extends VElement> singleLineChildClass()
@@ -283,23 +292,27 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		}
 	}
     	
-	protected void processInLineChild(Map<VElement, List<String>> messages, Pair<String, String> entry)
+	protected void processInLineChild(Map<VElement, List<Pair<String, MessageEffect>>> messages, Pair<String, String> entry)
 	{
-		VChild newChild = (VChild) Elements.parseNewElement(singleLineChildClass(), entry.getKey(), entry.getKey() + "=" + entry.getValue());
-//		VChild newChild = (VChild) Elements.parseNewElement(singleLineChildClass(), entry.getKey(), entry.getValue());
+		String content = entry.getValue();
+		String elementName = entry.getKey();
+		VChild newChild = (VChild) Elements.parseNewElement(singleLineChildClass(), elementName, elementName + "=" + content);
+		processChild(messages, content, elementName, newChild);
+	}
+
+	private void processChild(Map<VElement, List<Pair<String, MessageEffect>>> messages, String content, String elementName, VChild newChild) {
 		if (newChild == null)
 		{
-			addToList(messages, "Ignored invalid element:" + entry.getValue());
+			addToList(messages, "Ignored invalid element:" + content, MessageEffect.MESSAGE_ONLY);
 			return;
 		}
-//		VChild newChild = (VChild) Elements.newEmptyVElement(singleLineChildClass(), entry.getKey());
 		Method getter = getGetter(newChild);
 		boolean isChildAllowed = getter != null;
-		if (isChildAllowed)
+		if (! isChildAllowed)
 		{
-			String newMessage = entry.getKey() + " not allowed in " + name();
+			String newMessage = elementName + " not allowed in " + name();
 //			throw new IllegalArgumentException(newMessage);
-			addToList(messages, newMessage);
+			addToList(messages, newMessage, MessageEffect.THROW_EXCEPTION);
 		}
 		final boolean isChildAlreadyPresent;
 		Object currentParameter = null;
@@ -320,8 +333,9 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		{
 			// TODO - SHOULD I ADD AS MESSAGE OR USE EXCEPTION?
 			String newMessage = newChild.getClass().getSimpleName() + " can only occur once in a calendar component.  Ignoring instances beyond first.";
+			addToList(messages, newMessage, MessageEffect.THROW_EXCEPTION);
 //			addToList(messages, message);
-			throw new IllegalArgumentException(newMessage);
+//			throw new IllegalArgumentException(newMessage);
 		}
 		if (isChildAllowed && ! isChildAlreadyPresent)
 		{
@@ -329,9 +343,10 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		}
 	}
 	
-	private void addToList(Map<VElement, List<String>> messages, String newMessage)
+	
+	private void addToList(Map<VElement, List<Pair<String, MessageEffect>>> messages, String newMessage, MessageEffect effect)
 	{
-		final List<String> myMessages;
+		final List<Pair<String, MessageEffect>> myMessages;
 		if ((messages.get(this) == null))
 		{
 			myMessages = new ArrayList<>();
@@ -340,7 +355,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		{
 			myMessages = messages.get(this);
 		}
-		myMessages.add(newMessage);
+		myMessages.add(new Pair<>(newMessage, effect));
 	}
 	
     /* Strategy to build iCalendar content lines */

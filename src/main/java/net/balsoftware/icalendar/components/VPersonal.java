@@ -297,10 +297,10 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
         Map<VElement, List<String>> statusMessages = super.parseContent(lineIterator);
 //        if (useRequestStatus)
 //        { // Set REQUEST-STATUS for each message
-        	statusMessages.entrySet()
-	            .stream()
-	            .flatMap(e -> e.getValue().stream())
-	            .forEach(e -> addChild(RequestStatus.parse(e)));
+//        	statusMessages.entrySet()
+//	            .stream()
+//	            .flatMap(e -> e.getValue().stream())
+//	            .forEach(e -> addChild(RequestStatus.parse(e)));
 //        }
         return statusMessages;
     }

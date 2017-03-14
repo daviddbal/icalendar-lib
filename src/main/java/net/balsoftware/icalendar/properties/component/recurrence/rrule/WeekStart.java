@@ -53,7 +53,7 @@ public class WeekStart extends RRuleElementBase<DayOfWeek, WeekStart>
     }
 
     @Override
-    public Map<VElement, List<String>> parseContent(String content)
+    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
     {
     	String valueString = Elements.extractValue(content);
         DayOfWeek dayOfWeek = Arrays.stream(DayOfWeek.values())

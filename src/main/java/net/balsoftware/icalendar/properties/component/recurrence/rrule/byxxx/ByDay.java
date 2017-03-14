@@ -30,6 +30,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.Recurrenc
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay.ByDayPair;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
+import net.balsoftware.icalendar.utilities.Pair;
 
 /** BYDAY from RFC 5545, iCalendar 3.3.10, page 40
  * 
@@ -397,7 +398,7 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
     }
     
     @Override
-    public Map<VElement, List<String>> parseContent(String dayPairs)
+    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String dayPairs)
     {
     	String valueString = Elements.extractValue(dayPairs);
         List<ByDayPair> dayPairsList = new ArrayList<ByDayPair>();

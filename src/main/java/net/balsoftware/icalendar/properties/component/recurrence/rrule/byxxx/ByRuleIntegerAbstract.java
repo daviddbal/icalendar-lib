@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
+import net.balsoftware.icalendar.utilities.Pair;
 
 public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U>
 {
@@ -74,7 +75,7 @@ public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U
     }
     
     @Override
-    public Map<VElement, List<String>> parseContent(String content)
+    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
     {
     	String valueString = Elements.extractValue(content);
         Integer[] monthDayArray = Arrays.asList(valueString.split(","))

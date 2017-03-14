@@ -38,6 +38,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByY
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
+import net.balsoftware.icalendar.utilities.Pair;
 
 /**
  * RRULE
@@ -347,9 +348,9 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     
     /** Parse component from content line */
     @Override
-    public Map<VElement, List<String>> parseContent(String contentLine)
+    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String contentLine)
     {
-    	Map<VElement, List<String>> messages = new HashMap<>();
+    	Map<VElement, List<Pair<String, MessageEffect>>> messages = new HashMap<>();
         ICalendarUtilities.contentToParameterListPair(contentLine)
                 .stream()
                 .forEach(entry ->

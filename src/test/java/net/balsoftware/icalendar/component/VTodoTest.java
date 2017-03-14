@@ -78,7 +78,7 @@ public class VTodoTest
         assertEquals(expectedDates, madeDates);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test (expected = NullPointerException.class)
     public void canParseNullVTodo()
     {
         VTodo.parse(null);

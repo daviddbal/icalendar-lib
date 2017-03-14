@@ -6,6 +6,7 @@ import java.util.Map;
 
 import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElement;
+import net.balsoftware.icalendar.utilities.Pair;
 
 /**
  * INTERVAL
@@ -52,7 +53,7 @@ public class Interval extends RRuleElementBase<Integer, Interval>
     }
 
     @Override
-    public Map<VElement, List<String>> parseContent(String content)
+    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
     {
     	String valueString = Elements.extractValue(content);
         setValue(Integer.parseInt(valueString));

@@ -201,13 +201,13 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	}
 	
     @Override
-	protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
+	protected List<Message> parseContent(String content)
     {
         Iterator<String> i = Arrays.asList(content.split(System.lineSeparator())).iterator();
         return parseContent(new UnfoldingStringIterator(i));
     }
     
-    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(Iterator<String> unfoldedLineIterator)
+    protected List<Message> parseContent(Iterator<String> unfoldedLineIterator)
     {
     	final Class<? extends VElement> multilineChildClass;
     	final Class<? extends VElement> singlelineChildClass;
@@ -232,10 +232,11 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     		throw new RuntimeException("Not supported parent class:" + getClass());		
 		}
     	
-    	Map<VElement, List<Pair<String, MessageEffect>>> messages = new HashMap<>();
+    	List<Message> messages = new ArrayList<>();
         while (unfoldedLineIterator.hasNext())
         {
             String unfoldedLine = unfoldedLineIterator.next();
+//            System.out.println(unfoldedLine);
             int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
             String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
             boolean isMultiLineElement = propertyName.equals("BEGIN");
@@ -251,7 +252,8 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
             {
                 childName = unfoldedLine.substring(nameEndIndex+1);
                 p = (VElementBase) Elements.newEmptyVElement(multilineChildClass, childName);
-                ((VParentBase<?>) p).parseContent(unfoldedLineIterator); // recursively parse child parent
+                List<Message> myMessages = ((VParentBase<?>) p).parseContent(unfoldedLineIterator); // recursively parse child parent
+                messages.addAll(myMessages);
             } else
             {
             	childName = propertyName;
@@ -260,13 +262,8 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 			// PARAMETER AND PROPERTY MUST HAVE OVERRIDDEN PARSECONTENT (to handle value part)
             if (p != null )
         	{
-//            	try {
-            		processChild(messages, unfoldedLine, propertyName, (VChild) p);
-//            	} catch (Exception e)
-//            	{
-//            		addToList(messages, e.getMessage());
-//            	}
-//            	addChild((VChild) p);
+        		processChild(messages, unfoldedLine, propertyName, (VChild) p);
+//        		System.out.println("messages2:" + messages.size() + " " + name());
         	}
         }
         return messages;
@@ -292,7 +289,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		}
 	}
     	
-	protected void processInLineChild(Map<VElement, List<Pair<String, MessageEffect>>> messages, Pair<String, String> entry)
+	protected void processInLineChild(List<Message> messages, Pair<String, String> entry)
 	{
 		String content = entry.getValue();
 		String elementName = entry.getKey();
@@ -300,19 +297,23 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		processChild(messages, content, elementName, newChild);
 	}
 
-	private void processChild(Map<VElement, List<Pair<String, MessageEffect>>> messages, String content, String elementName, VChild newChild) {
+	private void processChild(List<Message> messages, String content, String elementName, VChild newChild) {
 		if (newChild == null)
 		{
-			addToList(messages, "Ignored invalid element:" + content, MessageEffect.MESSAGE_ONLY);
+			Message message = new Message(this,
+					"Ignored invalid element:" + content,
+					MessageEffect.MESSAGE_ONLY);
+			messages.add(message);
 			return;
 		}
 		Method getter = getGetter(newChild);
 		boolean isChildAllowed = getter != null;
 		if (! isChildAllowed)
 		{
-			String newMessage = elementName + " not allowed in " + name();
-//			throw new IllegalArgumentException(newMessage);
-			addToList(messages, newMessage, MessageEffect.THROW_EXCEPTION);
+			Message message = new Message(this,
+					 elementName + " not allowed in " + name(),
+					MessageEffect.THROW_EXCEPTION);
+			messages.add(message);
 		}
 		final boolean isChildAlreadyPresent;
 		Object currentParameter = null;
@@ -331,11 +332,10 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 //		System.out.println("isChildAlreadyPresent:" + isChildAlreadyPresent + " " + newChild);
 		if (isChildAlreadyPresent)
 		{
-			// TODO - SHOULD I ADD AS MESSAGE OR USE EXCEPTION?
-			String newMessage = newChild.getClass().getSimpleName() + " can only occur once in a calendar component.  Ignoring instances beyond first.";
-			addToList(messages, newMessage, MessageEffect.THROW_EXCEPTION);
-//			addToList(messages, message);
-//			throw new IllegalArgumentException(newMessage);
+			Message message = new Message(this,
+					newChild.getClass().getSimpleName() + " can only occur once in a calendar component.  Ignoring instances beyond first.",
+					MessageEffect.THROW_EXCEPTION);
+			messages.add(message);
 		}
 		if (isChildAllowed && ! isChildAlreadyPresent)
 		{
@@ -344,19 +344,19 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	}
 	
 	
-	private void addToList(Map<VElement, List<Pair<String, MessageEffect>>> messages, String newMessage, MessageEffect effect)
-	{
-		final List<Pair<String, MessageEffect>> myMessages;
-		if ((messages.get(this) == null))
-		{
-			myMessages = new ArrayList<>();
-			messages.put(this, myMessages);
-		} else
-		{
-			myMessages = messages.get(this);
-		}
-		myMessages.add(new Pair<>(newMessage, effect));
-	}
+//	private void addToList(Map<VElement, List<Pair<String, MessageEffect>>> messages, String newMessage, MessageEffect effect)
+//	{
+//		final List<Pair<String, MessageEffect>> myMessages;
+//		if ((messages.get(this) == null))
+//		{
+//			myMessages = new ArrayList<>();
+//			messages.put(this, myMessages);
+//		} else
+//		{
+//			myMessages = messages.get(this);
+//		}
+//		myMessages.add(new Pair<>(newMessage, effect));
+//	}
 	
     /* Strategy to build iCalendar content lines */
     protected ContentLineStrategy contentLineGenerator;

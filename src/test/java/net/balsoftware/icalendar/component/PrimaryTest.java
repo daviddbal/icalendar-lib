@@ -2,7 +2,6 @@ package net.balsoftware.icalendar.component;
 
 import static org.junit.Assert.assertEquals;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -84,8 +83,8 @@ public class PrimaryTest
         }
     }
     
-    @Test
-    public void canIgnoreAlreadySet()
+    @Test (expected=IllegalArgumentException.class)
+    public void canCatchAlreadySet()
     {
         String content = 
             "BEGIN:VEVENT" + System.lineSeparator() +
@@ -93,29 +92,7 @@ public class PrimaryTest
             "DTSTART:20151119T090000" + System.lineSeparator() +
             "END:VEVENT";
         VEvent v = VEvent.parse(content);
-        assertEquals(LocalDateTime.of(2015, 11, 9, 9, 0), v.getDateTimeStart().getValue());
-    }
-    
-    @Test
-    public void canIgnoreAlreadySet2()
-    {
-        String content = 
-            "BEGIN:VEVENT" + System.lineSeparator() +
-            "COMMENT:This is a test comment" + System.lineSeparator() +
-            "END:VEVENT";
-        VEvent v = VEvent.parse(content);
-        System.out.println(v);
-    }
-
-    @Test
-    public void canIgnoreAlreadySet3()
-    {
-        String content = 
-            "BEGIN:VEVENT" + System.lineSeparator() +
-            "DTSTART:20151109T090000" + System.lineSeparator() +
-            "END:VEVENT";
-        VEvent v = VEvent.parse(content);
-        System.out.println(v);
+//        assertEquals(LocalDateTime.of(2015, 11, 9, 9, 0), v.getDateTimeStart().getValue());
     }
     
     @Test (expected=IllegalArgumentException.class)

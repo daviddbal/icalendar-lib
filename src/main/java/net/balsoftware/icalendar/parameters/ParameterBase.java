@@ -3,9 +3,7 @@ package net.balsoftware.icalendar.parameters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VElementBase;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.utilities.StringConverter;
@@ -56,12 +54,12 @@ abstract public class ParameterBase<U,T> extends VElementBase implements VParame
     }
     
     @Override
-    protected Map<VElement, List<String>> parseContent(String content)
+    protected List<Message> parseContent(String content)
     {
         String valueString = VParameter.extractValue(content);
         T value = getConverter().fromString(valueString);
         setValue(value);
-        return Collections.EMPTY_MAP;
+        return Collections.EMPTY_LIST;
     }
     
     /**

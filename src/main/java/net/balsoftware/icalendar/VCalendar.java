@@ -8,10 +8,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.components.SimpleVComponentFactory;
@@ -833,10 +831,10 @@ public class VCalendar extends VParentBase<VCalendar>
 //    }
     
     /** Parse unfolded content lines into calendar object */
-    public Map<VElement, List<String>> parseContent(Iterator<String> lineIterator, boolean collectErrorMessages)
+    public List<Message> parseContent(Iterator<String> lineIterator, boolean collectErrorMessages)
     {
         List<String> vCalendarMessages = new ArrayList<>();
-        Map<VElement, List<String>> messageMap = new HashMap<>();
+        List<Message> messages = new ArrayList<>();
         String firstLine = lineIterator.next();
         if (! firstLine.equals("BEGIN:VCALENDAR"))
         {
@@ -860,12 +858,12 @@ public class VCalendar extends VParentBase<VCalendar>
 //            	System.out.println(componentName);
                 VComponentBase newComponent = (VComponentBase) SimpleVComponentFactory.emptyVComponent(componentName);
 //                Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
-                Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator);
+                List<Message> newComponentMessages = newComponent.parseContent(unfoldedLineIterator);
                 // TODO - USE ELEMENTS STATICS
                 addChild(newComponent);
 //                addVComponent(newComponent);
 //                System.out.println(childrenUnmodifiable().size());
-                messageMap.putAll(newComponentMessages);
+                messages.addAll(newComponentMessages);
 
                 
 //                String componentName = unfoldedLine.substring(nameEndIndex+1);
@@ -911,8 +909,8 @@ public class VCalendar extends VParentBase<VCalendar>
             }
         }
      // TODO - Log status messages if not using RequestStatus
-        messageMap.put(this, vCalendarMessages);
-        return messageMap;
+//        messageMap.put(this, vCalendarMessages);
+        return messages;
     }
 
 //    // multi threaded
@@ -1052,7 +1050,8 @@ public class VCalendar extends VParentBase<VCalendar>
     public static VCalendar parse(String contentLines)
     {
         VCalendar c = new VCalendar();
-        c.parseContent(contentLines);
+        List<Message> messages = c.parseContent(contentLines);
+        throwMessageExceptions(messages);
         return c;
     }
 }

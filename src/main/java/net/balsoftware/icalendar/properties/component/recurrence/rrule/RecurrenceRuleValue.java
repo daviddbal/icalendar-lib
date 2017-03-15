@@ -6,12 +6,11 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Spliterator;
@@ -23,7 +22,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import net.balsoftware.icalendar.VChild;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
@@ -38,7 +36,6 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByY
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
-import net.balsoftware.icalendar.utilities.Pair;
 
 /**
  * RRULE
@@ -348,9 +345,9 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     
     /** Parse component from content line */
     @Override
-    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String contentLine)
+    protected List<Message> parseContent(String contentLine)
     {
-    	Map<VElement, List<Pair<String, MessageEffect>>> messages = new HashMap<>();
+    	List<Message> messages = new ArrayList<>();
         ICalendarUtilities.contentToParameterListPair(contentLine)
                 .stream()
                 .forEach(entry ->

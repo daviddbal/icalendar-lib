@@ -5,15 +5,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import junit.runner.Version;
 import net.balsoftware.icalendar.Elements;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.SingleLineContent;
@@ -406,9 +403,9 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
     
     /** Parse content line into calendar property */
     @Override
-    protected Map<VElement, List<String>> parseContent(String unfoldedContent)
+    protected List<Message> parseContent(String unfoldedContent)
     {
-    	Map<VElement, List<String>> messages = new HashMap<>();
+    	List<Message> messages = new ArrayList<>();
         // perform tests, make changes if necessary
         final String propertyValue;
         List<Integer> indices = new ArrayList<>();

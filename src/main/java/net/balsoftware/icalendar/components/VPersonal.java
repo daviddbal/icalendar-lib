@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.change.DateTimeStamp;
 import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
 import net.balsoftware.icalendar.properties.component.relationship.Attendee;
@@ -292,9 +290,9 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
     
 //    @Override
     @Override
-	public Map<VElement, List<String>> parseContent(Iterator<String> lineIterator)
+	public List<Message> parseContent(Iterator<String> lineIterator)
     {
-        Map<VElement, List<String>> statusMessages = super.parseContent(lineIterator);
+    	List<Message> statusMessages = super.parseContent(lineIterator);
 //        if (useRequestStatus)
 //        { // Set REQUEST-STATUS for each message
 //        	statusMessages.entrySet()

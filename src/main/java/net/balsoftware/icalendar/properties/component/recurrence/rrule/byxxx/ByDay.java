@@ -17,20 +17,17 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.balsoftware.icalendar.Elements;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay.ByDayPair;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
-import net.balsoftware.icalendar.utilities.Pair;
 
 /** BYDAY from RFC 5545, iCalendar 3.3.10, page 40
  * 
@@ -398,7 +395,7 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
     }
     
     @Override
-    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String dayPairs)
+    protected List<Message> parseContent(String dayPairs)
     {
     	String valueString = Elements.extractValue(dayPairs);
         List<ByDayPair> dayPairsList = new ArrayList<ByDayPair>();
@@ -425,7 +422,11 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
             }
         }
         setValue(dayPairsList);
-        return Collections.EMPTY_MAP;
+//        return errors()
+//        	.stream()
+//        	.map(s -> new Message(this, s, MessageEffect.MESSAGE_ONLY))
+//        	.collect(Collectors.toList());
+        return Collections.EMPTY_LIST;
     }
 
     public static ByDay parse(String content)

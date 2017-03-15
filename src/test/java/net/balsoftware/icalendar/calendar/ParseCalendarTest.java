@@ -10,14 +10,11 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.junit.Test;
 
 import net.balsoftware.icalendar.ICalendarTestAbstract;
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.calendar.Version;
 
@@ -190,7 +187,7 @@ public class ParseCalendarTest extends ICalendarTestAbstract
         assertEquals(29, v.toString().length());
     }
     
-    @Test // has errors
+    @Test (expected = IllegalArgumentException.class)
     public void canParseBadVCalendar1()
     {
         String content = 
@@ -215,7 +212,7 @@ public class ParseCalendarTest extends ICalendarTestAbstract
        "STATUS:CANCELLED" + System.lineSeparator() +
        "UID:dc654e79-cc85-449c-a1b2-71b2d20b80df" + System.lineSeparator() +
        "RECURRENCE-ID;TZID=Etc/GMT:20150902T133000Z" + System.lineSeparator() +
-       "STATUS:CANCELLED" + System.lineSeparator() +
+       "STATUS:CANCELLED" + System.lineSeparator() + // extra property to be ignored
        "DTSTAMP:20150831T053218Z" + System.lineSeparator() +
        "ORGANIZER;CN=David Bal;SENT-BY=\"mailto:ddbal1@yahoo.com\":mailto:ddbal1@yaho" + System.lineSeparator() +
        " o.com" + System.lineSeparator() +
@@ -231,18 +228,7 @@ public class ParseCalendarTest extends ICalendarTestAbstract
        "END:VEVENT" + System.lineSeparator() +
        "END:VCALENDAR";
         
-        VCalendar vCalendar = new VCalendar();
-        List<String> contentLines = Arrays.asList(content.split(System.lineSeparator()));
-//        UnfoldingStringIterator unfoldedLineIterator = new UnfoldingStringIterator(contentLines.iterator());
-//        Iterator<String> unfoldedLines = ICalendarUtilities.unfoldLines(contentLines).iterator();
-        Map<VElement, List<String>> errorMap = vCalendar.parseContent(contentLines.iterator(), true);
-        List<String> errors = errorMap
-                .entrySet()
-                .stream()
-                .flatMap(e -> e.getValue().stream().map(v -> e.getKey().name() + ":" + v))
-                .collect(Collectors.toList());
-        assertEquals(3, errors.size());
-//        assertEquals(content, vCalendar.toString());
+        VCalendar.parse(content);
     }
     
     @Test

@@ -8,14 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.balsoftware.icalendar.Elements;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
-import net.balsoftware.icalendar.utilities.Pair;
 
 /** BYMONTH from RFC 5545, iCalendar 3.3.10, page 42 */
 public class ByMonth extends ByRuleAbstract<Month, ByMonth>
@@ -150,7 +147,7 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
 //    }
 
     @Override
-    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
+    protected List<Message> parseContent(String content)
     {
     	String valueString = Elements.extractValue(content);
         Month[] monthArray = Arrays.asList(valueString.split(","))
@@ -158,7 +155,7 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
                 .map(s -> Month.of(Integer.parseInt(s)))
                 .toArray(size -> new Month[size]);
         setValue(monthArray);
-        return Collections.EMPTY_MAP;
+        return Collections.EMPTY_LIST;
     }
     
     public static ByMonth parse(String content)

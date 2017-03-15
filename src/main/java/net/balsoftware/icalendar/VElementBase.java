@@ -1,9 +1,7 @@
 package net.balsoftware.icalendar;
 
 import java.util.List;
-import java.util.Map;
-
-import net.balsoftware.icalendar.utilities.Pair;
+import java.util.stream.Collectors;
 
 public abstract class VElementBase implements VElement
 {
@@ -16,7 +14,38 @@ public abstract class VElementBase implements VElement
      * @return  log of information and error messages
      * @throws IllegalArgumentException  if calendar content is not valid, such as null
      */
-	abstract protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content);
+	abstract protected List<Message> parseContent(String content);
+	
+	protected static void throwMessageExceptions(List<Message> messages) throws IllegalArgumentException
+	{
+    String error = messages
+        	.stream()
+        	.filter(m -> m.effect == MessageEffect.THROW_EXCEPTION)
+        	.map(m -> m.element.name() + ":" + m.message)
+        	.collect(Collectors.joining(System.lineSeparator()));
+        if (! error.isEmpty())
+        {
+        	throw new IllegalArgumentException(error);
+        }
+	}
+	
+	protected class Message
+	{
+		public Message(VElement element, String message, MessageEffect effect) {
+			super();
+			this.element = element;
+			this.message = message;
+			this.effect = effect;
+		}
+		public VElement element;
+		public String message;
+		public MessageEffect effect;
+		
+		@Override
+		public String toString() {
+			return "Message [element=" + element + ", message=" + message + ", effect=" + effect + "]";
+		}
+	}
 	
 	public enum MessageEffect {
 		MESSAGE_ONLY, THROW_EXCEPTION

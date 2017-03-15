@@ -5,16 +5,13 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency.TimeTransparencyType;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
-import net.balsoftware.icalendar.utilities.Pair;
 
 /**
  * VEVENT
@@ -242,22 +239,17 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     public static VEvent parse(String foldedContent)
     {
         VEvent component = new VEvent();
-        Map<VElement, List<Pair<String, MessageEffect>>> messages = component.parseContent(foldedContent);
-        // filter out Success messages
-        String filteredMessages = messages.entrySet()
+        List<Message> messages = component.parseContent(foldedContent);
+        String filteredMessages = messages
     		.stream()
-    		.flatMap(e -> e.getValue().stream())
-    		.filter(v -> v.getValue() == MessageEffect.THROW_EXCEPTION)
-    		.map(v -> v.getKey())
-            .filter(m ->! m.contains(";Success"))
+    		.filter(v -> v.effect == MessageEffect.THROW_EXCEPTION)
+            .filter(v ->! v.message.contains(";Success"))
+            .map(v -> v.element.name() + ":" + v.message)
             .collect(Collectors.joining(System.lineSeparator()));
         if (! filteredMessages.isEmpty())
         {
         	// TODO - log messages? RequestStatus?
-            throw new IllegalArgumentException(messages.entrySet()
-            		.stream()
-            		.flatMap(e -> e.getValue().stream().map(v -> e.getKey().name() + ":" + v))
-            		.collect(Collectors.joining(System.lineSeparator())));
+            throw new IllegalArgumentException(filteredMessages);
         }
         return component;
     }

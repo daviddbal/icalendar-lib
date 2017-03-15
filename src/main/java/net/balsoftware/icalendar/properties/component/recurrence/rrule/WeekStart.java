@@ -4,10 +4,8 @@ import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import net.balsoftware.icalendar.Elements;
-import net.balsoftware.icalendar.VElement;
 
 /**
  * Week Start
@@ -53,7 +51,7 @@ public class WeekStart extends RRuleElementBase<DayOfWeek, WeekStart>
     }
 
     @Override
-    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
+    protected List<Message> parseContent(String content)
     {
     	String valueString = Elements.extractValue(content);
         DayOfWeek dayOfWeek = Arrays.stream(DayOfWeek.values())
@@ -61,7 +59,7 @@ public class WeekStart extends RRuleElementBase<DayOfWeek, WeekStart>
             .findAny()
             .get();
         setValue(dayOfWeek);
-        return Collections.EMPTY_MAP;
+        return Collections.EMPTY_LIST;
     }
     
     public static WeekStart parse(String content)

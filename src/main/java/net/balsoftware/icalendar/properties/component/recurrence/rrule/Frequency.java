@@ -4,12 +4,9 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAdjuster;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import net.balsoftware.icalendar.Elements;
-import net.balsoftware.icalendar.VElement;
-import net.balsoftware.icalendar.utilities.Pair;
 
 /**
  * FREQUENCY
@@ -196,11 +193,11 @@ public class Frequency extends RRuleElementBase<FrequencyType, Frequency>
     }
 
     @Override
-    protected Map<VElement, List<Pair<String, MessageEffect>>> parseContent(String content)
+    protected List<Message> parseContent(String content)
     {
     	String valueString = Elements.extractValue(content);
         setValue(FrequencyType.valueOf(valueString.toUpperCase()));
-        return Collections.EMPTY_MAP;
+        return Collections.EMPTY_LIST;
     }
     
     public static Frequency parse(String content)

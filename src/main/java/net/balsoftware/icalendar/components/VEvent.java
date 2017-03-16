@@ -5,7 +5,6 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
@@ -233,24 +232,5 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     {
         super.eraseDateTimeProperties();
         setDateTimeEnd((DateTimeEnd) null);
-    }
-    
-    /** Parse folded content lines into calendar component object */
-    public static VEvent parse(String foldedContent)
-    {
-        VEvent component = new VEvent();
-        List<Message> messages = component.parseContent(foldedContent);
-        String filteredMessages = messages
-    		.stream()
-    		.filter(v -> v.effect == MessageEffect.THROW_EXCEPTION)
-            .filter(v ->! v.message.contains(";Success"))
-            .map(v -> v.element.name() + ":" + v.message)
-            .collect(Collectors.joining(System.lineSeparator()));
-        if (! filteredMessages.isEmpty())
-        {
-        	// TODO - log messages? RequestStatus?
-            throw new IllegalArgumentException(filteredMessages);
-        }
-        return component;
     }
 }

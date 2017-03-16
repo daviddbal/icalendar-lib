@@ -1,6 +1,7 @@
 package net.balsoftware.icalendar.properties.component.change;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
@@ -47,7 +48,8 @@ public class DateTimeCreated extends PropBaseUTC<DateTimeCreated>
     public static DateTimeCreated parse(String value)
     {
         DateTimeCreated property = new DateTimeCreated();
-        property.parseContent(value);
+        List<Message> messages = property.parseContent(value);
+        throwMessageExceptions(messages);
         return property;
     }
 }

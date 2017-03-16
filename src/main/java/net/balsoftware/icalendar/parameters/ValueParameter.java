@@ -1,6 +1,7 @@
 package net.balsoftware.icalendar.parameters;
 
 import net.balsoftware.icalendar.properties.ValueType;
+import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**
  * VALUE
@@ -17,25 +18,38 @@ import net.balsoftware.icalendar.properties.ValueType;
  */
 public class ValueParameter extends ParameterEnumBasedWithUnknown<ValueParameter, ValueType>
 {
+	private static final StringConverter<ValueType> CONVERTER = new StringConverter<ValueType>()
+    {
+        @Override
+        public String toString(ValueType object)
+        {
+            return object.toString();
+        }
+
+        @Override
+        public ValueType fromString(String string)
+        {
+            return ValueType.enumFromName(string.toUpperCase());
+        }
+    };
+    
     public ValueParameter(ValueParameter source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
     
     public ValueParameter(ValueType value)
     {
-        super(value);
+        super(value, CONVERTER);
     }
     
     public ValueParameter()
     {
-        super();
+        super(CONVERTER);
     }
-
+    
     public static ValueParameter parse(String content)
     {
-        ValueParameter parameter = new ValueParameter();
-        parameter.parseContent(content);
-        return parameter;
+    	return ValueParameter.parse(new ValueParameter(), content);
     }
 }

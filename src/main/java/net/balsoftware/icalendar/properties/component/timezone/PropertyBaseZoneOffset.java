@@ -2,7 +2,7 @@ package net.balsoftware.icalendar.properties.component.timezone;
 
 import java.time.ZoneOffset;
 
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * Base class for ZoneOffset-based properties
@@ -13,7 +13,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @see TimeZoneOffsetFrom
  * @see TimeZoneOffsetTo
  */
-public abstract class PropertyBaseZoneOffset<U> extends PropertyBase<ZoneOffset,U>
+public abstract class PropertyBaseZoneOffset<U> extends VPropertyBase<ZoneOffset,U>
 {
     public PropertyBaseZoneOffset(PropertyBaseZoneOffset<U> source)
     {

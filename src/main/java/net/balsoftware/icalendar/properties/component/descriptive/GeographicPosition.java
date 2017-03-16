@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VTodo;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * GEO
@@ -26,7 +26,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @see VEvent
  * @see VTodo
  */
-public class GeographicPosition extends PropertyBase<String, GeographicPosition>
+public class GeographicPosition extends VPropertyBase<String, GeographicPosition>
 {
     public Double getLatitude() { return latitude; }
     private Double latitude;

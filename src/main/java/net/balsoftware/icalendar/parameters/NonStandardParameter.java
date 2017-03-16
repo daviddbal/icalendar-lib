@@ -1,6 +1,10 @@
 package net.balsoftware.icalendar.parameters;
 
+import java.util.Collections;
 import java.util.List;
+
+import net.balsoftware.icalendar.utilities.StringConverter;
+import net.balsoftware.icalendar.utilities.StringConverters;
 
 /**
  * A non-standard, experimental parameter.
@@ -8,29 +12,49 @@ import java.util.List;
  * @author David Bal
  *
  */
-public class NonStandardParameter extends ParameterBase<NonStandardParameter, String>
+public class NonStandardParameter extends VParameterBase<NonStandardParameter, String>
 {
-    final String name;
+	private static final StringConverter<String> CONVERTER = StringConverters.defaultStringConverterWithQuotes();
+
+    String name;
     @Override
     public String name() { return name; }
     
+    /*
+     * CONSTRUCTORS
+     */
     public NonStandardParameter(String content)
     {
-        super();
-        int equalsIndex = content.indexOf('=');
+        super(CONVERTER);
+        construct(content);
+    }
+
+	private void construct(String content) {
+		int equalsIndex = content.indexOf('=');
         name = (equalsIndex >= 0) ? content.substring(0, equalsIndex) : content;
         String value = (equalsIndex >= 0) ? content.substring(equalsIndex+1) : null;
-        System.out.println("NEW NON-STAND:" + name + " " + value + "::" + content);
         setValue(value);
-    }
+	}
 
     public NonStandardParameter(NonStandardParameter source)
     {
-        super(source);
+        super(source, CONVERTER);
         this.name = source.name;
     }
 
+    public NonStandardParameter()
+    {
+    	super(CONVERTER);
+	}
+
     @Override
+	protected List<Message> parseContent(String content)
+    {
+    	construct(content);
+    	return Collections.EMPTY_LIST;
+    }
+    
+	@Override
     public List<String> errors()
     {
         List<String> errors = super.errors();
@@ -49,6 +73,6 @@ public class NonStandardParameter extends ParameterBase<NonStandardParameter, St
     
     public static NonStandardParameter parse(String content)
     {
-        return new NonStandardParameter(content);
+    	return NonStandardParameter.parse(new NonStandardParameter(), content);
     }
 }

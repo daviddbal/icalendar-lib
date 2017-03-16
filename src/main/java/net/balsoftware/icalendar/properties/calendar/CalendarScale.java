@@ -2,7 +2,7 @@ package net.balsoftware.icalendar.properties.calendar;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VElement;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale.CalendarScaleType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
@@ -24,7 +24,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @author David Bal
  * @see VCalendar
  */
-public class CalendarScale extends PropertyBase<CalendarScaleType, CalendarScale> implements VElement
+public class CalendarScale extends VPropertyBase<CalendarScaleType, CalendarScale> implements VElement
 {
     public static final CalendarScaleType DEFAULT_CALENDAR_SCALE = CalendarScaleType.GREGORIAN;
     

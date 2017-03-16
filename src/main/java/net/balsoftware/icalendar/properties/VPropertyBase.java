@@ -4,9 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import junit.runner.Version;
@@ -15,6 +13,7 @@ import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.SingleLineContent;
 import net.balsoftware.icalendar.parameters.NonStandardParameter;
+import net.balsoftware.icalendar.parameters.VParameter;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
@@ -40,7 +39,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @param <U> - type of implementing subclass
  * @param <T> - type of property value
  */
-public abstract class PropertyBase<T,U> extends VParentBase<U> implements VProperty<T>
+public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProperty<T>
 {
     private VParent myParent;
     @Override
@@ -343,7 +342,7 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
      * CONSTRUCTORS
      */
     
-    protected PropertyBase()
+    protected VPropertyBase()
     {
     	super();
         propertyType = PropertyType.enumFromClass(getClass());
@@ -358,7 +357,7 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
     }
 
     // Used by Attachment
-    public PropertyBase(Class<T> valueClass, String contentLine)
+    public VPropertyBase(Class<T> valueClass, String contentLine)
     {
         this();
         this.valueClass = valueClass;
@@ -367,7 +366,7 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
     }
 
     // copy constructor
-    public PropertyBase(PropertyBase<T,U> source)
+    public VPropertyBase(VPropertyBase<T,U> source)
     {
         this();
         setConverter(source.getConverter());
@@ -378,7 +377,7 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
     }
     
     // constructor with only value
-    public PropertyBase(T value)
+    public VPropertyBase(T value)
     {
         this();
         setValue(value);
@@ -406,19 +405,24 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
     protected List<Message> parseContent(String unfoldedContent)
     {
     	List<Message> messages = new ArrayList<>();
-        // perform tests, make changes if necessary
-        final String propertyValue;
-        List<Integer> indices = new ArrayList<>();
-        indices.add(unfoldedContent.indexOf(':'));
-        indices.add(unfoldedContent.indexOf(';'));
-        Optional<Integer> hasPropertyName = indices
-                .stream()
-                .filter(v -> v > 0)
-                .min(Comparator.naturalOrder());
-        if (hasPropertyName.isPresent())
+
+    	// separate name and value
+    	final String propertyValue;
+    	String propertyName = findPropertyName(unfoldedContent);
+//        List<Integer> indices = new ArrayList<>();
+//        indices.add(unfoldedContent.indexOf(':'));
+//        indices.add(unfoldedContent.indexOf(';'));
+//        Optional<Integer> hasPropertyName = indices
+//                .stream()
+//                .filter(v -> v > 0)
+//                .min(Comparator.naturalOrder());
+//        if (hasPropertyName.isPresent())
+    	if (propertyName != null)
         {
-            int endNameIndex = hasPropertyName.get();
-            String propertyName = (endNameIndex > 0) ? unfoldedContent.subSequence(0, endNameIndex).toString().toUpperCase() : null;
+//        	int endNameIndex = hasPropertyName.get();
+            int endNameIndex = propertyName.length();
+//        	System.out.println("endNameIndex;" + endNameIndex);
+//            String propertyName = (endNameIndex > 0) ? unfoldedContent.subSequence(0, endNameIndex).toString().toUpperCase() : null;
             boolean isMatch = propertyName.equals(name());
             boolean isNonStandardProperty = propertyName.startsWith(Elements.NON_STANDARD_PROPERTY.toString());
             if (isMatch || isNonStandardProperty)
@@ -432,7 +436,7 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
             {
                 if (! Elements.names.contains(propertyName))
                 {
-                    propertyValue = ":" + unfoldedContent; // doesn't match a known property name, assume its all a property value
+                    propertyValue = ICalendarUtilities.PROPERTY_VALUE_KEY + unfoldedContent; // doesn't match a known property name, assume its all a property value
                 } else
                 {
                     throw new IllegalArgumentException("Property name " + propertyName + " doesn't match class " +
@@ -442,9 +446,9 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
             }
         } else
         {
-            propertyValue = ":" + unfoldedContent;
+            propertyValue = ICalendarUtilities.PROPERTY_VALUE_KEY + unfoldedContent;
         }
-        
+
         // parse value and parameters
         List<Pair<String, String>> list = ICalendarUtilities.contentToParameterListPair(propertyValue);
         list.stream()
@@ -453,21 +457,29 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
             	if (entry.getKey() == ICalendarUtilities.PROPERTY_VALUE_KEY)
             	{
                     propertyValueString = entry.getValue();
-                    T value = getConverter().fromString(getPropertyValueString());
-                    if (value == null)
-                    {
-                        setUnknownValue(propertyValueString);
-                    } else
-                    {
-                        setValue(value);
-                        if (value.toString() == "UNKNOWN") // enum name indicating unknown value
+                    try {
+                    	T value = getConverter().fromString(getPropertyValueString());
+                        if (value == null)
                         {
                             setUnknownValue(propertyValueString);
+                        } else
+                        {
+                            setValue(value);
+                            if (value.toString() == "UNKNOWN") // enum name indicating unknown value
+                            {
+                                setUnknownValue(propertyValueString);
+                            }
                         }
+                    } catch (IllegalArgumentException e)
+                    {
+            			Message message = new Message(this,
+            					"Ignored invalid element:" + getPropertyValueString(),
+            					MessageEffect.MESSAGE_ONLY);
+            			messages.add(message);
                     }
             	} else
             	{ // add parameters
-	            	processInLineChild(messages, entry);
+	            	processInLineChild(messages, entry, VParameter.class);
             	}
             });
         return messages;
@@ -529,7 +541,7 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
     {
         boolean childrenEquals = super.equals(obj);
         if (! childrenEquals) return false;
-        PropertyBase<?,?> testObj = (PropertyBase<?,?>) obj;
+        VPropertyBase<?,?> testObj = (VPropertyBase<?,?>) obj;
         boolean valueEquals = (getValue() == null) ? testObj.getValue() == null : getValue().equals(testObj.getValue());
         if (! valueEquals) return false;
         boolean nameEquals = name().equals(testObj.name());
@@ -547,5 +559,36 @@ public abstract class PropertyBase<T,U> extends VParentBase<U> implements VPrope
         hash = prime * hash + ((unknownValue == null) ? 0 : unknownValue.hashCode());
         hash = prime * hash + ((value == null) ? 0 : value.hashCode());
         return hash;
+    }
+    
+    /**
+     * Creates a new VElement by parsing a String of iCalendar content text
+     * @param <T>
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed DaylightSavingTime
+     */
+    public static <T extends VPropertyBase<?,?>> T parse(String content)
+    {
+    	String name = findPropertyName(content);
+    	if (name == null) throw new IllegalArgumentException("Property content must start with valid property name [" + content + "]");
+    	T component = (T) Elements.newEmptyVElement(VProperty.class, name);
+        List<Message> messages = component.parseContent(content);
+        throwMessageExceptions(messages);
+        return component;
+    }
+    
+    private static String findPropertyName(String content)
+    {
+        int i1 = content.indexOf(':');
+        i1 = (i1 == -1) ? Integer.MAX_VALUE : i1;
+        int i2 = content.indexOf(';');
+        i2 = (i2 == -1) ? Integer.MAX_VALUE : i2;
+        int i = Math.min(i1,i2);
+        if (i == Integer.MAX_VALUE)
+        {
+        	return null;
+        }
+        return content.substring(0, i);
     }
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.balsoftware.icalendar.parameters.Range.RangeType;
+import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**
  * RANGE
@@ -20,27 +21,42 @@ import net.balsoftware.icalendar.parameters.Range.RangeType;
  * @author David Bal
  *
  */
-public class Range extends ParameterBase<Range, RangeType>
+public class Range extends VParameterBase<Range, RangeType>
 {
+	private static final StringConverter<RangeType> CONVERTER = new StringConverter<RangeType>()
+    {
+        @Override
+        public String toString(RangeType object)
+        {
+            return object.toString();
+        }
+
+        @Override
+        public RangeType fromString(String string)
+        {
+            return RangeType.enumFromName(string.toUpperCase());
+        }
+    };
+    
     /** Set THISANDFUTURE as default value */
     public Range()
     {
-        super(RangeType.THIS_AND_FUTURE);
+        super(RangeType.THIS_AND_FUTURE, CONVERTER);
     }
   
     public Range(RangeType value)
     {
-        super(value);
+        super(value, CONVERTER);
     }
 
     public Range(String content)
     {
-        super(RangeType.enumFromName(content));
+        super(RangeType.enumFromName(content), CONVERTER);
     }
     
     public Range(Range source)
     {
-        super(source);
+        super(source, CONVERTER);
     }  
     
     public enum RangeType
@@ -72,11 +88,9 @@ public class Range extends ParameterBase<Range, RangeType>
             this.name = name;
         }
     }
-
+    
     public static Range parse(String content)
     {
-        Range parameter = new Range();
-        parameter.parseContent(content);
-        return parameter;
+    	return Range.parse(new Range(), content);
     }
 }

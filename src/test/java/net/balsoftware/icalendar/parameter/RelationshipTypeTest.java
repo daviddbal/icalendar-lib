@@ -13,7 +13,8 @@ public class RelationshipTypeTest
     public void canParseRelationshipType1()
     {
         String expectedContent = "NEIGHBOR";
-        Relationship p = Relationship.parse(expectedContent);
+        Relationship p = new Relationship()
+        		.withValue(expectedContent);
         assertEquals("RELTYPE=" + expectedContent, p.toString());
         assertEquals(RelationshipType.UNKNOWN, p.getValue());
     }

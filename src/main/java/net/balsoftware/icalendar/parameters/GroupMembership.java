@@ -3,6 +3,9 @@ package net.balsoftware.icalendar.parameters;
 import java.net.URI;
 import java.util.List;
 
+import net.balsoftware.icalendar.utilities.StringConverter;
+import net.balsoftware.icalendar.utilities.StringConverters;
+
 /**
  * MEMBER
  * Group or List Membership
@@ -17,27 +20,27 @@ import java.util.List;
  * @author David Bal
  *
  */
-public class GroupMembership extends ParameterBase<GroupMembership, List<URI>>
+public class GroupMembership extends VParameterBase<GroupMembership, List<URI>>
 {
+	private static final StringConverter< List<URI>> CONVERTER = StringConverters.uriListConverter();
+
     public GroupMembership(List<URI> values)
     {
-        super(values);
+        super(values, CONVERTER);
     }
     
     public GroupMembership()
     {
-        super();
+        super(CONVERTER);
     }
     
     public GroupMembership(GroupMembership source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
-
+    
     public static GroupMembership parse(String content)
     {
-        GroupMembership parameter = new GroupMembership();
-        parameter.parseContent(content);
-        return parameter;
+    	return GroupMembership.parse(new GroupMembership(), content);
     }
 }

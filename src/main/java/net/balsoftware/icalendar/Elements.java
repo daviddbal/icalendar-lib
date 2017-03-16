@@ -2,7 +2,6 @@ package net.balsoftware.icalendar;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -210,15 +209,6 @@ public enum Elements
     	Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> map = new HashMap<>();
     	Elements[] values = Elements.values();
     	Arrays.stream(values)
-    		.filter(v -> 
-    		{
-    			boolean isParent = VParent.class.isAssignableFrom(v.myClass);
-    			return isParent;
-//    			boolean isVCalendar = v.superClass == VCalendar.class;
-//    			boolean isVComponent = v.superClass == VComponent.class;
-//    			boolean isMultiLineElement = isVCalendar || isVComponent;
-//    			return isMultiLineElement;
-    		})
     		.forEach(v ->
 	    	{
 	    		Pair<Class<? extends VElement>, String> key = new Pair<>(v.superClass, v.name);
@@ -232,25 +222,37 @@ public enum Elements
 	    	});
         return map;
     }
+	public static VChild newEmptyVElement(Class<? extends VElement> superclass, String name)
+	{
+		try {
+//			NO_ARG_CONSTRUCTORS.entrySet().forEach(System.out::println);
+//			System.out.println("get constructor:" + superclass.getSimpleName() + " " + name);
+			String name2 = (name.startsWith("X-")) ? "X-" : name;
+			return (VChild) NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name2)).newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
     
-	private static final  Map<Pair<Class<? extends VElement>, String>, Method> PARSE_FACTORIES = makeParseFactoryMap();
-    private static Map<Pair<Class<? extends VElement>, String>, Method> makeParseFactoryMap()
+    // Map to match up class to enum
+    private final static Map<Class<? extends VElement>, Elements> CLASS_MAP = makeEnumFromClassMap();
+    private static Map<Class<? extends VElement>, Elements> makeEnumFromClassMap()
     {
-    	Map<Pair<Class<? extends VElement>, String>, Method> map = new HashMap<>();
+    	Map<Class<? extends VElement>, Elements> map = new HashMap<>();
     	Elements[] values = Elements.values();
-    	for (Elements v : values)
-    	{
-    		Pair<Class<? extends VElement>, String> key = new Pair<>(v.superClass, v.name);
-			try {
-				Method factory = v.myClass.getMethod("parse", String.class);
-				map.put(key, factory);
-			} catch (NoSuchMethodException | SecurityException e) {
-				e.printStackTrace();
-			}
-    	}
+        for (int i=0; i<values.length; i++)
+        {
+            map.put(values[i].myClass, values[i]);
+        }
         return map;
     }
-	
+	public static Elements fromClass(Class<? extends VElement> vElementClass)
+	{
+		return CLASS_MAP.get(vElementClass);
+	}
+    	
 	/*
 	 * CONSTRUCTOR
 	 */
@@ -264,36 +266,6 @@ public enum Elements
         this.superClass = superClass;
         this.myClass = myClass;
     }
-    
-//	public static VElement newElement(Class<?> class1, String content)
-//	{
-//		// TODO Auto-generated method stub
-//		throw new RuntimeException("not implemented");
-//	}
-	
-	public static VElement parseNewElement(Class<? extends VElement> superclass, String name, String unfoldedLine)
-	{
-		try {
-			String name2 = (name.startsWith("X-")) ? "X-" : name;
-			Method factory = PARSE_FACTORIES.get(new Pair<>(superclass, name2));
-			if (factory == null) return null;
-			return (VElement) factory.invoke(null, unfoldedLine);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	public static VChild newEmptyVElement(Class<? extends VElement> superclass, String name)
-	{
-		try {
-			return (VChild) NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name)).newInstance();
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	public static List<String> names = Arrays
 			.stream(values())
@@ -316,5 +288,4 @@ public enum Elements
         }
         return valueString;
     }
-
 }

@@ -11,6 +11,7 @@ import net.balsoftware.icalendar.CalendarComponent;
  * @author David Bal
  *
  */
+@Deprecated
 public class SimpleVComponentFactory
 {
 //    /** Create new VComponent from component name and parsing iCalendar content text */

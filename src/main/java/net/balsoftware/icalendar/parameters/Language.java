@@ -1,5 +1,8 @@
 package net.balsoftware.icalendar.parameters;
 
+import net.balsoftware.icalendar.utilities.StringConverter;
+import net.balsoftware.icalendar.utilities.StringConverters;
+
 /**
  * LANGUAGE
  * Language
@@ -13,22 +16,22 @@ package net.balsoftware.icalendar.parameters;
  * @author David Bal
  *
  */
-public class Language extends ParameterBase<Language, String>
+public class Language extends VParameterBase<Language, String>
 {
+	private static final StringConverter<String> CONVERTER = StringConverters.defaultStringConverterWithQuotes();
+
     public Language()
     {
-        super();
+        super(CONVERTER);
     }
 
     public Language(Language source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
-
+    
     public static Language parse(String content)
     {
-        Language parameter = new Language();
-        parameter.parseContent(content);
-        return parameter;
+    	return Language.parse(new Language(), content);
     }
 }

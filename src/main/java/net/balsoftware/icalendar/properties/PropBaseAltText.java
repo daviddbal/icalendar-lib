@@ -66,10 +66,25 @@ public abstract class PropBaseAltText<T,U> extends PropBaseLanguage<T,U> impleme
     	orderChild(this.alternateText, alternateText);
     	this.alternateText = alternateText;
 	}
-    public void setAlternateText(String value) { setAlternateText(AlternateText.parse(value)); }
-    public U withAlternateText(AlternateText altrep) { setAlternateText(altrep); return (U) this; }
-    public U withAlternateText(URI value) { setAlternateText(new AlternateText(value)); return (U) this; }
-    public U withAlternateText(String content) { setAlternateText(content); return (U) this; }
+    public void setAlternateText(String value)
+    {
+    	setAlternateText(AlternateText.parse(new AlternateText(), value));
+	}
+    public U withAlternateText(AlternateText altrep)
+    {
+    	setAlternateText(altrep);
+    	return (U) this;
+	}
+    public U withAlternateText(URI value)
+    {
+    	setAlternateText(new AlternateText(value));
+    	return (U) this;
+	}
+    public U withAlternateText(String content)
+    {
+    	setAlternateText(content);
+    	return (U) this;
+	}
     
     /*
      * CONSTRUCTORS

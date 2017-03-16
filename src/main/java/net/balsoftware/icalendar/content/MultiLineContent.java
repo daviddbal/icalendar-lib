@@ -27,6 +27,7 @@ public class MultiLineContent extends ContentLineBase
         StringBuilder builder = new StringBuilder(builderSize);
         builder.append(firstContentLine + System.lineSeparator());
         String content = orderer.childrenUnmodifiable().stream()
+//        		.peek(c -> System.out.println("name:" + c.name()))
                 .map(c -> c.toString())
                 .collect(Collectors.joining(System.lineSeparator()));
         if (! content.isEmpty())

@@ -4,7 +4,7 @@ import java.time.DateTimeException;
 import java.time.ZoneId;
 
 import net.balsoftware.icalendar.components.VTimeZone;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**
@@ -25,7 +25,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @author David Bal
  * @see VTimeZone
  */
-public class TimeZoneIdentifier extends PropertyBase<ZoneId, TimeZoneIdentifier>
+public class TimeZoneIdentifier extends VPropertyBase<ZoneId, TimeZoneIdentifier>
 {
     private final static StringConverter<ZoneId> CONVERTER = new StringConverter<ZoneId>()
     {

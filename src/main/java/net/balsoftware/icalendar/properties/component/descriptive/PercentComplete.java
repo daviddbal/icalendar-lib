@@ -1,7 +1,7 @@
 package net.balsoftware.icalendar.properties.component.descriptive;
 
 import net.balsoftware.icalendar.components.VTodo;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * PERCENT-COMPLETE
@@ -21,7 +21,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * The property can be specified in following components:
  * @see VTodo
  */
-public class PercentComplete extends PropertyBase<Integer, PercentComplete>
+public class PercentComplete extends VPropertyBase<Integer, PercentComplete>
 {
     public PercentComplete(PercentComplete source)
     {

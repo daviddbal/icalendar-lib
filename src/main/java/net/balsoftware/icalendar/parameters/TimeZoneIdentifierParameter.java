@@ -2,6 +2,8 @@ package net.balsoftware.icalendar.parameters;
 
 import java.time.ZoneId;
 
+import net.balsoftware.icalendar.utilities.StringConverter;
+
 /**
  * TZID
  * Time Zone Identifier
@@ -16,27 +18,40 @@ import java.time.ZoneId;
  * @author David Bal
  *
  */
-public class TimeZoneIdentifierParameter extends ParameterBase<TimeZoneIdentifierParameter, ZoneId>
-{    
+public class TimeZoneIdentifierParameter extends VParameterBase<TimeZoneIdentifierParameter, ZoneId>
+{
+	private static final StringConverter<ZoneId> CONVERTER = new StringConverter<ZoneId>()
+    {
+        @Override
+        public String toString(ZoneId object)
+        {
+            return object.toString();
+        }
+
+        @Override
+        public ZoneId fromString(String string)
+        {
+            return ZoneId.of(string);
+        }
+    };
+    
     public TimeZoneIdentifierParameter()
     {
-        super();
+        super(CONVERTER);
     }
     
     public TimeZoneIdentifierParameter(ZoneId value)
     {
-        super(value);
+        super(value, CONVERTER);
     }
     
     public TimeZoneIdentifierParameter(TimeZoneIdentifierParameter source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
-
+    
     public static TimeZoneIdentifierParameter parse(String content)
     {
-        TimeZoneIdentifierParameter parameter = new TimeZoneIdentifierParameter();
-        parameter.parseContent(content);
-        return parameter;
+    	return TimeZoneIdentifierParameter.parse(new TimeZoneIdentifierParameter(), content);
     }
 }

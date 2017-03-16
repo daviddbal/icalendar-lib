@@ -28,8 +28,23 @@ public abstract class VElementBase implements VElement
         	throw new IllegalArgumentException(error);
         }
 	}
+
 	
-	protected class Message
+    /**
+     * Creates a new VElement by parsing a String of iCalendar content text
+     * @param <T>
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed DaylightSavingTime
+     */
+    protected static <T extends VElementBase> T parse(T parameter, String valueContent)
+    {
+        List<Message> messages = parameter.parseContent(valueContent);
+        throwMessageExceptions(messages);
+        return parameter;
+    }
+    
+	protected static class Message
 	{
 		public Message(VElement element, String message, MessageEffect effect) {
 			super();

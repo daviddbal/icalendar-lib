@@ -2,7 +2,7 @@ package net.balsoftware.icalendar.properties.calendar;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VElement;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * VERSION
@@ -21,7 +21,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @author David Bal
  * @see VCalendar
  */
-public class Version extends PropertyBase<String, Version> implements VElement
+public class Version extends VPropertyBase<String, Version> implements VElement
 {
     public static final String DEFAULT_ICALENDAR_SPECIFICATION_VERSION = ("2.0");
     

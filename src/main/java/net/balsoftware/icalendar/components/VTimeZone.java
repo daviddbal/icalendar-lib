@@ -545,12 +545,4 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
         }
         return hash;
     }
-
-    /** Parse content lines into calendar component object */
-    public static VTimeZone parse(String contentLines)
-    {
-        VTimeZone component = new VTimeZone();
-        component.parseContent(contentLines);
-        return component;
-    }
 }

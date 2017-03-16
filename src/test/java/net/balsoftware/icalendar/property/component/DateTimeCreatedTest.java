@@ -26,7 +26,7 @@ public class DateTimeCreatedTest
     @Test (expected=ClassCastException.class)
     public void canCatchWrongDateTimeFormat1()
     {
-        DateTimeCreated.parse("CREATED:19960329T133000");
+    	DateTimeCreated.parse("CREATED:19960329T133000");
     }
     
     @Test (expected=ClassCastException.class)

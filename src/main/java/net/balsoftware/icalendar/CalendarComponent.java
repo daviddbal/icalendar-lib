@@ -23,6 +23,7 @@ import net.balsoftware.icalendar.properties.PropertyType;
  *
  */
 // TODO - SPLIT INTO TWO ENUMS - ONE FOR COMPONENTS, ONE FOR VCALENDAR PROPERTIES
+@Deprecated // Replace with Elements
 public enum CalendarComponent
 {
     // MAIN COMPONENTS

@@ -10,7 +10,6 @@ import net.balsoftware.icalendar.parameters.Encoding.EncodingType;
 import net.balsoftware.icalendar.parameters.FormatType;
 import net.balsoftware.icalendar.parameters.FreeBusyType;
 import net.balsoftware.icalendar.parameters.FreeBusyType.FreeBusyTypeEnum;
-import net.balsoftware.icalendar.parameters.ParameterType;
 import net.balsoftware.icalendar.parameters.Range;
 import net.balsoftware.icalendar.parameters.Range.RangeType;
 import net.balsoftware.icalendar.parameters.Relationship;
@@ -241,9 +240,20 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     	orderChild(this.timeZoneIdentifier, timeZoneIdentifier);
     	this.timeZoneIdentifier = timeZoneIdentifier;
 	}
-    public void setTimeZoneIdentifier(String value) { setTimeZoneIdentifier(TimeZoneIdentifierParameter.parse(value)); }
-    public U withTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier) { setTimeZoneIdentifier(timeZoneIdentifier); return (U) this; }
-    public U withTimeZoneIdentifier(String content) { ParameterType.TIME_ZONE_IDENTIFIER.parse(this, content); return (U) this; }        
+    public void setTimeZoneIdentifier(String value)
+    {
+    	setTimeZoneIdentifier(TimeZoneIdentifierParameter.parse(value));
+	}
+    public U withTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier)
+    {
+    	setTimeZoneIdentifier(timeZoneIdentifier);
+    	return (U) this;
+	}
+    public U withTimeZoneIdentifier(String content)
+    {
+    	setTimeZoneIdentifier(content);
+    	return (U) this;
+	}        
 
     /*
      * CONSTRUCTORS

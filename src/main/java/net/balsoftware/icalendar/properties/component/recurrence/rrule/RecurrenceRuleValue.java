@@ -350,10 +350,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     	List<Message> messages = new ArrayList<>();
         ICalendarUtilities.contentToParameterListPair(contentLine)
                 .stream()
-                .forEach(entry ->
-                {
-                	processInLineChild(messages, entry);
-                });
+                .forEach(entry -> processInLineChild(messages, entry, RRuleElement.class));
         return messages;
     }
 

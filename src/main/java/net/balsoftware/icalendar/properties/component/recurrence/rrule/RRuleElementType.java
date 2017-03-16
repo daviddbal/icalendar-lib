@@ -19,6 +19,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByW
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByYearDay;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 
+@Deprecated // Replace with Elements
 public enum RRuleElementType
 {
     FREQUENCY ("FREQ", Frequency.class, 0, null) {

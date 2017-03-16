@@ -9,7 +9,7 @@ import net.balsoftware.icalendar.components.VAlarm;
 import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.PropAlarmTrigger;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.ValueType;
 
 /**
@@ -31,7 +31,7 @@ import net.balsoftware.icalendar.properties.ValueType;
  * The property can be specified in following components:
  * @see VAlarm
  */
-public class Trigger<T> extends PropertyBase<T, Trigger<T>> implements PropAlarmTrigger<T>
+public class Trigger<T> extends VPropertyBase<T, Trigger<T>> implements PropAlarmTrigger<T>
 {
     /**
     * RELATED: Alarm Trigger Relationship
@@ -130,14 +130,14 @@ public class Trigger<T> extends PropertyBase<T, Trigger<T>> implements PropAlarm
         return true && super.isValid();
     }
     
-    /** Parse string to Temporal.  Not type safe.  Implementation must
-     * ensure parameterized type is the same as date-time represented by String parameter */
-    public static <U> Trigger<U> parse(String value)
-    {
-        Trigger<U> property = new Trigger<U>();
-        property.parseContent(value);
-        return property;
-    }
+//    /** Parse string to Temporal.  Not type safe.  Implementation must
+//     * ensure parameterized type is the same as date-time represented by String parameter */
+//    public static <U> Trigger<U> parse(String value)
+//    {
+//        Trigger<U> property = new Trigger<U>();
+//        property.parseContent(value);
+//        return property;
+//    }
     
     /** Parse string with Temporal class explicitly provided as parameter */
     public static <U> Trigger<U> parse(Class<U> clazz, String value)

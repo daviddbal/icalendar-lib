@@ -206,7 +206,10 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         Iterator<String> i = Arrays.asList(content.split(System.lineSeparator())).iterator();
         return parseContent(new UnfoldingStringIterator(i));
     }
-    
+
+    /*
+     * NOTE: PARAMETER AND PROPERTY MUST HAVE OVERRIDDEN PARSECONTENT (to handle value part)
+     */
     protected List<Message> parseContent(Iterator<String> unfoldedLineIterator)
     {
     	final Class<? extends VElement> multilineChildClass;
@@ -239,7 +242,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 //            System.out.println(unfoldedLine);
             int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
             String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
-            boolean isMultiLineElement = propertyName.equals("BEGIN");
+            boolean isMultiLineElement = unfoldedLine.startsWith("BEGIN");
             boolean isMainComponent = unfoldedLine.substring(nameEndIndex+1).equals(name()) && isMultiLineElement;
             if (isMainComponent) continue; // skip main component
 			if (propertyName.equals("END"))
@@ -247,57 +250,45 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
                 return messages; // exit when end found
             }
             final String childName;
-            final VElementBase p;
+            final VElementBase child;
 			if (isMultiLineElement)
             {
                 childName = unfoldedLine.substring(nameEndIndex+1);
-                p = (VElementBase) Elements.newEmptyVElement(multilineChildClass, childName);
-                List<Message> myMessages = ((VParentBase<?>) p).parseContent(unfoldedLineIterator); // recursively parse child parent
+                child = (VElementBase) Elements.newEmptyVElement(multilineChildClass, childName);
+                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLineIterator); // recursively parse child parent
                 messages.addAll(myMessages);
+        		processChild(messages, unfoldedLine, propertyName, (VChild) child);                	
             } else
             {
             	childName = propertyName;
-                p = (VElementBase) Elements.parseNewElement(singlelineChildClass, childName, unfoldedLine);
+//            	child = (VElementBase) Elements.parseNewElement(singlelineChildClass, childName, unfoldedLine);
+                child = (VElementBase) Elements.newEmptyVElement(singlelineChildClass, childName);
+                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLine); // recursively parse child parent
+//                System.out.println("child:" + childName + " " + myMessages.isEmpty());
+                // don't add single-line children with info or error messages
+                if (myMessages.isEmpty())
+                {
+            		processChild(messages, unfoldedLine, propertyName, (VChild) child);                	
+                }
+//                System.out.println(childrenUnmodifiable().size());
+//                p = (VElementBase) Elements.parseNewElement(singlelineChildClass, childName, unfoldedLine);
             }
-			// PARAMETER AND PROPERTY MUST HAVE OVERRIDDEN PARSECONTENT (to handle value part)
-            if (p != null )
-        	{
-        		processChild(messages, unfoldedLine, propertyName, (VChild) p);
-//        		System.out.println("messages2:" + messages.size() + " " + name());
-        	}
         }
         return messages;
     }
-	
-	private Class<? extends VElement> singleLineChildClass()
-	{
-    	if (VCalendar.class.isAssignableFrom(getClass()))
-		{
-    		return VProperty.class;
-		} else if (VComponent.class.isAssignableFrom(getClass()))
-		{
-    		return VProperty.class;			
-		} else if (VProperty.class.isAssignableFrom(getClass()))
-		{
-    		return VParameter.class;			
-		} else if (RecurrenceRuleValue.class.isAssignableFrom(getClass()))
-		{
-    		return RRuleElement.class;			
-		} else
-		{
-    		throw new RuntimeException("Not supported parent class:" + getClass());		
-		}
-	}
-    	
-	protected void processInLineChild(List<Message> messages, Pair<String, String> entry)
+
+    // For Recurrence Rule Value
+	protected void processInLineChild(List<Message> messages, Pair<String, String> entry, Class<? extends VElement> singleLineChildClass)
 	{
 		String content = entry.getValue();
-		String elementName = entry.getKey();
-		VChild newChild = (VChild) Elements.parseNewElement(singleLineChildClass(), elementName, elementName + "=" + content);
-		processChild(messages, content, elementName, newChild);
+		String childName = entry.getKey();
+        VElementBase newChild = (VElementBase) Elements.newEmptyVElement(singleLineChildClass, childName);
+        List<Message> myMessages = newChild.parseContent(childName + "=" + content);
+        messages.addAll(myMessages);
+		processChild(messages, content, childName, (VChild) newChild);
 	}
 
-	private void processChild(List<Message> messages, String content, String elementName, VChild newChild) {
+	protected void processChild(List<Message> messages, String content, String elementName, VChild newChild) {
 		if (newChild == null)
 		{
 			Message message = new Message(this,
@@ -334,7 +325,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		{
 			Message message = new Message(this,
 					newChild.getClass().getSimpleName() + " can only occur once in a calendar component.  Ignoring instances beyond first.",
-					MessageEffect.THROW_EXCEPTION);
+					MessageEffect.MESSAGE_ONLY);
 			messages.add(message);
 		}
 		if (isChildAllowed && ! isChildAlreadyPresent)

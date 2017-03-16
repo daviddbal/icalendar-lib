@@ -1,7 +1,7 @@
 package net.balsoftware.icalendar.properties.component.alarm;
 
 import net.balsoftware.icalendar.components.VAlarm;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.component.alarm.Action.ActionType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
@@ -26,7 +26,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * 
  * @see VAlarm
  */
-public class Action extends PropertyBase<ActionType, Action>
+public class Action extends VPropertyBase<ActionType, Action>
 {
     private final static StringConverter<ActionType> CONVERTER = new StringConverter<ActionType>()
     {

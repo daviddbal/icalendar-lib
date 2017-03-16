@@ -6,7 +6,7 @@ import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.parameters.Relationship;
 import net.balsoftware.icalendar.parameters.Relationship.RelationshipType;
 import net.balsoftware.icalendar.properties.PropRelationship;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * RELATED-TO
@@ -23,7 +23,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @see VTodo
  * @see VJournal
  */
-public class RelatedTo extends PropertyBase<String, RelatedTo> implements PropRelationship<String>
+public class RelatedTo extends VPropertyBase<String, RelatedTo> implements PropRelationship<String>
 {
     /**
      * RELTYPE

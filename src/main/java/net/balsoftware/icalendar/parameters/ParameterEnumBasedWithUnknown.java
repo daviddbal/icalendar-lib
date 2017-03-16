@@ -3,27 +3,29 @@ package net.balsoftware.icalendar.parameters;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ParameterEnumBasedWithUnknown<U,T> extends ParameterBase<U,T>
+import net.balsoftware.icalendar.utilities.StringConverter;
+
+public abstract class ParameterEnumBasedWithUnknown<U,T> extends VParameterBase<U,T>
 {
     private String nonStandardValue; // contains exact string for unknown value
     
     /*
      * CONSTRUCTORS
      */
-    public ParameterEnumBasedWithUnknown() //List<String> registeredIANAValues)
+    public ParameterEnumBasedWithUnknown(StringConverter<T> stringConverter)
     {
-        super();
+        super(stringConverter);
     }
   
-    public ParameterEnumBasedWithUnknown(T value) //, List<String> registeredIANAValues)
+    public ParameterEnumBasedWithUnknown(T value, StringConverter<T> stringConverter) 
     {
-        this();
+        this(stringConverter);
         setValue(value);
     }
     
-    public ParameterEnumBasedWithUnknown(ParameterEnumBasedWithUnknown<U,T> source)
+    public ParameterEnumBasedWithUnknown(ParameterEnumBasedWithUnknown<U,T> source, StringConverter<T> stringConverter)
     {
-        super(source);
+        super(source, stringConverter);
         nonStandardValue = source.nonStandardValue;
     }
         

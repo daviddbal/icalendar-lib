@@ -3,7 +3,6 @@ package net.balsoftware.icalendar.properties;
 import org.junit.experimental.categories.Categories;
 
 import net.balsoftware.icalendar.parameters.Language;
-import net.balsoftware.icalendar.parameters.ParameterType;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneName;
 
 /**
@@ -18,7 +17,7 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneName;
  * @param <U> - type of implementing subclass
  * @param <T> - type of property value
  */
-public abstract class PropBaseLanguage<T,U> extends PropertyBase<T,U> implements PropLanguage<T>
+public abstract class PropBaseLanguage<T,U> extends VPropertyBase<T,U> implements PropLanguage<T>
 {
     /**
      * LANGUAGE
@@ -37,9 +36,20 @@ public abstract class PropBaseLanguage<T,U> extends PropertyBase<T,U> implements
     	orderChild(this.language, language);
     	this.language = language;
 	}
-    public void setLanguage(String value) { setLanguage(Language.parse(value)); }
-    public U withLanguage(Language language) { setLanguage(language); return (U) this; }
-    public U withLanguage(String content) { ParameterType.LANGUAGE.parse(this, content); return (U) this; }    
+    public void setLanguage(String value)
+    {
+    	setLanguage(Language.parse(value));
+	}
+    public U withLanguage(Language language)
+    {
+    	setLanguage(language);
+    	return (U) this;
+	}
+    public U withLanguage(String content)
+    {
+    	setLanguage(content);
+    	return (U) this;
+	}    
     
     /*
      * CONSTRUCTORS

@@ -9,7 +9,7 @@ import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.List;
 
-import net.balsoftware.icalendar.parameters.ParameterType;
+import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.parameters.TimeZoneIdentifierParameter;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.component.relationship.RecurrenceId;
@@ -27,7 +27,7 @@ import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
  * @see DateTimeEnd
  * @see RecurrenceId
  */
-public abstract class PropBaseDateTime<T,U> extends PropertyBase<T,U> implements PropDateTime<T>
+public abstract class PropBaseDateTime<T,U> extends VPropertyBase<T,U> implements PropDateTime<T>
 {
     // reference to property value if T is not instance of Collection, or an element if T is a Collection
     private Object myElement;
@@ -53,14 +53,32 @@ public abstract class PropBaseDateTime<T,U> extends PropertyBase<T,U> implements
             this.timeZoneIdentifier = timeZoneIdentifier;
         } else
         {
-            throw new DateTimeException(ParameterType.TIME_ZONE_IDENTIFIER.toString() + " can't be set for date-time of type " + getValue().getClass().getSimpleName());
+            throw new DateTimeException(Elements.TIME_ZONE_IDENTIFIER_PARAMETER.name() + " can't be set for date-time of type " + getValue().getClass().getSimpleName());
         }
     }
-    public void setTimeZoneIdentifier(String value) { setTimeZoneIdentifier(TimeZoneIdentifierParameter.parse(value)); }
-    public void setTimeZoneIdentifier(ZoneId zone) { setTimeZoneIdentifier(new TimeZoneIdentifierParameter(zone)); }
-    public U withTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier) { setTimeZoneIdentifier(timeZoneIdentifier); return (U) this; }
-    public U withTimeZoneIdentifier(ZoneId zone) { setTimeZoneIdentifier(zone); return (U) this; }
-    public U withTimeZoneIdentifier(String content) { ParameterType.TIME_ZONE_IDENTIFIER.parse(this, content); return (U) this; }        
+    public void setTimeZoneIdentifier(String value)
+    {
+    	setTimeZoneIdentifier(TimeZoneIdentifierParameter.parse(value));
+	}
+    public void setTimeZoneIdentifier(ZoneId zone)
+    {
+    	setTimeZoneIdentifier(new TimeZoneIdentifierParameter(zone));
+	}
+    public U withTimeZoneIdentifier(TimeZoneIdentifierParameter timeZoneIdentifier)
+    {
+    	setTimeZoneIdentifier(timeZoneIdentifier);
+    	return (U) this;
+	}
+    public U withTimeZoneIdentifier(ZoneId zone)
+    {
+    	setTimeZoneIdentifier(zone);
+    	return (U) this;
+	}
+    public U withTimeZoneIdentifier(String content)
+    {
+    	setTimeZoneIdentifier(content);
+    	return (U) this;
+	}        
     
     /*
      * CONSTRUCTORS

@@ -1,5 +1,8 @@
 package net.balsoftware.icalendar.parameters;
 
+import net.balsoftware.icalendar.utilities.StringConverter;
+import net.balsoftware.icalendar.utilities.StringConverters;
+
 /**
  * CN
  * Common Name
@@ -12,23 +15,22 @@ package net.balsoftware.icalendar.parameters;
  * 
  * @author David Bal
  */
-public class CommonName extends ParameterBase<CommonName, String>
+public class CommonName extends VParameterBase<CommonName, String>
 {
+	private static final StringConverter<String> CONVERTER = StringConverters.defaultStringConverterWithQuotes();
+	
     public CommonName()
     {
-        super();
+        super(CONVERTER);
     }
 
     public CommonName(CommonName source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
-
+    
     public static CommonName parse(String content)
     {
-        CommonName parameter = new CommonName();
-        parameter.parseContent(content);
-        return parameter;
-
+    	return CommonName.parse(new CommonName(), content);
     }
 }

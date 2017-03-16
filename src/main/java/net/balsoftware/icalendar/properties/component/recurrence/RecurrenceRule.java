@@ -5,7 +5,7 @@ import net.balsoftware.icalendar.components.StandardTime;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 
 /**
@@ -25,7 +25,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.Recurrenc
  * @see DaylightSavingTime
  * @see StandardTime
  */
-public class RecurrenceRule extends PropertyBase<RecurrenceRuleValue, RecurrenceRule>
+public class RecurrenceRule extends VPropertyBase<RecurrenceRuleValue, RecurrenceRule>
 {
     public RecurrenceRule(RecurrenceRuleValue value)
     {

@@ -61,7 +61,7 @@ public interface VDescribable<T> extends VComponent
     default T withAttachments(String...attachments)
     {
         List<Attachment<?>> list = Arrays.stream(attachments)
-                .map(c -> Attachment.parse(c))
+                .map(c -> (Attachment<?>) Attachment.parse(c))
                 .collect(Collectors.toList());
         return withAttachments(list);
     }

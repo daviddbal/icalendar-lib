@@ -2,6 +2,9 @@ package net.balsoftware.icalendar.parameters;
 
 import java.net.URI;
 
+import net.balsoftware.icalendar.utilities.StringConverter;
+import net.balsoftware.icalendar.utilities.StringConverters;
+
 /**
  * DIR
  * Directory Entry Reference
@@ -17,27 +20,27 @@ import java.net.URI;
  * @author David Bal
  *
  */
-public class DirectoryEntry extends ParameterBase<DirectoryEntry, URI>
+public class DirectoryEntry extends VParameterBase<DirectoryEntry, URI>
 {
+	private static final StringConverter<URI> CONVERTER = StringConverters.uriConverterWithQuotes();
+
     public DirectoryEntry(URI uri)
     {
-        super(uri);
+        super(uri, CONVERTER);
     }
     
     public DirectoryEntry()
     {
-        super();
+        super(CONVERTER);
     }
 
     public DirectoryEntry(DirectoryEntry source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
-
+    
     public static DirectoryEntry parse(String content)
     {
-        DirectoryEntry parameter = new DirectoryEntry();
-        parameter.parseContent(content);
-        return parameter;
+    	return DirectoryEntry.parse(new DirectoryEntry(), content);
     }
 }

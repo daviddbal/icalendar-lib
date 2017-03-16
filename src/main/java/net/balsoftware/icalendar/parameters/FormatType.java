@@ -1,6 +1,8 @@
 package net.balsoftware.icalendar.parameters;
 
 import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
+import net.balsoftware.icalendar.utilities.StringConverter;
+import net.balsoftware.icalendar.utilities.StringConverters;
 
 /**
  * Format Type
@@ -15,8 +17,10 @@ import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
  *   
  *   @see Attachment
  */
-public class FormatType extends ParameterBase<FormatType, String>
+public class FormatType extends VParameterBase<FormatType, String>
 {
+	private static final StringConverter<String> CONVERTER = StringConverters.defaultStringConverterWithQuotes();
+
     public String getTypeName() { return typeName; }
     private String typeName;
     public void setTypeName(String typeName)
@@ -63,18 +67,16 @@ public class FormatType extends ParameterBase<FormatType, String>
      */  
     public FormatType()
     {
-        super();
+        super(CONVERTER);
     }
 
     public FormatType(FormatType source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
     
     public static FormatType parse(String content)
     {
-        FormatType parameter = new FormatType();
-        parameter.parseContent(content);
-        return parameter;
+    	return FormatType.parse(new FormatType(), content);
     }
 }

@@ -2,7 +2,7 @@ package net.balsoftware.icalendar.properties.calendar;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VElement;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * PRODID
@@ -21,7 +21,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @author David Bal
  * @see VCalendar
  */
-public class ProductIdentifier extends PropertyBase<String, ProductIdentifier> implements VElement
+public class ProductIdentifier extends VPropertyBase<String, ProductIdentifier> implements VElement
 {
     public ProductIdentifier(ProductIdentifier source)
     {

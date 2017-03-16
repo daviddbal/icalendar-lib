@@ -1,6 +1,5 @@
 package net.balsoftware.icalendar.parameters;
 
-import javafx.beans.property.ObjectProperty;
 import net.balsoftware.icalendar.VChild;
 
 /**
@@ -32,15 +31,15 @@ public interface VParameter<T> extends VChild
     void setValue(T value);
     
     
-    /**
-     * Returns the enumerated type for the parameter as it would appear in the iCalendar content line
-     * Examples:
-     * VALUE
-     * TZID
-     * 
-     * @return - the parameter type
-     */
-    ParameterType parameterType();
+//    /**
+//     * Returns the enumerated type for the parameter as it would appear in the iCalendar content line
+//     * Examples:
+//     * VALUE
+//     * TZID
+//     * 
+//     * @return - the parameter type
+//     */
+//    ParameterType parameterType();
     
 //    /**
 //     * return parameter name-value pair string separated by an "="
@@ -69,18 +68,18 @@ public interface VParameter<T> extends VChild
         }
         return valueString;
     }
-    
-    static String extractName(String content)
-    {
-        int equalsIndex = content.indexOf('=');
-        if (equalsIndex > 0)
-        {
-            String name = content.substring(0, equalsIndex);
-            boolean hasName1 = ParameterType.enumFromName(name.toUpperCase()) != null;
-//            boolean hasName2 = IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase());
-            return (hasName1) ? name : null;
-        }
-        return null;
-    }
+//    
+//    static String extractName(String content)
+//    {
+//        int equalsIndex = content.indexOf('=');
+//        if (equalsIndex > 0)
+//        {
+//            String name = content.substring(0, equalsIndex);
+//            boolean hasName1 = ParameterType.enumFromName(name.toUpperCase()) != null;
+////            boolean hasName2 = IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase());
+//            return (hasName1) ? name : null;
+//        }
+//        return null;
+//    }
     
 }

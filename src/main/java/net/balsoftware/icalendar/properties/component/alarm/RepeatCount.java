@@ -1,7 +1,7 @@
 package net.balsoftware.icalendar.properties.component.alarm;
 
 import net.balsoftware.icalendar.components.VAlarm;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * REPEAT
@@ -23,7 +23,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * The property can be specified in following components:
  * @see VAlarm
  */
-public class RepeatCount extends PropertyBase<Integer, RepeatCount>
+public class RepeatCount extends VPropertyBase<Integer, RepeatCount>
 {
     public RepeatCount(Integer value)
     {

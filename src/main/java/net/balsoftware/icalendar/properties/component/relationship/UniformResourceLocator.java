@@ -6,7 +6,7 @@ import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VFreeBusy;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * DURATION
@@ -25,7 +25,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @see VJournal
  * @see VFreeBusy
  */
-public class UniformResourceLocator extends PropertyBase<URI,UniformResourceLocator>
+public class UniformResourceLocator extends VPropertyBase<URI,UniformResourceLocator>
 {    
     public UniformResourceLocator(URI value)
     {

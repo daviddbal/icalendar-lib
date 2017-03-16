@@ -2,7 +2,7 @@ package net.balsoftware.icalendar.properties.calendar;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VElement;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.calendar.Method.MethodType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
@@ -22,7 +22,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @author David Bal
  * @see VCalendar
  */
-public class Method extends PropertyBase<MethodType, Method> implements VElement
+public class Method extends VPropertyBase<MethodType, Method> implements VElement
 {
     private final static StringConverter<MethodType> CONVERTER = new StringConverter<MethodType>()
     {

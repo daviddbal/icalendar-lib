@@ -18,10 +18,12 @@ public class NonstandardParameterTest
     }
 
 //    @Test
-//    public void canCreateNonStandardParameter()
+//    public void canCreateEmptyNonStandardParameter()
 //    {
-//        Parameter parameter = NonStandardParameter.parse("X-PARAM=STRING");
-//        Delegatees parameter2 = new Delegatees(parameter);
-//        assertEquals(parameter, parameter2);
+//        String content = "X-PARAM=STRING";
+//    	NonStandardParameter parameter = new NonStandardParameter();
+//        parameter.parseContent(content);
+//        assertEquals(content, parameter.toString());
+//        assertEquals("X-PARAM", parameter.name());
 //    }
 }

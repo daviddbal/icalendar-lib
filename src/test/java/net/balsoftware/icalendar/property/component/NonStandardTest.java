@@ -45,10 +45,18 @@ public class NonStandardTest
     {
         String content = "X-MYPROP;VALUE=BOOLEAN:FALSE";
         NonStandardProperty madeProperty = NonStandardProperty.parse(content);
-        System.out.println("value0:"+madeProperty.getValueType());
         NonStandardProperty copiedProperty = new NonStandardProperty(madeProperty);
-        System.out.println("copiedProperty:" + copiedProperty);
         assertEquals(copiedProperty, madeProperty);
         assertEquals(content, copiedProperty.toString());
     }
+    
+//    @Test
+//    public void canCreateEmptyNonStandard()
+//    {
+//        String content = "X-MYPROP;VALUE=BOOLEAN:FALSE";
+//        NonStandardProperty p = new NonStandardProperty();
+//        p.parseContent(content);
+//        System.out.println(p);
+//        System.out.println(p.name());
+//    }
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.component.descriptive.Status.StatusType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
@@ -26,7 +26,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @see VTodo
  * @see VJournal
  */
-public class Status extends PropertyBase<StatusType, Status>
+public class Status extends VPropertyBase<StatusType, Status>
 {
     private final static StringConverter<StatusType> CONVERTER = new StringConverter<StatusType>()
     {

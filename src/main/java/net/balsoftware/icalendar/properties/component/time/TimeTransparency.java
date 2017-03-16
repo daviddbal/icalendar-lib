@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.balsoftware.icalendar.components.VEvent;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency.TimeTransparencyType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
@@ -25,7 +25,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * The property can be specified in following components:
  * @see VEvent
  */
-public class TimeTransparency extends PropertyBase<TimeTransparencyType, TimeTransparency>
+public class TimeTransparency extends VPropertyBase<TimeTransparencyType, TimeTransparency>
 {
     private final static StringConverter<TimeTransparencyType> CONVERTER = new StringConverter<TimeTransparencyType>()
     {

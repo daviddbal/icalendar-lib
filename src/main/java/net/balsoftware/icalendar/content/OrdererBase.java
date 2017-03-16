@@ -14,7 +14,7 @@ import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.components.VComponentBase;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 
 
@@ -27,7 +27,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.Recurrenc
  * @see VParent
  * @see VCalendar
  * @see VComponentBase
- * @see PropertyBase
+ * @see VPropertyBase
  * @see RecurrenceRuleValue
  *  */ 
 public class OrdererBase implements Orderer

@@ -2,7 +2,7 @@ package net.balsoftware.icalendar.properties.component.descriptive;
 
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VTodo;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * PRIORITY
@@ -25,7 +25,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @see VEvent
  * @see VTodo
  */
-public class Priority extends PropertyBase<Integer, Priority>
+public class Priority extends VPropertyBase<Integer, Priority>
 {
     public Priority(Priority source)
     {

@@ -3,7 +3,7 @@ package net.balsoftware.icalendar.properties.component.timezone;
 import java.net.URI;
 
 import net.balsoftware.icalendar.components.VTimeZone;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * TZURL
@@ -20,7 +20,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @author David Bal
  * @see VTimeZone
  */
-public class TimeZoneURL extends PropertyBase<URI,TimeZoneURL>
+public class TimeZoneURL extends VPropertyBase<URI,TimeZoneURL>
 {
     public TimeZoneURL(TimeZoneURL source)
     {

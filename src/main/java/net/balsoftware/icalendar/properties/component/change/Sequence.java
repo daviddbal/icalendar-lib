@@ -3,7 +3,7 @@ package net.balsoftware.icalendar.properties.component.change;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * SEQUENCE
@@ -96,7 +96,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @see VTodo
  * @see VJournal
  */
-public class Sequence extends PropertyBase<Integer, Sequence>
+public class Sequence extends VPropertyBase<Integer, Sequence>
 {
     public Sequence(Integer value)
     {

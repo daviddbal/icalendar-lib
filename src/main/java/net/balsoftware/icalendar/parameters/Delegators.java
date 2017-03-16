@@ -3,6 +3,9 @@ package net.balsoftware.icalendar.parameters;
 import java.net.URI;
 import java.util.List;
 
+import net.balsoftware.icalendar.utilities.StringConverter;
+import net.balsoftware.icalendar.utilities.StringConverters;
+
 /**
  * DELEGATED-FROM
  * Delegators
@@ -17,27 +20,27 @@ import java.util.List;
  * 
  * @author David Bal
  */
-public class Delegators extends ParameterBase<Delegators, List<URI>>
+public class Delegators extends VParameterBase<Delegators, List<URI>>
 {
+	private static final StringConverter< List<URI>> CONVERTER = StringConverters.uriListConverter();
+
     public Delegators(List<URI> list)
     {
-        super(list);
+        super(list, CONVERTER);
     }
     
     public Delegators()
     {
-        super();
+        super(CONVERTER);
     }
     
     public Delegators(Delegators source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
-
+    
     public static Delegators parse(String content)
     {
-        Delegators parameter = new Delegators();
-        parameter.parseContent(content);
-        return parameter;
+    	return Delegators.parse(new Delegators(), content);
     }
 }

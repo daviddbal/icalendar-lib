@@ -12,7 +12,7 @@ import net.balsoftware.icalendar.parameters.Encoding.EncodingType;
 import net.balsoftware.icalendar.parameters.FormatType;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.PropAttachment;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.ValueType;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 
@@ -87,7 +87,7 @@ import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
  * 
  * @author David Bal
  */
-public class Attachment<T> extends PropertyBase<T, Attachment<T>> implements PropAttachment<T>
+public class Attachment<T> extends VPropertyBase<T, Attachment<T>> implements PropAttachment<T>
 {
     /**
     * FMTTYPE: Format type parameter
@@ -194,11 +194,11 @@ public class Attachment<T> extends PropertyBase<T, Attachment<T>> implements Pro
        return errors;
    }
    
-   /** Create new Attachment by parsing unfolded calendar content */
-   public static <U> Attachment<U> parse(String string)
-   {
-       Attachment<U> property = new Attachment<U>();
-       property.parseContent(string);
-       return property;
-   }
+//   /** Create new Attachment by parsing unfolded calendar content */
+//   public static <U> Attachment<U> parse(String string)
+//   {
+//       Attachment<U> property = new Attachment<U>();
+//       property.parseContent(string);
+//       return property;
+//   }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.balsoftware.icalendar.parameters.ParticipationRole.ParticipationRoleType;
+import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**
  * ROLE
@@ -22,19 +23,34 @@ import net.balsoftware.icalendar.parameters.ParticipationRole.ParticipationRoleT
  */
 public class ParticipationRole extends ParameterEnumBasedWithUnknown<ParticipationRole, ParticipationRoleType>
 {
+	private static final StringConverter<ParticipationRoleType> CONVERTER = new StringConverter<ParticipationRoleType>()
+    {
+        @Override
+        public String toString(ParticipationRoleType object)
+        {
+            return object.toString();
+        }
+
+        @Override
+        public ParticipationRoleType fromString(String string)
+        {
+            return ParticipationRoleType.enumFromName(string.toUpperCase());
+        }
+    };
+    
     public ParticipationRole()
     {
-        super(ParticipationRoleType.REQUIRED_PARTICIPANT); // default value
+        super(ParticipationRoleType.REQUIRED_PARTICIPANT, CONVERTER); // default value
     }
   
     public ParticipationRole(ParticipationRoleType value)
     {
-        super(value);
+        super(value, CONVERTER);
     }
     
     public ParticipationRole(ParticipationRole source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
     
     public enum ParticipationRoleType
@@ -67,11 +83,9 @@ public class ParticipationRole extends ParameterEnumBasedWithUnknown<Participati
             this.names = names;
         }
     }
-
+    
     public static ParticipationRole parse(String content)
     {
-        ParticipationRole parameter = new ParticipationRole();
-        parameter.parseContent(content);
-        return parameter;
+    	return ParticipationRole.parse(new ParticipationRole(), content);
     }
 }

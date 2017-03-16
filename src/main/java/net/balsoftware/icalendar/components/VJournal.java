@@ -138,12 +138,4 @@ public class VJournal extends VDisplayable<VJournal>
     {
         return Collections.unmodifiableList(super.errors());
     }
-    
-    /** Parse content lines into calendar component object */
-    public static VJournal parse(String contentLines)
-    {
-        VJournal component = new VJournal();
-        component.parseContent(contentLines);
-        return component;
-    }
 }

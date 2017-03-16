@@ -297,7 +297,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVEvents(String...vEvents)
     {
         List<VEvent> list = Arrays.stream(vEvents)
-                .map(c -> VEvent.parse(c))
+                .map(c -> (VEvent) VEvent.parse(c))
                 .collect(Collectors.toList());
         return withVEvents(list);
     }
@@ -342,7 +342,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVTodos(String...vTodos)
     {
         List<VTodo> list = Arrays.stream(vTodos)
-                .map(c -> VTodo.parse(c))
+                .map(c -> (VTodo) VTodo.parse(c))
                 .collect(Collectors.toList());
         return withVTodos(list);
     }
@@ -389,7 +389,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVJournals(String...vJournals)
     {
         List<VJournal> list = Arrays.stream(vJournals)
-                .map(c -> VJournal.parse(c))
+                .map(c -> (VJournal) VJournal.parse(c))
                 .collect(Collectors.toList());
         return withVJournals(list);
     }
@@ -433,7 +433,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVFreeBusies(String...vFreeBusys)
     {
     	List<VFreeBusy> list = Arrays.stream(vFreeBusys)
-    			.map(c -> VFreeBusy.parse(c))
+    			.map(c -> (VFreeBusy) VFreeBusy.parse(c))
                 .collect(Collectors.toList());
     	return withVFreeBusies(list);
     }
@@ -477,7 +477,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVTimeZones(String...vTimeZones)
     {
     	List<VTimeZone> list = Arrays.stream(vTimeZones)
-    			.map(c -> VTimeZone.parse(c))
+    			.map(c -> (VTimeZone) VTimeZone.parse(c))
                 .collect(Collectors.toList());
     	return withVTimeZones(list);
     }

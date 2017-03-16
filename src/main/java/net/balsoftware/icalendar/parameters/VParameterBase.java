@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElementBase;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.utilities.StringConverter;
@@ -17,7 +18,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @param <T> - type of value stored in the Parameter, such as String for text-based, or the enumerated type of the classes based on an enum
  * @param <U> - implemented subclass
  */
-abstract public class ParameterBase<U,T> extends VElementBase implements VParameter<T>
+abstract public class VParameterBase<U,T> extends VElementBase implements VParameter<T>
 {
     private VParent myParent;
     @Override public void setParent(VParent parent) { myParent = parent; }
@@ -41,7 +42,16 @@ abstract public class ParameterBase<U,T> extends VElementBase implements VParame
     {
         this.value = value;
     }
+    public void setValue(CharSequence value)
+    {
+    	parseContent(value.toString());
+    }
     public U withValue(T value)
+    {
+        setValue(value);
+        return (U) this;
+    }
+    public U withValue(CharSequence value)
     {
         setValue(value);
         return (U) this;
@@ -67,26 +77,20 @@ abstract public class ParameterBase<U,T> extends VElementBase implements VParame
      * 
      * Get the parameter value string converter.
      */ 
+    protected final StringConverter<T> converter;
     private StringConverter<T> getConverter()
     {
         return converter;
     }
-    final private StringConverter<T> converter;
     
     /**
      * PARAMETER TYPE
      * 
      *  The enumerated type of the parameter.
      */
-    @Override
-    public ParameterType parameterType() { return parameterType; }
+//    @Override
+    ParameterType parameterType() { return parameterType; }
     final private ParameterType parameterType;
-
-//	@Override
-//	public void copyInto(VElement destination)
-//	{
-//		setValue(((Parameter<T>) destination).getValue());
-//	}
 	
     @Override
     public String toString()
@@ -103,7 +107,7 @@ abstract public class ParameterBase<U,T> extends VElementBase implements VParame
         if((obj == null) || (obj.getClass() != getClass())) {
             return false;
         }
-        ParameterBase<U,T> testObj = (ParameterBase<U,T>) obj;
+        VParameterBase<U,T> testObj = (VParameterBase<U,T>) obj;
         boolean valueEquals = getValue().equals(testObj.getValue());
         return valueEquals;
     }
@@ -120,23 +124,23 @@ abstract public class ParameterBase<U,T> extends VElementBase implements VParame
     /*
      * CONSTRUCTORS
      */
-    ParameterBase()
+    VParameterBase(StringConverter<T> stringConverter)
     {
         parameterType = ParameterType.enumFromClass(getClass());
-        name = parameterType.toString();
-        converter = parameterType.getConverter();
+        name = Elements.fromClass(getClass()).toString();
+        this.converter = stringConverter;
     }
 
-    ParameterBase(T value)
+    VParameterBase(T value, StringConverter<T> stringConverter)
     {
-        this();
+        this(stringConverter);
         setValue(value);
     }
 
     
-    ParameterBase(ParameterBase<U,T> source)
+    VParameterBase(VParameterBase<U,T> source, StringConverter<T> stringConverter)
     {
-        this();
+        this(stringConverter);
         setValue(source.getValue());
     }
     
@@ -149,5 +153,5 @@ abstract public class ParameterBase<U,T> extends VElementBase implements VParame
             errors.add(name() + " value is null.  The parameter MUST have a value."); 
         }
         return errors;
-    }
+    }  
 }

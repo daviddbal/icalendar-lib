@@ -14,6 +14,7 @@ import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
 import net.balsoftware.icalendar.properties.calendar.Version;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 
+@Deprecated
 public enum CalendarProperty
 {
     CALENDAR_SCALE ("CALSCALE",

@@ -12,7 +12,7 @@ import net.balsoftware.icalendar.components.VFreeBusy;
 import net.balsoftware.icalendar.parameters.FreeBusyType;
 import net.balsoftware.icalendar.parameters.FreeBusyType.FreeBusyTypeEnum;
 import net.balsoftware.icalendar.properties.PropFreeBusy;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.Pair;
 import net.balsoftware.icalendar.utilities.StringConverter;
@@ -44,7 +44,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * The property can be specified in following components:
  * @see VFreeBusy
  */
-public class FreeBusyTime extends PropertyBase<List<Pair<ZonedDateTime, TemporalAmount>>, FreeBusyTime> implements PropFreeBusy<List<Pair<ZonedDateTime, TemporalAmount>>>
+public class FreeBusyTime extends VPropertyBase<List<Pair<ZonedDateTime, TemporalAmount>>, FreeBusyTime> implements PropFreeBusy<List<Pair<ZonedDateTime, TemporalAmount>>>
 {
     public final static StringConverter<List<Pair<ZonedDateTime, TemporalAmount>>> CONVERTER = new StringConverter<List<Pair<ZonedDateTime, TemporalAmount>>>()
     {

@@ -223,12 +223,4 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
         errors.addAll(dtendError);
         return Collections.unmodifiableList(errors);
     }
-    
-    /** Parse content lines into calendar component object */
-    public static VFreeBusy parse(String contentLines)
-    {
-        VFreeBusy component = new VFreeBusy();
-        component.parseContent(contentLines);
-        return component;
-    }
 }

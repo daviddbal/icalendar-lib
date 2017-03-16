@@ -4,7 +4,7 @@ import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VFreeBusy;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * UID
@@ -44,7 +44,7 @@ import net.balsoftware.icalendar.properties.PropertyBase;
  * @see VJournal
  * @see VFreeBusy
  */
-public class UniqueIdentifier extends PropertyBase<String, UniqueIdentifier>
+public class UniqueIdentifier extends VPropertyBase<String, UniqueIdentifier>
 {
     public UniqueIdentifier(UniqueIdentifier source)
     {

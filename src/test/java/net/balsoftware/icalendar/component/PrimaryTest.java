@@ -2,6 +2,7 @@ package net.balsoftware.icalendar.component;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,7 +84,7 @@ public class PrimaryTest
         }
     }
     
-    @Test (expected=IllegalArgumentException.class)
+    @Test
     public void canCatchAlreadySet()
     {
         String content = 
@@ -92,17 +93,21 @@ public class PrimaryTest
             "DTSTART:20151119T090000" + System.lineSeparator() +
             "END:VEVENT";
         VEvent v = VEvent.parse(content);
-//        assertEquals(LocalDateTime.of(2015, 11, 9, 9, 0), v.getDateTimeStart().getValue());
+        assertEquals(LocalDateTime.of(2015, 11, 9, 9, 0), v.getDateTimeStart().getValue());
     }
     
-    @Test (expected=IllegalArgumentException.class)
-    public void canCatchInvalidProperty()
+    @Test
+    public void canIgnoreInvalidPropertyValue()
     {
         String content = 
             "BEGIN:VEVENT" + System.lineSeparator() +
             "DTSTART:INVALID" + System.lineSeparator() +
             "END:VEVENT";
-        VEvent.parse(content);
+        VEvent e = VEvent.parse(content);
+        String expectedContent = 
+                "BEGIN:VEVENT" + System.lineSeparator() +
+                "END:VEVENT";
+        assertEquals(expectedContent, e.toString());
     }
 
 }

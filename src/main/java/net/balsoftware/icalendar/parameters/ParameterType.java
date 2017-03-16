@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship.AlarmTriggerRelationshipType;
 import net.balsoftware.icalendar.parameters.CalendarUser.CalendarUserType;
@@ -27,7 +26,7 @@ import net.balsoftware.icalendar.properties.PropFreeBusy;
 import net.balsoftware.icalendar.properties.PropRecurrenceID;
 import net.balsoftware.icalendar.properties.PropRelationship;
 import net.balsoftware.icalendar.properties.VProperty;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.ValueType;
 import net.balsoftware.icalendar.properties.component.relationship.PropertyBaseCalendarUser;
 import net.balsoftware.icalendar.utilities.StringConverter;
@@ -45,19 +44,11 @@ import net.balsoftware.icalendar.utilities.StringConverters;
  * @author David Bal
  *
  */
+//@Deprecated // Replace with Elements
 public enum ParameterType
 {
     // in properties COMMENT, CONTACT, DESCRIPTION, LOCATION, RESOURCES
     ALTERNATE_TEXT_REPRESENTATION ("ALTREP", AlternateText.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropBaseAltText<?,?> castProperty = (PropBaseAltText<?, ?>) property;
-            AlternateText child = AlternateText.parse(content);
-			castProperty.setAlternateText(child);
-			return child;
-        }
-
         @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
@@ -82,15 +73,6 @@ public enum ParameterType
     // in properties ATTENDEE, ORGANIZER
     COMMON_NAME ("CN", CommonName.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) property;
-            CommonName child = CommonName.parse(content);
-			castProperty.setCommonName(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) parent;
@@ -113,15 +95,6 @@ public enum ParameterType
     },
     // in property ATTENDEE
     CALENDAR_USER_TYPE ("CUTYPE", CalendarUser.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAttendee<?> castProperty = (PropAttendee<?>) property;
-            CalendarUser child = CalendarUser.parse(content);
-			castProperty.setCalendarUser(child);
-			return child;
-        }
-
         @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
@@ -159,15 +132,6 @@ public enum ParameterType
     // in property ATTENDEE
     DELEGATORS ("DELEGATED-FROM", Delegators.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAttendee<?> castProperty = (PropAttendee<?>) property;
-            Delegators child = Delegators.parse(content);
-			castProperty.setDelegators(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropAttendee<?> castProperty = (PropAttendee<?>) parent;
@@ -190,15 +154,6 @@ public enum ParameterType
     },
     // in property ATTENDEE
     DELEGATEES ("DELEGATED-TO", Delegatees.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAttendee<?> castProperty = (PropAttendee<?>) property;
-            Delegatees child = Delegatees.parse(content);
-			castProperty.setDelegatees(child);
-			return child;
-        }
-
         @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
@@ -223,15 +178,6 @@ public enum ParameterType
     // in properties ATTENDEE, ORGANIZER
     DIRECTORY_ENTRY_REFERENCE ("DIR", DirectoryEntry.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) property;
-            DirectoryEntry child = DirectoryEntry.parse(content);
-			castProperty.setDirectoryEntryReference(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) parent;
@@ -254,15 +200,6 @@ public enum ParameterType
     },
     // in property ATTACHMENT
     INLINE_ENCODING ("ENCODING", Encoding.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAttachment<?> castProperty = (PropAttachment<?>) property;
-            Encoding child = Encoding.parse(content);
-			castProperty.setEncoding(child);
-			return child;
-        }
-
         @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
@@ -300,15 +237,6 @@ public enum ParameterType
     // in property ATTACHMENT
     FORMAT_TYPE ("FMTTYPE", FormatType.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAttachment<?> castProperty = (PropAttachment<?>) property;
-            FormatType child = FormatType.parse(content);
-			castProperty.setFormatType(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropAttachment<?> castProperty = (PropAttachment<?>) parent;
@@ -331,15 +259,6 @@ public enum ParameterType
     },
     // in property FREEBUSY
     FREE_BUSY_TIME_TYPE ("FBTYPE", FreeBusyType.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropFreeBusy<?> castProperty = (PropFreeBusy<?>) property;
-            FreeBusyType child = FreeBusyType.parse(content);
-			castProperty.setFreeBusyType(child);
-			return child;
-        }
-
         @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
@@ -377,15 +296,6 @@ public enum ParameterType
     // in properties CATEGORIES, COMMENT, CONTACT, DESCRIPTION, LOCATION, RESOURCES, TZNAME
     LANGUAGE ("LANGUAGE", Language.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropBaseLanguage<?,?> castProperty = (PropBaseLanguage<?, ?>) property;
-            Language child = Language.parse(content);
-			castProperty.setLanguage(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropBaseLanguage<?,?> castProperty = (PropBaseLanguage<?,?>) parent;
@@ -407,15 +317,6 @@ public enum ParameterType
         }
     },
     GROUP_OR_LIST_MEMBERSHIP ("MEMBER", GroupMembership.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAttendee<?> castProperty = (PropAttendee<?>) property;
-            GroupMembership child = GroupMembership.parse(content);
-			castProperty.setGroupMembership(child);
-			return child;
-        }
-
         @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
@@ -439,25 +340,6 @@ public enum ParameterType
     },
     NON_STANDARD ("X-", // parameter name begins with X- prefix
             NonStandardParameter.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-//            final List<NonStandardParameter> list;
-//            if (property.getNonStandard() == null)
-//            {
-//                list = new ArrayList<>();
-//                property.setNonStandard(list);
-//            } else
-//            {
-//                list = property.getNonStandard();
-//            }
-            NonStandardParameter child = NonStandardParameter.parse(content);
-            property.addChild(child);
-//			list.add(child);
-//			property.orderChild(child);
-			return child;
-        }
-
         @Override
         public Object getParameter(VProperty<?> parent)
         {
@@ -486,15 +368,6 @@ public enum ParameterType
         }
     },
     PARTICIPATION_STATUS ("PARTSTAT", ParticipationStatus.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAttendee<?> castProperty = (PropAttendee<?>) property;
-            ParticipationStatus child = ParticipationStatus.parse(content);
-			castProperty.setParticipationStatus(child);
-			return child;
-        }
-
         @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
@@ -531,15 +404,6 @@ public enum ParameterType
     },
     RECURRENCE_IDENTIFIER_RANGE ("RANGE", Range.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropRecurrenceID<?> castProperty = (PropRecurrenceID<?>) property;
-            Range child = Range.parse(content);
-			castProperty.setRange(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropRecurrenceID<?> castProperty = (PropRecurrenceID<?>) parent;
@@ -575,15 +439,6 @@ public enum ParameterType
     },
     ALARM_TRIGGER_RELATIONSHIP ("RELATED", AlarmTriggerRelationship.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAlarmTrigger<?> castProperty = (PropAlarmTrigger<?>) property;
-            AlarmTriggerRelationship child = AlarmTriggerRelationship.parse(content);
-			castProperty.setAlarmTrigger(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropAlarmTrigger<?> castProperty = (PropAlarmTrigger<?>) parent;
@@ -618,15 +473,6 @@ public enum ParameterType
         }
     },
     RELATIONSHIP_TYPE ("RELTYPE", Relationship.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropRelationship<?> castProperty = (PropRelationship<?>) property;
-            Relationship child = Relationship.parse(content);
-			castProperty.setRelationship(child);
-			return child;
-        }
-
         @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
@@ -664,15 +510,6 @@ public enum ParameterType
     },
     PARTICIPATION_ROLE ("ROLE", ParticipationRole.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAttendee<?> castProperty = (PropAttendee<?>) property;
-            ParticipationRole child = ParticipationRole.parse(content);
-			castProperty.setParticipationRole(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropAttendee<?> castProperty = (PropAttendee<?>) parent;
@@ -708,15 +545,6 @@ public enum ParameterType
     },
     RSVP_EXPECTATION ("RSVP", RSVP.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropAttendee<?> castProperty = (PropAttendee<?>) property;
-            RSVP child = RSVP.parse(content);
-			castProperty.setRSVP(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropAttendee<?> castProperty = (PropAttendee<?>) parent;
@@ -739,15 +567,6 @@ public enum ParameterType
     },
     SENT_BY ("SENT-BY", SentBy.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) property;
-            SentBy child = SentBy.parse(content);
-			castProperty.setSentBy(child);
-			return child;
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
             PropertyBaseCalendarUser<?,?> castProperty = (PropertyBaseCalendarUser<?,?>) parent;
@@ -769,15 +588,6 @@ public enum ParameterType
         }
     },
     TIME_ZONE_IDENTIFIER ("TZID", TimeZoneIdentifierParameter.class) {
-        @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            PropDateTime<?> castProperty = (PropDateTime<?>) property;
-            TimeZoneIdentifierParameter child = TimeZoneIdentifierParameter.parse(content);
-			castProperty.setTimeZoneIdentifier(child);
-			return child;
-        }
-
         @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
@@ -815,37 +625,9 @@ public enum ParameterType
     },
     VALUE_DATA_TYPES ("VALUE", ValueParameter.class) {
         @Override
-        public VChild parse(VProperty<?> property, String content)
-        {
-            int equalsIndex = content.indexOf('=');
-            final String valueString;
-            if (equalsIndex > 0)
-            {
-                String name = content.substring(0, equalsIndex);
-                boolean isNameValid = name.equals(this.toString());
-                valueString = (isNameValid) ? content.substring(equalsIndex+1) : content;    
-            } else
-            {
-                valueString = content;
-            }
-            ValueType valueType = ValueType.enumFromName(valueString.toUpperCase());
-            PropertyBase<?,?> castProperty = (PropertyBase<?,?>) property;
-            boolean isValidType = castProperty.propertyType().allowedValueTypes().contains(valueType);
-            if (valueType == null || isValidType)
-            {
-                ValueParameter child = ValueParameter.parse(valueString);
-				castProperty.setValueType(child);
-				return child;
-            } else
-            {
-                throw new IllegalArgumentException("Property type " + property.getClass().getSimpleName() + " doesn't allow value type " + valueType);
-            }
-        }
-
-        @Override
         public VParameter<?> getParameter(VProperty<?> parent)
         {
-            PropertyBase<?,?> castProperty = (PropertyBase<?,?>) parent;
+            VPropertyBase<?,?> castProperty = (VPropertyBase<?,?>) parent;
             return castProperty.getValueType();
         }
         
@@ -871,7 +653,7 @@ public enum ParameterType
         @Override
         public void copyParameter(VParameter<?> child, VProperty<?> destination)
         {
-            PropertyBase<?,?> castDestination = (PropertyBase<?,?>) destination;
+            VPropertyBase<?,?> castDestination = (VPropertyBase<?,?>) destination;
             ValueParameter parameterCopy = new ValueParameter((ValueParameter) child);
             castDestination.setValueType(parameterCopy);
         }
@@ -962,8 +744,8 @@ public enum ParameterType
     /*
      * ABSTRACT METHODS
      */
-    /** Parses string and sets parameter.  Called by {@link PropertyBase#parseContent()} */
-    abstract public VChild parse(VProperty<?> property, String content);
+//    /** Parses string and sets parameter.  Called by {@link VPropertyBase#parseContent()} */
+//    abstract public VChild parse(VProperty<?> property, String content);
     
     /** Returns associated Property<?> or List<Property<?>> */
     // TODO - MAY BE OBSOLETE WITH USE OF ORDERER - ONLY BEING USED TO DOUBLE-CHECK EXISTANCE OF ALL PARAMETERS WHEN COPYING

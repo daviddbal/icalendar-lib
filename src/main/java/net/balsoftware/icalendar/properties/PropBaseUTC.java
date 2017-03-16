@@ -18,7 +18,7 @@ import net.balsoftware.icalendar.properties.component.time.DateTimeCompleted;
  * @see DateTimeCreated
  * @see DateTimeStamp
  */
-public abstract class PropBaseUTC<U extends PropBaseUTC<U>> extends PropertyBase<ZonedDateTime,U>
+public abstract class PropBaseUTC<U extends PropBaseUTC<U>> extends VPropertyBase<ZonedDateTime,U>
 {
     /*
      * CONSTRUCTORS

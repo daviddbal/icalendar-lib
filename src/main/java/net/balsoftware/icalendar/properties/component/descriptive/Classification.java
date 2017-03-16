@@ -3,7 +3,7 @@ package net.balsoftware.icalendar.properties.component.descriptive;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
-import net.balsoftware.icalendar.properties.PropertyBase;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.component.descriptive.Classification.ClassificationType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
@@ -24,7 +24,7 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  * @see VTodo
  * @see VJournal
  */
-public class Classification extends PropertyBase<ClassificationType, Classification>
+public class Classification extends VPropertyBase<ClassificationType, Classification>
 {
     // TODO - ADD X-VALUE
     private final static StringConverter<ClassificationType> CONVERTER = new StringConverter<ClassificationType>()

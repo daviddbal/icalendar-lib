@@ -12,7 +12,7 @@ import net.balsoftware.icalendar.parameters.ValueParameter;
  * 
  * @author David Bal
  * @see PropertyType - enum of all supported Properties
- * @see PropertyBase
+ * @see VPropertyBase
  *
  * @param <T> - type of value stored in Property
  */

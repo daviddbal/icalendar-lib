@@ -1,5 +1,7 @@
 package net.balsoftware.icalendar.components;
 
+import java.util.List;
+
 import net.balsoftware.icalendar.properties.component.descriptive.Comment;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
@@ -82,7 +84,8 @@ public class DaylightSavingTime extends StandardOrDaylight<DaylightSavingTime>
     public static DaylightSavingTime parse(String contentLines)
     {
         DaylightSavingTime component = new DaylightSavingTime();
-        component.parseContent(contentLines);
+        List<Message> messages = component.parseContent(contentLines);
+        throwMessageExceptions(messages);
         return component;
     }
 }

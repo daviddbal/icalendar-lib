@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.balsoftware.icalendar.parameters.ParticipationStatus.ParticipationStatusType;
+import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**
  * PARTSTAT
@@ -22,20 +23,35 @@ import net.balsoftware.icalendar.parameters.ParticipationStatus.ParticipationSta
  */
 public class ParticipationStatus extends ParameterEnumBasedWithUnknown<ParticipationStatus, ParticipationStatusType>
 {
+	private static final StringConverter<ParticipationStatusType> CONVERTER = new StringConverter<ParticipationStatusType>()
+    {
+        @Override
+        public String toString(ParticipationStatusType object)
+        {
+            return object.toString();
+        }
+
+        @Override
+        public ParticipationStatusType fromString(String string)
+        {
+            return ParticipationStatusType.enumFromName(string.toUpperCase());
+        }
+    };
+    
     /** Set NEEDS-ACTION as default value */
     public ParticipationStatus()
     {
-        super(ParticipationStatusType.NEEDS_ACTION); // default value
+        super(ParticipationStatusType.NEEDS_ACTION, CONVERTER); // default value
     }
   
     public ParticipationStatus(ParticipationStatusType value)
     {
-        super(value);
+        super(value, CONVERTER);
     }
     
     public ParticipationStatus(ParticipationStatus source)
     {
-        super(source);
+        super(source, CONVERTER);
     }
     
     public enum ParticipationStatusType
@@ -72,11 +88,9 @@ public class ParticipationStatus extends ParameterEnumBasedWithUnknown<Participa
             this.names = names;
         }
     }
-
+    
     public static ParticipationStatus parse(String content)
     {
-        ParticipationStatus parameter = new ParticipationStatus();
-        parameter.parseContent(content);
-        return parameter;
+    	return ParticipationStatus.parse(new ParticipationStatus(), content);
     }
 }

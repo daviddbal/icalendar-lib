@@ -522,11 +522,11 @@ public final class DateTimeUtilities
         } else if (temporal instanceof LocalDate)
         {
             return DateTimeUtilities.LOCAL_DATE_FORMATTER.format(temporal);
-        }
+        } else if (temporal != null)
         {
             throw new DateTimeException("Unsuported Date-Time class:" + temporal.getClass().getSimpleName());
         }
-//        return DateTimeType.of(temporal).formatDateTimeType(temporal);
+        return null;
     }
     
     /**

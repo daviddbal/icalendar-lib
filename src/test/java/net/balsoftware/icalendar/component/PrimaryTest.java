@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -80,7 +81,17 @@ public class PrimaryTest
             VComponent parsedComponent = builtComponent.getClass().newInstance();
             parsedComponent.addChild(expectedContent);
             assertEquals(parsedComponent, builtComponent);
-            assertEquals(expectedContent, builtComponent.toString());            
+            assertEquals(expectedContent, builtComponent.toString());
+            assertEquals(3, builtComponent.getComments().size());
+            List<String> expectedComments = Arrays.asList(
+                    "COMMENT:This is a test comment",
+                    "COMMENT:Another comment",
+                    "COMMENT:My third comment");
+            List<String> comments = builtComponent.getComments()
+            		.stream()
+            		.map(c -> c.toString())
+            		.collect(Collectors.toList());
+			assertEquals(expectedComments, comments);
         }
     }
     

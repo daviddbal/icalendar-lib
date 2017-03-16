@@ -228,7 +228,9 @@ public enum Elements
 //			NO_ARG_CONSTRUCTORS.entrySet().forEach(System.out::println);
 //			System.out.println("get constructor:" + superclass.getSimpleName() + " " + name);
 			String name2 = (name.startsWith("X-")) ? "X-" : name;
-			return (VChild) NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name2)).newInstance();
+			Constructor<? extends VElement> constructor = NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name2));
+			if (constructor == null) return null;
+			return (VChild) constructor.newInstance();
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException e) {
 			e.printStackTrace();

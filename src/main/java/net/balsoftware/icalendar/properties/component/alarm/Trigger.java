@@ -4,6 +4,7 @@ import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAmount;
+import java.util.List;
 
 import net.balsoftware.icalendar.components.VAlarm;
 import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship;
@@ -144,8 +145,8 @@ public class Trigger<T> extends VPropertyBase<T, Trigger<T>> implements PropAlar
     {
         Trigger<U> property = new Trigger<U>();
         property.setConverterByClass(clazz);
-        property.parseContent(value);
-        clazz.cast(property.getValue()); // class check
+        List<Message> m = property.parseContent(value);
+        if (! m.isEmpty()) throw new DateTimeException("Invalid value:" + value);
         return property;
     }
 }

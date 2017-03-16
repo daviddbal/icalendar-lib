@@ -50,6 +50,7 @@ import net.balsoftware.icalendar.parameter.AlternateTextRepresentationTest;
 import net.balsoftware.icalendar.parameter.CommonNameTest;
 import net.balsoftware.icalendar.parameter.DelegateesTest;
 import net.balsoftware.icalendar.parameter.DirectoryEntryReferenceTest;
+import net.balsoftware.icalendar.parameter.FormatTypeTest;
 import net.balsoftware.icalendar.parameter.NonstandardParameterTest;
 import net.balsoftware.icalendar.parameter.ParseDateTest;
 import net.balsoftware.icalendar.parameter.ParseParameterTest;
@@ -217,6 +218,7 @@ import net.balsoftware.icalendar.property.component.UniqueIdentifierTest;
         CommonNameTest.class,
         DelegateesTest.class,
         DirectoryEntryReferenceTest.class,
+        FormatTypeTest.class,
         NonstandardParameterTest.class,
         ParseDateTest.class,
         ParseParameterTest.class,

@@ -3,6 +3,7 @@ package net.balsoftware.icalendar.component;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.DateTimeException;
 import java.time.Duration;
 import java.util.Arrays;
@@ -41,7 +42,7 @@ import net.balsoftware.icalendar.properties.component.time.DurationProp;
 public class LocatableTest
 {
     @Test
-    public void canBuildLocatable() throws InstantiationException, IllegalAccessException
+    public void canBuildLocatable() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
     {
         List<VLocatable<?>> components = Arrays.asList(
                 new VEvent()
@@ -110,8 +111,8 @@ public class LocatableTest
                     "END:VALARM" + System.lineSeparator() +
                     "END:" + componentName;
 
-            VComponent parsedComponent = builtComponent.getClass().newInstance();
-            parsedComponent.addChild(expectedContent);
+            VComponent parsedComponent = (VComponent) builtComponent.getClass().getMethod("parse", String.class).invoke(null, expectedContent);
+//            parsedComponent.addChild(expectedContent);
             assertEquals(parsedComponent, builtComponent);
             assertEquals(expectedContent, builtComponent.toString());            
         }

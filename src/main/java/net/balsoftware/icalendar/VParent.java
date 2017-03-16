@@ -24,6 +24,7 @@ public interface VParent extends VElement
      * 
      * @param child element to add to ordered list
      */
+    @Deprecated // do I want this??? - it acts like parseInto
     void addChild(String childContent);
     
     /**

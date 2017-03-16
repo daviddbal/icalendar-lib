@@ -38,6 +38,15 @@ public class AttachmentTest
     }
     
     @Test
+    public void canParseAttachement3()
+    {
+        String expectedContentLine = "ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/sounds/bell-01.aud";
+        Attachment<URI> property = Attachment.parse(expectedContentLine);
+        String madeContentLine = property.toString();
+        assertEquals(expectedContentLine, madeContentLine);
+    }
+    
+    @Test
     public void canParseAttachementComplex() throws URISyntaxException
     {
         String contentLine = "ATTACH;FMTTYPE=application/postscript:ftp://example.com/pub/reports/r-960812.ps";
@@ -70,5 +79,12 @@ public class AttachmentTest
         Attachment<String> property2 = new Attachment<String>(property1);
         assertEquals(property1, property2);
         assertFalse(property1 == property2);
+    }
+    
+    @Test
+    public void canBuildEmptyAttachment()
+    {
+    	Attachment a = new Attachment();
+    	assertEquals("ATTACH:", a.toString());
     }
 }

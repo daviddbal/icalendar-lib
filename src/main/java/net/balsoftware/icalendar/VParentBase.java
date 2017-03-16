@@ -242,7 +242,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 //            System.out.println(unfoldedLine);
             int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
             String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
-            boolean isMultiLineElement = unfoldedLine.startsWith("BEGIN");
+            boolean isMultiLineElement = unfoldedLine.startsWith("BEGIN"); // e.g. vcalendar, vcomponent
             boolean isMainComponent = unfoldedLine.substring(nameEndIndex+1).equals(name()) && isMultiLineElement;
             if (isMainComponent) continue; // skip main component
 			if (propertyName.equals("END"))
@@ -259,16 +259,18 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
                 messages.addAll(myMessages);
         		processChild(messages, unfoldedLine, propertyName, (VChild) child);                	
             } else
-            {
+            { // single line element (e.g. property, parameter, rrule value)
             	childName = propertyName;
 //            	child = (VElementBase) Elements.parseNewElement(singlelineChildClass, childName, unfoldedLine);
                 child = (VElementBase) Elements.newEmptyVElement(singlelineChildClass, childName);
-                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLine); // recursively parse child parent
-//                System.out.println("child:" + childName + " " + myMessages.isEmpty());
-                // don't add single-line children with info or error messages
-                if (myMessages.isEmpty())
+                if (child != null)
                 {
-            		processChild(messages, unfoldedLine, propertyName, (VChild) child);                	
+	                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLine); // recursively parse child parent
+	                // don't add single-line children with info or error messages - they have problems and should be ignored
+	                if (myMessages.isEmpty())
+	                {
+	            		processChild(messages, unfoldedLine, propertyName, (VChild) child);                	
+	                }
                 }
 //                System.out.println(childrenUnmodifiable().size());
 //                p = (VElementBase) Elements.parseNewElement(singlelineChildClass, childName, unfoldedLine);
@@ -282,10 +284,13 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	{
 		String content = entry.getValue();
 		String childName = entry.getKey();
-        VElementBase newChild = (VElementBase) Elements.newEmptyVElement(singleLineChildClass, childName);
-        List<Message> myMessages = newChild.parseContent(childName + "=" + content);
-        messages.addAll(myMessages);
-		processChild(messages, content, childName, (VChild) newChild);
+        VChild newChild = Elements.newEmptyVElement(singleLineChildClass, childName);
+        if (newChild != null)
+        {
+        	List<Message> myMessages = ((VElementBase) newChild).parseContent(childName + "=" + content);
+	        messages.addAll(myMessages);
+			processChild(messages, content, childName, newChild);
+        }
 	}
 
 	protected void processChild(List<Message> messages, String content, String elementName, VChild newChild) {

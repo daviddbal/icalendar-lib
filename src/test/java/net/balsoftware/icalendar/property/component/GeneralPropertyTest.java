@@ -121,12 +121,13 @@ public class GeneralPropertyTest
         assertEquals(expectedProperty, madeProperty);
     }
     
-    @Test (expected = IllegalArgumentException.class)
-    public void canCatchDuplicateParameter()
+    @Test
+    public void canIgnoreDuplicateParameter()
     {
         String contentLines = "SUMMARY;LANGUAGE=en;LANGUAGE=fr:TEST SUMMARY";
         Summary s = Summary.parse(contentLines);
-        System.out.println(s);
+        String expectedContent = "SUMMARY;LANGUAGE=en:TEST SUMMARY";
+        assertEquals(expectedContent, s.toString());
     }
     
     @Test

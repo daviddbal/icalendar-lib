@@ -1,6 +1,7 @@
 package net.balsoftware.icalendar.properties;
 
 import java.lang.reflect.Method;
+import java.time.DateTimeException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -77,6 +78,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     {
         /* default code below works for all properties with a single value.  Properties with multiple embedded values,
          * such as RequestStatus, require an overridden method */
+    	if (getValue() == null) return "";
         return (getConverter().toString(getValue()) == null) ? getUnknownValue() : getConverter().toString(getValue());
     }
 
@@ -409,21 +411,10 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     	// separate name and value
     	final String propertyValue;
     	String propertyName = findPropertyName(unfoldedContent);
-//        List<Integer> indices = new ArrayList<>();
-//        indices.add(unfoldedContent.indexOf(':'));
-//        indices.add(unfoldedContent.indexOf(';'));
-//        Optional<Integer> hasPropertyName = indices
-//                .stream()
-//                .filter(v -> v > 0)
-//                .min(Comparator.naturalOrder());
-//        if (hasPropertyName.isPresent())
     	if (propertyName != null)
         {
-//        	int endNameIndex = hasPropertyName.get();
             int endNameIndex = propertyName.length();
-//        	System.out.println("endNameIndex;" + endNameIndex);
-//            String propertyName = (endNameIndex > 0) ? unfoldedContent.subSequence(0, endNameIndex).toString().toUpperCase() : null;
-            boolean isMatch = propertyName.equals(name());
+            boolean isMatch = propertyName.toUpperCase().equals(name());
             boolean isNonStandardProperty = propertyName.startsWith(Elements.NON_STANDARD_PROPERTY.toString());
             if (isMatch || isNonStandardProperty)
             {
@@ -452,6 +443,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         // parse value and parameters
         List<Pair<String, String>> list = ICalendarUtilities.contentToParameterListPair(propertyValue);
         list.stream()
+//        .peek(System.out::println)
             .forEach(entry ->
             { // add property value
             	if (entry.getKey() == ICalendarUtilities.PROPERTY_VALUE_KEY)
@@ -459,6 +451,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
                     propertyValueString = entry.getValue();
                     try {
                     	T value = getConverter().fromString(getPropertyValueString());
+//                    	System.out.println("value:" + value);
                         if (value == null)
                         {
                             setUnknownValue(propertyValueString);
@@ -470,7 +463,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
                                 setUnknownValue(propertyValueString);
                             }
                         }
-                    } catch (IllegalArgumentException e)
+                    } catch (IllegalArgumentException | DateTimeException e)
                     {
             			Message message = new Message(this,
             					"Ignored invalid element:" + getPropertyValueString(),

@@ -23,4 +23,11 @@ public class CommonNameTest
         String expectedContent = "CN=John Smith";
         assertEquals(expectedContent, parameter.toString());
     }
+    
+    @Test
+    public void canMakeEmptyCommonName()
+    {
+    	CommonName parameter = new CommonName();
+    	assertEquals("CN=", parameter.toString());
+    }
 }

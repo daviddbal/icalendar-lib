@@ -44,7 +44,7 @@ public abstract class VDescribableBase<T> extends VCommon<T> implements VDescrib
     	this.attachments = attachments;
     	if (attachments != null)
     	{
-    		attachments.forEach(c -> c.orderChild(c));
+    		attachments.forEach(c -> orderChild(c));
     	}
 	}
     

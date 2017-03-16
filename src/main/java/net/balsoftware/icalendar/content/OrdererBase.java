@@ -32,7 +32,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.Recurrenc
  *  */ 
 public class OrdererBase implements Orderer
 {
-    final private VParent parent;
+	final private VParent parent;
     final private Map<Class<? extends VChild>, Method> childGetters;
     
     private List<VChild> orderedChildren = new ArrayList<>();
@@ -166,10 +166,9 @@ public class OrdererBase implements Orderer
 //			}
 //			newChild.setParent(parent);
 //		}
-		
+		if (newChild == parent) throw new RuntimeException("Can't add you to yourself");
 		orderedChildren.add(newChild);
 		newChild.setParent(parent);
-
 	}
 	
 	/* Remove orphans matching newChild's class type */
@@ -220,6 +219,13 @@ public class OrdererBase implements Orderer
 		return false;
 	}
 
+    @Override
+	public String toString()
+    {
+    	System.out.println("parent:" + parent.name());
+		return "OrdererBase [parent=" + parent + ", orderedChildren=" + orderedChildren + "]";
+	}
+    
 //	@Override
 //	public int removeChild(VChild child)
 //	{

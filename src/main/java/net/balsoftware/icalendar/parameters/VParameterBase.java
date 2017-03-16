@@ -60,6 +60,7 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
     // convert value to string, is overridden for enum-based parameters to handle UNKNOWN value
     String valueAsString()
     {
+    	if (getValue() == null) return "";
         return getConverter().toString(getValue());
     }
     
@@ -96,7 +97,7 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
     public String toString()
     {
         String string = valueAsString();
-        String content = (getValue() != null) ? parameterType().toString() + "=" + string : null;
+        String content = parameterType().toString() + "=" + string;
         return content;
     }
 

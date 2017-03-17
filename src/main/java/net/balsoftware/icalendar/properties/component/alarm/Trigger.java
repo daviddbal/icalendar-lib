@@ -131,14 +131,12 @@ public class Trigger<T> extends VPropertyBase<T, Trigger<T>> implements PropAlar
         return true && super.isValid();
     }
     
-//    /** Parse string to Temporal.  Not type safe.  Implementation must
-//     * ensure parameterized type is the same as date-time represented by String parameter */
-//    public static <U> Trigger<U> parse(String value)
-//    {
-//        Trigger<U> property = new Trigger<U>();
-//        property.parseContent(value);
-//        return property;
-//    }
+    /** Parse string to Temporal.  Not type safe.  Implementation must
+     * ensure parameterized type is the same as date-time represented by String parameter */
+    public static <U> Trigger<U> parse(String content)
+    {
+        return Trigger.parse(new Trigger<U>(), content);
+    }
     
     /** Parse string with Temporal class explicitly provided as parameter */
     public static <U> Trigger<U> parse(Class<U> clazz, String value)

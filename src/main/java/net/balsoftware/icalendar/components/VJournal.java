@@ -138,4 +138,15 @@ public class VJournal extends VDisplayable<VJournal>
     {
         return Collections.unmodifiableList(super.errors());
     }
+    
+    /**
+     * Creates a new VJournal calendar component by parsing a String of iCalendar content lines
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed VJournal
+     */
+    public static VJournal parse(String content)
+    {
+    	return VJournal.parse(new VJournal(), content);
+    }
 }

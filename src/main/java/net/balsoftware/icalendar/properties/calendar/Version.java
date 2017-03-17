@@ -37,10 +37,8 @@ public class Version extends VPropertyBase<String, Version> implements VElement
         setValue(DEFAULT_ICALENDAR_SPECIFICATION_VERSION);
     }
     
-    public static Version parse(String string)
+    public static Version parse(String content)
     {
-        Version property = new Version();
-        property.parseContent(string);
-        return property;
+    	return Version.parse(new Version(), content);
     }
 }

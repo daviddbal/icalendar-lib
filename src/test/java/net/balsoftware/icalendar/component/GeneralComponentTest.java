@@ -45,7 +45,7 @@ public class GeneralComponentTest
         assertEquals(line, builtComponent.getComments().get(0).getValue());
     }
     
-    @Test //(expected = IllegalArgumentException.class)
+    @Test (expected = IllegalArgumentException.class)
     public void canIgnoreSecondAssignment()
     {
         String componentName = "VEVENT";
@@ -75,7 +75,8 @@ public class GeneralComponentTest
     @Test // tests manually adding a list and individual property to orderer
     public void canSetPropertyOrder()
     {
-        String contentLines = "BEGIN:VEVENT" + System.lineSeparator()
+        String contentLines = 
+        		  "BEGIN:VEVENT" + System.lineSeparator()
                 + "DTSTAMP:20150110T080000Z" + System.lineSeparator()
                 + "DTSTART:20151109T100000Z" + System.lineSeparator()
                 + "DTEND:20151109T110000Z" + System.lineSeparator()

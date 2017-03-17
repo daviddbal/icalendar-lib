@@ -51,7 +51,7 @@ public class CalendarScale extends VPropertyBase<CalendarScaleType, CalendarScal
     /** sets default value of GREGORIAN */
     public CalendarScale()
     {
-       super(DEFAULT_CALENDAR_SCALE);
+       super();
        setConverter(CONVERTER);
     }
     
@@ -67,10 +67,8 @@ public class CalendarScale extends VPropertyBase<CalendarScaleType, CalendarScal
         GREGORIAN;
     }
 
-    public static CalendarScale parse(String string)
+    public static CalendarScale parse(String content)
     {
-        CalendarScale property = new CalendarScale();
-        property.parseContent(string);
-        return property;
+    	return CalendarScale.parse(new CalendarScale(), content);
     }    
 }

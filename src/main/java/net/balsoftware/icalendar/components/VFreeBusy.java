@@ -223,4 +223,15 @@ public class VFreeBusy extends VPersonal<VFreeBusy> implements VDateTimeEnd<VFre
         errors.addAll(dtendError);
         return Collections.unmodifiableList(errors);
     }
+    
+    /**
+     * Creates a new VFreeBusy calendar component by parsing a String of iCalendar content lines
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed VFreeBusy
+     */
+    public static VFreeBusy parse(String content)
+    {
+    	return VFreeBusy.parse(new VFreeBusy(), content);
+    }
 }

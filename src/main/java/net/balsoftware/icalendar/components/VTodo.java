@@ -292,4 +292,15 @@ public class VTodo extends VLocatable<VTodo> implements VDescribable2<VTodo>
         super.eraseDateTimeProperties();
         setDateTimeDue((DateTimeDue) null);
     }
+    
+    /**
+     * Creates a new VTodo calendar component by parsing a String of iCalendar content lines
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed VTodo
+     */
+    public static VTodo parse(String content)
+    {
+    	return VTodo.parse(new VTodo(), content);
+    }
 }

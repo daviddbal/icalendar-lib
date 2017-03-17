@@ -116,7 +116,7 @@ public class GeneralCalendarTest extends ICalendarTestAbstract
         VCalendar c = new VCalendar()
                 .withVersion(new Version())
                 .withProductIdentifier(new ProductIdentifier("-//JFxtras//iCalendarFx-1.0//EN"))
-                .withCalendarScale(new CalendarScale())
+                .withCalendarScale(new CalendarScale(CalendarScale.DEFAULT_CALENDAR_SCALE))
                 .withVTodos(new VTodo()
                         .withDateTimeCompleted("COMPLETED:19960401T150000Z")
                         .withDateTimeDue("TZID=America/Los_Angeles:19960401T050000")

@@ -38,10 +38,8 @@ public class ProductIdentifier extends VPropertyBase<String, ProductIdentifier> 
         super();
     }
     
-    public static ProductIdentifier parse(String string)
+    public static ProductIdentifier parse(String content)
     {
-        ProductIdentifier property = new ProductIdentifier();
-        property.parseContent(string);
-        return property;
+    	return ProductIdentifier.parse(new ProductIdentifier(), content);
     }
 }

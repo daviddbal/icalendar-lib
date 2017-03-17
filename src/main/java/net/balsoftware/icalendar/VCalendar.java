@@ -53,14 +53,8 @@ public class VCalendar extends VParentBase<VCalendar>
 //    public static String myVersion = "1.0";
     private static final String NAME = "VCALENDAR";
     @Override public String name() { return NAME; }
-    private static final String FIRST_CONTENT_LINE = "BEGIN:" + NAME;
-    private static final String LAST_CONTENT_LINE = "END:" + NAME;
-//    static
-//    {
-//    	ICalendarUtilities.collectSetters(VCalendar.class).forEach(System.out::println);
-//    	System.out.println("HERE");
-//    }
-//	public static final Map<Class<?>, java.lang.reflect.Method> SETTERS = ICalendarUtilities.collectSetterMap(VCalendar.class);
+    private static final String FIRST_CONTENT_LINE = BEGIN + NAME;
+    private static final String LAST_CONTENT_LINE = END + NAME;
     
     /*
      * Calendar properties
@@ -297,7 +291,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVEvents(String...vEvents)
     {
         List<VEvent> list = Arrays.stream(vEvents)
-                .map(c -> (VEvent) VEvent.parse(c))
+                .map(c -> VEvent.parse(c))
                 .collect(Collectors.toList());
         return withVEvents(list);
     }
@@ -342,7 +336,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVTodos(String...vTodos)
     {
         List<VTodo> list = Arrays.stream(vTodos)
-                .map(c -> (VTodo) VTodo.parse(c))
+                .map(c -> VTodo.parse(c))
                 .collect(Collectors.toList());
         return withVTodos(list);
     }
@@ -389,7 +383,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVJournals(String...vJournals)
     {
         List<VJournal> list = Arrays.stream(vJournals)
-                .map(c -> (VJournal) VJournal.parse(c))
+                .map(c -> VJournal.parse(c))
                 .collect(Collectors.toList());
         return withVJournals(list);
     }
@@ -433,7 +427,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVFreeBusies(String...vFreeBusys)
     {
     	List<VFreeBusy> list = Arrays.stream(vFreeBusys)
-    			.map(c -> (VFreeBusy) VFreeBusy.parse(c))
+    			.map(c -> VFreeBusy.parse(c))
                 .collect(Collectors.toList());
     	return withVFreeBusies(list);
     }
@@ -477,7 +471,7 @@ public class VCalendar extends VParentBase<VCalendar>
     public VCalendar withVTimeZones(String...vTimeZones)
     {
     	List<VTimeZone> list = Arrays.stream(vTimeZones)
-    			.map(c -> (VTimeZone) VTimeZone.parse(c))
+    			.map(c -> VTimeZone.parse(c))
                 .collect(Collectors.toList());
     	return withVTimeZones(list);
     }
@@ -1046,12 +1040,30 @@ public class VCalendar extends VParentBase<VCalendar>
         vCalendar.parseContent(lines.iterator());
         return vCalendar;
     }
+    
+	@Override
+	protected boolean isContentValid(String valueContent)
+	{
+		boolean isElementValid = super.isContentValid(valueContent);
+		if (! isElementValid) return false;
+		boolean isBeginPresent = valueContent.startsWith(FIRST_CONTENT_LINE);
+		if (! isBeginPresent) return false;
+		int lastLineIndex = valueContent.lastIndexOf(System.lineSeparator());
+		if (lastLineIndex == -1) return false;
+		boolean isEndPresent = valueContent
+				.substring(lastLineIndex)
+				.equals(LAST_CONTENT_LINE);
+		return ! isEndPresent;
+	}
 
-    public static VCalendar parse(String contentLines)
+    /**
+     * Creates a new VCalendar calendar component by parsing a String of iCalendar content lines
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed VCalendar
+     */
+    public static VCalendar parse(String content)
     {
-        VCalendar c = new VCalendar();
-        List<Message> messages = c.parseContent(contentLines);
-        throwMessageExceptions(messages);
-        return c;
+    	return VCalendar.parse(new VCalendar(), content);
     }
 }

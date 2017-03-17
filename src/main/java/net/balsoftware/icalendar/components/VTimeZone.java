@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -488,37 +487,6 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
         }
     }
     
-//    @Override
-//    public void copyChildren(VElement destination)
-//    {
-//        super.copyChildren(destination);
-//        ((VComponentBase) destination).parent = getParent();
-////        ((VChild) destination).setParent(getParent());
-//        VTimeZone castDestination = (VTimeZone) destination;
-//        if (getStandardOrDaylight() != null)
-//        {
-//            if (castDestination.getStandardOrDaylight() == null)
-//            {
-//                castDestination.setStandardOrDaylight(FXCollections.observableArrayList());
-//            }
-//            getStandardOrDaylight().forEach(s -> 
-//            {
-//                final StandardOrDaylight<?> newSubcomponent;
-//                if (s instanceof StandardTime)
-//                {
-//                    newSubcomponent = new StandardTime((StandardTime) s);
-//                } else if (s instanceof DaylightSavingTime)
-//                {
-//                    newSubcomponent = new DaylightSavingTime((DaylightSavingTime) s);                    
-//                } else
-//                {
-//                    throw new IllegalArgumentException("Unsupported time zone subcomponent class:" + s.getClass());
-//                }
-//                castDestination.getStandardOrDaylight().add(newSubcomponent);
-//            });
-//        }
-//    }
-    
 	@Override
 	public List<VTimeZone> calendarList()
 	{
@@ -530,19 +498,30 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
 		return null;
 	}
     
-    @Override // include STANDARD or DAYLIGHT Subcomponents
-    public int hashCode()
+//    @Override // include STANDARD or DAYLIGHT Subcomponents
+//    public int hashCode()
+//    {
+//        int hash = super.hashCode();
+//        if (getStandardOrDaylight() != null)
+//        {
+//            Iterator<StandardOrDaylight<?>> i = getStandardOrDaylight().iterator();
+//            while (i.hasNext())
+//            {
+//                Object property = i.next();
+//                hash = (31 * hash) + property.hashCode();
+//            }
+//        }
+//        return hash;
+//    }
+    
+    /**
+     * Creates a new VTimeZone calendar component by parsing a String of iCalendar content lines
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed VTimeZone
+     */
+    public static VTimeZone parse(String content)
     {
-        int hash = super.hashCode();
-        if (getStandardOrDaylight() != null)
-        {
-            Iterator<StandardOrDaylight<?>> i = getStandardOrDaylight().iterator();
-            while (i.hasNext())
-            {
-                Object property = i.next();
-                hash = (31 * hash) + property.hashCode();
-            }
-        }
-        return hash;
+    	return VTimeZone.parse(new VTimeZone(), content);
     }
 }

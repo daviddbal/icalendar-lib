@@ -97,7 +97,7 @@ public class PrimaryTest
         }
     }
     
-    @Test
+    @Test (expected=IllegalArgumentException.class)
     public void canCatchAlreadySet()
     {
         String content = 
@@ -109,8 +109,8 @@ public class PrimaryTest
         assertEquals(LocalDateTime.of(2015, 11, 9, 9, 0), v.getDateTimeStart().getValue());
     }
     
-    @Test
-    public void canIgnoreInvalidPropertyValue()
+    @Test (expected=IllegalArgumentException.class)
+    public void canHandleInvalidPropertyValue()
     {
         String content = 
             "BEGIN:VEVENT" + System.lineSeparator() +

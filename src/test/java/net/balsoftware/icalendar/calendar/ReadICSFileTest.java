@@ -27,12 +27,18 @@ public class ReadICSFileTest
         String fileName = "Yahoo_Sample_Calendar.ics";
         URL url = getClass().getResource(fileName);
         Path icsFilePath = Paths.get(url.getFile());
-//        VCalendar vCalendar = VCalendar.parse(icsFilePath);
-//        System.out.println(vCalendar.toString());
+        
+//        BufferedReader br = Files.newBufferedReader(icsFilePath);
+//        UnfoldingStringIterator unfoldedLineIterator = new UnfoldingStringIterator(br.lines().iterator());
+//        List<String> expectedLines = new ArrayList<>();
+//        unfoldedLineIterator.forEachRemaining(line -> expectedLines.add(line));
+//        String expectedUnfoldedContent = expectedLines.stream().collect(Collectors.joining(System.lineSeparator()));
+//        br.close();
+        
         boolean useResourceStatus = false;
         VCalendar vCalendar = VCalendar.parseICalendarFile(icsFilePath, useResourceStatus);
         
-        assertEquals(7641, vCalendar.toString().length());
+        assertEquals(7603, vCalendar.toString().length());
         assertEquals(7, vCalendar.getVEvents().size());
         assertEquals(1, vCalendar.getVTimeZones().size());
         int subcomponents = vCalendar.getVTimeZones().get(0).getStandardOrDaylight().size();

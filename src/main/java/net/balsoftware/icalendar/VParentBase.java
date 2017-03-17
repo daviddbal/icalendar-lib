@@ -239,7 +239,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         while (unfoldedLineIterator.hasNext())
         {
             String unfoldedLine = unfoldedLineIterator.next();
-//            System.out.println(unfoldedLine);
             int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
             String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
             boolean isMultiLineElement = unfoldedLine.startsWith("BEGIN"); // e.g. vcalendar, vcomponent
@@ -261,7 +260,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
             } else
             { // single line element (e.g. property, parameter, rrule value)
             	childName = propertyName;
-//            	child = (VElementBase) Elements.parseNewElement(singlelineChildClass, childName, unfoldedLine);
                 child = (VElementBase) Elements.newEmptyVElement(singlelineChildClass, childName);
                 if (child != null)
                 {
@@ -270,10 +268,16 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	                if (myMessages.isEmpty())
 	                {
 	            		processChild(messages, unfoldedLine, propertyName, (VChild) child);                	
+	                } else
+	                {
+	                	messages.addAll(myMessages);
 	                }
+                } else
+                {
+                	messages.add(new Message(this,
+                			"Unknown element:" + unfoldedLine,
+                			MessageEffect.MESSAGE_ONLY));
                 }
-//                System.out.println(childrenUnmodifiable().size());
-//                p = (VElementBase) Elements.parseNewElement(singlelineChildClass, childName, unfoldedLine);
             }
         }
         return messages;

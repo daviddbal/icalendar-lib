@@ -72,17 +72,14 @@ public class StandardTime extends StandardOrDaylight<StandardTime>
         super(source);
     }
 
-//    /**
-//     *  Creates a new StandardTime calendar component by parsing a String of iCalendar content lines
-//     *
-//     * @param contentLines  the text to parse, not null
-//     * @return  the parsed StandardTime
-//     */
-//    @Deprecated // use simple factory
-//    public static StandardTime parse(String contentLines)
-//    {
-//        StandardTime component = new StandardTime();
-//        component.parseContent(contentLines);
-//        return component;
-//    }
+    /**
+     * Creates a new VFreeBusy calendar component by parsing a String of iCalendar content lines
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed VFreeBusy
+     */
+    public static StandardTime parse(String content)
+    {
+    	return StandardTime.parse(new StandardTime(), content);
+    }
 }

@@ -121,7 +121,7 @@ public class GeneralPropertyTest
         assertEquals(expectedProperty, madeProperty);
     }
     
-    @Test
+    @Test (expected=IllegalArgumentException.class)
     public void canIgnoreDuplicateParameter()
     {
         String contentLines = "SUMMARY;LANGUAGE=en;LANGUAGE=fr:TEST SUMMARY";

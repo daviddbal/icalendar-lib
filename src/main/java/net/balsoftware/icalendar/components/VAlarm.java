@@ -485,4 +485,15 @@ public class VAlarm extends VDescribableBase<VAlarm> implements VDescribable2<VA
 	{
 		throw new RuntimeException("VAlarm " + name() + " is embedded in VEVENT or VTODO not VCalendar");
 	}
+	
+    /**
+     * Creates a new VAlarm calendar component by parsing a String of iCalendar content lines
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed VAlarm
+     */
+    public static VAlarm parse(String content)
+    {
+    	return VAlarm.parse(new VAlarm(), content);
+    }
 }

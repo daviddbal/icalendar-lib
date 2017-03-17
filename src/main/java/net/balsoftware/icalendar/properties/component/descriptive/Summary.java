@@ -1,7 +1,5 @@
 package net.balsoftware.icalendar.properties.component.descriptive;
 
-import java.util.List;
-
 import net.balsoftware.icalendar.components.VAlarm;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
@@ -88,11 +86,8 @@ public class Summary extends PropBaseAltText<String, Summary>
     }
     
     /** Create new Summary by parsing unfolded calendar content */
-    public static Summary parse(String unfoldedContent)
+    public static Summary parse(String content)
     {
-        Summary property = new Summary();
-        List<Message> messages = property.parseContent(unfoldedContent);
-        throwMessageExceptions(messages);
-        return property;
+    	return Summary.parse(new Summary(), content);
     }
 }

@@ -56,11 +56,9 @@ public class Method extends VPropertyBase<MethodType, Method> implements VElemen
        setConverter(CONVERTER);
     }
     
-    public static Method parse(String string)
+    public static Method parse(String content)
     {
-        Method property = new Method();
-        property.parseContent(string);
-        return property;
+    	return Method.parse(new Method(), content);
     }
     
     /** Method types from RFC 5546 */

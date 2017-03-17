@@ -100,6 +100,7 @@ public interface VComponent extends VParent, VChild
     @Override
     String toString();
     
+    // TODO - WHAT IS THIS? IS IT NECESSARY?
     List<? extends VComponent> calendarList();
     
     /** Parse a VComponent from a {@code Iterator<String>}.

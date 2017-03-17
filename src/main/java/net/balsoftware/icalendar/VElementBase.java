@@ -5,6 +5,9 @@ import java.util.stream.Collectors;
 
 public abstract class VElementBase implements VElement
 {
+	protected static final String BEGIN = "BEGIN:";
+	protected static final String END = "END:";
+
 //	// TODO - MAKE PROTECTED
 //    @Override
     /** Parse content line into calendar element.
@@ -16,11 +19,14 @@ public abstract class VElementBase implements VElement
      */
 	abstract protected List<Message> parseContent(String content);
 	
-	protected static void throwMessageExceptions(List<Message> messages) throws IllegalArgumentException
+	protected static void throwMessageExceptions(List<Message> messages, VElement element) throws IllegalArgumentException
 	{
-    String error = messages
+		// keep messages that are labeled as exceptions or produced by parsing itself (not children)
+		// now throw all messages as errors
+		String error = messages
         	.stream()
-        	.filter(m -> m.effect == MessageEffect.THROW_EXCEPTION)
+        	.filter(m -> ! m.message.startsWith("Unknown"))
+//        	.filter(m -> (m.effect == MessageEffect.THROW_EXCEPTION) || (m.element == element))
         	.map(m -> m.element.name() + ":" + m.message)
         	.collect(Collectors.joining(System.lineSeparator()));
         if (! error.isEmpty())
@@ -37,13 +43,23 @@ public abstract class VElementBase implements VElement
      * @param content  the text to parse, not null
      * @return  the parsed DaylightSavingTime
      */
-    protected static <T extends VElementBase> T parse(T parameter, String valueContent)
+    protected static <T extends VElementBase> T parse(T element, String valueContent)
     {
-        List<Message> messages = parameter.parseContent(valueContent);
-        throwMessageExceptions(messages);
-        return parameter;
+    	boolean isContentValid = element.isContentValid(valueContent);
+    	if (! isContentValid)
+		{
+    		throw new IllegalArgumentException("Invalid element:" + valueContent);
+		}
+        List<Message> messages = element.parseContent(valueContent);
+        throwMessageExceptions(messages, element);
+        return element;
     }
     
+	protected boolean isContentValid(String valueContent)
+	{
+		return valueContent != null; // override in subclasses
+	}
+
 	protected static class Message
 	{
 		public Message(VElement element, String message, MessageEffect effect) {

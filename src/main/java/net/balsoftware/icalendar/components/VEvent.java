@@ -233,4 +233,15 @@ public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
         super.eraseDateTimeProperties();
         setDateTimeEnd((DateTimeEnd) null);
     }
+    
+    /**
+     * Creates a new VEvent calendar component by parsing a String of iCalendar content lines
+     *
+     * @param content  the text to parse, not null
+     * @return  the parsed VEvent
+     */
+    public static VEvent parse(String content)
+    {
+    	return VEvent.parse(new VEvent(), content);
+    }
 }

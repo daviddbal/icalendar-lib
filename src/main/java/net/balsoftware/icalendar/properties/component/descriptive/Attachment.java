@@ -194,11 +194,8 @@ public class Attachment<T> extends VPropertyBase<T, Attachment<T>> implements Pr
        return errors;
    }
    
-//   /** Create new Attachment by parsing unfolded calendar content */
-//   public static <U> Attachment<U> parse(String string)
-//   {
-//       Attachment<U> property = new Attachment<U>();
-//       property.parseContent(string);
-//       return property;
-//   }
+   public static <U> Attachment<U> parse(String content)
+   {
+   		return Attachment.parse(new Attachment<U>(), content);
+   }
 }

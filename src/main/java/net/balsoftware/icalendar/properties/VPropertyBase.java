@@ -474,7 +474,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
                     } catch (IllegalArgumentException | DateTimeException e)
                     {
             			Message message = new Message(this,
-            					"Ignored invalid element:" + getPropertyValueString(),
+            					"Invalid element:" + getPropertyValueString(),
             					MessageEffect.MESSAGE_ONLY);
             			messages.add(message);
                     }
@@ -562,22 +562,22 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         return hash;
     }
     
-    /**
-     * Creates a new VElement by parsing a String of iCalendar content text
-     * @param <T>
-     *
-     * @param content  the text to parse, not null
-     * @return  the parsed DaylightSavingTime
-     */
-    public static <T extends VPropertyBase<?,?>> T parse(String content)
-    {
-    	String name = findPropertyName(content);
-    	if (name == null) throw new IllegalArgumentException("Property content must start with valid property name [" + content + "]");
-    	T component = (T) Elements.newEmptyVElement(VProperty.class, name);
-        List<Message> messages = component.parseContent(content);
-        throwMessageExceptions(messages);
-        return component;
-    }
+//    /**
+//     * Creates a new VElement by parsing a String of iCalendar content text
+//     * @param <T>
+//     *
+//     * @param content  the text to parse, not null
+//     * @return  the parsed DaylightSavingTime
+//     */
+//    public static <T extends VPropertyBase<?,?>> T parse(String content)
+//    {
+//    	String name = findPropertyName(content);
+//    	if (name == null) throw new IllegalArgumentException("Property content must start with valid property name [" + content + "]");
+//    	T component = (T) Elements.newEmptyVElement(VProperty.class, name);
+//        List<Message> messages = component.parseContent(content);
+//        throwMessageExceptions(messages);
+//        return component;
+//    }
     
     private static String findPropertyName(String content)
     {

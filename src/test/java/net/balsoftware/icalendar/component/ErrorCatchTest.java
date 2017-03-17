@@ -41,52 +41,49 @@ public class ErrorCatchTest
             "EXDATE;TZID=America/Los_Angeles:20160209T123000" + System.lineSeparator() +
             "END:VEVENT";
             VEvent v = VEvent.parse(content);
+            String expectedError = "EXDATE: DateTimeType DATE_WITH_LOCAL_TIME doesn't match previous recurrence's DateTimeType DATE_WITH_LOCAL_TIME_AND_TIME_ZONE";
+            boolean isErrorPresent = v.errors().stream().anyMatch(s -> s.equals(expectedError));
+            assertTrue(isErrorPresent);
+//            VEvent expected = new VEvent()
+//                    .withDateTimeStart(ZonedDateTime.of(LocalDateTime.of(2016, 2, 7, 12, 30), ZoneId.of("America/Los_Angeles")))
+//                    .withExceptionDates(new ExceptionDates(ZonedDateTime.of(LocalDateTime.of(2016, 2, 10, 12, 30), ZoneId.of("America/Los_Angeles"))))
+//                    .withExceptionDates(new ExceptionDates(ZonedDateTime.of(LocalDateTime.of(2016, 2, 9, 12, 30), ZoneId.of("America/Los_Angeles"))))
+//                    ;
+//            assertEquals(expected, v);
+    }
+    
+    @Test
+    public void canIgnoreDuplicateProperty()
+    {
+            String content = "BEGIN:VEVENT" + System.lineSeparator() +
+            "SUMMARY:#1" + System.lineSeparator() +
+            "DTSTART;TZID=America/Los_Angeles:20160207T123000" + System.lineSeparator() +
+            "SUMMARY:#2" + System.lineSeparator() +
+            "END:VEVENT";
+            VEvent v = VEvent.parse(content);
             
             VEvent expected = new VEvent()
+                    .withSummary("#1")
                     .withDateTimeStart(ZonedDateTime.of(LocalDateTime.of(2016, 2, 7, 12, 30), ZoneId.of("America/Los_Angeles")))
-                    .withExceptionDates(new ExceptionDates(ZonedDateTime.of(LocalDateTime.of(2016, 2, 10, 12, 30), ZoneId.of("America/Los_Angeles"))))
-                    .withExceptionDates(new ExceptionDates(ZonedDateTime.of(LocalDateTime.of(2016, 2, 9, 12, 30), ZoneId.of("America/Los_Angeles"))))
+                    .withRequestStatus("2.2;Success; invalid property ignored.  Property can only occur once in a calendar component.  Subsequent property is ignored;SUMMARY:#2")
                     ;
             assertEquals(expected, v);
     }
     
-//    @Test
-//    public void canCatchParseDuplicateProperty()
-//    {
-//            String content = "BEGIN:VEVENT" + System.lineSeparator() +
-//            "SUMMARY:#1" + System.lineSeparator() +
-//            "DTSTART;TZID=America/Los_Angeles:20160207T123000" + System.lineSeparator() +
-//            "SUMMARY:#2" + System.lineSeparator() +
-//            "END:VEVENT";
-//            VEvent v = new VEvent();
-//            boolean useRequestStatus = true;
-//            Map<VElement, List<String>> e = v.parseContent(content, useRequestStatus);
-//            
-//            VEvent expected = new VEvent()
-//                    .withSummary("#1")
-//                    .withDateTimeStart(ZonedDateTime.of(LocalDateTime.of(2016, 2, 7, 12, 30), ZoneId.of("America/Los_Angeles")))
-//                    .withRequestStatus("2.2;Success; invalid property ignored.  Property can only occur once in a calendar component.  Subsequent property is ignored;SUMMARY:#2")
-//                    ;
-//            assertEquals(expected, v);
-//    }
-//    
-//    @Test
-//    public void canCatchParseWithBadLine()
-//    {
-//            String content = "BEGIN:VEVENT" + System.lineSeparator() +
-//            "SUMMARY:#1" + System.lineSeparator() +
-//            "X-CUSTOM-PROP:THE DATA" + System.lineSeparator() +
-//            "IGNORE THIS LINE" + System.lineSeparator() +
-//            "END:VEVENT";
-//            VEvent v = new VEvent();
-//            boolean useRequestStatus = true;
-//            v.parseContent(content, useRequestStatus);
-//            
-//            VEvent expected = new VEvent()
-//                    .withSummary("#1")
-//                    .withNonStandard("X-CUSTOM-PROP:THE DATA")
-//                    .withRequestStatus("2.4;Success; unknown, non-standard property ignored.;IGNORE THIS LINE")
-//                    ;
-//            assertEquals(expected, v);
-//    }
+    @Test
+    public void canCatchParseWithBadLine()
+    {
+            String content = "BEGIN:VEVENT" + System.lineSeparator() +
+            "SUMMARY:#1" + System.lineSeparator() +
+            "X-CUSTOM-PROP:THE DATA" + System.lineSeparator() +
+            "IGNORE THIS LINE" + System.lineSeparator() +
+            "END:VEVENT";
+            VEvent v = VEvent.parse(content);
+            
+            VEvent expected = new VEvent()
+                    .withSummary("#1")
+                    .withNonStandard("X-CUSTOM-PROP:THE DATA")
+                    ;
+            assertEquals(expected, v);
+    }
 }

@@ -2,6 +2,7 @@ package net.balsoftware.icalendar.component;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +40,7 @@ import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
 public class PrimaryTest
 {
     @Test
-    public void canBuildPrimary() throws InstantiationException, IllegalAccessException
+    public void canBuildPrimary() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
     {
         List<VPrimary<?>> components = Arrays.asList(
                 new VEvent()
@@ -77,9 +78,10 @@ public class PrimaryTest
                     "COMMENT:Another comment" + System.lineSeparator() +
                     "COMMENT:My third comment" + System.lineSeparator() +
                     "END:" + componentName;
-                    
-            VComponent parsedComponent = builtComponent.getClass().newInstance();
-            parsedComponent.addChild(expectedContent);
+
+            VComponent parsedComponent = (VComponent) builtComponent.getClass()
+            		.getMethod("parse", String.class)
+            		.invoke(null, expectedContent);
             assertEquals(parsedComponent, builtComponent);
             assertEquals(expectedContent, builtComponent.toString());
             assertEquals(3, builtComponent.getComments().size());

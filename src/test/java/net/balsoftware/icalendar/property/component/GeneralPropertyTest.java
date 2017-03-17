@@ -152,19 +152,6 @@ public class GeneralPropertyTest
         assertEquals(expectedProperty, madeProperty);
     }
     
-//    @Test // property with non-standard parameters
-//    public void canHandleIANAParameters()
-//    {
-//        String content = "SUMMARY;TESTPARAM1=VALUE1;TESTPARAM2=VALUE2:Department Party";
-//        IANAParameter.setRegisteredIANAParameters(Arrays.asList("TESTPARAM1", "TESTPARAM2"));
-//        Summary madeProperty = Summary.parse(content);
-//        assertEquals(content, madeProperty.toContent());
-//        Summary expectedProperty = new Summary()
-//                .withValue("Department Party")
-//                .withIana("TESTPARAM1=VALUE1", "TESTPARAM2=VALUE2");
-//        assertEquals(expectedProperty, madeProperty);
-//    }
-    
     @Test
     public void canIgnoreUnrecognizedParameter()
     {

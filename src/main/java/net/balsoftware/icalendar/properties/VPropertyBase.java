@@ -78,8 +78,18 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     {
         /* default code below works for all properties with a single value.  Properties with multiple embedded values,
          * such as RequestStatus, require an overridden method */
-    	if (getValue() == null) return "";
-        return (getConverter().toString(getValue()) == null) ? getUnknownValue() : getConverter().toString(getValue());
+    	String value = null;
+    	if (getValue() == null)
+		{
+    		value = getUnknownValue();
+		} else if (getConverter().toString(getValue()) == null)
+		{
+			value = getUnknownValue();
+		} else
+		{
+	        value = getConverter().toString(getValue());			
+		}
+        return (value == null) ? "" : value;
     }
 
     // class of value.  If collection, returns type of element instead. 
@@ -443,7 +453,6 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         // parse value and parameters
         List<Pair<String, String>> list = ICalendarUtilities.contentToParameterListPair(propertyValue);
         list.stream()
-//        .peek(System.out::println)
             .forEach(entry ->
             { // add property value
             	if (entry.getKey() == ICalendarUtilities.PROPERTY_VALUE_KEY)
@@ -451,7 +460,6 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
                     propertyValueString = entry.getValue();
                     try {
                     	T value = getConverter().fromString(getPropertyValueString());
-//                    	System.out.println("value:" + value);
                         if (value == null)
                         {
                             setUnknownValue(propertyValueString);

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import net.balsoftware.icalendar.Elements;
+import net.balsoftware.icalendar.parameters.VParameter;
 
 /**
  * Week Start
@@ -53,7 +53,7 @@ public class WeekStart extends RRuleElementBase<DayOfWeek, WeekStart>
     @Override
     protected List<Message> parseContent(String content)
     {
-    	String valueString = Elements.extractValue(content);
+    	String valueString = VParameter.extractValue(content);
         DayOfWeek dayOfWeek = Arrays.stream(DayOfWeek.values())
             .filter(d -> d.toString().substring(0, 2).equals(valueString))
             .findAny()

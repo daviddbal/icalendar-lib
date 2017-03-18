@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.components.SimpleVComponentFactory;
 import net.balsoftware.icalendar.components.VComponent;
-import net.balsoftware.icalendar.components.VComponentBase;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VFreeBusy;
 import net.balsoftware.icalendar.components.VJournal;
@@ -27,7 +26,6 @@ import net.balsoftware.icalendar.content.UnfoldingStringIterator;
 import net.balsoftware.icalendar.itip.AbstractITIPFactory;
 import net.balsoftware.icalendar.itip.DefaultITIPFactory;
 import net.balsoftware.icalendar.itip.Processable;
-import net.balsoftware.icalendar.properties.PropertyType;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.Method;
 import net.balsoftware.icalendar.properties.calendar.Method.MethodType;
@@ -36,7 +34,6 @@ import net.balsoftware.icalendar.properties.calendar.Version;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * iCalendar Object
@@ -824,88 +821,88 @@ public class VCalendar extends VParentBase<VCalendar>
 //        return parseContent(unfoldedLineIterator, useResourceStatus);
 //    }
     
-    /** Parse unfolded content lines into calendar object */
-    public List<Message> parseContent(Iterator<String> lineIterator, boolean collectErrorMessages)
-    {
-        List<String> vCalendarMessages = new ArrayList<>();
-        List<Message> messages = new ArrayList<>();
-        String firstLine = lineIterator.next();
-        if (! firstLine.equals("BEGIN:VCALENDAR"))
-        {
-            throw new IllegalArgumentException("Content lines must begin with BEGIN:VCALENDAR");
-        }
-        // wrap lineIterator in UnfoldingStringIterator decorator
-//        int line = 0;
-        UnfoldingStringIterator unfoldedLineIterator = new UnfoldingStringIterator(lineIterator);
-        while (unfoldedLineIterator.hasNext())
-        {
-            String unfoldedLine = unfoldedLineIterator.next();
-//            System.out.println("unfoldedLine:" + unfoldedLine);
-//            if (line++ > 20000) System.exit(0);
-            int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
-            String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
-            
-            // Parse component
-            if (propertyName.equals("BEGIN"))
-            {
-                String componentName = unfoldedLine.substring(nameEndIndex+1);
-//            	System.out.println(componentName);
-                VComponentBase newComponent = (VComponentBase) SimpleVComponentFactory.emptyVComponent(componentName);
-//                Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
-                List<Message> newComponentMessages = newComponent.parseContent(unfoldedLineIterator);
-                // TODO - USE ELEMENTS STATICS
-                addChild(newComponent);
-//                addVComponent(newComponent);
-//                System.out.println(childrenUnmodifiable().size());
-                messages.addAll(newComponentMessages);
-
-                
+//    /** Parse unfolded content lines into calendar object */
+//    public List<Message> parseContent(Iterator<String> lineIterator, boolean collectErrorMessages)
+//    {
+//        List<String> vCalendarMessages = new ArrayList<>();
+//        List<Message> messages = new ArrayList<>();
+//        String firstLine = lineIterator.next();
+//        if (! firstLine.equals("BEGIN:VCALENDAR"))
+//        {
+//            throw new IllegalArgumentException("Content lines must begin with BEGIN:VCALENDAR");
+//        }
+//        // wrap lineIterator in UnfoldingStringIterator decorator
+////        int line = 0;
+//        UnfoldingStringIterator unfoldedLineIterator = new UnfoldingStringIterator(lineIterator);
+//        while (unfoldedLineIterator.hasNext())
+//        {
+//            String unfoldedLine = unfoldedLineIterator.next();
+////            System.out.println("unfoldedLine:" + unfoldedLine);
+////            if (line++ > 20000) System.exit(0);
+//            int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
+//            String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
+//            
+//            // Parse component
+//            if (propertyName.equals("BEGIN"))
+//            {
 //                String componentName = unfoldedLine.substring(nameEndIndex+1);
-//                VComponent newComponent = SimpleVComponentFactory.emptyVComponent(componentName);
-//                // TODO - USE ADD CHILD
-//                System.out.println("new component");
-//                Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
-////                addChild(newComponent);
-//                addVComponent(newComponent);
-//                messageMap.putAll(newComponentMessages);
-            } else if (propertyName.equals("END"))
-            {
-                break;
-            } else
-            { // parse calendar property
-                VChild child = null;
-                CalendarProperty elementType = CalendarProperty.enumFromName(propertyName);
-                if (elementType != null)
-                {
-                    child = elementType.parse(this, unfoldedLine);
-                } else if (unfoldedLine.contains(":"))
-                {
-                    //non-standard - check for X- prefix
-                    boolean isNonStandard = propertyName.substring(0, PropertyType.NON_STANDARD.toString().length()).equals(PropertyType.NON_STANDARD.toString());
-                    if (isNonStandard)
-                    {
-                    	child = NonStandardProperty.parse(unfoldedLine);
-                    	addChild(child);
-                    } else
-                    {
-                        // ignore unknown properties
-                        vCalendarMessages.add("Unknown property is ignored:" + unfoldedLine);
-                    }
-                } else
-                {
-                    vCalendarMessages.add("Unknown line is ignored:" + unfoldedLine);                    
-                }
-                if (child != null) 
-            	{
-                	vCalendarMessages.addAll(child.errors());
-//                	addChild(child); // TODO - USE WHEN NO USING ENUM PARSE ANYMORE.
-            	}
-            }
-        }
-     // TODO - Log status messages if not using RequestStatus
-//        messageMap.put(this, vCalendarMessages);
-        return messages;
-    }
+////            	System.out.println(componentName);
+//                VComponentBase newComponent = (VComponentBase) SimpleVComponentFactory.emptyVComponent(componentName);
+////                Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
+//                List<Message> newComponentMessages = newComponent.parseContent(unfoldedLineIterator);
+//                // TODO - USE ELEMENTS STATICS
+//                addChild(newComponent);
+////                addVComponent(newComponent);
+////                System.out.println(childrenUnmodifiable().size());
+//                messages.addAll(newComponentMessages);
+//
+//                
+////                String componentName = unfoldedLine.substring(nameEndIndex+1);
+////                VComponent newComponent = SimpleVComponentFactory.emptyVComponent(componentName);
+////                // TODO - USE ADD CHILD
+////                System.out.println("new component");
+////                Map<VElement, List<String>> newComponentMessages = newComponent.parseContent(unfoldedLineIterator, collectErrorMessages);
+//////                addChild(newComponent);
+////                addVComponent(newComponent);
+////                messageMap.putAll(newComponentMessages);
+//            } else if (propertyName.equals("END"))
+//            {
+//                break;
+//            } else
+//            { // parse calendar property
+//                VChild child = null;
+//                CalendarProperty elementType = CalendarProperty.enumFromName(propertyName);
+//                if (elementType != null)
+//                {
+//                    child = elementType.parse(this, unfoldedLine);
+//                } else if (unfoldedLine.contains(":"))
+//                {
+//                    //non-standard - check for X- prefix
+//                    boolean isNonStandard = propertyName.substring(0, PropertyType.NON_STANDARD.toString().length()).equals(PropertyType.NON_STANDARD.toString());
+//                    if (isNonStandard)
+//                    {
+//                    	child = NonStandardProperty.parse(unfoldedLine);
+//                    	addChild(child);
+//                    } else
+//                    {
+//                        // ignore unknown properties
+//                        vCalendarMessages.add("Unknown property is ignored:" + unfoldedLine);
+//                    }
+//                } else
+//                {
+//                    vCalendarMessages.add("Unknown line is ignored:" + unfoldedLine);                    
+//                }
+//                if (child != null) 
+//            	{
+//                	vCalendarMessages.addAll(child.errors());
+////                	addChild(child); // TODO - USE WHEN NO USING ENUM PARSE ANYMORE.
+//            	}
+//            }
+//        }
+//     // TODO - Log status messages if not using RequestStatus
+////        messageMap.put(this, vCalendarMessages);
+//        return messages;
+//    }
 
 //    // multi threaded
 //    /** Parse content lines into calendar object */
@@ -1019,7 +1016,8 @@ public class VCalendar extends VParentBase<VCalendar>
         List<String> lines = br.lines().collect(Collectors.toList());
 //        Iterator<String> unfoldedLines = ICalendarUtilities.unfoldLines(lines).iterator();
         VCalendar vCalendar = new VCalendar();
-        vCalendar.parseContent(lines.iterator(), useResourceStatus);
+//        vCalendar.parseContent(lines.iterator(), useResourceStatus);
+        vCalendar.parseContent(lines.iterator());
         return vCalendar;
     }
     

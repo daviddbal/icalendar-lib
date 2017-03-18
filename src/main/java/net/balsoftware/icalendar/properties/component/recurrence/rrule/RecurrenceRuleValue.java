@@ -79,8 +79,8 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     @Override public void setParent(VParent parent) { myParent = parent; }
     @Override public VParent getParent() { return myParent; }
     
-    private static final String NAME = "RRULE";
-    @Override public String name() { return NAME; }
+//    private static final String NAME = "RRULE";
+//    @Override public String name() { return NAME; }
         
     /** 
      * BYxxx Rules

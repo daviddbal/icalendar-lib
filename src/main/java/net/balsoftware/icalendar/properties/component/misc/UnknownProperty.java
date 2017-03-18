@@ -253,7 +253,20 @@ public abstract class UnknownProperty<T,U> extends PropertyBaseAttendee<T,U> imp
     {
     	setTimeZoneIdentifier(content);
     	return (U) this;
-	}        
+	}
+
+	public void setPropertyName(String name)
+    {
+        if (name.substring(0, 2).toUpperCase().equals("X-"))
+        {
+            propertyName = name;
+        } else
+        {
+            throw new RuntimeException("Non-standard properties must begin with X-");                
+        }
+    }
+    public U withPropertyName(String name) { setPropertyName(name); return (U) this; }
+
 
     /*
      * CONSTRUCTORS

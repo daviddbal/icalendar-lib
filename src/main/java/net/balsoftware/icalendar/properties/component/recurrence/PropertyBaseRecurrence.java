@@ -101,7 +101,7 @@ public abstract class PropertyBaseRecurrence<U> extends PropBaseDateTime<Set<Tem
             } else if (! (sampleValue instanceof LocalDateTime) && ! (sampleValue instanceof ZonedDateTime))
             {
                 throw new RuntimeException("can't convert property value to type: " + sampleValue.getClass().getSimpleName() +
-                        ". Accepted types are: " + propertyType().allowedValueTypes());                
+                        ". Accepted types are: " + allowedValueTypes);                
             }
         }
         super.setValue(value);

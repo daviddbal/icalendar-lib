@@ -55,7 +55,7 @@ public class RepeatCount extends VPropertyBase<Integer, RepeatCount>
             super.setValue(value);
         } else
         {
-            throw new IllegalArgumentException(propertyType() + " must be greater than or equal to zero");
+            throw new IllegalArgumentException(name() + " must be greater than or equal to zero");
         }
     }
 }

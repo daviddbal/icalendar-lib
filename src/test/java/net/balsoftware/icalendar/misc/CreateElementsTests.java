@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 import org.junit.Test;
 
-import net.balsoftware.icalendar.Elements;
+import net.balsoftware.icalendar.Element;
 import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.properties.VProperty;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
@@ -53,7 +53,7 @@ public class CreateElementsTests
     @Test
     public void canMakeEmptySummary()
     {
-    	VChild s = Elements.newEmptyVElement(VProperty.class, "SUMMARY");
+    	VChild s = Element.newEmptyVElement(VProperty.class, "SUMMARY");
     	assertEquals(s, new Summary());
     }
     

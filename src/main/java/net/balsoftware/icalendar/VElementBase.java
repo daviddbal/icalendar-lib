@@ -1,13 +1,33 @@
 package net.balsoftware.icalendar;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import net.balsoftware.icalendar.properties.PropertyElement;
+import net.balsoftware.icalendar.properties.VProperty;
+import net.balsoftware.icalendar.utilities.Pair;
 
 public abstract class VElementBase implements VElement
 {
 	protected static final String BEGIN = "BEGIN:";
 	protected static final String END = "END:";
 
+    @Override
+    public String name()
+    {
+    	if (name == null)
+    	{
+    		return Element.fromClass(getClass()).toString();
+    	}
+        return name;
+    }
+    private String name;
+    
 //	// TODO - MAKE PROTECTED
 //    @Override
     /** Parse content line into calendar element.
@@ -34,7 +54,46 @@ public abstract class VElementBase implements VElement
         	throw new IllegalArgumentException(error);
         }
 	}
+	
+	// All no-arg constructors made from calendar element enums
+	private static final  Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> NO_ARG_CONSTRUCTORS = makeNoArgConstructorMap();
+    private static Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> makeNoArgConstructorMap()
+    {
+    	Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> map = new HashMap<>();
 
+    	// Add VProperty elements
+    	PropertyElement[] values1 = PropertyElement.values();
+    	Arrays.stream(values1)
+    		.forEach(v ->
+	    	{
+	    		Pair<Class<? extends VElement>, String> key = new Pair<>(VProperty.class, v.toString());
+				try {
+//					System.out.println(v.name);
+					Constructor<? extends VElement> constructor = v.elementClass().getConstructor();
+					map.put(key, constructor);
+				} catch (NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+				}
+	    	});
+
+        return map;
+    }
+
+	public static VChild newEmptyVElement(Class<? extends VElement> superclass, String name)
+	{
+		try {
+//			NO_ARG_CONSTRUCTORS.entrySet().forEach(System.out::println);
+//			System.out.println("get constructor:" + superclass.getSimpleName() + " " + name);
+			String name2 = (name.startsWith("X-")) ? "X-" : name;
+			Constructor<? extends VElement> constructor = NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name2));
+			if (constructor == null) return null;
+			return (VChild) constructor.newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
     /**
      * Creates a new VElement by parsing a String of iCalendar content text

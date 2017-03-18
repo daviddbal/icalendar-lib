@@ -253,14 +253,14 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 			if (isMultiLineElement)
             {
                 childName = unfoldedLine.substring(nameEndIndex+1);
-                child = (VElementBase) Elements.newEmptyVElement(multilineChildClass, childName);
+                child = (VElementBase) VElementBase.newEmptyVElement(multilineChildClass, childName);
                 List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLineIterator); // recursively parse child parent
                 messages.addAll(myMessages);
         		processChild(messages, unfoldedLine, propertyName, (VChild) child);                	
             } else
             { // single line element (e.g. property, parameter, rrule value)
             	childName = propertyName;
-                child = (VElementBase) Elements.newEmptyVElement(singlelineChildClass, childName);
+                child = (VElementBase) VElementBase.newEmptyVElement(singlelineChildClass, childName);
                 if (child != null)
                 {
 	                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLine); // recursively parse child parent
@@ -288,7 +288,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	{
 		String content = entry.getValue();
 		String childName = entry.getKey();
-        VChild newChild = Elements.newEmptyVElement(singleLineChildClass, childName);
+        VChild newChild = VElementBase.newEmptyVElement(singleLineChildClass, childName);
         if (newChild != null)
         {
         	List<Message> myMessages = ((VElementBase) newChild).parseContent(childName + "=" + content);

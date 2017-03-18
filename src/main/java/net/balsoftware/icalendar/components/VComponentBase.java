@@ -17,8 +17,8 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     @Override public VParent getParent() { return parent; }
     
     final private CalendarComponent componentType;
-    @Override
-    public String name() { return componentType.toString(); }
+//    @Override
+//    public String name() { return componentType.toString(); }
 
     /*
      * CONSTRUCTORS

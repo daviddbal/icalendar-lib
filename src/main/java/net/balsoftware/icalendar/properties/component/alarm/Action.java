@@ -28,6 +28,9 @@ import net.balsoftware.icalendar.utilities.StringConverter;
  */
 public class Action extends VPropertyBase<ActionType, Action>
 {
+//	private static final Collection<ValueType> ALLOWED_VALUE_TYPES =  Arrays.asList(ValueType.TEXT);
+//	private static final ValueType DEFAULT_VALUE_TYPE =  ValueType.TEXT;
+
     private final static StringConverter<ActionType> CONVERTER = new StringConverter<ActionType>()
     {
         @Override
@@ -46,6 +49,7 @@ public class Action extends VPropertyBase<ActionType, Action>
     
     public Action(ActionType type)
     {
+//        super(ALLOWED_VALUE_TYPES, DEFAULT_VALUE_TYPE);
         super();
         setConverter(CONVERTER);
         setValue(type);
@@ -58,8 +62,9 @@ public class Action extends VPropertyBase<ActionType, Action>
 
     public Action()
     {
-        super();
-        setConverter(CONVERTER);
+//      super(ALLOWED_VALUE_TYPES, DEFAULT_VALUE_TYPE);
+      super();
+      setConverter(CONVERTER);
     }
     
     public static Action parse(String value)

@@ -45,7 +45,7 @@ import net.balsoftware.icalendar.utilities.StringConverters;
  *
  */
 //@Deprecated // Replace with Elements
-public enum ParameterType
+public enum ParameterType2
 {
     // in properties COMMENT, CONTACT, DESCRIPTION, LOCATION, RESOURCES
     ALTERNATE_TEXT_REPRESENTATION ("ALTREP", AlternateText.class) {

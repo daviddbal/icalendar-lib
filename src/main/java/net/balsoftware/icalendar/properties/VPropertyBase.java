@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import junit.runner.Version;
-import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.SingleLineContent;
@@ -18,6 +17,7 @@ import net.balsoftware.icalendar.parameters.VParameter;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
+import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.relationship.UniqueIdentifier;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 import net.balsoftware.icalendar.utilities.Pair;
@@ -127,44 +127,23 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     {
     	if (propertyName == null)
     	{
-    		return propertyType().toString();
+    		return super.name();
     	}
         return propertyName;
     }
-    private String propertyName;
-    /** Set the name of the property.  Only allowed for non-standard and IANA properties */
-    public void setPropertyName(String name)
-    {
-        if (propertyType().equals(PropertyType.NON_STANDARD))
-        {
-            if (name.substring(0, 2).toUpperCase().equals("X-"))
-            {
-                propertyName = name;
-            } else
-            {
-                throw new RuntimeException("Non-standard properties must begin with X-");                
-            }
-        } else if (propertyType().toString().equals(name)) // let setting name to default value have no operation
-        {
-        	// do nothing
-        } else
-        {
-            throw new RuntimeException("Custom property names can only be set for non-standard and IANA-registered properties (" + name + ")");
-        }
-    }
-    public U withPropertyName(String name) { setPropertyName(name); return (U) this; }
+    protected String propertyName;
     
-    /**
-     * PROPERTY TYPE
-     * 
-     *  The enumerated type of the property.
-     *  Some essential methods are in the enumerated type.
-     */
-    public PropertyType propertyType()
-    {
-    	return propertyType;
-	}
-    final private PropertyType propertyType;
+//    /**
+//     * PROPERTY TYPE
+//     * 
+//     *  The enumerated type of the property.
+//     *  Some essential methods are in the enumerated type.
+//     */
+//    public PropertyType propertyType()
+//    {
+//    	return propertyType;
+//	}
+//    final private PropertyType propertyType;
     
     /*
      * Unknown values
@@ -192,6 +171,9 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
      * VALUE=DATE-TIME  (Date-Time is default value, so it isn't necessary to specify)
      * VALUE=DATE
      */
+    final protected ValueType defaultValueType;
+    final protected Collection<ValueType> allowedValueTypes;
+    
     @Override
     public ValueParameter getValueType() { return valueType; }
     private ValueParameter valueType;
@@ -205,7 +187,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
             valueParamenterConverter(valueType); // convert new value
         } else
         {
-            throw new IllegalArgumentException("Invalid Value Date Type:" + valueType.getValue() + ", allowed = " + propertyType().allowedValueTypes());
+            throw new IllegalArgumentException("Invalid Value Date Type:" + valueType.getValue() + ", allowed = " + allowedValueTypes);
         }
     }
     public void setValueType(ValueType value)
@@ -338,7 +320,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     {
         if (converter == null)
         {
-            ValueType valueType = (getValueType() == null) ? propertyType.allowedValueTypes().get(0) : getValueType().getValue();
+            ValueType valueType = (getValueType() == null) ? defaultValueType : getValueType().getValue();
             return valueType.getConverter(); // use default converter assigned to value type if no customer converter assigned
         }
         return converter;
@@ -354,14 +336,18 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
      * CONSTRUCTORS
      */
     
+//    protected VPropertyBase(Collection<ValueType> allowedValueTypes, ValueType defaultValueType)
     protected VPropertyBase()
     {
     	super();
-        propertyType = PropertyType.enumFromClass(getClass());
-        if (propertyType != PropertyType.NON_STANDARD)
-        {
-            setPropertyName(propertyType.toString());
-        }
+    	this.allowedValueTypes = PropertyElement.propertyAllowedValueTypes(getClass());
+    	this.defaultValueType = PropertyElement.defaultValueType(getClass());
+//    	this.defaultValueType = defaultValueType;
+//        propertyType = PropertyType.enumFromClass(getClass());
+//        if (propertyType != PropertyType.NON_STANDARD)
+//        {
+//            setPropertyName(propertyType.toString());
+//        }
         contentLineGenerator  = new SingleLineContent(
                 orderer,
                 (Void) -> name(),
@@ -380,11 +366,12 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     // copy constructor
     public VPropertyBase(VPropertyBase<T,U> source)
     {
-        this();
+//        this(source.allowedValueTypes, source.defaultValueType);
+    	this();
         setConverter(source.getConverter());
         T valueCopy = copyValue(source.getValue());
         setValue(valueCopy);
-        setPropertyName(source.name());
+//        setPropertyName(source.name());
         source.copyChildrenInto(this);
     }
     
@@ -425,17 +412,17 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         {
             int endNameIndex = propertyName.length();
             boolean isMatch = propertyName.toUpperCase().equals(name());
-            boolean isNonStandardProperty = propertyName.startsWith(Elements.NON_STANDARD_PROPERTY.toString());
+            boolean isNonStandardProperty = propertyName.startsWith(PropertyElement.NON_STANDARD_PROPERTY.toString());
             if (isMatch || isNonStandardProperty)
             {
                 if (isNonStandardProperty)
                 {
-                    setPropertyName(unfoldedContent.substring(0,endNameIndex));
+                    ((NonStandardProperty) this).setPropertyName(unfoldedContent.substring(0,endNameIndex));
                 }
                 propertyValue = unfoldedContent.substring(endNameIndex, unfoldedContent.length()); // strip off property name
             } else
             {
-                if (! Elements.names.contains(propertyName))
+                if (! PropertyElement.names.contains(propertyName))
                 {
                     propertyValue = ICalendarUtilities.PROPERTY_VALUE_KEY + unfoldedContent; // doesn't match a known property name, assume its all a property value
                 } else
@@ -503,12 +490,12 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
             if (! isValueTypeOK)
             {
                 errors.add(name() + " value type " + getValueType().getValue() + " is not supported.  Supported types include:" +
-                        propertyType().allowedValueTypes().stream().map(v -> v.toString()).collect(Collectors.joining(",")));
+                        allowedValueTypes.stream().map(v -> v.toString()).collect(Collectors.joining(",")));
             }
         } else
         {
             // use default valueType
-            valueType = propertyType().allowedValueTypes().get(0);
+            valueType = defaultValueType;
         }
         
         List<String> valueTypeErrorList = valueType.createErrorList(getValue());
@@ -522,10 +509,10 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     /* test if value type is valid */
     private boolean isValueTypeValid(ValueType value)
     {
-        boolean isValueTypeOK = propertyType().allowedValueTypes().contains(value);
+        boolean isValueTypeOK = allowedValueTypes.contains(value);
         boolean isUnknownType = value.equals(ValueType.UNKNOWN);
-        boolean isNonStandardProperty = propertyType().equals(PropertyType.NON_STANDARD);
-        return (isValueTypeOK || isUnknownType || isNonStandardProperty);
+//        boolean isNonStandardProperty = propertyType().equals(PropertyType.NON_STANDARD);
+        return (isValueTypeOK || isUnknownType);
     }
 
     @Override

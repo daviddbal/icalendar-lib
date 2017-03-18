@@ -15,8 +15,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.Element;
 import net.balsoftware.icalendar.VCalendar;
-import net.balsoftware.icalendar.properties.PropertyType;
 import net.balsoftware.icalendar.properties.component.change.DateTimeCreated;
 import net.balsoftware.icalendar.properties.component.change.LastModified;
 import net.balsoftware.icalendar.properties.component.change.Sequence;
@@ -419,7 +419,7 @@ public abstract class VDisplayable<T> extends VPersonal<T> implements VRepeatabl
             DateTimeType parentDateTimeStartType = DateTimeUtilities.DateTimeType.of(recurrenceParent().getDateTimeStart().getValue());
             if (recurrenceIdType != parentDateTimeStartType)
             {
-                return PropertyType.RECURRENCE_IDENTIFIER.toString() + ":RecurrenceId DateTimeType (" + recurrenceIdType +
+                return Element.RECURRENCE_IDENTIFIER.toString() + ":RecurrenceId DateTimeType (" + recurrenceIdType +
                         ") must be same as the type of its parent's DateTimeStart (" + parentDateTimeStartType + ")";
             }
         }

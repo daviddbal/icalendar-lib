@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.balsoftware.icalendar.Elements;
 import net.balsoftware.icalendar.VElementBase;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.utilities.StringConverter;
@@ -24,10 +23,6 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
     @Override public void setParent(VParent parent) { myParent = parent; }
     @Override public VParent getParent() { return myParent; }
     
-    final private String name;
-    @Override
-    public String name() { return name; }
-
     /*
      * PARAMETER VALUE
      */
@@ -90,15 +85,13 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
      *  The enumerated type of the parameter.
      */
 //    @Override
-    ParameterType parameterType() { return parameterType; }
-    final private ParameterType parameterType;
+//    ParameterType parameterType() { return parameterType; }
+//    final private ParameterType parameterType;
 	
     @Override
     public String toString()
     {
-        String string = valueAsString();
-        String content = parameterType().toString() + "=" + string;
-        return content;
+        return name() + "=" + valueAsString();
     }
 
     @Override // Note: can't check equality of parents - causes stack overflow
@@ -128,7 +121,6 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
     VParameterBase(StringConverter<T> stringConverter)
     {
         parameterType = ParameterType.enumFromClass(getClass());
-        name = Elements.fromClass(getClass()).toString();
         this.converter = stringConverter;
     }
 

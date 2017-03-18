@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.balsoftware.icalendar.Elements;
+import net.balsoftware.icalendar.Element;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
@@ -397,7 +397,7 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
     @Override
     protected List<Message> parseContent(String dayPairs)
     {
-    	String valueString = Elements.extractValue(dayPairs);
+    	String valueString = Element.extractValue(dayPairs);
         List<ByDayPair> dayPairsList = new ArrayList<ByDayPair>();
         Pattern p = Pattern.compile("(-?[0-9]+)?([A-Z]{2})");
         Matcher m = p.matcher(valueString);

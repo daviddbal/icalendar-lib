@@ -3,7 +3,7 @@ package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 import java.util.Collections;
 import java.util.List;
 
-import net.balsoftware.icalendar.Elements;
+import net.balsoftware.icalendar.Element;
 
 /**
  * INTERVAL
@@ -52,7 +52,7 @@ public class Interval extends RRuleElementBase<Integer, Interval>
     @Override
     protected List<Message> parseContent(String content)
     {
-    	String valueString = Elements.extractValue(content);
+    	String valueString = Element.extractValue(content);
         setValue(Integer.parseInt(valueString));
         return Collections.EMPTY_LIST;
     }

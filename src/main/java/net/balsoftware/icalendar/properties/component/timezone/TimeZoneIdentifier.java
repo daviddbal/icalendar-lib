@@ -80,7 +80,7 @@ public class TimeZoneIdentifier extends VPropertyBase<ZoneId, TimeZoneIdentifier
         boolean isNonGlobalOK = (getValue() != null);
         boolean isGloballyUniqueOK = ((getUnknownValue() != null) && (getUnknownValue().charAt(0) == '/'));
 //        System.out.println("time zone isValid:" + propertyType() + " " + getValueParameter());
-        boolean isValueTypeOK = (getValueType() != null) ? propertyType().allowedValueTypes().contains(getValueType().getValue()) : true;
+        boolean isValueTypeOK = (getValueType() != null) ? allowedValueTypes.contains(getValueType().getValue()) : true;
 //        System.out.println("TimeZoneIdentifier isValid:" + isNonGlobalOK + " " + isGloballyUniqueOK + " " + isValueTypeOK);
         return (isNonGlobalOK || isGloballyUniqueOK) && isValueTypeOK;
     }

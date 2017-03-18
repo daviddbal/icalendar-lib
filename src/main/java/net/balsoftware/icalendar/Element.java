@@ -3,6 +3,7 @@ package net.balsoftware.icalendar;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import net.balsoftware.icalendar.parameters.TimeZoneIdentifierParameter;
 import net.balsoftware.icalendar.parameters.VParameter;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.VProperty;
+import net.balsoftware.icalendar.properties.ValueType;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
 import net.balsoftware.icalendar.properties.calendar.Version;
@@ -103,9 +105,12 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneOffsetTo;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
 import net.balsoftware.icalendar.utilities.Pair;
 
-public enum Elements
+@Deprecated // go back to separate enums
+public enum Element
 {
 	VCALENDAR ("VCALENDAR", VCalendar.class, VCalendar.class),
+
+	// NOTE: Other calendar element types are represented in other enums: PropertyElement
 	
 	VEVENT ("VEVENT", VComponent.class, VEvent.class),
     VTODO ("VTODO", VComponent.class, VTodo.class),
@@ -207,8 +212,8 @@ public enum Elements
     private static Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> makeNoArgConstructorMap()
     {
     	Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> map = new HashMap<>();
-    	Elements[] values = Elements.values();
-    	Arrays.stream(values)
+    	Element[] values1 = Element.values();
+    	Arrays.stream(values1)
     		.forEach(v ->
 	    	{
 	    		Pair<Class<? extends VElement>, String> key = new Pair<>(v.superClass, v.name);
@@ -220,6 +225,7 @@ public enum Elements
 					e.printStackTrace();
 				}
 	    	});
+//    	map.putAll(PropertyElements.NO_ARG_CONSTRUCTORS);
         return map;
     }
 	public static VChild newEmptyVElement(Class<? extends VElement> superclass, String name)
@@ -239,18 +245,18 @@ public enum Elements
 	}
     
     // Map to match up class to enum
-    private final static Map<Class<? extends VElement>, Elements> CLASS_MAP = makeEnumFromClassMap();
-    private static Map<Class<? extends VElement>, Elements> makeEnumFromClassMap()
+    private final static Map<Class<? extends VElement>, Element> CLASS_MAP = makeEnumFromClassMap();
+    private static Map<Class<? extends VElement>, Element> makeEnumFromClassMap()
     {
-    	Map<Class<? extends VElement>, Elements> map = new HashMap<>();
-    	Elements[] values = Elements.values();
+    	Map<Class<? extends VElement>, Element> map = new HashMap<>();
+    	Element[] values = Element.values();
         for (int i=0; i<values.length; i++)
         {
             map.put(values[i].myClass, values[i]);
         }
         return map;
     }
-	public static Elements fromClass(Class<? extends VElement> vElementClass)
+	public static Element fromClass(Class<? extends VElement> vElementClass)
 	{
 		return CLASS_MAP.get(vElementClass);
 	}
@@ -262,7 +268,7 @@ public enum Elements
     private Class<? extends VElement> superClass;
     private Class<? extends VElement> myClass;
     @Override  public String toString() { return name; }
-    Elements(String name, Class<? extends VElement> superClass, Class<? extends VElement> myClass)
+    Element(String name, Class<? extends VElement> superClass, Class<? extends VElement> myClass)
     {
         this.name = name;
         this.superClass = superClass;
@@ -274,20 +280,26 @@ public enum Elements
 			.map(v -> v.name)
 			.collect(Collectors.toList());
 	
-    public static String extractValue(String content)
-    {
-        int equalsIndex = content.indexOf('=');
-        final String valueString;
-        if (equalsIndex > 0)
-        {
-            String name = content.substring(0, equalsIndex);
-            boolean hasName1 = names.contains(name.toUpperCase());
-//            boolean hasName2 = (IANAParameter.getRegisteredIANAParameters() != null) ? IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase()) : false;
-            valueString = (hasName1) ? content.substring(equalsIndex+1) : content;    
-        } else
-        {
-            valueString = content;
-        }
-        return valueString;
-    }
+//    public static String extractValue(String content)
+//    {
+//        int equalsIndex = content.indexOf('=');
+//        final String valueString;
+//        if (equalsIndex > 0)
+//        {
+//            String name = content.substring(0, equalsIndex);
+//            boolean hasName1 = names.contains(name.toUpperCase());
+////            boolean hasName2 = (IANAParameter.getRegisteredIANAParameters() != null) ? IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase()) : false;
+//            valueString = (hasName1) ? content.substring(equalsIndex+1) : content;    
+//        } else
+//        {
+//            valueString = content;
+//        }
+//        return valueString;
+//    }
+    private static final Map<Class<? extends VProperty<?>>, Collection<ValueType>> ALLOWED_VALUE_TYPES_MAP = makeAllowedTypesMap();
+	private static Map<Class<? extends VProperty<?>>, Collection<ValueType>> makeAllowedTypesMap()
+	{
+		// TODO Auto-generated method stub
+		throw new RuntimeException("not implemented");
+	}
 }

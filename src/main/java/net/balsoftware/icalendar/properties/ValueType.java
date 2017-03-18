@@ -28,6 +28,12 @@ import net.balsoftware.icalendar.utilities.IntegerStringConverter;
 import net.balsoftware.icalendar.utilities.StringConverter;
 import net.balsoftware.icalendar.utilities.StringConverters;
 
+/**
+ * Allowed value types for calendar properties' value
+ * 
+ * @author David Bal
+ *
+ */
 public enum ValueType
 {
     BINARY ("BINARY", Arrays.asList(String.class)) {
@@ -292,27 +298,6 @@ public enum ValueType
         public <T> StringConverter<T> getConverter()
         {
             return (StringConverter<T>) StringConverters.uriConverterNoQuotes();
-//            return new StringConverter<T>()
-//            {
-//                @Override
-//                public String toString(T object)
-//                {
-//                    return object.toString();
-//                }
-//
-//                @Override
-//                public T fromString(String string)
-//                {
-//                    try
-//                    {
-//                        return (T) new URI(string);
-//                    } catch (URISyntaxException e)
-//                    {
-//                        e.printStackTrace();
-//                    }
-//                    return null;
-//                }
-//            };
         }
     },
     UTC_OFFSET ("UTC-OFFSET", Arrays.asList(ZoneOffset.class))

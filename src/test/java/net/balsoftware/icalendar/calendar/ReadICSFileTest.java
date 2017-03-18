@@ -34,11 +34,12 @@ public class ReadICSFileTest
 //        unfoldedLineIterator.forEachRemaining(line -> expectedLines.add(line));
 //        String expectedUnfoldedContent = expectedLines.stream().collect(Collectors.joining(System.lineSeparator()));
 //        br.close();
+//        System.out.println(expectedUnfoldedContent);
         
         boolean useResourceStatus = false;
         VCalendar vCalendar = VCalendar.parseICalendarFile(icsFilePath, useResourceStatus);
-        
-        assertEquals(7603, vCalendar.toString().length());
+//        System.out.println(vCalendar);
+        assertEquals(7554, vCalendar.toString().length());
         assertEquals(7, vCalendar.getVEvents().size());
         assertEquals(1, vCalendar.getVTimeZones().size());
         int subcomponents = vCalendar.getVTimeZones().get(0).getStandardOrDaylight().size();

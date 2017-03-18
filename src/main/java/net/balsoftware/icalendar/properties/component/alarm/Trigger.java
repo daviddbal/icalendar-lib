@@ -48,7 +48,7 @@ public class Trigger<T> extends VPropertyBase<T, Trigger<T>> implements PropAlar
    {
        if (relationship != null)
        {
-           ValueType valueType = (getValueType() == null) ? propertyType().allowedValueTypes().get(0) : getValueType().getValue();
+           ValueType valueType = (getValueType() == null) ? defaultValueType : getValueType().getValue();
            if (valueType == ValueType.DURATION)
            {
         	   orderChild(relationship);

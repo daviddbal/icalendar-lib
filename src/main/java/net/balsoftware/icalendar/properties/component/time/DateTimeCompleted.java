@@ -27,11 +27,6 @@ public class DateTimeCompleted extends PropBaseUTC<DateTimeCompleted>
     {
         super(temporal);
     }
-
-//    public DateTimeCompleted(CharSequence contentLine)
-//    {
-//        super(contentLine);
-//    }
     
     public DateTimeCompleted(DateTimeCompleted source)
     {

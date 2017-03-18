@@ -91,4 +91,24 @@ abstract public class RRuleElementBase<T, U> extends VElementBase implements RRu
             return false;
         return true;
     }
+    
+	/*
+	 * Get value from a name-value pair separated by an equal sign
+	 */
+    protected static String extractValue(String content)
+    {
+        int equalsIndex = content.indexOf('=');
+        final String valueString;
+        if (equalsIndex > 0)
+        {
+            String name = content.substring(0, equalsIndex);
+            boolean hasName1 = RRuleElementType.enumFromName(name.toUpperCase()) != null;
+//            boolean hasName2 = (IANAParameter.getRegisteredIANAParameters() != null) ? IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase()) : false;
+            valueString = (hasName1) ? content.substring(equalsIndex+1) : content;    
+        } else
+        {
+            valueString = content;
+        }
+        return valueString;
+    }
 }

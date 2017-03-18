@@ -7,7 +7,7 @@ import java.util.Map;
 
 import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VElement;
-import net.balsoftware.icalendar.parameters.ParameterType;
+import net.balsoftware.icalendar.parameters.VParameterElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByHour;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMinute;
@@ -544,7 +544,7 @@ public enum RRuleElementType
         RRuleElementType p = enumFromClassMap.get(myClass);
         if (p == null)
         {
-            throw new IllegalArgumentException(ParameterType.class.getSimpleName() + " does not contain an enum to match the class:" + myClass.getSimpleName());
+            throw new IllegalArgumentException(VParameterElement.class.getSimpleName() + " does not contain an enum to match the class:" + myClass.getSimpleName());
         }
         return p;
     }

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import net.balsoftware.icalendar.Element;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
 
 public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U>
@@ -74,7 +73,7 @@ public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U
     @Override
     protected List<Message> parseContent(String content)
     {
-    	String valueString = Element.extractValue(content);
+    	String valueString = extractValue(content);
         Integer[] monthDayArray = Arrays.asList(valueString.split(","))
                 .stream()
                 .map(s -> Integer.parseInt(s))

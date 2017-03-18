@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import net.balsoftware.icalendar.properties.PropertyElement;
+import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VComponentElement;
+import net.balsoftware.icalendar.parameters.VParameterElement;
+import net.balsoftware.icalendar.parameters.VParameter;
+import net.balsoftware.icalendar.properties.VPropertyElement;
 import net.balsoftware.icalendar.properties.VProperty;
 import net.balsoftware.icalendar.utilities.Pair;
 
@@ -61,12 +65,42 @@ public abstract class VElementBase implements VElement
     {
     	Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> map = new HashMap<>();
 
+    	// Add VComponent elements
+    	VComponentElement[] values0 = VComponentElement.values();
+    	Arrays.stream(values0)
+    		.forEach(v ->
+	    	{
+	    		Pair<Class<? extends VElement>, String> key = new Pair<>(VComponent.class, v.toString());
+				try {
+//					System.out.println(v.name);
+					Constructor<? extends VElement> constructor = v.elementClass().getConstructor();
+					map.put(key, constructor);
+				} catch (NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+				}
+	    	});
+    	
     	// Add VProperty elements
-    	PropertyElement[] values1 = PropertyElement.values();
+    	VPropertyElement[] values1 = VPropertyElement.values();
     	Arrays.stream(values1)
     		.forEach(v ->
 	    	{
 	    		Pair<Class<? extends VElement>, String> key = new Pair<>(VProperty.class, v.toString());
+				try {
+//					System.out.println(v.name);
+					Constructor<? extends VElement> constructor = v.elementClass().getConstructor();
+					map.put(key, constructor);
+				} catch (NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+				}
+	    	});
+    	
+    	// Add VParameter elements
+    	VParameterElement[] values2 = VParameterElement.values();
+    	Arrays.stream(values2)
+    		.forEach(v ->
+	    	{
+	    		Pair<Class<? extends VElement>, String> key = new Pair<>(VParameter.class, v.toString());
 				try {
 //					System.out.println(v.name);
 					Constructor<? extends VElement> constructor = v.elementClass().getConstructor();
@@ -114,11 +148,15 @@ public abstract class VElementBase implements VElement
         return element;
     }
     
+    /*
+     * Checks to make sure BEGIN and END delimeters are present or any other
+     * requirements met.
+     */
 	protected boolean isContentValid(String valueContent)
 	{
 		return valueContent != null; // override in subclasses
 	}
-
+	
 	protected static class Message
 	{
 		public Message(VElement element, String message, MessageEffect effect) {

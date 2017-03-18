@@ -52,22 +52,7 @@ public interface VParameter<T> extends VChild
     /*
      * Utility methods
      */    
-    static String extractValue(String content)
-    {
-        int equalsIndex = content.indexOf('=');
-        final String valueString;
-        if (equalsIndex > 0)
-        {
-            String name = content.substring(0, equalsIndex);
-            boolean hasName1 = ParameterType.enumFromName(name.toUpperCase()) != null;
-//            boolean hasName2 = (IANAParameter.getRegisteredIANAParameters() != null) ? IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase()) : false;
-            valueString = (hasName1) ? content.substring(equalsIndex+1) : content;    
-        } else
-        {
-            valueString = content;
-        }
-        return valueString;
-    }
+
 //    
 //    static String extractName(String content)
 //    {

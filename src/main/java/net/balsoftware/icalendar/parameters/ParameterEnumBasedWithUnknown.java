@@ -41,7 +41,7 @@ public abstract class ParameterEnumBasedWithUnknown<U,T> extends VParameterBase<
         super.parseContent(content);
         if (getValue().toString().equals("UNKNOWN"))
         {
-            String valueString = VParameter.extractValue(content);
+            String valueString = VParameterBase.extractValue(content);
             nonStandardValue = valueString;
         }
         return Collections.EMPTY_LIST;

@@ -261,13 +261,14 @@ public enum Element
 		return CLASS_MAP.get(vElementClass);
 	}
     	
+    private String name;
+    @Override  public String toString() { return name; }
+    private Class<? extends VElement> superClass;
+    private Class<? extends VElement> myClass;
+
 	/*
 	 * CONSTRUCTOR
 	 */
-    private String name;
-    private Class<? extends VElement> superClass;
-    private Class<? extends VElement> myClass;
-    @Override  public String toString() { return name; }
     Element(String name, Class<? extends VElement> superClass, Class<? extends VElement> myClass)
     {
         this.name = name;

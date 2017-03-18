@@ -340,8 +340,8 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     protected VPropertyBase()
     {
     	super();
-    	this.allowedValueTypes = PropertyElement.propertyAllowedValueTypes(getClass());
-    	this.defaultValueType = PropertyElement.defaultValueType(getClass());
+    	this.allowedValueTypes = VPropertyElement.propertyAllowedValueTypes(getClass());
+    	this.defaultValueType = VPropertyElement.defaultValueType(getClass());
 //    	this.defaultValueType = defaultValueType;
 //        propertyType = PropertyType.enumFromClass(getClass());
 //        if (propertyType != PropertyType.NON_STANDARD)
@@ -412,7 +412,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         {
             int endNameIndex = propertyName.length();
             boolean isMatch = propertyName.toUpperCase().equals(name());
-            boolean isNonStandardProperty = propertyName.startsWith(PropertyElement.NON_STANDARD_PROPERTY.toString());
+            boolean isNonStandardProperty = propertyName.startsWith(VPropertyElement.NON_STANDARD_PROPERTY.toString());
             if (isMatch || isNonStandardProperty)
             {
                 if (isNonStandardProperty)
@@ -422,7 +422,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
                 propertyValue = unfoldedContent.substring(endNameIndex, unfoldedContent.length()); // strip off property name
             } else
             {
-                if (! PropertyElement.names.contains(propertyName))
+                if (! VPropertyElement.names.contains(propertyName))
                 {
                     propertyValue = ICalendarUtilities.PROPERTY_VALUE_KEY + unfoldedContent; // doesn't match a known property name, assume its all a property value
                 } else

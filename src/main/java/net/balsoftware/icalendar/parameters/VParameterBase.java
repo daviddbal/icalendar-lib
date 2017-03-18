@@ -62,7 +62,7 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
     @Override
     protected List<Message> parseContent(String content)
     {
-        String valueString = VParameter.extractValue(content);
+        String valueString = extractValue(content);
         T value = getConverter().fromString(valueString);
         setValue(value);
         return Collections.EMPTY_LIST;
@@ -120,8 +120,8 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
      */
     VParameterBase(StringConverter<T> stringConverter)
     {
-        parameterType = ParameterType.enumFromClass(getClass());
-        this.converter = stringConverter;
+        VParameterElement parameterType = VParameterElement.enumFromClass(getClass());
+        this.converter = parameterType.getConverter();
     }
 
     VParameterBase(T value, StringConverter<T> stringConverter)
@@ -146,5 +146,25 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
             errors.add(name() + " value is null.  The parameter MUST have a value."); 
         }
         return errors;
-    }  
+    }
+    
+	/*
+	 * Get value from a name-value pair separated by an equal sign
+	 */
+    static String extractValue(String content)
+    {
+        int equalsIndex = content.indexOf('=');
+        final String valueString;
+        if (equalsIndex > 0)
+        {
+            String name = content.substring(0, equalsIndex);
+            boolean hasName1 = VParameterElement.enumFromName(name.toUpperCase()) != null;
+//            boolean hasName2 = (IANAParameter.getRegisteredIANAParameters() != null) ? IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase()) : false;
+            valueString = (hasName1) ? content.substring(equalsIndex+1) : content;    
+        } else
+        {
+            valueString = content;
+        }
+        return valueString;
+    }
 }

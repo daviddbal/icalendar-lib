@@ -55,7 +55,7 @@ import net.balsoftware.icalendar.properties.component.timezone.TimeZoneOffsetFro
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneOffsetTo;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;
 
-public enum PropertyElement
+public enum VPropertyElement
 {
 	ACTION ("ACTION", Action.class, Arrays.asList(ValueType.TEXT)),
     ATTACHMENT ("ATTACH", Attachment.class, Arrays.asList(ValueType.UNIFORM_RESOURCE_IDENTIFIER, ValueType.BINARY)),
@@ -107,18 +107,18 @@ public enum PropertyElement
 	;
     
     // Map to match up class to enum
-    private final static Map<Class<? extends VElement>, PropertyElement> CLASS_MAP = makeEnumFromClassMap();
-    private static Map<Class<? extends VElement>, PropertyElement> makeEnumFromClassMap()
+    private final static Map<Class<? extends VElement>, VPropertyElement> CLASS_MAP = makeEnumFromClassMap();
+    private static Map<Class<? extends VElement>, VPropertyElement> makeEnumFromClassMap()
     {
-    	Map<Class<? extends VElement>, PropertyElement> map = new HashMap<>();
-    	PropertyElement[] values = PropertyElement.values();
+    	Map<Class<? extends VElement>, VPropertyElement> map = new HashMap<>();
+    	VPropertyElement[] values = VPropertyElement.values();
         for (int i=0; i<values.length; i++)
         {
             map.put(values[i].myClass, values[i]);
         }
         return map;
     }
-	public static PropertyElement fromClass(Class<? extends VElement> vElementClass)
+	public static VPropertyElement fromClass(Class<? extends VElement> vElementClass)
 	{
 		return CLASS_MAP.get(vElementClass);
 	}
@@ -127,14 +127,15 @@ public enum PropertyElement
 	 * CONSTRUCTOR
 	 */
     private String name;
+    @Override  public String toString() { return name; }
+
     private Class<? extends VProperty> myClass;
 	public Class<? extends VProperty> elementClass() { return myClass; }
 
     private List<ValueType> valueTypes;
     public List<ValueType> allowedValueTypes() { return valueTypes; }
     
-    @Override  public String toString() { return name; }
-    PropertyElement(String name, Class<? extends VProperty> myClass, List<ValueType> valueTypes)
+    VPropertyElement(String name, Class<? extends VProperty> myClass, List<ValueType> valueTypes)
     {
         this.name = name;
         this.valueTypes = valueTypes;
@@ -147,7 +148,7 @@ public enum PropertyElement
 			.collect(Collectors.toList());
 	
     private static final Map<Class<? extends VProperty>, List<ValueType>> ALLOWED_VALUE_TYPES_MAP = 
-    		 Arrays.stream(PropertyElement.values())
+    		 Arrays.stream(VPropertyElement.values())
  			.collect(Collectors.toMap(
  					v -> v.elementClass(),
  					v -> v.allowedValueTypes()

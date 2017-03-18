@@ -5,7 +5,6 @@ import java.time.temporal.Temporal;
 import java.util.Collections;
 import java.util.List;
 
-import net.balsoftware.icalendar.Element;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 
@@ -78,7 +77,7 @@ public class Until extends RRuleElementBase<Temporal, Until>
     @Override
     protected List<Message> parseContent(String content)
     {
-    	String valueString = Element.extractValue(content);
+    	String valueString = extractValue(content);
         setValue(DateTimeUtilities.temporalFromString(valueString));
         return Collections.EMPTY_LIST;
     }

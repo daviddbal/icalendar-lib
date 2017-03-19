@@ -190,7 +190,7 @@ public class ByWeekNumber extends ByRuleIntegerAbstract<ByWeekNumber>
 //                                .plus(weekNumber*7+1, ChronoUnit.DAYS);
                     } else
                     {
-                        throw new IllegalArgumentException(elementType().toString() + " can't have a value of zero");
+                        throw new IllegalArgumentException(name().toString() + " can't have a value of zero");
                     }
 //                    Temporal newTemporal = correctYearTemporal.plus(finalWeekNumber, ChronoUnit.WEEKS);
                     

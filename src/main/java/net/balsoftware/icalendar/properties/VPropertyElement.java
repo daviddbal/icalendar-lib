@@ -134,6 +134,7 @@ public enum VPropertyElement
 
     private List<ValueType> valueTypes;
     public List<ValueType> allowedValueTypes() { return valueTypes; }
+    public ValueType defaultValueType() { return valueTypes.get(0); }
     
     VPropertyElement(String name, Class<? extends VProperty> myClass, List<ValueType> valueTypes)
     {

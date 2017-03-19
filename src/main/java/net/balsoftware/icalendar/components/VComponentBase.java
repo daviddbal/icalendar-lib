@@ -1,6 +1,5 @@
 package net.balsoftware.icalendar.components;
 
-import net.balsoftware.icalendar.CalendarComponent;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.MultiLineContent;;
@@ -16,9 +15,9 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     @Override public void setParent(VParent parent) { this.parent = parent; }
     @Override public VParent getParent() { return parent; }
     
-    final private CalendarComponent componentType;
-//    @Override
-//    public String name() { return componentType.toString(); }
+    final private VComponentElement componentType;
+    @Override
+    public String name() { return componentType.toString(); }
 
     /*
      * CONSTRUCTORS
@@ -29,7 +28,7 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     VComponentBase()
     {
     	super();
-    	componentType = CalendarComponent.enumFromClass(this.getClass());
+    	componentType = VComponentElement.fromClass(this.getClass());
         contentLineGenerator = new MultiLineContent(
                 orderer,
                 BEGIN + name(),
@@ -43,7 +42,7 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
     VComponentBase(VComponentBase<T> source)
     {
     	super(source);
-    	componentType = CalendarComponent.enumFromClass(this.getClass());
+    	componentType = VComponentElement.fromClass(this.getClass());
         contentLineGenerator = new MultiLineContent(
                 orderer,
                 BEGIN + name(),

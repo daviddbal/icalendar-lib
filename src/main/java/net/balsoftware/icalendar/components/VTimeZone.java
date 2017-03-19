@@ -310,7 +310,17 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
     	List<StandardOrDaylight<?>> newElements = Arrays.stream(standardOrDaylight)
                 .map(c -> 
                 {
-                	StandardOrDaylight<?> v = (StandardOrDaylight<?>) SimpleVComponentFactory.emptyVComponent(c);
+                	final StandardOrDaylight<?> v;
+                	if (c.startsWith(BEGIN + VComponentElement.DAYLIGHT_SAVING_TIME.toString()))
+                	{
+                		v = DaylightSavingTime.parse(c);
+                	} else if (c.startsWith(BEGIN + VComponentElement.STANDARD_TIME.toString()))
+                	{
+                		v = StandardTime.parse(c);                		
+                	} else
+                	{
+                		throw new IllegalArgumentException("Invalid calendar content text.  Must start with BEGIN:DAYLIGHT or BEGIN:STANDARD");
+                	}
                 	v.addChild(c);
                 	return v;
                 })

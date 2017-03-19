@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay.ByDayPair;
@@ -206,7 +206,7 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
                     return (d.ordinal == 0) ? day : d.ordinal + day;
                 })
                 .collect(Collectors.joining(","));
-        return RRuleElementType.BY_DAY + "=" + days; //.substring(0, days.length()-1); // remove last comma
+        return RRuleElement.BY_DAY + "=" + days; //.substring(0, days.length()-1); // remove last comma
     }
     
     @Override

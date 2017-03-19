@@ -127,7 +127,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     {
     	if (propertyName == null)
     	{
-    		return super.name();
+    		return propertyType.toString();
     	}
         return propertyName;
     }
@@ -143,7 +143,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
 //    {
 //    	return propertyType;
 //	}
-//    final private PropertyType propertyType;
+    final private VPropertyElement propertyType;
     
     /*
      * Unknown values
@@ -340,8 +340,11 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     protected VPropertyBase()
     {
     	super();
-    	this.allowedValueTypes = VPropertyElement.propertyAllowedValueTypes(getClass());
-    	this.defaultValueType = VPropertyElement.defaultValueType(getClass());
+    	propertyType = VPropertyElement.fromClass(getClass());
+    	this.allowedValueTypes = propertyType.allowedValueTypes();
+    	this.defaultValueType = propertyType.defaultValueType();
+//    	this.allowedValueTypes = VPropertyElement.propertyAllowedValueTypes(getClass());
+//    	this.defaultValueType = VPropertyElement.defaultValueType(getClass());
 //    	this.defaultValueType = defaultValueType;
 //        propertyType = PropertyType.enumFromClass(getClass());
 //        if (propertyType != PropertyType.NON_STANDARD)

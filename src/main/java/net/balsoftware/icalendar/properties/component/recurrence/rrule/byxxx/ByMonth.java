@@ -11,13 +11,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
 
 /** BYMONTH from RFC 5545, iCalendar 3.3.10, page 42 */
 public class ByMonth extends ByRuleAbstract<Month, ByMonth>
 {
-    @Override
-    public ChronoUnit getChronoUnit() { return ChronoUnit.MONTHS; }
     /** sorted array of months to be included
      * January = 1 - December = 12
      * Uses a varargs parameter to allow any number of months
@@ -88,7 +86,7 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
         String days = getValue().stream()
                 .map(d -> Integer.toString(d.getValue()))
                 .collect(Collectors.joining(","));
-        return RRuleElementType.BY_MONTH + "=" + days;
+        return RRuleElement.BY_MONTH + "=" + days;
     }
 
     @Override

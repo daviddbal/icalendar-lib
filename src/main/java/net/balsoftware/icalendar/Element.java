@@ -72,7 +72,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.Count;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.Frequency;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.Interval;
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.Until;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay;
@@ -192,20 +192,20 @@ public enum Element
 	VALUE_DATA_TYPES ("VALUE", VParameter.class, ValueParameter.class),
 	
 	// TODO - NEED TO HANDLE SORT ORDER AND DEFAULT CHRONO TYPE
-	FREQUENCY ("FREQ", RRuleElement.class, Frequency.class),
-    INTERVAL ("INTERVAL", RRuleElement.class, Interval.class),
-    UNTIL ("UNTIL", RRuleElement.class, Until.class),
-    COUNT ("COUNT", RRuleElement.class, Count.class),
-    WEEK_START ("WKST", RRuleElement.class, WeekStart.class),
-    BY_MONTH ("BYMONTH", RRuleElement.class, ByMonth.class),
-    BY_WEEK_NUMBER ("BYWEEKNO", RRuleElement.class, ByWeekNumber.class),
-    BY_YEAR_DAY ("BYYEARDAY", RRuleElement.class, ByYearDay.class),
-    BY_MONTH_DAY ("BYMONTHDAY", RRuleElement.class, ByMonthDay.class),
-    BY_DAY ("BYDAY", RRuleElement.class, ByDay.class),
-    BY_HOUR ("BYHOUR", RRuleElement.class, ByHour.class),
-    BY_MINUTE ("BYMINUTE", RRuleElement.class, ByMinute.class),
-    BY_SECOND ("BYSECOND", RRuleElement.class, BySecond.class),
-    BY_SET_POSITION ("BYSETPOS", RRuleElement.class, BySetPosition.class)
+	FREQUENCY ("FREQ", RRulePart.class, Frequency.class),
+    INTERVAL ("INTERVAL", RRulePart.class, Interval.class),
+    UNTIL ("UNTIL", RRulePart.class, Until.class),
+    COUNT ("COUNT", RRulePart.class, Count.class),
+    WEEK_START ("WKST", RRulePart.class, WeekStart.class),
+    BY_MONTH ("BYMONTH", RRulePart.class, ByMonth.class),
+    BY_WEEK_NUMBER ("BYWEEKNO", RRulePart.class, ByWeekNumber.class),
+    BY_YEAR_DAY ("BYYEARDAY", RRulePart.class, ByYearDay.class),
+    BY_MONTH_DAY ("BYMONTHDAY", RRulePart.class, ByMonthDay.class),
+    BY_DAY ("BYDAY", RRulePart.class, ByDay.class),
+    BY_HOUR ("BYHOUR", RRulePart.class, ByHour.class),
+    BY_MINUTE ("BYMINUTE", RRulePart.class, ByMinute.class),
+    BY_SECOND ("BYSECOND", RRulePart.class, BySecond.class),
+    BY_SET_POSITION ("BYSETPOS", RRulePart.class, BySetPosition.class)
 	;
 
 	private static final  Map<Pair<Class<? extends VElement>, String>, Constructor<? extends VElement>> NO_ARG_CONSTRUCTORS = makeNoArgConstructorMap();

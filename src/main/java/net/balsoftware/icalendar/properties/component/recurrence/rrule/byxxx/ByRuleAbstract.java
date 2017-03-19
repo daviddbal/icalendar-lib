@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementBase;
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePartBase;
 
 /**
  * BYxxx rule that modify frequency rule (see RFC 5545, iCalendar 3.3.10 Page 42)
@@ -25,7 +25,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElem
  * @see BySecond
  * @see BySetPosition
  */
-public abstract class ByRuleAbstract<T, U> extends RRuleElementBase<List<T>, U> implements ByRule<List<T>>
+public abstract class ByRuleAbstract<T, U> extends RRulePartBase<List<T>, U> implements ByRule<List<T>>
 {
     @Override
     public void setValue(List<T> values)
@@ -78,8 +78,8 @@ public abstract class ByRuleAbstract<T, U> extends RRuleElementBase<List<T>, U> 
     @Override
     public int compareTo(ByRule<List<T>> byRule)
     {
-        int p1 = RRuleElementType.enumFromClass(getClass()).sortOrder();
-        int p2 = RRuleElementType.enumFromClass(byRule.getClass()).sortOrder();
+        int p1 = RRuleElement.fromClass(getClass()).sortOrder();
+        int p2 = RRuleElement.fromClass(byRule.getClass()).sortOrder();
         return Integer.compare(p1, p2);
     }
     
@@ -89,33 +89,9 @@ public abstract class ByRuleAbstract<T, U> extends RRuleElementBase<List<T>, U> 
         List<String> errors = super.errors();
         if ((getValue() != null) && (getValue().isEmpty()))
         {
-            errors.add(elementType() + " value list is empty.  List MUST have at lease one element."); 
+            errors.add(name() + " value list is empty.  List MUST have at lease one element."); 
         }
 
         return errors;
     }
-    
-//    @Override
-//    public boolean equals(Object obj)
-//    {
-//    	if super.equals(obj);
-//    	System.out.println("by equals:");
-//        if (obj == this) return true;
-//        if((obj == null) || (obj.getClass() != getClass())) {
-//            return false;
-//        }
-//        ByRuleAbstract<T, U> testObj = (ByRuleAbstract<T, U>) obj;
-//        System.out.println(this.getValue() + " " + getValue().equals(testObj.getValue()));
-//        boolean valueEquals = getValue().equals(testObj.getValue());
-//        return valueEquals;
-//    }
-    
-//    @Override
-//    public int hashCode()
-//    {
-//        int hash = 5;
-//        if (getValue() != null) hash = (31 * hash) + getValue().hashCode();
-//        return hash;
-//    }
-
 }

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElementType;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
 
 public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U>
 {
@@ -19,7 +19,7 @@ public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U
         {
             if (! isValidValue().test(value))
             {
-                throw new IllegalArgumentException("Out of range " + elementType().toString() + " value: " + value);
+                throw new IllegalArgumentException("Out of range " + name().toString() + " value: " + value);
             }            
         });
         super.setValue(values);
@@ -67,7 +67,7 @@ public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U
         String values = getValue().stream()
                 .map(value -> value.toString())
                 .collect(Collectors.joining(","));
-        return RRuleElementType.enumFromClass(getClass()).toString() + "=" + values;
+        return RRuleElement.fromClass(getClass()).toString() + "=" + values;
     }
     
     @Override

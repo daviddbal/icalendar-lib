@@ -17,7 +17,7 @@ import java.util.List;
  * in a YEARLY "RRULE" when a BYWEEKNO rule part is specified.  The
  * default value is MO.
  */
-public class WeekStart extends RRuleElementBase<DayOfWeek, WeekStart>
+public class WeekStart extends RRulePartBase<DayOfWeek, WeekStart>
 {
     public static final DayOfWeek DEFAULT_WEEK_START = DayOfWeek.MONDAY;
     
@@ -45,7 +45,7 @@ public class WeekStart extends RRuleElementBase<DayOfWeek, WeekStart>
     @Override
     public String toString()
     {
-        return RRuleElementType.enumFromClass(getClass()).toString() + "=" + getValue().toString().substring(0, 2);
+        return RRuleElement.fromClass(getClass()).toString() + "=" + getValue().toString().substring(0, 2);
     }
 
     @Override

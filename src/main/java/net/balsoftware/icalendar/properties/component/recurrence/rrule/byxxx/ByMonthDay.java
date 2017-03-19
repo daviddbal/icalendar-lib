@@ -162,7 +162,7 @@ public class ByMonthDay extends ByRuleIntegerAbstract<ByMonthDay>
                 return dates.stream().sorted(DateTimeUtilities.TEMPORAL_COMPARATOR);
             });
         case WEEKS:
-            throw new IllegalArgumentException(elementType().toString() + " is not available for " + chronoUnit + " frequency."); // Not available
+            throw new IllegalArgumentException(name().toString() + " is not available for " + chronoUnit + " frequency."); // Not available
         default:
             throw new IllegalArgumentException("Not implemented: " + chronoUnit);
         }
@@ -193,7 +193,7 @@ public class ByMonthDay extends ByRuleIntegerAbstract<ByMonthDay>
                 }
             } else
             {
-                throw new IllegalArgumentException(elementType().toString() + " can't have a value of zero");
+                throw new IllegalArgumentException(name().toString() + " can't have a value of zero");
             }
             Temporal newTemporal = (finalDayOfMonth != 0) ? correctMonthTemporal.with(ChronoField.DAY_OF_MONTH, finalDayOfMonth) : null;
             

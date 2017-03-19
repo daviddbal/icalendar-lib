@@ -84,9 +84,12 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
      * 
      *  The enumerated type of the parameter.
      */
-//    @Override
-//    ParameterType parameterType() { return parameterType; }
-//    final private ParameterType parameterType;
+    final protected VParameterElement elementType;
+    @Override
+    public String name()
+    {
+    	return elementType.toString();
+  	}
 	
     @Override
     public String toString()
@@ -120,8 +123,8 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
      */
     VParameterBase(StringConverter<T> stringConverter)
     {
-        VParameterElement parameterType = VParameterElement.enumFromClass(getClass());
-        this.converter = parameterType.getConverter();
+    	elementType = VParameterElement.enumFromClass(getClass());
+        this.converter = elementType.getConverter();
     }
 
     VParameterBase(T value, StringConverter<T> stringConverter)

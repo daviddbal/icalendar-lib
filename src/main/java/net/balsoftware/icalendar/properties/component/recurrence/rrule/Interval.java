@@ -15,7 +15,7 @@ import java.util.List;
  * MONTHLY rule, and every year for a YEARLY rule.  For example,
  * within a DAILY rule, a value of "8" means every eight days.
  */
-public class Interval extends RRuleElementBase<Integer, Interval>
+public class Interval extends RRulePartBase<Integer, Interval>
 {
     public static final int DEFAULT_INTERVAL = 1;
 //    @Override

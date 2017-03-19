@@ -29,7 +29,7 @@ import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
  * time format.  If not present, and the COUNT rule part is also not
  * present, the "RRULE" is considered to repeat forever
  */
-public class Until extends RRuleElementBase<Temporal, Until>
+public class Until extends RRulePartBase<Temporal, Until>
 {
 	@Override
 	public void setValue(Temporal value)
@@ -41,7 +41,7 @@ public class Until extends RRuleElementBase<Temporal, Until>
             boolean isUTC = type == DateTimeType.DATE_WITH_UTC_TIME;
             if (! (isDate || isUTC))
             {
-                throw new DateTimeException(elementType() + " can't be " + type + " It must be either " +
+                throw new DateTimeException(name() + " can't be " + type + " It must be either " +
                         DateTimeType.DATE + "(LocalDate) or " + DateTimeType.DATE_WITH_UTC_TIME + " (ZonedDateTime with Z as zone)");
             }
         }
@@ -71,7 +71,7 @@ public class Until extends RRuleElementBase<Temporal, Until>
     @Override
     public String toString()
     {
-        return RRuleElementType.enumFromClass(getClass()).toString() + "=" + DateTimeUtilities.temporalToString(getValue());
+        return RRuleElement.fromClass(getClass()).toString() + "=" + DateTimeUtilities.temporalToString(getValue());
     }
 
     @Override

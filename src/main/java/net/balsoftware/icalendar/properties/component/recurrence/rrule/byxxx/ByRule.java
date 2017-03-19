@@ -4,7 +4,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.stream.Stream;
 
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
 
 /**
  * Interface for a rule that applies a modification to a Stream of start date/times, such
@@ -22,7 +22,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElem
  * @see BySecond
  * @see BySetPosition
  */
-public interface ByRule<T> extends Comparable<ByRule<T>>, RRuleElement<T>
+public interface ByRule<T> extends Comparable<ByRule<T>>, RRulePart<T>
 {
     /** 
      * New stream of date/times made after applying rule that either filters out some date/times
@@ -34,6 +34,4 @@ public interface ByRule<T> extends Comparable<ByRule<T>>, RRuleElement<T>
      * @return
      */
     Stream<Temporal> streamRecurrences(Stream<Temporal> inStream, ChronoUnit chronoUnit, Temporal dateTimeStart);
-
-    default ChronoUnit getChronoUnit() { return elementType().getChronoUnit(); }
 }

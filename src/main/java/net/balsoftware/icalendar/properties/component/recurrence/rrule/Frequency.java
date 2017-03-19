@@ -37,7 +37,7 @@ import java.util.stream.Stream;
  * 
  * @see FrequencyType
  */
-public class Frequency extends RRuleElementBase<FrequencyType, Frequency>
+public class Frequency extends RRulePartBase<FrequencyType, Frequency>
 {
     void setValue(String frequency) { parseContent(frequency); }
     public Frequency withValue(String frequency) { setValue(frequency); return this; }

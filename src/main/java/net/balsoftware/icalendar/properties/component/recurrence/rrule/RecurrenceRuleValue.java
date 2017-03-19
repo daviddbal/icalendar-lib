@@ -31,6 +31,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByM
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonth;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonthDay;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRule;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRuleAbstract;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.BySecond;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByYearDay;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
@@ -79,8 +80,8 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     @Override public void setParent(VParent parent) { myParent = parent; }
     @Override public VParent getParent() { return myParent; }
     
-//    private static final String NAME = "RRULE";
-//    @Override public String name() { return NAME; }
+    private static final String NAME = "RRULE";
+    @Override public String name() { return NAME; }
         
     /** 
      * BYxxx Rules
@@ -350,7 +351,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     	List<Message> messages = new ArrayList<>();
         ICalendarUtilities.contentToParameterListPair(contentLine)
                 .stream()
-                .forEach(entry -> processInLineChild(messages, entry, RRuleElement.class));
+                .forEach(entry -> processInLineChild(messages, entry, RRulePart.class));
         return messages;
     }
 
@@ -384,7 +385,8 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
 	                            .forEach(rule ->
 	                            {
 	                                myStream = rule.streamRecurrences(myStream, chronoUnit, start);
-	                                chronoUnit = rule.getChronoUnit();
+//	                                chronoUnit = RRuleElement.fromClass(rule.getClass()).getChronoUnit();
+	                                chronoUnit = ((ByRuleAbstract<?, ?>) rule).elementType.getChronoUnit();
 	                            });
                     }
                     // must filter out too early recurrences

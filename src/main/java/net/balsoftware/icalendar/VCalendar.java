@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import net.balsoftware.icalendar.components.SimpleVComponentFactory;
 import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VFreeBusy;
@@ -694,7 +693,8 @@ public class VCalendar extends VParentBase<VCalendar>
     @Deprecated // replace with addVCalendar
     public VComponent importVComponent(String contentText)
     {
-        VPersonal<?> vComponent = (VPersonal<?>) SimpleVComponentFactory.emptyVComponent(contentText);
+//        VPersonal<?> vComponent = (VPersonal<?>) SimpleVComponentFactory.emptyVComponent(contentText);
+        VPersonal<?> vComponent = null; //TODO - FIX THIS
         List<String> contentLines = Arrays.asList(contentText.split(System.lineSeparator()));
         UnfoldingStringIterator unfoldedLines = new UnfoldingStringIterator(contentLines.iterator());
 //        Iterator<String> unfoldedLines = ICalendarUtilities.unfoldLines(contentLines).iterator();

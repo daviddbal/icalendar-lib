@@ -6,7 +6,7 @@ import java.util.List;
 import net.balsoftware.icalendar.VElementBase;
 import net.balsoftware.icalendar.VParent;
 
-abstract public class RRuleElementBase<T, U> extends VElementBase implements RRuleElement<T>
+abstract public class RRulePartBase<T, U> extends VElementBase implements RRulePart<T>
 {
     private VParent myParent;
     @Override public void setParent(VParent parent) { myParent = parent; }
@@ -28,24 +28,19 @@ abstract public class RRuleElementBase<T, U> extends VElementBase implements RRu
     	return (U) this;
 	}
     
-    /**
-     * ELEMENT TYPE
-     * 
-     *  The enumerated type of the parameter.
-     */
+    final protected RRuleElement elementType;
     @Override
-    public RRuleElementType elementType() { return elementType; }
-    final private RRuleElementType elementType;
-    
-    @Override
-    public String name() { return elementType.toString(); }
+    public String name()
+    {
+    	return elementType.toString();
+  	}
     
     /*
      * CONSTRUCTORS
      */
-    protected RRuleElementBase()
+    protected RRulePartBase()
     {
-        elementType = RRuleElementType.enumFromClass(getClass());
+        elementType = RRuleElement.fromClass(getClass());
     }
     
     @Override
@@ -54,7 +49,7 @@ abstract public class RRuleElementBase<T, U> extends VElementBase implements RRu
         List<String> errors = new ArrayList<>();
         if (getValue() == null)
         {
-            errors.add(elementType() + " value is null.  The element MUST have a value."); 
+            errors.add(name() + ": value is null.  The RRULE part MUST have a value."); 
         }
         return errors;
     }
@@ -62,7 +57,7 @@ abstract public class RRuleElementBase<T, U> extends VElementBase implements RRu
     @Override
     public String toString()
     {
-        return RRuleElementType.enumFromClass(getClass()).toString() + "=" + getValue().toString();
+        return RRuleElement.fromClass(getClass()).toString() + "=" + getValue().toString();
     }
     
     @Override
@@ -82,7 +77,7 @@ abstract public class RRuleElementBase<T, U> extends VElementBase implements RRu
             return false;
         if (getClass() != obj.getClass())
             return false;
-        RRuleElementBase<?,?> other = (RRuleElementBase) obj;
+        RRulePartBase<?,?> other = (RRulePartBase) obj;
         if (getValue() == null)
         {
             if (other.getValue() != null)
@@ -102,7 +97,7 @@ abstract public class RRuleElementBase<T, U> extends VElementBase implements RRu
         if (equalsIndex > 0)
         {
             String name = content.substring(0, equalsIndex);
-            boolean hasName1 = RRuleElementType.enumFromName(name.toUpperCase()) != null;
+            boolean hasName1 = RRuleElement.fromName(name.toUpperCase()) != null;
 //            boolean hasName2 = (IANAParameter.getRegisteredIANAParameters() != null) ? IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase()) : false;
             valueString = (hasName1) ? content.substring(equalsIndex+1) : content;    
         } else

@@ -270,7 +270,7 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
     public T withVAlarms(String...vAlarms)
     {
         List<VAlarm> newElements = Arrays.stream(vAlarms)
-                .map(c -> (VAlarm) VAlarm.parse(c))
+                .map(c -> VAlarm.parse(c))
                 .collect(Collectors.toList());
         return withVAlarms(newElements);
     }

@@ -21,7 +21,7 @@ import net.balsoftware.icalendar.content.OrdererBase;
 import net.balsoftware.icalendar.content.UnfoldingStringIterator;
 import net.balsoftware.icalendar.parameters.VParameter;
 import net.balsoftware.icalendar.properties.VProperty;
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 import net.balsoftware.icalendar.utilities.Pair;
@@ -229,7 +229,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		} else if (RecurrenceRuleValue.class.isAssignableFrom(getClass()))
 		{
     		multilineChildClass = null;
-    		singlelineChildClass = RRuleElement.class;			
+    		singlelineChildClass = RRulePart.class;			
 		} else
 		{
     		throw new RuntimeException("Not supported parent class:" + getClass());		
@@ -342,22 +342,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 			addChild(newChild);
 		}
 	}
-	
-	
-//	private void addToList(Map<VElement, List<Pair<String, MessageEffect>>> messages, String newMessage, MessageEffect effect)
-//	{
-//		final List<Pair<String, MessageEffect>> myMessages;
-//		if ((messages.get(this) == null))
-//		{
-//			myMessages = new ArrayList<>();
-//			messages.put(this, myMessages);
-//		} else
-//		{
-//			myMessages = messages.get(this);
-//		}
-//		myMessages.add(new Pair<>(newMessage, effect));
-//	}
-	
+		
     /* Strategy to build iCalendar content lines */
     protected ContentLineStrategy contentLineGenerator;
         
@@ -367,7 +352,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     	return orderer.childrenUnmodifiable();
     }
     
-    
+    @Deprecated // TODO - IS THIS BEING USED?
     public void copyChildrenInto(VParent destination)
     {
         childrenUnmodifiable().forEach((childSource) -> 

@@ -11,14 +11,14 @@ import java.util.List;
  * range-bound the recurrence.  The "DTSTART" property value always
  * counts as the first occurrence.
  */
-public class Count extends RRuleElementBase<Integer, Count>
+public class Count extends RRulePartBase<Integer, Count>
 {
 	@Override
 	public void setValue(Integer value)
 	{
         if ((value != null) && (value < 1))
         {
-            throw new IllegalArgumentException(elementType() + " is " + value + ".  It can't be less than 1");
+            throw new IllegalArgumentException(name() + " is " + value + ".  It can't be less than 1");
         }
         super.setValue(value);	
 	}

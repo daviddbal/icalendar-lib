@@ -10,10 +10,11 @@ import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VComponentElement;
-import net.balsoftware.icalendar.parameters.VParameterElement;
 import net.balsoftware.icalendar.parameters.VParameter;
-import net.balsoftware.icalendar.properties.VPropertyElement;
+import net.balsoftware.icalendar.parameters.VParameterElement;
 import net.balsoftware.icalendar.properties.VProperty;
+import net.balsoftware.icalendar.properties.VPropertyElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
 import net.balsoftware.icalendar.utilities.Pair;
 
 public abstract class VElementBase implements VElement
@@ -21,16 +22,16 @@ public abstract class VElementBase implements VElement
 	protected static final String BEGIN = "BEGIN:";
 	protected static final String END = "END:";
 
-    @Override
-    public String name()
-    {
-    	if (name == null)
-    	{
-    		return Element.fromClass(getClass()).toString();
-    	}
-        return name;
-    }
-    private String name;
+//    @Override
+//    public String name()
+//    {
+//    	if (name == null)
+//    	{
+//    		return Element.fromClass(getClass()).toString();
+//    	}
+//        return name;
+//    }
+//    private String name;
     
 //	// TODO - MAKE PROTECTED
 //    @Override
@@ -72,7 +73,6 @@ public abstract class VElementBase implements VElement
 	    	{
 	    		Pair<Class<? extends VElement>, String> key = new Pair<>(VComponent.class, v.toString());
 				try {
-//					System.out.println(v.name);
 					Constructor<? extends VElement> constructor = v.elementClass().getConstructor();
 					map.put(key, constructor);
 				} catch (NoSuchMethodException | SecurityException e) {
@@ -87,7 +87,6 @@ public abstract class VElementBase implements VElement
 	    	{
 	    		Pair<Class<? extends VElement>, String> key = new Pair<>(VProperty.class, v.toString());
 				try {
-//					System.out.println(v.name);
 					Constructor<? extends VElement> constructor = v.elementClass().getConstructor();
 					map.put(key, constructor);
 				} catch (NoSuchMethodException | SecurityException e) {
@@ -102,7 +101,20 @@ public abstract class VElementBase implements VElement
 	    	{
 	    		Pair<Class<? extends VElement>, String> key = new Pair<>(VParameter.class, v.toString());
 				try {
-//					System.out.println(v.name);
+					Constructor<? extends VElement> constructor = v.elementClass().getConstructor();
+					map.put(key, constructor);
+				} catch (NoSuchMethodException | SecurityException e) {
+					e.printStackTrace();
+				}
+	    	});
+    	
+    	// Add RRULE parts
+    	RRuleElement[] values3 = RRuleElement.values();
+    	Arrays.stream(values3)
+    		.forEach(v ->
+	    	{
+	    		Pair<Class<? extends VElement>, String> key = new Pair<>(VParameter.class, v.toString());
+				try {
 					Constructor<? extends VElement> constructor = v.elementClass().getConstructor();
 					map.put(key, constructor);
 				} catch (NoSuchMethodException | SecurityException e) {

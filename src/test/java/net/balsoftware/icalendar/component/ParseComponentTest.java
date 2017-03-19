@@ -7,7 +7,6 @@ import java.time.Duration;
 import org.junit.Test;
 
 import net.balsoftware.icalendar.ICalendarTestAbstract;
-import net.balsoftware.icalendar.components.SimpleVComponentFactory;
 import net.balsoftware.icalendar.components.VAlarm;
 import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VEvent;
@@ -210,13 +209,13 @@ public class ParseComponentTest extends ICalendarTestAbstract
     }
     
 
-    @Test
-    public void canParseEmptyVevent()
-    {
-        VComponent vEvent = SimpleVComponentFactory.emptyVComponent("VEVENT");
-        VComponent vExpected = new VEvent();
-        assertEquals(vExpected, vEvent);
-    }
+//    @Test
+//    public void canParseEmptyVevent()
+//    {
+//        VComponent vEvent = SimpleVComponentFactory.emptyVComponent("VEVENT");
+//        VComponent vExpected = new VEvent();
+//        assertEquals(vExpected, vEvent);
+//    }
     
     @Test
     public void canParseEmptyVevent2()
@@ -228,7 +227,7 @@ public class ParseComponentTest extends ICalendarTestAbstract
         "DTEND:19970715T040000Z" + System.lineSeparator() +
         "SUMMARY:Bastille Day Party" + System.lineSeparator() +
         "END:VEVENT";
-        VComponent vEvent = SimpleVComponentFactory.emptyVComponent(content);
+        VComponent vEvent = VEvent.parse(content);
         VComponent vExpected = new VEvent();
         assertEquals(vExpected, vEvent);
     }
@@ -247,8 +246,7 @@ public class ParseComponentTest extends ICalendarTestAbstract
                               + "" + System.lineSeparator() // ignore blank line
                               + " far away." + System.lineSeparator()
                               + "END:VEVENT";
-        VComponent vEvent = SimpleVComponentFactory.emptyVComponent(vEventString);
-        vEvent.addChild(vEventString);
+        VComponent vEvent = VEvent.parse(vEventString);
         VEvent expectedVEvent = getWholeDayDaily1()
                 .withComments("This is a multiline comment.")
                 .withDescription("A dog ran far away.");

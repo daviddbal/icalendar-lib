@@ -99,7 +99,7 @@ public class ByYearDay extends ByRuleIntegerAbstract<ByYearDay>
                         }
                     } else
                     {
-                        throw new IllegalArgumentException(elementType().toString() + " can't have a value of zero");
+                        throw new IllegalArgumentException(name().toString() + " can't have a value of zero");
                     }
                     Temporal newTemporal = (finalDayOfYear != 0) ? correctYearTemporal.with(ChronoField.DAY_OF_YEAR, finalDayOfYear) : null;
 
@@ -113,7 +113,7 @@ public class ByYearDay extends ByRuleIntegerAbstract<ByYearDay>
         case DAYS:
         case WEEKS:
         case MONTHS:
-            throw new IllegalArgumentException(elementType().toString() + " is not available for " + chronoUnit + " frequency."); // Not available
+            throw new IllegalArgumentException(name().toString() + " is not available for " + chronoUnit + " frequency."); // Not available
         default:
             throw new IllegalArgumentException("Not implemented: " + chronoUnit);
         }

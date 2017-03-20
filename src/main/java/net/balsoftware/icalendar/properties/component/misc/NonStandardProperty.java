@@ -2,6 +2,13 @@ package net.balsoftware.icalendar.properties.component.misc;
 
 import java.util.List;
 
+import net.balsoftware.icalendar.components.DaylightSavingTime;
+import net.balsoftware.icalendar.components.StandardTime;
+import net.balsoftware.icalendar.components.VAlarm;
+import net.balsoftware.icalendar.components.VEvent;
+import net.balsoftware.icalendar.components.VJournal;
+import net.balsoftware.icalendar.components.VTimeZone;
+import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.parameters.Language;
 import net.balsoftware.icalendar.parameters.NonStandardParameter;
 
@@ -99,8 +106,6 @@ public class NonStandardProperty extends UnknownProperty<Object, NonStandardProp
     /** Create new Description by parsing unfolded calendar content */
     public static NonStandardProperty parse(String unfoldedContent)
     {
-        NonStandardProperty property = new NonStandardProperty();
-        property.parseContent(unfoldedContent);
-        return property;
+    	return NonStandardProperty.parse(new NonStandardProperty(), unfoldedContent);
     }
 }

@@ -54,4 +54,15 @@ public class SummaryTest
         Summary expectedProperty = Summary.parse("SUMMARY:Department Party");
         assertEquals(expectedProperty, property1);
     }
+    
+    @Test
+    public void canParseSummaryOnlyValue()
+    {
+        String content = "TEST SUMMARY";
+        Summary madeProperty = Summary.parse(content);
+        assertEquals("SUMMARY:TEST SUMMARY", madeProperty.toString());
+        Summary expectedProperty = Summary.parse("TEST SUMMARY");
+        assertEquals(expectedProperty, madeProperty);
+        assertEquals("TEST SUMMARY", madeProperty.getValue());
+    }
 }

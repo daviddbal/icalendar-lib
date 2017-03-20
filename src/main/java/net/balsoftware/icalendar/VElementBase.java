@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.components.VComponent;
@@ -15,6 +16,7 @@ import net.balsoftware.icalendar.parameters.VParameterElement;
 import net.balsoftware.icalendar.properties.VProperty;
 import net.balsoftware.icalendar.properties.VPropertyElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
 import net.balsoftware.icalendar.utilities.Pair;
 
 public abstract class VElementBase implements VElement
@@ -113,7 +115,7 @@ public abstract class VElementBase implements VElement
     	Arrays.stream(values3)
     		.forEach(v ->
 	    	{
-	    		Pair<Class<? extends VElement>, String> key = new Pair<>(VParameter.class, v.toString());
+	    		Pair<Class<? extends VElement>, String> key = new Pair<>(RRulePart.class, v.toString());
 				try {
 					Constructor<? extends VElement> constructor = v.elementClass().getConstructor();
 					map.put(key, constructor);
@@ -124,12 +126,16 @@ public abstract class VElementBase implements VElement
 
         return map;
     }
+    private static final Set<String> NAMES = NO_ARG_CONSTRUCTORS
+    		.entrySet()
+    		.stream()
+    		.map(e -> e.getKey().getValue())
+    		.collect(Collectors.toSet());
 
 	public static VChild newEmptyVElement(Class<? extends VElement> superclass, String name)
 	{
 		try {
-//			NO_ARG_CONSTRUCTORS.entrySet().forEach(System.out::println);
-//			System.out.println("get constructor:" + superclass.getSimpleName() + " " + name);
+			if (name == null) return null;
 			String name2 = (name.startsWith("X-")) ? "X-" : name;
 			Constructor<? extends VElement> constructor = NO_ARG_CONSTRUCTORS.get(new Pair<>(superclass, name2));
 			if (constructor == null) return null;
@@ -167,6 +173,44 @@ public abstract class VElementBase implements VElement
 	protected boolean isContentValid(String valueContent)
 	{
 		return valueContent != null; // override in subclasses
+	}
+
+	/**
+	 * Return element name from calendar content
+	 * e.g VEVENT, SUMMARY, TZID
+	 * 
+	 * Doesn't check if content valid.  Returns null if no valid property name exists.
+	 * 
+	 * @param content
+	 * @return element name
+	 */
+	protected String elementName(String content)
+	{
+		int indexOfBegin = content.indexOf(BEGIN);
+		boolean isMultiline = indexOfBegin != -1;
+		if (isMultiline)
+		{
+			int indexOfLineSeparator = content.indexOf(System.lineSeparator());
+			if (indexOfLineSeparator == -1) return content.substring(indexOfBegin + BEGIN.length()); // if no line separator assume content is just one line and return all text after begin to end
+			return content.substring(indexOfBegin + BEGIN.length(), indexOfLineSeparator);
+		} else
+		{
+	        int i1 = content.indexOf(':');
+	        i1 = (i1 == -1) ? Integer.MAX_VALUE : i1;
+	        int i2 = content.indexOf(';');
+	        i2 = (i2 == -1) ? Integer.MAX_VALUE : i2;
+	        int i = Math.min(i1,i2);
+	        if (i == Integer.MAX_VALUE)
+	        {
+	        	return null;
+	        }
+	        String possibleName = content.substring(0, i).toUpperCase();
+	        boolean isNonStandard = (possibleName.startsWith("X-"));
+	        if (isNonStandard) return possibleName;
+	        boolean isStandard = NAMES.contains(possibleName);
+	        if (isStandard) return possibleName;
+	        return null;
+		}
 	}
 	
 	protected static class Message

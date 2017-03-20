@@ -30,7 +30,7 @@ public class RecurrencesTest
     public void canParseRDate1()
     {
         String contentLine = "RDATE;VALUE=DATE:19970304,19970504,19970704,19970904";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>("VALUE", "DATE"));
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, "19970304,19970504,19970704,19970904"));
@@ -41,7 +41,7 @@ public class RecurrencesTest
     public void canParseRDate2()
     {
         String contentLine = "RDATE;TZID=America/New_York:19970714T083000";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>("TZID", "America/New_York"));
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, "19970714T083000"));
@@ -53,7 +53,7 @@ public class RecurrencesTest
     public void canParseRDate3()
     {
         String contentLine = "RDATE;VALUE=PERIOD:19960403T020000Z/19960403T040000Z,19960404T010000Z/PT3H";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>("VALUE", "PERIOD"));
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, "19960403T020000Z/19960403T040000Z,19960404T010000Z/PT3H"));

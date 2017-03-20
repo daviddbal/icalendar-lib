@@ -10,7 +10,7 @@ import net.balsoftware.icalendar.properties.calendar.Method.MethodType;
 public class MethodTest
 {
     @Test
-    public void canParseAction()
+    public void canParseMethod()
     {
         Method madeProperty = Method.parse("method:publish");
         String expectedContent = "METHOD:PUBLISH";

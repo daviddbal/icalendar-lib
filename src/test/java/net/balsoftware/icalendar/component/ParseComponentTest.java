@@ -206,30 +206,17 @@ public class ParseComponentTest extends ICalendarTestAbstract
         VEvent vEvent = VEvent.parse(content);
         VEvent expectedVEvent = getGoogleWithExceptions();
         assertEquals(expectedVEvent, vEvent);
-    }
-    
+    }    
 
-//    @Test
-//    public void canParseEmptyVevent()
-//    {
-//        VComponent vEvent = SimpleVComponentFactory.emptyVComponent("VEVENT");
-//        VComponent vExpected = new VEvent();
-//        assertEquals(vExpected, vEvent);
-//    }
-    
     @Test
-    public void canParseEmptyVevent2()
+    public void canParseEmptyVevent()
     {
-        String content = "BEGIN:VEVENT" + System.lineSeparator() +
-        "UID:19970610T172345Z-AF23B2@example.com" + System.lineSeparator() +
-        "DTSTAMP:19970610T172345Z" + System.lineSeparator() +
-        "DTSTART:19970714T170000Z" + System.lineSeparator() +
-        "DTEND:19970715T040000Z" + System.lineSeparator() +
-        "SUMMARY:Bastille Day Party" + System.lineSeparator() +
-        "END:VEVENT";
-        VComponent vEvent = VEvent.parse(content);
+    	String expectedContent = "BEGIN:VEVENT" + System.lineSeparator() +
+    			"END:VEVENT";
+        VComponent vEvent = VEvent.parse(expectedContent);
         VComponent vExpected = new VEvent();
         assertEquals(vExpected, vEvent);
+        assertEquals(expectedContent, vEvent.toString());
     }
 
     @Test

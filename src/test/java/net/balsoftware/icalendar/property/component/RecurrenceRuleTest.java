@@ -34,7 +34,7 @@ public class RecurrenceRuleTest
     public void canParseRRuleProperty()
     {
         String contentLine = "RRULE:FREQ=DAILY;UNTIL=20160417T235959Z;INTERVAL=2";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, "FREQ=DAILY;UNTIL=20160417T235959Z;INTERVAL=2"));
         assertEquals(expectedList, valueList);
@@ -44,7 +44,7 @@ public class RecurrenceRuleTest
     public void canParseRRuleProperty2()
     {
         String contentLine = "FREQ=DAILY;UNTIL=20160417T235959Z;INTERVAL=2";        
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>("FREQ", "DAILY"));
         expectedList.add(new Pair<>("UNTIL", "20160417T235959Z"));

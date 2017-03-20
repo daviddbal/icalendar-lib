@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -289,19 +288,19 @@ public abstract class VPersonal<T> extends VPrimary<T> implements VAttendee<T>
 //    }
     
 //    @Override
-    @Override
-	public List<Message> parseContent(Iterator<String> lineIterator)
-    {
-    	List<Message> statusMessages = super.parseContent(lineIterator);
-//        if (useRequestStatus)
-//        { // Set REQUEST-STATUS for each message
-//        	statusMessages.entrySet()
-//	            .stream()
-//	            .flatMap(e -> e.getValue().stream())
-//	            .forEach(e -> addChild(RequestStatus.parse(e)));
-//        }
-        return statusMessages;
-    }
+//    @Override
+//	public List<Message> parseContent(Iterator<String> lineIterator)
+//    {
+//    	List<Message> statusMessages = super.parseContent(lineIterator);
+////        if (useRequestStatus)
+////        { // Set REQUEST-STATUS for each message
+////        	statusMessages.entrySet()
+////	            .stream()
+////	            .flatMap(e -> e.getValue().stream())
+////	            .forEach(e -> addChild(RequestStatus.parse(e)));
+////        }
+//        return statusMessages;
+//    }
     
     @Override
     public List<String> errors()

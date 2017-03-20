@@ -44,7 +44,7 @@ public final class ICalendarUtilities
      * @return - map where key=parameter names as, value=parameter value
      */
     // TODO - CONSIDER USING STREAMTOKENIZER instead
-    public static List<Pair<String,String>> contentToParameterListPair(String propertyLine)
+    public static List<Pair<String,String>> parseInlineElementsToListPair(String propertyLine)
     {
         List<Pair<String,String>> parameters = new ArrayList<>();
        // find start of parameters (go past property name)
@@ -69,7 +69,7 @@ public final class ICalendarUtilities
            firstCharacter = ':';
        } else if (parameterStart == propertyLine.length()-1)
        { // contains only property name, has no value, return empty value 
-           parameters.add(new Pair<>(PROPERTY_VALUE_KEY, ""));
+           parameters.add(new Pair<>(PROPERTY_VALUE_KEY, null));
            return parameters;
        } else if (parameterStart < 0)
        { // doesn't contain the property name, but has parameters
@@ -189,6 +189,7 @@ public final class ICalendarUtilities
     /**
      * Returns index where property name ends - after first ';' or ':'
      */
+    @Deprecated
     public static int getPropertyNameIndex(String propertyLine)
     {
         if ((propertyLine == null) || (propertyLine.length() == 0))

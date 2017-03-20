@@ -534,7 +534,7 @@ public final class DateTimeUtilities
      */ 
     public static Temporal temporalFromString(String string)
     {
-        List<Pair<String, String>> list = ICalendarUtilities.contentToParameterListPair(string);
+        List<Pair<String, String>> list = ICalendarUtilities.parseInlineElementsToListPair(string);
         Map<String, String> map = list.stream().collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
 //        Map<String, String> map = ICalendarUtilities.propertyLineToParameterMap(string);
         StringBuilder builder = new StringBuilder(50);

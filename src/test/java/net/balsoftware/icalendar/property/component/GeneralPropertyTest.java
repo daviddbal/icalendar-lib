@@ -20,7 +20,7 @@ public class GeneralPropertyTest
     public void canMakeParameterList()
     {
         String contentLine = "DESCRIPTION;ALTREP=\"CID:part3.msg.970415T083000@example.com\";LANGUAGE=en:Project XYZ Review Meeting will include the following agenda items: (a) Market Overview\\, (b) Finances\\, (c) Project Management";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>("ALTREP", "\"CID:part3.msg.970415T083000@example.com\""));
         expectedList.add(new Pair<>("LANGUAGE", "en"));
@@ -32,7 +32,7 @@ public class GeneralPropertyTest
     public void canMakeParameterList2()
     {
         String contentLine = "DESCRIPTION:";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, ""));
         assertEquals(expectedList, valueList);
@@ -42,7 +42,7 @@ public class GeneralPropertyTest
     public void canMakeParameterList3()
     {
         String contentLine = ":";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, ""));
         assertEquals(expectedList, valueList);
@@ -52,7 +52,7 @@ public class GeneralPropertyTest
     public void canMakeParameterList4()
     {
         String contentLine = "SUMMARY:Department Party";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, "Department Party"));
         assertEquals(expectedList, valueList);
@@ -62,7 +62,7 @@ public class GeneralPropertyTest
     public void canMakeParameterList5()
     {
         String contentLine = "Department Party";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, "Department Party"));
         assertEquals(expectedList, valueList);
@@ -72,7 +72,7 @@ public class GeneralPropertyTest
     public void canMakeParameterList6()
     {
         String contentLine = ";LANGUAGE=en:TEST SUMMARY";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>("LANGUAGE", "en"));
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, "TEST SUMMARY"));
@@ -83,7 +83,7 @@ public class GeneralPropertyTest
     public void canMakeParameterList7()
     {
         String contentLine = "LANGUAGE=en:TEST SUMMARY";
-        List<Pair<String, String>> valueList = ICalendarUtilities.contentToParameterListPair(contentLine);
+        List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
         expectedList.add(new Pair<>("LANGUAGE", "en"));
         expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, "TEST SUMMARY"));

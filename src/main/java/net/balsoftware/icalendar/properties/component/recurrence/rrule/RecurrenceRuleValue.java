@@ -349,9 +349,9 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     protected List<Message> parseContent(String contentLine)
     {
     	List<Message> messages = new ArrayList<>();
-        ICalendarUtilities.contentToParameterListPair(contentLine)
-                .stream()
-                .forEach(entry -> processInLineChild(messages, entry, RRulePart.class));
+    	ICalendarUtilities.parseInlineElementsToListPair(contentLine)
+    		.stream()
+    		.forEach(entry -> processInLineChild(messages, entry.getKey(), entry.getValue(), RRulePart.class));
         return messages;
     }
 
@@ -468,10 +468,8 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
         return errors;
     }
 
-    public static RecurrenceRuleValue parse(String propertyContent)
+    public static RecurrenceRuleValue parse(String content)
     {
-        RecurrenceRuleValue property = new RecurrenceRuleValue();
-        property.parseContent(propertyContent);
-        return property;
+    	return RecurrenceRuleValue.parse(new RecurrenceRuleValue(), content);
     }
 }

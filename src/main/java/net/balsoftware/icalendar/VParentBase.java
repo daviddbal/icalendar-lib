@@ -24,7 +24,6 @@ import net.balsoftware.icalendar.properties.VProperty;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
-import net.balsoftware.icalendar.utilities.Pair;
 
 /**
  * <p>Base class for parent calendar components.</p>
@@ -239,35 +238,38 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         while (unfoldedLineIterator.hasNext())
         {
             String unfoldedLine = unfoldedLineIterator.next();
-            int nameEndIndex = ICalendarUtilities.getPropertyNameIndex(unfoldedLine);
-            String propertyName = (nameEndIndex > 0) ? unfoldedLine.substring(0, nameEndIndex) : "";
-            boolean isMultiLineElement = unfoldedLine.startsWith("BEGIN"); // e.g. vcalendar, vcomponent
-            boolean isMainComponent = unfoldedLine.substring(nameEndIndex+1).equals(name()) && isMultiLineElement;
-            if (isMainComponent) continue; // skip main component
-			if (propertyName.equals("END"))
-            {
-                return messages; // exit when end found
-            }
-            final String childName;
+            if (unfoldedLine.startsWith(END)) return messages; // exit when end found;
+            String childName = elementName(unfoldedLine);
+            if (childName != null) childName = (childName.startsWith("X-")) ? "X-" : childName;
+            boolean isMultiLineElement = unfoldedLine.startsWith(BEGIN); // e.g. vcalendar, vcomponent
+            boolean isMainComponent = name().equals(childName);
             final VElementBase child;
 			if (isMultiLineElement)
             {
-                childName = unfoldedLine.substring(nameEndIndex+1);
-                child = (VElementBase) VElementBase.newEmptyVElement(multilineChildClass, childName);
-                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLineIterator); // recursively parse child parent
-                messages.addAll(myMessages);
-        		processChild(messages, unfoldedLine, propertyName, (VChild) child);                	
+				if (! isMainComponent)
+				{
+	                child = (VElementBase) VElementBase.newEmptyVElement(multilineChildClass, childName);
+	                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLineIterator); // recursively parse child parent
+	                messages.addAll(myMessages);
+	        		checkAndAddChild(messages, unfoldedLine, childName, (VChild) child);
+				}
             } else
             { // single line element (e.g. property, parameter, rrule value)
-            	childName = propertyName;
-                child = (VElementBase) VElementBase.newEmptyVElement(singlelineChildClass, childName);
+            	if (isMainComponent)
+            	{ // a main component still needs it value and elements processed in subclasses (e.g property)
+            		child = this;
+            	} else
+            	{
+            		child = (VElementBase) VElementBase.newEmptyVElement(singlelineChildClass, childName);
+            	}
+            	
                 if (child != null)
                 {
 	                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLine); // recursively parse child parent
 	                // don't add single-line children with info or error messages - they have problems and should be ignored
 	                if (myMessages.isEmpty())
 	                {
-	            		processChild(messages, unfoldedLine, propertyName, (VChild) child);                	
+	            		checkAndAddChild(messages, unfoldedLine, childName, (VChild) child);                	
 	                } else
 	                {
 	                	messages.addAll(myMessages);
@@ -277,27 +279,38 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
                 	messages.add(new Message(this,
                 			"Unknown element:" + unfoldedLine,
                 			MessageEffect.MESSAGE_ONLY));
+//                	ICalendarUtilities.parseInlineElementsToListPair(unfoldedLine)
+//                        .stream()
+//                        .forEach(entry -> processInLineChild(messages, entry.getKey(), entry.getValue(), singlelineChildClass));
                 }
             }
         }
         return messages;
     }
 
-    // For Recurrence Rule Value
-	protected void processInLineChild(List<Message> messages, Pair<String, String> entry, Class<? extends VElement> singleLineChildClass)
+    // For Recurrence Rule Value and Properties
+	protected void processInLineChild(
+			List<Message> messages, 
+			String childName, 
+			String content,
+			Class<? extends VElement> singleLineChildClass)
 	{
-		String content = entry.getValue();
-		String childName = entry.getKey();
         VChild newChild = VElementBase.newEmptyVElement(singleLineChildClass, childName);
         if (newChild != null)
         {
         	List<Message> myMessages = ((VElementBase) newChild).parseContent(childName + "=" + content);
 	        messages.addAll(myMessages);
-			processChild(messages, content, childName, newChild);
+			checkAndAddChild(messages, content, childName, newChild);
+        } else
+        {
+//        	System.out.println("Is this invalid?");
+        	messages.add(new Message(this,
+        			"Unknown element:" + content,
+        			MessageEffect.MESSAGE_ONLY));
         }
 	}
 
-	protected void processChild(List<Message> messages, String content, String elementName, VChild newChild) {
+	protected void checkAndAddChild(List<Message> messages, String content, String elementName, VChild newChild) {
 		if (newChild == null)
 		{
 			Message message = new Message(this,
@@ -352,8 +365,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     	return orderer.childrenUnmodifiable();
     }
     
-    @Deprecated // TODO - IS THIS BEING USED?
-    public void copyChildrenInto(VParent destination)
+    protected void copyChildrenInto(VParent destination)
     {
         childrenUnmodifiable().forEach((childSource) -> 
         {

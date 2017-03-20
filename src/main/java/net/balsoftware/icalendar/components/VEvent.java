@@ -73,7 +73,6 @@ import net.balsoftware.icalendar.utilities.DateTimeUtilities;
  * @author David Bal
  *
  */
-// TODO - MAKE INTERFACE AND IMPLEMENTATION
 public class VEvent extends VLocatable<VEvent> implements VDateTimeEnd<VEvent>,
     VDescribable2<VEvent>, VRepeatable<VEvent>
 {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import junit.runner.Version;
+import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.content.SingleLineContent;
@@ -369,12 +370,10 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     // copy constructor
     public VPropertyBase(VPropertyBase<T,U> source)
     {
-//        this(source.allowedValueTypes, source.defaultValueType);
     	this();
         setConverter(source.getConverter());
         T valueCopy = copyValue(source.getValue());
         setValue(valueCopy);
-//        setPropertyName(source.name());
         source.copyChildrenInto(this);
     }
     
@@ -396,15 +395,11 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     {
         // do nothing - hook to override in subclass for functionality
     }
-    
-//    public Map<VElement, List<String>> parseContent(Iterator<String> unfoldedLineIterator)
-//    {
-//    	
-//    }
+
     
     /** Parse content line into calendar property */
-    @Override
-    protected List<Message> parseContent(String unfoldedContent)
+//    @Override
+    protected List<Message> parseContentOld(String unfoldedContent)
     {
     	List<Message> messages = new ArrayList<>();
 
@@ -441,7 +436,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         }
 
         // parse value and parameters
-        List<Pair<String, String>> list = ICalendarUtilities.contentToParameterListPair(propertyValue);
+        List<Pair<String, String>> list = ICalendarUtilities.parseInlineElementsToListPair(propertyValue);
         list.stream()
             .forEach(entry ->
             { // add property value
@@ -470,11 +465,69 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
                     }
             	} else
             	{ // add parameters
-	            	processInLineChild(messages, entry, VParameter.class);
+	            	processInLineChild(messages, entry.getKey(), entry.getValue(), VParameter.class);
             	}
             });
         return messages;
     }
+    
+    /**
+     * Handle non-standard property name
+     */
+    @Override
+	protected List<Message> parseContent(String unfoldedContent)
+    {
+    	List<Message> messages = new ArrayList<>();
+    	String propertyName = elementName(unfoldedContent);
+    	boolean isNameless = propertyName == null;
+    	if (isNameless)
+    	{
+    		unfoldedContent = ICalendarUtilities.PROPERTY_VALUE_KEY + unfoldedContent; // add delimiter to designate content as value
+    	} else if (propertyName.startsWith(VPropertyElement.NON_STANDARD_PROPERTY.toString()))
+        {
+            ((NonStandardProperty) this).setPropertyName(propertyName);
+        }
+    	ICalendarUtilities.parseInlineElementsToListPair(unfoldedContent)
+	        .stream()
+	        .forEach(entry -> processInLineChild(messages, entry.getKey(), entry.getValue(), VParameter.class));
+
+    	return messages;
+    }
+    
+	@Override
+	protected void processInLineChild(
+			List<Message> messages, 
+			String childName, 
+			String content,
+			Class<? extends VElement> singleLineChildClass)
+	{
+    	if ((childName == ICalendarUtilities.PROPERTY_VALUE_KEY) && (content != null))
+    	{
+            try {
+            	T value = getConverter().fromString(getPropertyValueString());
+                if (value == null)
+                {
+                    setUnknownValue(content);
+                } else
+                {
+                    setValue(value);
+                    if (value.toString() == "UNKNOWN") // enum name indicating unknown value
+                    {
+                        setUnknownValue(content);
+                    }
+                }
+            } catch (IllegalArgumentException | DateTimeException e)
+            {
+    			Message message = new Message(this,
+    					"Invalid element:" + getPropertyValueString(),
+    					MessageEffect.MESSAGE_ONLY);
+    			messages.add(message);
+            }
+    	} else
+    	{
+    		super.processInLineChild(messages, childName, content, singleLineChildClass);
+    	}
+	}
     
     @Override
     public List<String> errors()
@@ -569,6 +622,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
 //        return component;
 //    }
     
+    @Deprecated // moved to VElementBase
     private static String findPropertyName(String content)
     {
         int i1 = content.indexOf(':');

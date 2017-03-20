@@ -72,7 +72,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	@Override
     public void addChild(VChild child)
     {
-//		System.out.println("Child:" + child);
 		Method setter = getSetter(child);
 		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
 		try {
@@ -108,8 +107,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	@Override
 	public void addChild(String childContent)
 	{
-		parseContent(childContent);
-//		throw new RuntimeException("not implemented yet");
+		parseContent(childContent); // TODO - Do I want this?
 	}
 	@Override
 	public boolean removeChild(VChild child)
@@ -265,7 +263,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
             	
                 if (child != null)
                 {
-                	System.out.println("unfoldedLine:" + unfoldedLine);
+//                	System.out.println("unfoldedLine:" + unfoldedLine);
 	                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLine); // recursively parse child parent
 	                // don't add single-line children with info or error messages - they have problems and should be ignored
 	                if (myMessages.isEmpty())

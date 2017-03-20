@@ -103,17 +103,11 @@ public abstract class PropBaseDateTime<T,U> extends VPropertyBase<T,U> implement
      * @see ValueType
      */
     @Override
-    protected String getPropertyValueString()
+	protected String modifiedValue()
     {
-        if (super.getPropertyValueString() == null)
-        {
-            return null;
-        } else
-        {
-            String timeZone = (getTimeZoneIdentifier() != null) ? "[" + getTimeZoneIdentifier().getValue().toString() + "]" : "";
-            return timeZone + super.getPropertyValueString();
-        }
-    }
+        String timeZone = (getTimeZoneIdentifier() != null) ? "[" + getTimeZoneIdentifier().getValue().toString() + "]" : "";
+    	return timeZone + super.modifiedValue();
+	}
 
     @Override
     public void setValue(T value)

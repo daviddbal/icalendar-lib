@@ -49,7 +49,6 @@ public class DateTimeDueTest
     {
         String expectedContentLine = "DUE;TZID=America/Los_Angeles:20160306T043000";
         DateTimeDue property = DateTimeDue.parse(expectedContentLine);
-        System.out.println(property.getTimeZoneIdentifier());
         String madeContentLine = property.toString();
         assertEquals(expectedContentLine, madeContentLine);
         assertEquals(ZonedDateTime.of(LocalDateTime.of(2016, 3, 6, 4, 30), ZoneId.of("America/Los_Angeles")), property.getValue());

@@ -489,6 +489,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         }
     	ICalendarUtilities.parseInlineElementsToListPair(unfoldedContent)
 	        .stream()
+//	        .peek(System.out::println)
 	        .forEach(entry -> processInLineChild(messages, entry.getKey(), entry.getValue(), VParameter.class));
 
     	return messages;
@@ -504,7 +505,8 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     	if ((childName == ICalendarUtilities.PROPERTY_VALUE_KEY) && (content != null))
     	{
             try {
-            	T value = getConverter().fromString(getPropertyValueString());
+            	String propertyValueString2 = getPropertyValueString();
+				T value = getConverter().fromString(propertyValueString2);
                 if (value == null)
                 {
                     setUnknownValue(content);
@@ -518,8 +520,9 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
                 }
             } catch (IllegalArgumentException | DateTimeException e)
             {
+            	e.printStackTrace();
     			Message message = new Message(this,
-    					"Invalid element:" + getPropertyValueString(),
+    					"Invalid element:" + e.getMessage() + getPropertyValueString(),
     					MessageEffect.MESSAGE_ONLY);
     			messages.add(message);
             }

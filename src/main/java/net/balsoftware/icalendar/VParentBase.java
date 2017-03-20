@@ -265,6 +265,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
             	
                 if (child != null)
                 {
+                	System.out.println("unfoldedLine:" + unfoldedLine);
 	                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLine); // recursively parse child parent
 	                // don't add single-line children with info or error messages - they have problems and should be ignored
 	                if (myMessages.isEmpty())

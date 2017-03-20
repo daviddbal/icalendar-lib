@@ -34,9 +34,31 @@ public class DateTimeDueTest
     }
     
     @Test
-    public void canParseDateTimeDue3()
+    public void canBuildDateTimeDue3()
     {
         DateTimeDue property = new DateTimeDue(ZonedDateTime.of(LocalDateTime.of(2016, 3, 6, 4, 30), ZoneId.of("America/Los_Angeles")));
+        String expectedContentLine = "DUE;TZID=America/Los_Angeles:20160306T043000";
+        String madeContentLine = property.toString();
+        assertEquals(expectedContentLine, madeContentLine);
+        assertEquals(ZonedDateTime.of(LocalDateTime.of(2016, 3, 6, 4, 30), ZoneId.of("America/Los_Angeles")), property.getValue());
+    }
+
+    
+    @Test
+    public void canParseDateTimeDue3()
+    {
+        String expectedContentLine = "DUE;TZID=America/Los_Angeles:20160306T043000";
+        DateTimeDue property = DateTimeDue.parse(expectedContentLine);
+        System.out.println(property.getTimeZoneIdentifier());
+        String madeContentLine = property.toString();
+        assertEquals(expectedContentLine, madeContentLine);
+        assertEquals(ZonedDateTime.of(LocalDateTime.of(2016, 3, 6, 4, 30), ZoneId.of("America/Los_Angeles")), property.getValue());
+    }
+
+    @Test
+    public void canParseDateTimeDue4()
+    {
+        DateTimeDue property = DateTimeDue.parse("TZID=America/Los_Angeles:20160306T043000");
         String expectedContentLine = "DUE;TZID=America/Los_Angeles:20160306T043000";
         String madeContentLine = property.toString();
         assertEquals(expectedContentLine, madeContentLine);

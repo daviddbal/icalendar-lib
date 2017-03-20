@@ -44,9 +44,7 @@ public class DateTimeDue extends PropBaseDateTime<Temporal, DateTimeDue>
      * ensure parameterized type is the same as date-time represented by String parameter */
     public static DateTimeDue parse(String value)
     {
-        DateTimeDue property = new DateTimeDue();
-        property.parseContent(value);
-        return property;
+    	return DateTimeDue.parse(new DateTimeDue(), value);
     }
     
     /** Parse string with Temporal class explicitly provided as parameter */

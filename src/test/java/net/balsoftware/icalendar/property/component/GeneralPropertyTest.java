@@ -34,7 +34,7 @@ public class GeneralPropertyTest
         String contentLine = "DESCRIPTION:";
         List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
-        expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, ""));
+        expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, null));
         assertEquals(expectedList, valueList);
     }
     
@@ -44,7 +44,7 @@ public class GeneralPropertyTest
         String contentLine = ":";
         List<Pair<String, String>> valueList = ICalendarUtilities.parseInlineElementsToListPair(contentLine);
         List<Pair<String, String>> expectedList = new ArrayList<>();
-        expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, ""));
+        expectedList.add(new Pair<>(ICalendarUtilities.PROPERTY_VALUE_KEY, null));
         assertEquals(expectedList, valueList);
     }
     

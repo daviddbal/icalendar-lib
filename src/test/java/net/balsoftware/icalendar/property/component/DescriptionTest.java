@@ -33,17 +33,17 @@ public class DescriptionTest
         assertEquals(foldedContent, expectedDescription.toString());
     }
     
-//    @Test
-//    public void canParseDescriptionWithOtherParameters()
-//    {
-//        String contentLine = "DESCRIPTION;MYPARAMETER=some value;IGNORE ME;PARAMETER2=other value:Example description";        
-//        Description madeDescription = Description.parse(contentLine);
-//        Description expectedDescription = Description.parse("Example description")
-//                .withOtherParameters("MYPARAMETER=some value", "PARAMETER2=other value");
-//        assertEquals(expectedDescription, madeDescription);
-//        String foldedContent = ICalendarUtilities.foldLine("DESCRIPTION;MYPARAMETER=some value;PARAMETER2=other value:Example description").toString();
-//        assertEquals(foldedContent, expectedDescription.toContent());
-//    }
+    @Test
+    public void canParseDescriptionWithOtherParameters()
+    {
+        String contentLine = "DESCRIPTION;X-MYPARAMETER=some value;IGNORE ME;X-PARAMETER2=other value:Example description";        
+        Description madeDescription = Description.parse(contentLine);
+        Description expectedDescription = Description.parse("Example description")
+        		.withNonStandard("X-MYPARAMETER=some value", "X-PARAMETER2=other value");
+        assertEquals(expectedDescription, madeDescription);
+        String foldedContent = ICalendarUtilities.foldLine("DESCRIPTION;MYPARAMETER=some value;PARAMETER2=other value:Example description").toString();
+        assertEquals(foldedContent, expectedDescription.toString());
+    }
     
     @Test
     public void canParseEmptyDescription()
@@ -51,8 +51,7 @@ public class DescriptionTest
         String contentLine = "DESCRIPTION:";
         Description madeDescription = Description.parse(contentLine);
         madeDescription.toString();
-        Description expectedDescription = new Description()
-                .withValue("");
+        Description expectedDescription = new Description();
         assertEquals(expectedDescription, madeDescription);
         assertEquals("DESCRIPTION:", expectedDescription.toString());
     }

@@ -212,7 +212,8 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
             // Convert property value string, if present
             if (modifiedValue() != null)
             {
-                T newPropValue = getConverter().fromString(modifiedValue());
+                String modifiedValue = modifiedValue();
+				T newPropValue = getConverter().fromString(modifiedValue);
                 this.value = newPropValue;
             }
         }
@@ -308,9 +309,17 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     protected String modifiedValue()
     {
     	if (actualValueContent == null)
-			return getConverter().toString(getValue());
-		else
+    	{
+    		T value2 = getValue();
+			if (value2 != null)
+    		{
+    			return getConverter().toString(getValue());
+    		}
+    		return null;
+    	} else
+    	{
 			return actualValueContent;
+    	}
 	}
     
     
@@ -401,81 +410,6 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
     {
         // do nothing - hook to override in subclass for functionality
     }
-
-    
-//    /** Parse content line into calendar property */
-////    @Override
-//    protected List<Message> parseContentOld(String unfoldedContent)
-//    {
-//    	List<Message> messages = new ArrayList<>();
-//
-//    	// separate name and value
-//    	final String propertyValue;
-//    	String propertyName = findPropertyName(unfoldedContent);
-//    	if (propertyName != null)
-//        {
-//            int endNameIndex = propertyName.length();
-//            boolean isMatch = propertyName.toUpperCase().equals(name());
-//            boolean isNonStandardProperty = propertyName.startsWith(VPropertyElement.NON_STANDARD_PROPERTY.toString());
-//            if (isMatch || isNonStandardProperty)
-//            {
-//                if (isNonStandardProperty)
-//                {
-//                    ((NonStandardProperty) this).setPropertyName(unfoldedContent.substring(0,endNameIndex));
-//                }
-//                propertyValue = unfoldedContent.substring(endNameIndex, unfoldedContent.length()); // strip off property name
-//            } else
-//            {
-//                if (! VPropertyElement.names.contains(propertyName))
-//                {
-//                    propertyValue = ICalendarUtilities.PROPERTY_VALUE_KEY + unfoldedContent; // doesn't match a known property name, assume its all a property value
-//                } else
-//                {
-//                    throw new IllegalArgumentException("Property name " + propertyName + " doesn't match class " +
-//                            getClass().getSimpleName() + ".  Property name associated with class " + 
-//                            getClass().getSimpleName() + " is " +  name());
-//                }
-//            }
-//        } else
-//        {
-//            propertyValue = ICalendarUtilities.PROPERTY_VALUE_KEY + unfoldedContent;
-//        }
-//
-//        // parse value and parameters
-//        List<Pair<String, String>> list = ICalendarUtilities.parseInlineElementsToListPair(propertyValue);
-//        list.stream()
-//            .forEach(entry ->
-//            { // add property value
-//            	if (entry.getKey() == ICalendarUtilities.PROPERTY_VALUE_KEY)
-//            	{
-//                    propertyValueString = entry.getValue();
-//                    try {
-//                    	T value = getConverter().fromString(modifiedValue());
-//                        if (value == null)
-//                        {
-//                            setUnknownValue(propertyValueString);
-//                        } else
-//                        {
-//                            setValue(value);
-//                            if (value.toString() == "UNKNOWN") // enum name indicating unknown value
-//                            {
-//                                setUnknownValue(propertyValueString);
-//                            }
-//                        }
-//                    } catch (IllegalArgumentException | DateTimeException e)
-//                    {
-//            			Message message = new Message(this,
-//            					"Invalid element:" + modifiedValue(),
-//            					MessageEffect.MESSAGE_ONLY);
-//            			messages.add(message);
-//                    }
-//            	} else
-//            	{ // add parameters
-//	            	processInLineChild(messages, entry.getKey(), entry.getValue(), VParameter.class);
-//            	}
-//            });
-//        return messages;
-//    }
     
     /**
      * Handle non-standard property name
@@ -508,30 +442,32 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
 			String content,
 			Class<? extends VElement> singleLineChildClass)
 	{
-    	if ((childName == ICalendarUtilities.PROPERTY_VALUE_KEY) && (content != null))
+    	if (childName == ICalendarUtilities.PROPERTY_VALUE_KEY)
     	{
-            try {
-            	actualValueContent = content;
-            	T value = getConverter().fromString(modifiedValue());
-                if (value == null)
-                {
-                    setUnknownValue(content);
-                } else
-                {
-                    setValue(value);
-                    if (value.toString() == "UNKNOWN") // enum name indicating unknown value
-                    {
-                        setUnknownValue(content);
-                    }
-                }
-            } catch (IllegalArgumentException | DateTimeException e)
-            {
-            	e.printStackTrace();
-    			Message message = new Message(this,
-    					"Invalid element:" + e.getMessage() + modifiedValue(),
-    					MessageEffect.MESSAGE_ONLY);
-    			messages.add(message);
-            }
+    		if (content != null)
+    		{
+	            try {
+	            	actualValueContent = content;
+	            	T value = getConverter().fromString(modifiedValue());
+	                if (value == null)
+	                {
+	                    setUnknownValue(content);
+	                } else
+	                {
+	                    setValue(value);
+	                    if (value.toString() == "UNKNOWN") // enum name indicating unknown value
+	                    {
+	                        setUnknownValue(content);
+	                    }
+	                }
+	            } catch (IllegalArgumentException | DateTimeException e)
+	            {
+	    			Message message = new Message(this,
+	    					"Invalid element:" + e.getMessage() + modifiedValue(),
+	    					MessageEffect.MESSAGE_ONLY);
+	    			messages.add(message);
+	            }
+    		}
     	} else
     	{
     		super.processInLineChild(messages, childName, content, singleLineChildClass);

@@ -106,7 +106,8 @@ public abstract class PropBaseDateTime<T,U> extends VPropertyBase<T,U> implement
 	protected String modifiedValue()
     {
         String timeZone = (getTimeZoneIdentifier() != null) ? "[" + getTimeZoneIdentifier().getValue().toString() + "]" : "";
-    	return timeZone + super.modifiedValue();
+    	String modifiedValue = super.modifiedValue();
+		return (modifiedValue != null) ? timeZone + modifiedValue : null;
 	}
 
     @Override

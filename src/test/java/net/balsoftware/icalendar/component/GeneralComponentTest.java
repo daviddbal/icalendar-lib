@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import org.junit.Test;
 
 import net.balsoftware.icalendar.ICalendarStaticComponents;
+import net.balsoftware.icalendar.components.VAlarm;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.component.descriptive.Categories;
 import net.balsoftware.icalendar.properties.component.descriptive.Classification.ClassificationType;
@@ -116,5 +117,24 @@ public class GeneralComponentTest
         DateTimeStart dtStart = new DateTimeStart(LocalDateTime.of(2015, 11, 9, 9, 30));
         vevent.setDateTimeStart(dtStart);
         assertEquals(dtStart, vevent.childrenUnmodifiable().get(1));
+    }
+    
+    @Test
+    public void canParseEmptyProperty()
+    {
+        String content = 
+       "BEGIN:VALARM" + System.lineSeparator() +
+//       "ACTION:DISPLAY" + System.lineSeparator() +
+       "DESCRIPTION:" + System.lineSeparator() +
+//       "TRIGGER;RELATED=START:-PT30M" + System.lineSeparator() +
+       "END:VALARM";
+        VAlarm a = VAlarm.parse(content);
+//        System.out.println(vCalendar.toString());
+//        System.out.println(content);
+        System.out.println(a);
+        System.out.println(a.getDescription());
+        assertEquals(content, a.toString());
+//        VEventNew e = vCalendar.getVEvents().get(1);
+//        e.getNonStandardProperties().stream().forEach(System.out::println);
     }
 }

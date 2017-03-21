@@ -263,7 +263,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
             	
                 if (child != null)
                 {
-//                	System.out.println("unfoldedLine:" + unfoldedLine);
 	                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLine); // recursively parse child parent
 	                // don't add single-line children with info or error messages - they have problems and should be ignored
 	                if (myMessages.isEmpty())
@@ -278,9 +277,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
                 	messages.add(new Message(this,
                 			"Unknown element:" + unfoldedLine,
                 			MessageEffect.MESSAGE_ONLY));
-//                	ICalendarUtilities.parseInlineElementsToListPair(unfoldedLine)
-//                        .stream()
-//                        .forEach(entry -> processInLineChild(messages, entry.getKey(), entry.getValue(), singlelineChildClass));
                 }
             }
         }
@@ -302,7 +298,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 			checkAndAddChild(messages, content, childName, newChild);
         } else
         {
-//        	System.out.println("Is this invalid?");
+        	System.out.println("child:");
         	messages.add(new Message(this,
         			"Unknown element:" + content,
         			MessageEffect.MESSAGE_ONLY));
@@ -341,7 +337,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		{
 			isChildAlreadyPresent = currentParameter != null;			
 		}
-//		System.out.println("isChildAlreadyPresent:" + isChildAlreadyPresent + " " + newChild);
 		if (isChildAlreadyPresent)
 		{
 			Message message = new Message(this,

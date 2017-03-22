@@ -480,7 +480,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         List<String> errors = super.errors();
         if (getValue() == null)
         {
-            errors.add(name() + " value is null.  The property MUST have a value."); 
+//            errors.add(name() + " value is null.  The property MUST have a value.");  // Google uses empty properties
         }
         
         final ValueType valueType;
@@ -550,35 +550,18 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         return hash;
     }
     
-//    /**
-//     * Creates a new VElement by parsing a String of iCalendar content text
-//     * @param <T>
-//     *
-//     * @param content  the text to parse, not null
-//     * @return  the parsed DaylightSavingTime
-//     */
-//    public static <T extends VPropertyBase<?,?>> T parse(String content)
+//    @Deprecated // moved to VElementBase
+//    private static String findPropertyName(String content)
 //    {
-//    	String name = findPropertyName(content);
-//    	if (name == null) throw new IllegalArgumentException("Property content must start with valid property name [" + content + "]");
-//    	T component = (T) Elements.newEmptyVElement(VProperty.class, name);
-//        List<Message> messages = component.parseContent(content);
-//        throwMessageExceptions(messages);
-//        return component;
+//        int i1 = content.indexOf(':');
+//        i1 = (i1 == -1) ? Integer.MAX_VALUE : i1;
+//        int i2 = content.indexOf(';');
+//        i2 = (i2 == -1) ? Integer.MAX_VALUE : i2;
+//        int i = Math.min(i1,i2);
+//        if (i == Integer.MAX_VALUE)
+//        {
+//        	return null;
+//        }
+//        return content.substring(0, i);
 //    }
-    
-    @Deprecated // moved to VElementBase
-    private static String findPropertyName(String content)
-    {
-        int i1 = content.indexOf(':');
-        i1 = (i1 == -1) ? Integer.MAX_VALUE : i1;
-        int i2 = content.indexOf(';');
-        i2 = (i2 == -1) ? Integer.MAX_VALUE : i2;
-        int i = Math.min(i1,i2);
-        if (i == Integer.MAX_VALUE)
-        {
-        	return null;
-        }
-        return content.substring(0, i);
-    }
 }

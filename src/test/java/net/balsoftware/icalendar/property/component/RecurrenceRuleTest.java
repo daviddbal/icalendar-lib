@@ -163,7 +163,7 @@ public class RecurrenceRuleTest
                     .withFrequency(FrequencyType.YEARLY)
                     .withByRules(new ByDay()));
         assertEquals(1, expectedProperty.errors().size());
-        String expected = "BYDAY value is null.  The element MUST have a value.";
+        String expected = "BYDAY: value is null.  The RRULE part MUST have a value.";
         assertEquals(expected, expectedProperty.errors().get(0));
     }
     
@@ -206,11 +206,21 @@ public class RecurrenceRuleTest
     }
     
     @Test
-    public void canDetectErrors()
+    public void canBuildEmptyRecurrenceRule()
     {
-        RecurrenceRule r = new RecurrenceRule(); // value can't be null
+        RecurrenceRule r = new RecurrenceRule(new RecurrenceRuleValue()); // value can't be null
         List<String> errors = r.errors();
-        List<String> expected = Arrays.asList("RRULE value is null.  The property MUST have a value.");
+        List<String> expected = Arrays.asList("FREQ is not present.  FREQ is REQUIRED and MUST NOT occur more than once");
+        assertEquals(expected, errors);
+    }
+    
+    @Test
+    public void canBuildEmptyRecurrenceRuleValue()
+    {
+        RecurrenceRuleValue r = new RecurrenceRuleValue(); // value can't be null
+        assertEquals(0, r.childrenUnmodifiable().size());
+        List<String> errors = r.errors();
+        List<String> expected = Arrays.asList("FREQ is not present.  FREQ is REQUIRED and MUST NOT occur more than once");
         assertEquals(expected, errors);
     }
 }

@@ -149,7 +149,7 @@ public class ParseCalendarTest extends ICalendarTestAbstract
                 + "END:VEVENT";
         
         VCalendar c = new VCalendar()
-                .withProductIdentifier("")
+                .withProductIdentifier("My ID")
                 .withVersion(new Version());
         c.addChild(vEventString1);
         c.addChild(vEventString2);
@@ -165,7 +165,7 @@ public class ParseCalendarTest extends ICalendarTestAbstract
     {
         VCalendar.parse((Reader) null);
     }
-    
+
     @Test (expected = IllegalArgumentException.class)
     public void canParseInvalidCalendar1()
     {

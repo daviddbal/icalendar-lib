@@ -7,9 +7,9 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
-import net.balsoftware.icalendar.Element;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.components.VEvent;
+import net.balsoftware.icalendar.properties.VPropertyElement;
 import net.balsoftware.icalendar.properties.component.relationship.RecurrenceId;
 
 public class RecurrenceIDParentValidTest
@@ -43,7 +43,7 @@ public class RecurrenceIDParentValidTest
         VCalendar c = new VCalendar()
         		.withVEvents(parentComponent, childComponent);
         parentComponent.setDateTimeStart(LocalDateTime.of(1997, 4, 1, 8, 0));
-        String errorPrefix = Element.RECURRENCE_IDENTIFIER.toString();
+        String errorPrefix = VPropertyElement.RECURRENCE_IDENTIFIER.toString();
         boolean hasError = childComponent.errors().stream()
             .anyMatch(s -> s.substring(0, errorPrefix.length()).equals(errorPrefix));
         assertTrue(hasError);

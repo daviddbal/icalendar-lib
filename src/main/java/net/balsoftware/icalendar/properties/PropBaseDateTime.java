@@ -9,8 +9,8 @@ import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.List;
 
-import net.balsoftware.icalendar.Element;
 import net.balsoftware.icalendar.parameters.TimeZoneIdentifierParameter;
+import net.balsoftware.icalendar.parameters.VParameterElement;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.component.relationship.RecurrenceId;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
@@ -53,7 +53,7 @@ public abstract class PropBaseDateTime<T,U> extends VPropertyBase<T,U> implement
             this.timeZoneIdentifier = timeZoneIdentifier;
         } else
         {
-            throw new DateTimeException(Element.TIME_ZONE_IDENTIFIER_PARAMETER.name() + " can't be set for date-time of type " + getValue().getClass().getSimpleName());
+            throw new DateTimeException(VParameterElement.TIME_ZONE_IDENTIFIER.name() + " can't be set for date-time of type " + getValue().getClass().getSimpleName());
         }
     }
     public void setTimeZoneIdentifier(String value)

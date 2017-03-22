@@ -298,7 +298,6 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 			checkAndAddChild(messages, content, childName, newChild);
         } else
         {
-        	System.out.println("child:");
         	messages.add(new Message(this,
         			"Unknown element:" + content,
         			MessageEffect.MESSAGE_ONLY));

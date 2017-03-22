@@ -1,6 +1,7 @@
 package net.balsoftware.icalendar.property.component;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.net.URISyntaxException;
 
@@ -41,7 +42,7 @@ public class DescriptionTest
         Description expectedDescription = Description.parse("Example description")
         		.withNonStandard("X-MYPARAMETER=some value", "X-PARAMETER2=other value");
         assertEquals(expectedDescription, madeDescription);
-        String foldedContent = ICalendarUtilities.foldLine("DESCRIPTION;MYPARAMETER=some value;PARAMETER2=other value:Example description").toString();
+        String foldedContent = ICalendarUtilities.foldLine("DESCRIPTION;X-MYPARAMETER=some value;X-PARAMETER2=other value:Example description").toString();
         assertEquals(foldedContent, expectedDescription.toString());
     }
     
@@ -54,5 +55,15 @@ public class DescriptionTest
         Description expectedDescription = new Description();
         assertEquals(expectedDescription, madeDescription);
         assertEquals("DESCRIPTION:", expectedDescription.toString());
+    }
+    
+    @Test
+    public void canBuildEmptyDescription()
+    {
+        String contentLine = "DESCRIPTION:";
+        Description madeDescription = new Description();
+        madeDescription.toString();
+        assertEquals(contentLine, madeDescription.toString());
+        assertNull(madeDescription.getValue());
     }
 }

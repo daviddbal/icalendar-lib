@@ -23,19 +23,7 @@ public abstract class VElementBase implements VElement
 {
 	protected static final String BEGIN = "BEGIN:";
 	protected static final String END = "END:";
-
-//    @Override
-//    public String name()
-//    {
-//    	if (name == null)
-//    	{
-//    		return Element.fromClass(getClass()).toString();
-//    	}
-//        return name;
-//    }
-//    private String name;
     
-//	// TODO - MAKE PROTECTED
 //    @Override
     /** Parse content line into calendar element.
      * If element contains children {@link #parseContent(String)} is invoked recursively to parse child elements also

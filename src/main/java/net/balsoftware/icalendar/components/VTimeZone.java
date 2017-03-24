@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.properties.component.change.LastModified;
@@ -483,7 +482,7 @@ public class VTimeZone extends VCommon<VTimeZone> implements VLastModified<VTime
             final List<StandardOrDaylight<?>> list;
             if (getStandardOrDaylight() == null)
             {
-                list = FXCollections.observableArrayList();
+                list = new ArrayList<>();
                 setStandardOrDaylight(list);
             } else
             {

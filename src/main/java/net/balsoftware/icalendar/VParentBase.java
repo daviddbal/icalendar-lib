@@ -331,7 +331,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		}
 		if (currentParameter instanceof Collection)
 		{
-			isChildAlreadyPresent = ((Collection<?>) currentParameter).contains(newChild);
+			isChildAlreadyPresent = ((Collection<?>) currentParameter).contains(newChild); // TOSO contains is expensive - try to find a way to avoid
 		} else
 		{
 			isChildAlreadyPresent = currentParameter != null;			
@@ -417,6 +417,8 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
             return false;
         }
         VParent testObj = (VParent) obj;
+        
+        // getter version is slower, but will be correct.
         Map<Class<? extends VChild>, Method> getters = getGetters();
         return getters.entrySet()
         	.stream()

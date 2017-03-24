@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.properties.component.descriptive.Description;
 import net.balsoftware.icalendar.properties.component.descriptive.GeographicPosition;
 import net.balsoftware.icalendar.properties.component.descriptive.Location;
@@ -273,16 +272,6 @@ public abstract class VLocatable<T> extends VDisplayable<T> implements VDescriba
                 .map(c -> VAlarm.parse(c))
                 .collect(Collectors.toList());
         return withVAlarms(newElements);
-    }
-    
-    static void copyVAlarms(VLocatable<?> source, VLocatable<?> destination)
-    {
-        VAlarm[] collect = source.getVAlarms()
-                .stream()
-                .map(c -> new VAlarm(c))
-                .toArray(size -> new VAlarm[size]);
-        List<VAlarm> properties = FXCollections.observableArrayList(collect);
-        destination.setVAlarms(properties);
     }
     
     /*

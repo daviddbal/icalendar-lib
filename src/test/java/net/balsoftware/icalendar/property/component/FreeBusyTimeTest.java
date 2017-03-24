@@ -10,10 +10,10 @@ import java.time.temporal.TemporalAmount;
 
 import org.junit.Test;
 
-import javafx.util.Pair;
 import net.balsoftware.icalendar.parameters.FreeBusyType.FreeBusyTypeEnum;
 import net.balsoftware.icalendar.properties.component.time.FreeBusyTime;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
+import net.balsoftware.icalendar.utilities.Pair;
 
 public class FreeBusyTimeTest
 {

@@ -4,10 +4,10 @@ import java.net.URI;
 
 import javax.annotation.Resources;
 
-import javafx.util.StringConverter;
 import net.balsoftware.icalendar.parameters.AlternateText;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.relationship.Contact;
+import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**
  * Property with language, alternate text display, and a text-based value

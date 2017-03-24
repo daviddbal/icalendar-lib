@@ -47,7 +47,7 @@ public class ReadICSFileTest
     }
     
     @Test
-    public void canReadICSFile2() throws IOException
+    public void canReadICSFile2() throws IOException, InterruptedException
     {
         String fileName = "mathBirthdays.ics";       
         URL url = getClass().getResource(fileName);
@@ -60,14 +60,19 @@ public class ReadICSFileTest
         String expectedUnfoldedContent = expectedLines.stream().collect(Collectors.joining(System.lineSeparator()));
         br.close();
 
+        long t1 = System.currentTimeMillis();
         VCalendar vCalendar = VCalendar.parse(icsFilePath);
+        long t2 = System.currentTimeMillis();
+        System.out.println(t2-t1);
         
+        long t3 = System.currentTimeMillis();
         Iterator<String> contentIterator = Arrays.stream(vCalendar.toString().split(System.lineSeparator())).iterator();
         UnfoldingStringIterator unfoldedContentLineIterator = new UnfoldingStringIterator(contentIterator);
         List<String> contentLines = new ArrayList<>();
         unfoldedContentLineIterator.forEachRemaining(line -> contentLines.add(line));
         String unfoldedContent = contentLines.stream().collect(Collectors.joining(System.lineSeparator()));
-        
+        long t4 = System.currentTimeMillis();
+        System.out.println(t4-t3);
 //        System.out.println(expectedUnfoldedContent);
         assertEquals(expectedUnfoldedContent, unfoldedContent);
         assertEquals(13217, expectedLines.size());

@@ -47,57 +47,11 @@ public class OrdererBase implements Orderer
         this.childGetters = map;
     }
 
-//	@Override
-//	public List<VChild> childrenUnmodifiable()
-//	{
-////		StackTraceElement[] st = Thread.currentThread().getStackTrace();
-////		System.out.println(st[3].getMethodName());
-////		System.out.println("run childrenUnmodifiable");
-////		childGetters.forEach(System.out::println);
-////		System.out.println("childUN:" + unorderedChildren(parent, childGetters).size() + " " + orderedChildren.size());
-//
-//		// Remove orphans
-//		List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
-////		System.out.println("allUnorderedChildren:" + allUnorderedChildren.size() + " " + orderedChildren.size());
-//		List<VChild> orphans = orderedChildren
-//			.stream()
-//			.filter(c -> ! allUnorderedChildren.contains(c))
-//			.collect(Collectors.toList());
-////		System.out.println("orphans:" + orphans.size());
-//		orphans.forEach(c -> orderedChildren.remove(c));
-//		List<VChild> allChildren = new ArrayList<>(orderedChildren);
-//
-//		// Add unordered children
-//		allUnorderedChildren
-//				.stream()
-//				.filter(c -> ! orderedChildren.contains(c))
-//				.forEach(unorderedChild -> 
-//				{
-//					Class<? extends VChild> clazz = unorderedChild.getClass();
-//					List<VChild> matchedChildren = allChildren.stream()
-//						.filter(c2 -> c2.getClass().equals(clazz))
-//						.collect(Collectors.toList());
-//					if (! matchedChildren.isEmpty())
-//					{
-//						VChild lastMatchedChild = matchedChildren.get(matchedChildren.size()-1);
-//						int index = allChildren.indexOf(lastMatchedChild)+1;
-//						allChildren.add(index, unorderedChild); // put after last matched child
-//					} else
-//					{
-//						allChildren.add(unorderedChild); // no match, put at end
-//					}
-//				});
-//
-//		return allChildren;
-//	}
-	
 	@Override
 	public List<VChild> childrenUnmodifiable()
 	{
 		return orderedChildren;
 	}
-	
-//	public 
 	
     private List<VChild> allUnorderedChildren(VParent parent, Map<Class<? extends VChild>, Method> childGetters2)
     {
@@ -105,8 +59,6 @@ public class OrdererBase implements Orderer
 			.entrySet()
     		.stream()
     		.map(e -> e.getValue())
-//    		.peek(m -> System.out.println(m.getName()))
-//    		.filter(m -> m.getName().equals("getVAlarms"))
     		.map(m -> {
 				try {
 					return m.invoke(parent);
@@ -116,7 +68,6 @@ public class OrdererBase implements Orderer
 				return null;
 			})
     		.filter(p -> p != null)
-//    		.peek(System.out::println)
     		.flatMap(p -> 
     		{
     			if (Collection.class.isAssignableFrom(p.getClass()))
@@ -134,44 +85,15 @@ public class OrdererBase implements Orderer
 	@Override
 	public void orderChild(VChild newChild)
 	{
-		
-//		System.out.println("adding:" + newChild + "  " + System.identityHashCode(newChild) + " " + orderedChildren.contains(newChild));
-//		boolean isPresentInList = orderedChildren.contains(newChild);
-//		final boolean isNotPresentInList;
-//		int index = orderedChildren.indexOf(newChild);
-//		if (index > -1)
-//		{
-//			VChild match = orderedChildren.get(index);
-//			isNotPresentInList = newChild != match;
-//		} else
-//		{
-//			isNotPresentInList = true;
-//		}
-//		if (isNotPresentInList && (newChild != null))
-//		{
-//			List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
-//			List<VChild> orphans = orderedChildren
-//					.stream()
-//					.filter(c -> c.getClass().equals(newChild.getClass()))
-//					.filter(c -> ! allUnorderedChildren.contains(c))
-//					.collect(Collectors.toList());
-//			if (! orphans.isEmpty())
-//			{ // replace orphan at same index location
-//				int index2 = orderedChildren.indexOf(orphans.get(0));
-//				orphans.forEach(c -> orderedChildren.remove(c));
-//				orderedChildren.add(index2, newChild);				
-//			} else
-//			{
-//				orderedChildren.add(newChild);
-//			}
-//			newChild.setParent(parent);
-//		}
-		if (newChild == parent) throw new RuntimeException("Can't add you to yourself");
+		if (newChild == parent) throw new RuntimeException("Can't add you to yourself!");
 		orderedChildren.add(newChild);
 		newChild.setParent(parent);
 	}
 	
-	/* Remove orphans matching newChild's class type */
+	/* Remove orphans matching newChild's class type
+	 * NOT using because it is too expensive. 
+	 * If addChild is used it's not required.
+	 *  */
 	private void removeOrphans(VChild newChild)
 	{
 		List<VChild> allUnorderedChildren = allUnorderedChildren(parent, childGetters);
@@ -188,11 +110,7 @@ public class OrdererBase implements Orderer
 	{
 		if (newChild != null)
 		{
-//			if (orderedChildren.contains(newChild))
-//			{
-				orderedChildren.remove(newChild);
-//			}
-//			removeOrphans(newChild);
+			orderedChildren.remove(newChild);
 			orderedChildren.add(index, newChild);
 			newChild.setParent(parent);
 		}

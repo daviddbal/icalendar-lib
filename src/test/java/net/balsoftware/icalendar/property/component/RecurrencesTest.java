@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import javafx.collections.FXCollections;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
@@ -82,10 +81,10 @@ public class RecurrencesTest
         madeProperty.getValue().add(ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("America/Los_Angeles")));
         String foldedContent = ICalendarUtilities.foldLine(content + ",19960403T010000,19960404T010000").toString();
         assertEquals(foldedContent, madeProperty.toString());
-        RecurrenceDates expectedProperty = new RecurrenceDates(FXCollections.observableSet(
+        RecurrenceDates expectedProperty = new RecurrenceDates(new HashSet<>(Arrays.asList(
                 ZonedDateTime.of(LocalDateTime.of(1996, 4, 2, 1, 0), ZoneId.of("America/Los_Angeles")),
                 ZonedDateTime.of(LocalDateTime.of(1996, 4, 3, 1, 0), ZoneId.of("America/Los_Angeles")),
-                ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("America/Los_Angeles")) ));
+                ZonedDateTime.of(LocalDateTime.of(1996, 4, 4, 1, 0), ZoneId.of("America/Los_Angeles")) )));
         assertEquals(expectedProperty, madeProperty);
         
         Set<ZonedDateTime> expectedValues = new HashSet<>(Arrays.asList(

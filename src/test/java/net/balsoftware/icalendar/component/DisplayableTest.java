@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VDisplayable;
 import net.balsoftware.icalendar.components.VEvent;
@@ -271,7 +269,7 @@ public class DisplayableTest
         e.setDateTimeCreated((DateTimeCreated) null);
         e.setExceptionDates(null);
         e.setDateTimeStart(new DateTimeStart(LocalDate.of(2016, 2, 7)));
-        e.setExceptionDates(FXCollections.observableArrayList(new ExceptionDates(
+        e.setExceptionDates(Arrays.asList(new ExceptionDates(
                             LocalDate.of(2016, 2, 10)
                           , LocalDate.of(2016, 2, 12)
                           , LocalDate.of(2016, 2, 9)
@@ -310,7 +308,7 @@ public class DisplayableTest
     {
         VEvent component = new VEvent()
                 .withDateTimeStart(LocalDate.of(1997, 3, 1));
-        ObservableList<ExceptionDates> exceptions = FXCollections.observableArrayList();
+        List<ExceptionDates> exceptions = new ArrayList<>();
         exceptions.add(ExceptionDates.parse("20160228T093000"));
         component.setExceptionDates(exceptions); // invalid
         String expectedError = "DTSTART, EXDATE: The value type of EXDATE elements MUST be the same as the DTSTART property (DTSTART=" +

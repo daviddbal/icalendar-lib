@@ -115,7 +115,6 @@ public class OrdererTest
         		"EXDATE:20160428T120000" + System.lineSeparator() +
         		"EXDATE:20160429T120000" + System.lineSeparator() +
         		"END:VEVENT";
-        System.out.println(v);
         assertEquals(expectedContent, v.toString());
     }
     

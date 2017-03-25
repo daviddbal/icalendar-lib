@@ -131,8 +131,6 @@ public class GeneralComponentTest
         VAlarm a = VAlarm.parse(content);
 //        System.out.println(vCalendar.toString());
 //        System.out.println(content);
-        System.out.println(a);
-        System.out.println(a.getDescription());
         assertEquals(content, a.toString());
 //        VEventNew e = vCalendar.getVEvents().get(1);
 //        e.getNonStandardProperties().stream().forEach(System.out::println);

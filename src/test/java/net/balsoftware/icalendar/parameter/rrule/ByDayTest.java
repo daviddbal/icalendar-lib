@@ -36,7 +36,6 @@ public class ByDayTest
     public void canParseByDay2()
     {
         ByDay element = ByDay.parse("BYDAY=SU");
-        System.out.println(element);
         ByDayPair byDayPair = new ByDayPair()
                 .withDayOfWeek(DayOfWeek.SUNDAY);
         assertEquals(byDayPair, element.getValue().get(0));

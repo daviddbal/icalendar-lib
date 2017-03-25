@@ -265,7 +265,6 @@ public class ParseCalendarTest extends ICalendarTestAbstract
             "END:VCALENDAR";
             VCalendar v = new VCalendar();
             List<String> m = v.processITIPMessage(content);
-            System.out.println(m);
             v.addChild(content);
             List<String> messages = null; // v.parseContent(content);
             List<String> expectedMessages = Arrays.asList("VCALENDAR:Unknown line is ignored:IGNORE THIS LINE", "VCALENDAR:Unknown property is ignored:UNKNOWN-PROP:SOMETHING");
@@ -281,6 +280,5 @@ public class ParseCalendarTest extends ICalendarTestAbstract
        "END:VCALENDAR";
 
         VCalendar v = VCalendar.parse(content);
-        System.out.println(v);
     }
 }

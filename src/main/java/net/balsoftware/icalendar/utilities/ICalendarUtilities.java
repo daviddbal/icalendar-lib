@@ -1,24 +1,13 @@
 package net.balsoftware.icalendar.utilities;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import net.balsoftware.icalendar.VChild;
 
 /**
  * Static utility methods used throughout iCalendar
@@ -240,72 +229,4 @@ public final class ICalendarUtilities
     public static <T> Stream<T> takeWhile(Stream<T> stream, Predicate<? super T> predicate) {
        return StreamSupport.stream(takeWhile(stream.spliterator(), predicate), false);
     }
-
-    /*
-     * MAP MAKERS FOR SETTERS AND GETTERS
-     */
-	public static Map<Class<? extends VChild>, Method> collectGetterMap(Class<?> class1)
-	{
-		Map<Class<? extends VChild>, Method> getters = new HashMap<>();
-		Iterator<Method> methodIterator = Arrays.stream(class1.getMethods())
-				.filter(m -> m.getParameters().length == 0)
-				.filter(m -> m.getName().startsWith("get"))
-				.iterator();
-		while (methodIterator.hasNext())
-		{
-			Method m = methodIterator.next();
-			Class<? extends VChild> returnType = (Class<? extends VChild>) m.getReturnType();
-			if (VChild.class.isAssignableFrom(returnType))
-			{
-				getters.put(returnType, m);
-			} else if (Collection.class.isAssignableFrom(returnType))
-			{
-				ParameterizedType pt = (ParameterizedType) m.getGenericReturnType();
-				Type t = pt.getActualTypeArguments()[0];
-				if (ParameterizedType.class.isAssignableFrom(t.getClass()))
-				{
-					ParameterizedType t2 = (ParameterizedType) t;
-					t = t2.getRawType(); // Fixes Attachment<?> property
-				}
-				Class<? extends VChild> listType = (Class<? extends VChild>) t;
-				getters.put(listType, m);				
-			}
-		}
-		return getters;
-	}
-	
-	public static Map<Class<? extends VChild>, Method> collectSetterMap(Class<?> class1)
-	{
-		Map<Class<? extends VChild>, Method> setters = new HashMap<>();
-		Iterator<Method> methodIterator = Arrays.stream(class1.getMethods())
-				.filter(m -> m.getParameters().length == 1)
-				.filter(m -> m.getName().startsWith("set"))
-				.iterator();
-		while (methodIterator.hasNext())
-		{
-			Method m = methodIterator.next();
-			Parameter p = m.getParameters()[0];
-			Class<? extends VChild> parameterType = (Class<? extends VChild>) p.getType();
-			if (VChild.class.isAssignableFrom(parameterType))
-			{
-				setters.put(parameterType, m);
-			} else if (Collection.class.isAssignableFrom(parameterType))
-			{
-				ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
-				Type t = pt.getActualTypeArguments()[0];
-				if (ParameterizedType.class.isAssignableFrom(t.getClass()))
-				{
-					ParameterizedType t2 = (ParameterizedType) t;
-					t = t2.getRawType(); // Fixes Attachment<?> property
-				}
-				Class<? extends VChild> clazz2 = (Class<? extends VChild>) t;
-				boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
-				if (isListOfChildren)
-				{
-					setters.put(clazz2, m);
-				}
-			}
-		}
-		return setters;
-	}
 }

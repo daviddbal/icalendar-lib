@@ -16,4 +16,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'icalendar8'
+rootProject.name = 'icalendar-lib'

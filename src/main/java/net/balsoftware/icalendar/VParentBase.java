@@ -2,6 +2,9 @@ package net.balsoftware.icalendar;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,7 +26,6 @@ import net.balsoftware.icalendar.parameters.VParameter;
 import net.balsoftware.icalendar.properties.VProperty;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
-import net.balsoftware.icalendar.utilities.ICalendarUtilities;
 
 /**
  * <p>Base class for parent calendar components.</p>
@@ -171,7 +173,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     {
     	if (SETTERS.get(getClass()) == null)
     	{
-    		Map<Class<? extends VChild>, Method> setterMap = ICalendarUtilities.collectSetterMap(getClass());
+    		Map<Class<? extends VChild>, Method> setterMap = collectSetterMap(getClass());
 			SETTERS.put(getClass(), setterMap);
 			return setterMap;
     	}
@@ -182,7 +184,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     {
     	if (GETTERS.get(getClass()) == null)
     	{
-    		Map<Class<? extends VChild>, Method> getterMap = ICalendarUtilities.collectGetterMap(getClass());
+    		Map<Class<? extends VChild>, Method> getterMap = collectGetterMap(getClass());
 			GETTERS.put(getClass(), getterMap);
 			return getterMap;
     	}
@@ -447,4 +449,72 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         }
         return result;
     }
+    
+    /*
+     * MAP MAKERS FOR SETTERS AND GETTERS
+     */
+	public static Map<Class<? extends VChild>, Method> collectGetterMap(Class<?> class1)
+	{
+		Map<Class<? extends VChild>, Method> getters = new HashMap<>();
+		Iterator<Method> methodIterator = Arrays.stream(class1.getMethods())
+				.filter(m -> m.getParameters().length == 0)
+				.filter(m -> m.getName().startsWith("get"))
+				.iterator();
+		while (methodIterator.hasNext())
+		{
+			Method m = methodIterator.next();
+			Class<? extends VChild> returnType = (Class<? extends VChild>) m.getReturnType();
+			if (VChild.class.isAssignableFrom(returnType))
+			{
+				getters.put(returnType, m);
+			} else if (Collection.class.isAssignableFrom(returnType))
+			{
+				ParameterizedType pt = (ParameterizedType) m.getGenericReturnType();
+				Type t = pt.getActualTypeArguments()[0];
+				if (ParameterizedType.class.isAssignableFrom(t.getClass()))
+				{
+					ParameterizedType t2 = (ParameterizedType) t;
+					t = t2.getRawType(); // Fixes Attachment<?> property
+				}
+				Class<? extends VChild> listType = (Class<? extends VChild>) t;
+				getters.put(listType, m);				
+			}
+		}
+		return getters;
+	}
+	
+	public static Map<Class<? extends VChild>, Method> collectSetterMap(Class<?> class1)
+	{
+		Map<Class<? extends VChild>, Method> setters = new HashMap<>();
+		Iterator<Method> methodIterator = Arrays.stream(class1.getMethods())
+				.filter(m -> m.getParameters().length == 1)
+				.filter(m -> m.getName().startsWith("set"))
+				.iterator();
+		while (methodIterator.hasNext())
+		{
+			Method m = methodIterator.next();
+			Parameter p = m.getParameters()[0];
+			Class<? extends VChild> parameterType = (Class<? extends VChild>) p.getType();
+			if (VChild.class.isAssignableFrom(parameterType))
+			{
+				setters.put(parameterType, m);
+			} else if (Collection.class.isAssignableFrom(parameterType))
+			{
+				ParameterizedType pt = (ParameterizedType) p.getParameterizedType();
+				Type t = pt.getActualTypeArguments()[0];
+				if (ParameterizedType.class.isAssignableFrom(t.getClass()))
+				{
+					ParameterizedType t2 = (ParameterizedType) t;
+					t = t2.getRawType(); // Fixes Attachment<?> property
+				}
+				Class<? extends VChild> clazz2 = (Class<? extends VChild>) t;
+				boolean isListOfChildren = VChild.class.isAssignableFrom(clazz2);
+				if (isListOfChildren)
+				{
+					setters.put(clazz2, m);
+				}
+			}
+		}
+		return setters;
+	}
 }

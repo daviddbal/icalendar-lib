@@ -4,7 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="icalendar.css">
 </head>
 <body>
-<h2 style="text-align: center;">iCalendarFx</h2>
+<h2 style="text-align: center;">iCalendar-lib</h2>
 <h3>Summary</h3>
 <p>Written in Java, iCalendar-lib is an open-source iCalendar library for Java 8.  It implements the <a href="https://tools.ietf.org/html/rfc5545">RFC 5545</a> standard.</p>
 <p>A default iCalendar Transport-Independent Interoperability Protocol (iTIP) factory is included that implements part of the <a href="https://tools.ietf.org/html/rfc5546">RFC 5546</a> iTIP protocol standard (single-user methods).  The client code an use a replacement factory to implement all of the iTIP protocol methods.</p>
@@ -98,7 +98,7 @@ rrule.streamRecurrences(LocalDate.of(2017, 1, 2))
 </ul>
 <h3>Export iCalendar</h3>
 <p>The API does not specifically provide a mechanism to export iCalendar data.  However, the <em>toContent </em>method provides a string containing the calendar content.  That string can easily exported by the client program.</p>
-<p>See <a href="icalendaragenda.htm">iCalendarAgenda</a>, a JavaFx Control that displays and edits iCalendarFx VCALENDAR objects.</p>
+<p>See <a href="icalendaragenda.htm">iCalendarAgenda</a>, a JavaFx Control that displays and edits iCalendar VCALENDAR objects.</p>
 
 <p>For more information please see my YouTube videos:</p>
 
@@ -107,8 +107,8 @@ rrule.streamRecurrences(LocalDate.of(2017, 1, 2))
 <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLGEK8X_aQRqW8HIK3PRBPkuOjD7Z_CeK6" frameborder="0" allowfullscreen>
 </iframe>
 
-<p style="text-align: center;"><a href="https://github.com/JFXtras/jfxtras/tree/8.0/jfxtras-icalendarfx"><img title="iCalendarFx at GitHub" src="GitHub-Mark-64px.png" alt="iCalendarFx at GibHub" width="64" height="64" /></a></p>
-<p style="text-align: center;"><a href="https://github.com/JFXtras/jfxtras/tree/8.0/jfxtras-icalendarfx"><strong>iCalendarFx at GitHub</strong></a></p>
+<p style="text-align: center;"><a href="https://github.com/daviddbal/icalendar-lib"><img title="iCalendar-lib at GitHub" src="GitHub-Mark-64px.png" alt="iCalendar-lib at GibHub" width="64" height="64" /></a></p>
+<p style="text-align: center;"><a href="https://github.com/daviddbal/icalendar-lib"><strong>iCalendar-lib at GitHub</strong></a></p>
 
 </body>
 </html>

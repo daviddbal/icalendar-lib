@@ -20,8 +20,10 @@ import net.balsoftware.icalendar.utilities.StringConverter;
 abstract public class VParameterBase<U,T> extends VElementBase implements VParameter<T>
 {
     private VParent myParent;
-    @Override public void setParent(VParent parent) { myParent = parent; }
-    @Override public VParent getParent() { return myParent; }
+    @Override
+    public void setParent(VParent parent) { myParent = parent; }
+    @Override
+    public VParent getParent() { return myParent; }
     
     /*
      * PARAMETER VALUE

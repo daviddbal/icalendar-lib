@@ -322,7 +322,6 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     public RecurrenceRuleValue()
     {
     	super();
-//    	byRules = new LinkedHashSet<>();
     }
 
     // Copy constructor

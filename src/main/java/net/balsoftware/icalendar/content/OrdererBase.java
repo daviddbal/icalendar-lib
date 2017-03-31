@@ -140,17 +140,6 @@ public class OrdererBase implements Orderer
     @Override
 	public String toString()
     {
-    	System.out.println("parent:" + parent.name());
 		return "OrdererBase [parent=" + parent + ", orderedChildren=" + orderedChildren + "]";
 	}
-    
-//	@Override
-//	public int removeChild(VChild child)
-//	{
-//		int index = orderedChildren.indexOf(child);
-//		System.out.println("index:" + index);
-//		boolean isRemoved = orderedChildren.remove(child);
-//		if (! isRemoved) return -1;
-//		return index;
-//	}
 }

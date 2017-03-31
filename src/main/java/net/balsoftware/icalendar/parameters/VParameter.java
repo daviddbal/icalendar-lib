@@ -29,42 +29,4 @@ public interface VParameter<T> extends VChild
     
     /** Set the value of this parameter */  
     void setValue(T value);
-    
-    
-//    /**
-//     * Returns the enumerated type for the parameter as it would appear in the iCalendar content line
-//     * Examples:
-//     * VALUE
-//     * TZID
-//     * 
-//     * @return - the parameter type
-//     */
-//    ParameterType parameterType();
-    
-//    /**
-//     * return parameter name-value pair string separated by an "="
-//     * for example:
-//     * LANGUAGE=en-US
-//     */
-//    @Override
-//    String toContent();
-    
-    /*
-     * Utility methods
-     */    
-
-//    
-//    static String extractName(String content)
-//    {
-//        int equalsIndex = content.indexOf('=');
-//        if (equalsIndex > 0)
-//        {
-//            String name = content.substring(0, equalsIndex);
-//            boolean hasName1 = ParameterType.enumFromName(name.toUpperCase()) != null;
-////            boolean hasName2 = IANAParameter.getRegisteredIANAParameters().contains(name.toUpperCase());
-//            return (hasName1) ? name : null;
-//        }
-//        return null;
-//    }
-    
 }

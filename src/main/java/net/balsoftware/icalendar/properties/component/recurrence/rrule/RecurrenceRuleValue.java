@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -134,18 +133,6 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     {
     	setByRules(byRules);
         return this;
-    }
-    
-    /** Return ByRule associated with class type */
-    @Deprecated
-    public ByRule<?> lookupByRule(Class<? extends ByRule<?>> byRuleClass)
-    {
-    	if (getByRules() == null) return null;
-        Optional<ByRule<?>> rule = getByRules()
-                .stream()
-                .filter(r -> byRuleClass.isInstance(r))
-                .findFirst();
-        return (rule.isPresent()) ? rule.get() : null;
     }
     
     /**

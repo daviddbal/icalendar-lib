@@ -16,21 +16,6 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElem
 /** BYMONTH from RFC 5545, iCalendar 3.3.10, page 42 */
 public class ByMonth extends ByRuleAbstract<Month, ByMonth>
 {
-    /** sorted array of months to be included
-     * January = 1 - December = 12
-     * Uses a varargs parameter to allow any number of months
-     */
-//    public Month[] getValue() { return months; }
-//    private Month[] months;
-//    private void setMonths(Month... months) { this.months = months; }
-//    public void setValue(Month... months)
-//    {
-//        setValue(FXCollections.observableArrayList(months));
-//    }
-//    public void setValue(String months)
-//    {
-//        parseContent(months);
-//    }
     public void setValue(int... months)
     {
         Month[] monthArray = Arrays.stream(months)
@@ -38,21 +23,12 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
                 .toArray(size -> new Month[size]);
         setValue(monthArray);
     }
-//    public ByMonth withValue(Month... months)
-//    {
-//        setValue(months);
-//        return this;
-//    }
+
     public ByMonth withValue(int... months)
     {
         setValue(months);
         return this;
     }
-//    public ByMonth withValue(String months)
-//    {
-//        setValue(months);
-//        return this;
-//    }
     
     /*
      * CONSTRUCTORS
@@ -60,7 +36,6 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
     public ByMonth()
     {
         super();
-//        super(ByMonth.class);
     }
     
     public ByMonth(int... months)
@@ -91,10 +66,7 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
 
     @Override
     public Stream<Temporal> streamRecurrences(Stream<Temporal> inStream, ChronoUnit chronoUnit, Temporal startTemporal)
-//    public Stream<Temporal> streamRecurrences(Stream<Temporal> inStream, ObjectProperty<ChronoUnit> chronoUnit, Temporal startDateTime)
     {
-//        ChronoUnit originalChronoUnit = chronoUnit; //.get();
-//        chronoUnit.set(MONTHS);
         switch (chronoUnit)
         {
         case HOURS:
@@ -134,15 +106,6 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
         }
     }
     
-//    private static ObservableList<Month> makeMonthList(String months)
-//    {
-//        return FXCollections.observableArrayList(
-//            Arrays.asList(months.split(","))
-//                .stream()
-//                .map(s -> Month.of(Integer.parseInt(s)))
-//                .toArray(size -> new Month[size]));
-//    }
-
     @Override
     protected List<Message> parseContent(String content)
     {

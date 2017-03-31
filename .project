@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>icalendar9</name>
-	<comment>Project icalendar9 created by Buildship.</comment>
+	<name>icalendar-lib</name>
+	<comment>Project icalendar-lib created by Buildship.</comment>
 	<projects>
 	</projects>
 	<buildSpec>

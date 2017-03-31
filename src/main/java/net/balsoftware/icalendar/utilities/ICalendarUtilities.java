@@ -15,7 +15,6 @@ import java.util.stream.StreamSupport;
  * @author David Bal
  *
  */
-// NEEDS TO BE CLEANED UP - REMOVE UNUSED METHODS
 public final class ICalendarUtilities
 {
     private ICalendarUtilities() { };

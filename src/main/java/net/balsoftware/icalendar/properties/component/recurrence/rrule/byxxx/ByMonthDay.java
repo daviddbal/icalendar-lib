@@ -58,47 +58,6 @@ public class ByMonthDay extends ByRuleIntegerAbstract<ByMonthDay>
     {
         return (value) -> (value >= -31) && (value <= 31) && (value != 0);
     }
-
-
-//    @Override
-//    public void copyTo(ByRule destination)
-//    {
-//        ByMonthDay destination2 = (ByMonthDay) destination;
-//        destination2.daysOfMonth = new int[daysOfMonth.length];
-//        for (int i=0; i<daysOfMonth.length; i++)
-//        {
-//            destination2.daysOfMonth[i] = daysOfMonth[i];
-//        }
-//    }
-    
-//    @Override
-//    public boolean equals(Object obj)
-//    {
-//        if (obj == this) return true;
-//        if((obj == null) || (obj.getClass() != getClass())) {
-//            return false;
-//        }
-//        ByMonthDay testObj = (ByMonthDay) obj;
-//        boolean daysOfMonthEquals = getValue().equals(testObj.getValue());
-//        return daysOfMonthEquals;
-//    }
-//    
-//    @Override
-//    public int hashCode()
-//    {
-//        int hash = 5;
-//        hash = (31 * hash) + getValue().hashCode();
-//        return hash;
-//    }
-    
-//    @Override
-//    public String toContent()
-//    {
-//        String days = getValue().stream()
-//                .map(d -> d + ",")
-//                .collect(Collectors.joining(","));
-//        return RRuleElementType.BY_MONTH_DAY + "=" + days; //.substring(0, days.length()-1); // remove last comma
-//    }
     
     /**
      * Return stream of valid dates made by rule (infinite if COUNT or UNTIL not present)
@@ -106,13 +65,6 @@ public class ByMonthDay extends ByRuleIntegerAbstract<ByMonthDay>
     @Override
     public Stream<Temporal> streamRecurrences(Stream<Temporal> inStream, ChronoUnit chronoUnit, Temporal dateTimeStart)
     {
-//        if (getValue() == null)
-//        { // if no days specified when constructing, get day of month for startDateTime
-//            setValue(MonthDay.from(dateTimeStart).getDayOfMonth());
-//        }
-//        ChronoUnit originalChronoUnit = chronoUnit.get();
-//        chronoUnit.set(DAYS);
-//        Set<Month> months = new LinkedHashSet<>();
         switch (chronoUnit)
         {
         case HOURS:
@@ -132,7 +84,6 @@ public class ByMonthDay extends ByRuleIntegerAbstract<ByMonthDay>
                         return false;
                     });
         case YEARS:
-//            months.addAll(Arrays.asList(Month.values()));
             return inStream.flatMap(d -> 
             { // Expand to be daysOfMonth days in current month
                 List<Temporal> dates = new ArrayList<>();
@@ -148,17 +99,6 @@ public class ByMonthDay extends ByRuleIntegerAbstract<ByMonthDay>
             { // Expand to be daysOfMonth days in current month
                 List<Temporal> dates = new ArrayList<>();
                 dates.addAll(extracted(d, dateTimeStart));
-//                for (int dayOfMonth : getValue())
-//                {
-//                    Temporal newTemporal = d.with(ChronoField.DAY_OF_MONTH, dayOfMonth);
-//                    int actualDayOfMonth = newTemporal.get(ChronoField.DAY_OF_MONTH);
-//                    // ensure day of month hasn't changed.  If it changed the date was invalid and should be ignored.
-//                    if ((dayOfMonth == actualDayOfMonth) && (! DateTimeUtilities.isBefore(newTemporal, dateTimeStart)))
-//                    {
-//                        dates.add(newTemporal);
-//                    }
-//                }
-//                System.out.println("months:" + d + " " + dates.size());
                 return dates.stream().sorted(DateTimeUtilities.TEMPORAL_COMPARATOR);
             });
         case WEEKS:

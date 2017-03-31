@@ -549,19 +549,4 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         hash = prime * hash + ((value == null) ? 0 : value.hashCode());
         return hash;
     }
-    
-//    @Deprecated // moved to VElementBase
-//    private static String findPropertyName(String content)
-//    {
-//        int i1 = content.indexOf(':');
-//        i1 = (i1 == -1) ? Integer.MAX_VALUE : i1;
-//        int i2 = content.indexOf(';');
-//        i2 = (i2 == -1) ? Integer.MAX_VALUE : i2;
-//        int i = Math.min(i1,i2);
-//        if (i == Integer.MAX_VALUE)
-//        {
-//        	return null;
-//        }
-//        return content.substring(0, i);
-//    }
 }

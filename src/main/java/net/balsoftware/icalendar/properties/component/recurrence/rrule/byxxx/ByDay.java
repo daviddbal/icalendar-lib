@@ -416,12 +416,11 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
             } else
             { // has no ordinal number
                 DayOfWeek dayOfWeek = DateTimeUtilities.dayOfWeekFromAbbreviation(token);
-//                DayOfWeek dayOfWeek = ICalendarDayOfWeek.valueOf(token).getDayOfWeek();
                 dayPairsList.add(new ByDayPair(dayOfWeek, 0));
             }
         }
         setValue(dayPairsList);
-//        return errors()
+//        return errors()  // Too slow - is it OK to ignore?
 //        	.stream()
 //        	.map(s -> new Message(this, s, MessageEffect.MESSAGE_ONLY))
 //        	.collect(Collectors.toList());

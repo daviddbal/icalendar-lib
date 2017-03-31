@@ -19,12 +19,19 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElem
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
 import net.balsoftware.icalendar.utilities.Pair;
 
+/**
+ * Base class for all VCalendar elements. 
+ * 
+ * Contains a map of all no-arg constructors and related methods to support all calendar elements.
+ * 
+ * @author David Bal
+ *
+ */
 public abstract class VElementBase implements VElement
 {
 	protected static final String BEGIN = "BEGIN:";
 	protected static final String END = "END:";
     
-//    @Override
     /** Parse content line into calendar element.
      * If element contains children {@link #parseContent(String)} is invoked recursively to parse child elements also
      * 
@@ -167,12 +174,12 @@ public abstract class VElementBase implements VElement
 	 * Return element name from calendar content
 	 * e.g VEVENT, SUMMARY, TZID
 	 * 
-	 * Doesn't check if content valid.  Returns null if no valid property name exists.
+	 * Doesn't check if content's valid.  Returns null if no valid property name exists.
 	 * 
 	 * @param content
 	 * @return element name
 	 */
-	protected String elementName(String content)
+	protected static String elementName(String content)
 	{
 		int indexOfBegin = content.indexOf(BEGIN);
 		boolean isMultiline = indexOfBegin != -1;

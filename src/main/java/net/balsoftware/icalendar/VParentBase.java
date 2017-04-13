@@ -360,7 +360,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
     	return orderer.childrenUnmodifiable();
     }
     
-    protected void copyChildrenInto(VParent destination)
+    public void copyChildrenInto(VParent destination)
     {
         childrenUnmodifiable().forEach((childSource) -> 
         {

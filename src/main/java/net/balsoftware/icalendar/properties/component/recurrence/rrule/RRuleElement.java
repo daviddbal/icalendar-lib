@@ -19,20 +19,20 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByY
 
 public enum RRuleElement
 {
-    FREQUENCY ("FREQ", Frequency.class, 0, null),
-    INTERVAL ("INTERVAL", Interval.class, 0, null),
-    UNTIL ("UNTIL", Until.class, 0, null),
-    COUNT ("COUNT", Count.class, 0, null),
-    WEEK_START ("WKST", WeekStart.class, 0, null),
-    BY_MONTH ("BYMONTH", ByMonth.class, 100, ChronoUnit.MONTHS),
-    BY_WEEK_NUMBER ("BYWEEKNO", ByWeekNumber.class, 110, ChronoUnit.DAYS),
-    BY_YEAR_DAY ("BYYEARDAY", ByYearDay.class, 120, ChronoUnit.DAYS),
-    BY_MONTH_DAY ("BYMONTHDAY", ByMonthDay.class, 130, ChronoUnit.DAYS),
-    BY_DAY ("BYDAY", ByDay.class, 140, ChronoUnit.DAYS),
-    BY_HOUR ("BYHOUR", ByHour.class, 150, ChronoUnit.HOURS),
-    BY_MINUTE ("BYMINUTE", ByMinute.class, 160, ChronoUnit.MINUTES),
-    BY_SECOND ("BYSECOND", BySecond.class, 170, ChronoUnit.SECONDS),
-    BY_SET_POSITION ("BYSETPOS", BySetPosition.class, 180, null)
+    FREQUENCY ("FREQ", Frequency.class, null),
+    INTERVAL ("INTERVAL", Interval.class, null),
+    UNTIL ("UNTIL", Until.class, null),
+    COUNT ("COUNT", Count.class, null),
+    WEEK_START ("WKST", WeekStart.class, null),
+    BY_MONTH ("BYMONTH", ByMonth.class, ChronoUnit.MONTHS),
+    BY_WEEK_NUMBER ("BYWEEKNO", ByWeekNumber.class, ChronoUnit.DAYS),
+    BY_YEAR_DAY ("BYYEARDAY", ByYearDay.class, ChronoUnit.DAYS),
+    BY_MONTH_DAY ("BYMONTHDAY", ByMonthDay.class, ChronoUnit.DAYS),
+    BY_DAY ("BYDAY", ByDay.class, ChronoUnit.DAYS),
+    BY_HOUR ("BYHOUR", ByHour.class, ChronoUnit.HOURS),
+    BY_MINUTE ("BYMINUTE", ByMinute.class, ChronoUnit.MINUTES),
+    BY_SECOND ("BYSECOND", BySecond.class, ChronoUnit.SECONDS),
+    BY_SET_POSITION ("BYSETPOS", BySetPosition.class, null)
     ;
     
     // Map to match up name to enum
@@ -68,17 +68,13 @@ public enum RRuleElement
     private Class<? extends RRulePart<?>> myClass;
 	public Class<? extends RRulePart<?>> elementClass() { return myClass; }
     
-    private int sortOrder;
-    public int sortOrder() { return sortOrder; }
-    
     private ChronoUnit chronoUnit;
     public ChronoUnit getChronoUnit() { return chronoUnit; }
 
-    RRuleElement(String name, Class<? extends RRulePart<?>> myClass, int sortOrder, ChronoUnit chronoUnit)
+    RRuleElement(String name, Class<? extends RRulePart<?>> myClass, ChronoUnit chronoUnit)
     {
         this.name = name;
         this.myClass = myClass;
-        this.sortOrder = sortOrder;
         this.chronoUnit = chronoUnit;
     }
 }

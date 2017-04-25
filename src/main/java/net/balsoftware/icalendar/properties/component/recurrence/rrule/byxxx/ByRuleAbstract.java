@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePartBase;
 
 /**
@@ -75,12 +74,21 @@ public abstract class ByRuleAbstract<T, U> extends RRulePartBase<List<T>, U> imp
         setValue(new ArrayList<>(source.getValue()));
     }
 
+    private final static List<Class<?>> SORT_ORDER = Arrays.asList(
+    			ByMonth.class,
+    			ByWeekNumber.class,
+    			ByYearDay.class,
+    			ByMonthDay.class,
+    			ByDay.class,
+    			ByHour.class,
+    			ByMinute.class,
+    			BySecond.class,
+    			BySetPosition.class
+    		);
     @Override
     public int compareTo(ByRule<List<T>> byRule)
     {
-        int p1 = RRuleElement.fromClass(getClass()).sortOrder();
-        int p2 = RRuleElement.fromClass(byRule.getClass()).sortOrder();
-        return Integer.compare(p1, p2);
+    	return SORT_ORDER.indexOf(getClass()) - SORT_ORDER.indexOf(byRule.getClass());
     }
     
     @Override

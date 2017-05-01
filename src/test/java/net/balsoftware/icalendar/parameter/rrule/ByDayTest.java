@@ -20,7 +20,7 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByD
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 
 public class ByDayTest
-{    
+{
     @Test
     public void canParseByDay()
     {

@@ -134,7 +134,17 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     	setByRules(byRules);
         return this;
     }
-    
+    /** Return particular ByRule of passed class */
+	public ByRule<?> lookupByRule(Class<ByDay> class1)
+	{
+		if (getByRules() == null) return null;
+		return getByRules()
+			.stream()
+	        .filter(r -> r instanceof ByDay)
+	        .findAny()
+	        .get();
+	}
+	
     /**
      * COUNT:
      * RFC 5545 iCalendar 3.3.10, page 41

@@ -61,6 +61,7 @@ import net.balsoftware.icalendar.parameter.rrule.ByHourTest;
 import net.balsoftware.icalendar.parameter.rrule.ByMinuteTest;
 import net.balsoftware.icalendar.parameter.rrule.ByMonthDayTest;
 import net.balsoftware.icalendar.parameter.rrule.ByMonthTest;
+import net.balsoftware.icalendar.parameter.rrule.ByRuleTest;
 import net.balsoftware.icalendar.parameter.rrule.BySecondTest;
 import net.balsoftware.icalendar.parameter.rrule.BySetPositionTest;
 import net.balsoftware.icalendar.parameter.rrule.ByWeekNumberTest;
@@ -240,7 +241,7 @@ import net.balsoftware.icalendar.property.component.UniqueIdentifierTest;
         IntervalTest.class,
         RecurrenceRuleParseTest.class,
         RecurrenceRuleStreamTest.class,
-              
+        ByRuleTest.class
               })
 
 public class AllTests {

@@ -181,6 +181,7 @@ public abstract class VElementBase implements VElement
 	 */
 	protected static String elementName(String content)
 	{
+		if (content == null) return null;
 		int indexOfBegin = content.indexOf(BEGIN);
 		boolean isMultiline = indexOfBegin != -1;
 		if (isMultiline)

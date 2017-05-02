@@ -488,6 +488,7 @@ public class VCalendar extends VParentBase<VCalendar>
     {
         if (newVComponent instanceof VEvent)
         {
+        	System.out.println("getVEvents():" + getVEvents());
             getVEvents().add((VEvent) newVComponent);
         } else if (newVComponent instanceof VTodo)
         {

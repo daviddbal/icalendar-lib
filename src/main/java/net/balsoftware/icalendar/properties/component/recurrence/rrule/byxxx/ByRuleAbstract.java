@@ -33,7 +33,7 @@ public abstract class ByRuleAbstract<T, U> extends RRulePartBase<List<T>, U> imp
     }
     public void setValue(T... values)
     {
-        setValue(Arrays.asList(values));
+        setValue(new ArrayList<>(Arrays.asList(values)));
     }
     public void setValue(String values)
     {

@@ -48,6 +48,7 @@ public abstract class VComponentBase<T> extends VParentBase<T> implements VCompo
                 BEGIN + name(),
                 END + name(),
                 400);
+        setParent(source.getParent());
     }
    
     /**

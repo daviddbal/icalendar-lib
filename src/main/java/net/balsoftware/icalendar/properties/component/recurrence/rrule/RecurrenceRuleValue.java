@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -138,11 +139,12 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
 	public ByRule<?> lookupByRule(Class<ByDay> class1)
 	{
 		if (getByRules() == null) return null;
-		return getByRules()
+		Optional<ByRule<?>> byRule = getByRules()
 			.stream()
 	        .filter(r -> r instanceof ByDay)
-	        .findAny()
-	        .get();
+	        .findAny();
+		if (! byRule.isPresent()) return null;
+		return byRule.get();
 	}
 	
     /**
@@ -338,6 +340,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     public RecurrenceRuleValue(RecurrenceRuleValue source)
     {
     	super(source);
+        setParent(source.getParent());
     }
     
     /** Parse component from content line */

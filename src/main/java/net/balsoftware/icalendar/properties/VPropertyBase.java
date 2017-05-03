@@ -390,6 +390,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         T valueCopy = copyValue(source.getValue());
         setValue(valueCopy);
         source.copyChildrenInto(this);
+        setParent(source.getParent());
     }
     
     // constructor with only value

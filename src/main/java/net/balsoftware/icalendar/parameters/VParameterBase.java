@@ -140,6 +140,7 @@ abstract public class VParameterBase<U,T> extends VElementBase implements VParam
     {
         this(stringConverter);
         setValue(source.getValue());
+        setParent(source.getParent());
     }
     
     @Override

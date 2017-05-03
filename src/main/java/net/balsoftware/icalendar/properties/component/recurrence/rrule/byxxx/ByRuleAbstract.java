@@ -72,6 +72,7 @@ public abstract class ByRuleAbstract<T, U> extends RRulePartBase<List<T>, U> imp
     ByRuleAbstract(ByRuleAbstract<T, U> source)
     {
         setValue(new ArrayList<>(source.getValue()));
+        setParent(source.getParent());
     }
 
     private final static List<Class<?>> SORT_ORDER = Arrays.asList(

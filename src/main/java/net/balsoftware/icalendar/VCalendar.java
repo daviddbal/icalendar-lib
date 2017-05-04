@@ -532,41 +532,6 @@ public class VCalendar extends VParentBase<VCalendar>
             throw new RuntimeException("Unsuppored VComponent type:" + vComponent.getClass());
         }
     }
-    
-//    /** Create a VComponent by parsing component text and add it to the appropriate list 
-//     * @see #addVComponent(VComponent)*/
-//    @Deprecated
-//    public void addVComponent(String contentText)
-//    {
-//        VComponent vComponent = SimpleVComponentFactory.emptyVComponent(contentText);
-//        vComponent.parseContent(contentText);
-//        addChild(vComponent);
-//    }
-    
-    /** Add a collection of {@link VComponent} to the correct List based on
-    * its type, such as VEVENT, VTODO, etc.
-     * 
-     * @param newVComponents  collection of {@link VComponent} to add
-     * @return  true if add was successful, false otherwise
-     */
-    public boolean addAllVComponents(Collection<? extends VComponent> newVComponents)
-    {
-        return newVComponents
-        		.stream()
-        		.map(v -> addVComponent(v))
-        		.allMatch(b -> true);
-    }
-    
-    /** Add a varargs of {@link VComponent} to the correct List based on
-    * its type, such as VEVENT, VTODO, etc.
-     * 
-     * @param newVComponents  collection of {@link VComponent} to add
-     * @return  true if add was successful, false otherwise
-     */
-    public boolean addAllVComponents(VComponent... newVComponents)
-    {
-        return addAllVComponents(Arrays.asList(newVComponents));
-    }
        
     /**
      * A convenience method that returns parent list of the {@link VComponent} parameter.

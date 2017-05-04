@@ -65,4 +65,13 @@ public class SummaryTest
         assertEquals(expectedProperty, madeProperty);
         assertEquals("TEST SUMMARY", madeProperty.getValue());
     }
+    
+    @Test
+    public void canParseEmptySummary()
+    {
+        String content = "";
+        Summary madeProperty = Summary.parse(content);
+        assertEquals("SUMMARY:", madeProperty.toString());        
+        assertEquals(null, madeProperty.getValue());
+    }
 }

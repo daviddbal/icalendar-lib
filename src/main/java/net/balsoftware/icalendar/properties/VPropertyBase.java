@@ -430,7 +430,7 @@ public abstract class VPropertyBase<T,U> extends VParentBase<U> implements VProp
         }
     	ICalendarUtilities.parseInlineElementsToListPair(unfoldedContent)
 	        .stream()
-//	        .peek(System.out::println)
+	        .peek(System.out::println)
 	        .forEach(entry -> processInLineChild(messages, entry.getKey(), entry.getValue(), VParameter.class));
 
     	return messages;

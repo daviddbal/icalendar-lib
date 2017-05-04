@@ -74,4 +74,11 @@ public class SummaryTest
         assertEquals("SUMMARY:", madeProperty.toString());        
         assertEquals(null, madeProperty.getValue());
     }
+    
+    @Test (expected = IllegalArgumentException.class)
+    public void canCreateEmptySummary()
+    {
+        String content = null;
+        Summary.parse(content);
+    }
 }

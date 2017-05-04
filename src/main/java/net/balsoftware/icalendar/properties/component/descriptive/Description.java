@@ -95,8 +95,6 @@ public class Description extends PropBaseAltText<String,Description>
     /** Create new Description by parsing unfolded calendar content */
     public static Description parse(String unfoldedContent)
     {
-        Description property = new Description();
-        property.parseContent(unfoldedContent);
-        return property;
+    	return Description.parse(new Description(), unfoldedContent);
     }
 }

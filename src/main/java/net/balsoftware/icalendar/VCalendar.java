@@ -476,62 +476,62 @@ public class VCalendar extends VParentBase<VCalendar>
     	return withVTimeZones(Arrays.asList(vTimeZones));
     }
     
-    /**
-     * A convenience method that adds a VComponent to one of the Lists based on
-     * its type such as VEVENT, VTODO, etc.
-     * 
-     * @param newVComponent - VComponent to add
-     * @return  true if add was successful, false otherwise
-     */
-    @Deprecated
-    public boolean addVComponent(VComponent newVComponent)
-    {
-        if (newVComponent instanceof VEvent)
-        {
-        	System.out.println("getVEvents():" + getVEvents());
-            getVEvents().add((VEvent) newVComponent);
-        } else if (newVComponent instanceof VTodo)
-        {
-            getVTodos().add((VTodo) newVComponent);            
-        } else if (newVComponent instanceof VJournal)
-        {
-            getVJournals().add((VJournal) newVComponent);
-        } else if (newVComponent instanceof VFreeBusy)
-        {
-            getVFreeBusies().add((VFreeBusy) newVComponent);            
-        } else if (newVComponent instanceof VTimeZone)
-        {
-            getVTimeZones().add((VTimeZone) newVComponent);            
-        } else
-        {
-            throw new RuntimeException("Unsuppored VComponent type:" + newVComponent.getClass());
-        }
-        orderChild(newVComponent);
-        return true;
-    }
-    
-    public boolean removeVComponent(VComponent vComponent)
-    {
-        if (vComponent instanceof VEvent)
-        {
-            return getVEvents().remove(vComponent);
-        } else if (vComponent instanceof VTodo)
-        {
-            return getVTodos().remove(vComponent);            
-        } else if (vComponent instanceof VJournal)
-        {
-            return getVJournals().remove(vComponent);
-        } else if (vComponent instanceof VFreeBusy)
-        {
-            return getVFreeBusies().remove(vComponent);            
-        } else if (vComponent instanceof VTimeZone)
-        {
-            return getVTimeZones().remove(vComponent);            
-        } else
-        {
-            throw new RuntimeException("Unsuppored VComponent type:" + vComponent.getClass());
-        }
-    }
+//    /**
+//     * A convenience method that adds a VComponent to one of the Lists based on
+//     * its type such as VEVENT, VTODO, etc.
+//     * 
+//     * @param newVComponent - VComponent to add
+//     * @return  true if add was successful, false otherwise
+//     */
+//    @Deprecated
+//    public boolean addVComponent(VComponent newVComponent)
+//    {
+//        if (newVComponent instanceof VEvent)
+//        {
+//        	System.out.println("getVEvents():" + getVEvents());
+//            getVEvents().add((VEvent) newVComponent);
+//        } else if (newVComponent instanceof VTodo)
+//        {
+//            getVTodos().add((VTodo) newVComponent);            
+//        } else if (newVComponent instanceof VJournal)
+//        {
+//            getVJournals().add((VJournal) newVComponent);
+//        } else if (newVComponent instanceof VFreeBusy)
+//        {
+//            getVFreeBusies().add((VFreeBusy) newVComponent);            
+//        } else if (newVComponent instanceof VTimeZone)
+//        {
+//            getVTimeZones().add((VTimeZone) newVComponent);            
+//        } else
+//        {
+//            throw new RuntimeException("Unsuppored VComponent type:" + newVComponent.getClass());
+//        }
+//        orderChild(newVComponent);
+//        return true;
+//    }
+//    
+//    public boolean removeVComponent(VComponent vComponent)
+//    {
+//        if (vComponent instanceof VEvent)
+//        {
+//            return getVEvents().remove(vComponent);
+//        } else if (vComponent instanceof VTodo)
+//        {
+//            return getVTodos().remove(vComponent);            
+//        } else if (vComponent instanceof VJournal)
+//        {
+//            return getVJournals().remove(vComponent);
+//        } else if (vComponent instanceof VFreeBusy)
+//        {
+//            return getVFreeBusies().remove(vComponent);            
+//        } else if (vComponent instanceof VTimeZone)
+//        {
+//            return getVTimeZones().remove(vComponent);            
+//        } else
+//        {
+//            throw new RuntimeException("Unsuppored VComponent type:" + vComponent.getClass());
+//        }
+//    }
        
     /**
      * A convenience method that returns parent list of the {@link VComponent} parameter.
@@ -707,7 +707,7 @@ public class VCalendar extends VParentBase<VCalendar>
         
         if (isVComponentValidToAdd)
         {
-            addVComponent(vComponent);
+            addChild(vComponent);
         }
         return vComponent;
     }

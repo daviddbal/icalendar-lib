@@ -61,11 +61,9 @@ public class TimeTransparency extends VPropertyBase<TimeTransparencyType, TimeTr
         setValue(TimeTransparencyType.OPAQUE); // default value
     }
     
-    public static TimeTransparency parse(String propertyContent)
+    public static TimeTransparency parse(String content)
     {
-        TimeTransparency property = new TimeTransparency();
-        property.parseContent(propertyContent);
-        return property;
+    	return TimeTransparency.parse(new TimeTransparency(), content);
     }
     
     public enum TimeTransparencyType

@@ -429,8 +429,6 @@ public class ByDay extends ByRuleAbstract<ByDayPair, ByDay>
 
     public static ByDay parse(String content)
     {
-        ByDay element = new ByDay();
-        element.parseContent(content);
-        return element;
+    	return ByDay.parse(new ByDay(), content);
     }
 }

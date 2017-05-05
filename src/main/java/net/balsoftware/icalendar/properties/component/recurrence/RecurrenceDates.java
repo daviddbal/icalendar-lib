@@ -51,18 +51,15 @@ public class RecurrenceDates extends PropertyBaseRecurrence<RecurrenceDates>
 
     /** Parse string to Temporal.  Not type safe.  Implementation must
      * ensure parameterized type is the same as date-time represented by String parameter */
-    public static RecurrenceDates parse(String value)
+    public static RecurrenceDates parse(String content)
     {
-        RecurrenceDates property = new RecurrenceDates();
-        property.parseContent(value);
-        return property;
+    	return RecurrenceDates.parse(new RecurrenceDates(), content);
     }
     
     /** Parse string with Temporal class Exceptions provided as parameter */
-    public static RecurrenceDates parse(Class<? extends Temporal> clazz, String value)
+    public static RecurrenceDates parse(Class<? extends Temporal> clazz, String content)
     {
-        RecurrenceDates property = new RecurrenceDates();
-        property.parseContent(value);
+    	RecurrenceDates property = RecurrenceDates.parse(new RecurrenceDates(), content);
         clazz.cast(property.getValue().iterator().next()); // class check
         return property;
     }

@@ -81,8 +81,6 @@ public class BySecond extends ByRuleIntegerAbstract<BySecond>
 
     public static ByMinute parse(String content)
     {
-        ByMinute element = new ByMinute();
-        element.parseContent(content);
-        return element;
+    	return ByMinute.parse(new ByMinute(), content);
     }
 }

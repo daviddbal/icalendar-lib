@@ -50,8 +50,7 @@ public class DateTimeDue extends PropBaseDateTime<Temporal, DateTimeDue>
     /** Parse string with Temporal class explicitly provided as parameter */
     public static DateTimeDue parse(Class<? extends Temporal> clazz, String value)
     {
-        DateTimeDue property = new DateTimeDue();
-        property.parseContent(value);
+        DateTimeDue property = DateTimeDue.parse(new DateTimeDue(), value);
         clazz.cast(property.getValue()); // class check
         return property;
     }

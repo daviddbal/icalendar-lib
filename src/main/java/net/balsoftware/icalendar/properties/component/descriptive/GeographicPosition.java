@@ -80,11 +80,9 @@ public class GeographicPosition extends VPropertyBase<String, GeographicPosition
         return builder.toString();
     }
     
-    public static GeographicPosition parse(String value)
+    public static GeographicPosition parse(String content)
     {
-        GeographicPosition geographicPosition = new GeographicPosition();
-        geographicPosition.parseContent(value);
-        return geographicPosition;
+    	return GeographicPosition.parse(new GeographicPosition(), content);
     }
     
     private void updateParts(String newValue)

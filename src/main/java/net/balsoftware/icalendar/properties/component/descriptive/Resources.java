@@ -75,11 +75,9 @@ public class Resources extends PropBaseAltText<List<String>, Resources>
         setConverter(CONVERTER);
     }
 
-    public static Resources parse(String propertyContent)
+    public static Resources parse(String content)
     {
-        Resources property = new Resources();
-        property.parseContent(propertyContent);
-        return property;
+    	return Resources.parse(new Resources(), content);
     }
     
     @Override

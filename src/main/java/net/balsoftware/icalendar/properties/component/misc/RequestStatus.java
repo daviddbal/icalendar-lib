@@ -110,14 +110,8 @@ public class RequestStatus extends PropBaseLanguage<String, RequestStatus>
         return builder.toString();        
     }
     
-    public static RequestStatus parse(String value)
-    {
-        RequestStatus property = new RequestStatus();
-        property.parseContent(value);
-        return property;
-    }
-
-    public void setValue(String value)
+    @Override
+	public void setValue(String value)
     {
     	super.setValue(value);
         int codeIndex = value.indexOf(';');
@@ -143,5 +137,10 @@ public class RequestStatus extends PropBaseLanguage<String, RequestStatus>
             builder.append(";" + getException());
         }
         super.setValue(builder.toString());
+    }
+    
+    public static RequestStatus parse(String content)
+    {
+    	return RequestStatus.parse(new RequestStatus(), content);
     }
 }

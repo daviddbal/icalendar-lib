@@ -22,6 +22,5 @@ public class ByRuleTest
         	.withFrequency(FrequencyType.DAILY)
         	.withByRules(b);
     	assertEquals(new HashSet<>(Arrays.asList(b)), r.getByRules());
-    	System.out.println(r);
     }
 }

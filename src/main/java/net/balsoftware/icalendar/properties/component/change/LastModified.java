@@ -51,10 +51,8 @@ public class LastModified extends PropBaseUTC<LastModified>
         super();
     }
 
-    public static LastModified parse(String value)
+    public static LastModified parse(String content)
     {
-        LastModified property = new LastModified();
-        property.parseContent(value);
-        return property;
+    	return LastModified.parse(new LastModified(), content);
     }
 }

@@ -148,8 +148,6 @@ public class ByMonthDay extends ByRuleIntegerAbstract<ByMonthDay>
     
     public static ByMonthDay parse(String content)
     {
-        ByMonthDay element = new ByMonthDay();
-        element.parseContent(content);
-        return element;
+    	return ByMonthDay.parse(new ByMonthDay(), content);
     }
 }

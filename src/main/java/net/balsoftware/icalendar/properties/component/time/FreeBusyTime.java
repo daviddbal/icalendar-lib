@@ -129,10 +129,8 @@ public class FreeBusyTime extends VPropertyBase<List<Pair<ZonedDateTime, Tempora
         setConverter(CONVERTER);
     }
     
-    public static FreeBusyTime parse(String propertyContent)
+    public static FreeBusyTime parse(String content)
     {
-        FreeBusyTime property = new FreeBusyTime();
-        property.parseContent(propertyContent);
-        return property;
+    	return FreeBusyTime.parse(new FreeBusyTime(), content);
     }
 }

@@ -88,18 +88,15 @@ public class RecurrenceId extends PropBaseDateTime<Temporal, RecurrenceId> imple
     
     /** Parse string to Temporal.  Not type safe.  Implementation must
      * ensure parameterized type is the same as date-time represented by String parameter */
-    public static RecurrenceId parse(String value)
+    public static RecurrenceId parse(String content)
     {
-        RecurrenceId property = new RecurrenceId();
-        property.parseContent(value);
-        return property;
+    	return RecurrenceId.parse(new RecurrenceId(), content);
     }
     
     /** Parse string with Temporal class explicitly provided as parameter */
-    public static RecurrenceId parse(Class<? extends Temporal> clazz, String value)
+    public static RecurrenceId parse(Class<? extends Temporal> clazz, String content)
     {
-        RecurrenceId property = new RecurrenceId();
-        property.parseContent(value);
+    	RecurrenceId property = RecurrenceId.parse(new RecurrenceId(), content);
         clazz.cast(property.getValue()); // class check
         return property;
     }

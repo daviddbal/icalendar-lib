@@ -43,10 +43,8 @@ public class Comment extends PropBaseAltText<String, Comment>
         super();
     }
     
-    public static Comment parse(String propertyContent)
+    public static Comment parse(String content)
     {
-        Comment property = new Comment();
-        property.parseContent(propertyContent);
-        return property;
+    	return Comment.parse(new Comment(), content);
     }
 }

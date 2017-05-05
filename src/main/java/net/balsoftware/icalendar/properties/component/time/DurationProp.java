@@ -48,10 +48,8 @@ public class DurationProp extends PropBaseLanguage<TemporalAmount, DurationProp>
         super();
     }
 
-    public static DurationProp parse(String propertyContent)
+    public static DurationProp parse(String content)
     {
-        DurationProp property = new DurationProp();
-        property.parseContent(propertyContent);
-        return property;
+    	return DurationProp.parse(new DurationProp(), content);
     }
 }

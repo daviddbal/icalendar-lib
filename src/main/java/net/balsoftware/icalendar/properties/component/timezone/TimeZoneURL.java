@@ -37,10 +37,8 @@ public class TimeZoneURL extends VPropertyBase<URI,TimeZoneURL>
         super();
     }
 
-    public static TimeZoneURL parse(String propertyContent)
+    public static TimeZoneURL parse(String content)
     {
-        TimeZoneURL property = new TimeZoneURL();
-        property.parseContent(propertyContent);
-        return property;
+    	return TimeZoneURL.parse(new TimeZoneURL(), content);
     }
 }

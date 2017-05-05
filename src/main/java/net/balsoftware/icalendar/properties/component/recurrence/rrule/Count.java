@@ -53,8 +53,6 @@ public class Count extends RRulePartBase<Integer, Count>
 
     public static Count parse(String content)
     {
-        Count element = new Count();
-        element.parseContent(content);
-        return element;
+    	return Count.parse(new Count(), content);
     }
 }

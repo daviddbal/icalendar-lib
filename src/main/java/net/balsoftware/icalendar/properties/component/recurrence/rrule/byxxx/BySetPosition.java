@@ -51,8 +51,6 @@ public class BySetPosition extends ByRuleIntegerAbstract<BySetPosition>
 
     public static BySetPosition parse(String content)
     {
-        BySetPosition element = new BySetPosition();
-        element.parseContent(content);
-        return element;
+    	return BySetPosition.parse(new BySetPosition(), content);
     }
 }

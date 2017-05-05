@@ -35,10 +35,7 @@ public interface VDescribable2<T> extends VDescribable<T>
     void setDescription(Description description);
     default void setDescription(String description)
     {
-    	System.out.println("des null:" + (description == null));
     	setDescription(Description.parse(description));
-    	System.out.println("this null:" + getDescription());
-    	System.out.println("this null:" + (getDescription() == null));
 	}
     /**
      * Sets the value of the {@link Description}

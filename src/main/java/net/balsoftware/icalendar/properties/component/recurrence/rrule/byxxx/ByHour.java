@@ -98,8 +98,6 @@ public class ByHour extends ByRuleIntegerAbstract<ByHour>
     
     public static ByHour parse(String content)
     {
-        ByHour element = new ByHour();
-        element.parseContent(content);
-        return element;
+    	return ByHour.parse(new ByHour(), content);
     }
 }

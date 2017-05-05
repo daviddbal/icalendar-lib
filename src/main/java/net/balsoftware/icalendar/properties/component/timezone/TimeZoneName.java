@@ -30,10 +30,8 @@ public class TimeZoneName extends PropBaseLanguage<String, TimeZoneName>
         super();
     }
     
-    public static TimeZoneName parse(String propertyContent)
+    public static TimeZoneName parse(String content)
     {
-        TimeZoneName property = new TimeZoneName();
-        property.parseContent(propertyContent);
-        return property;
+    	return TimeZoneName.parse(new TimeZoneName(), content);
     }
 }

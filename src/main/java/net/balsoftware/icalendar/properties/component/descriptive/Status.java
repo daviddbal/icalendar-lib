@@ -60,12 +60,11 @@ public class Status extends VPropertyBase<StatusType, Status>
         setConverter(CONVERTER);
     }
     
-    public static Status parse(String propertyContent)
+    public static Status parse(String content)
     {
-        Status property = new Status();
-        property.parseContent(propertyContent);
-        return property;
+    	return Status.parse(new Status(), content);
     }
+    
     public enum StatusType
     {
         TENTATIVE ("TENTATIVE"),

@@ -40,11 +40,9 @@ public class RepeatCount extends VPropertyBase<Integer, RepeatCount>
         super(0); // default is 0
     }
     
-    public static RepeatCount parse(String value)
+    public static RepeatCount parse(String content)
     {
-        RepeatCount property = new RepeatCount();
-        property.parseContent(value);
-        return property;
+    	return RepeatCount.parse(new RepeatCount(), content);
     }
     
     @Override

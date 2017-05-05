@@ -158,9 +158,7 @@ public class ByWeekNumber extends ByRuleIntegerAbstract<ByWeekNumber>
 
     public static ByWeekNumber parse(String content)
     {
-        ByWeekNumber element = new ByWeekNumber();
-        element.parseContent(content);
-        return element;
+    	return ByWeekNumber.parse(new ByWeekNumber(), content);
     }
 
 }

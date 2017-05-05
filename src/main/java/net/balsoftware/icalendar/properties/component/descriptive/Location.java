@@ -32,16 +32,8 @@ public class Location extends PropBaseAltText<String, Location>
         super();
     }
     
-    public static Location parse(String propertyContent)
+    public static Location parse(String content)
     {
-        if (propertyContent != null)
-        {
-            Location property = new Location();
-            property.parseContent(propertyContent);
-            return property;
-        } else
-        {
-            return null;
-        }
+    	return Location.parse(new Location(), content);
     }
 }

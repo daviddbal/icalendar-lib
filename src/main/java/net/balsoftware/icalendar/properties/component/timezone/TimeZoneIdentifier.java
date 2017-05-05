@@ -67,13 +67,6 @@ public class TimeZoneIdentifier extends VPropertyBase<ZoneId, TimeZoneIdentifier
         setConverter(CONVERTER);
     }
     
-    public static TimeZoneIdentifier parse(String propertyContent)
-    {
-        TimeZoneIdentifier property = new TimeZoneIdentifier();
-        property.parseContent(propertyContent);
-        return property;
-    }
-    
     @Override
     public boolean isValid()
     {
@@ -96,5 +89,10 @@ public class TimeZoneIdentifier extends VPropertyBase<ZoneId, TimeZoneIdentifier
         TimeZoneIdentifier testObj = (TimeZoneIdentifier) obj;
         boolean unknownEquals = (getUnknownValue() == null) ? testObj.getUnknownValue() == null : getUnknownValue().equals(testObj.getUnknownValue());
         return unknownEquals;
+    }
+    
+    public static TimeZoneIdentifier parse(String content)
+    {
+    	return TimeZoneIdentifier.parse(new TimeZoneIdentifier(), content);
     }
 }

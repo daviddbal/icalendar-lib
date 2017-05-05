@@ -42,10 +42,8 @@ public class UniformResourceLocator extends VPropertyBase<URI,UniformResourceLoc
         super();
     }
 
-    public static UniformResourceLocator parse(String propertyContent)
+    public static UniformResourceLocator parse(String content)
     {
-        UniformResourceLocator property = new UniformResourceLocator();
-        property.parseContent(propertyContent);
-        return property;
+    	return UniformResourceLocator.parse(new UniformResourceLocator(), content);
     }
 }

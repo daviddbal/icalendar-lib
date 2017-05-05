@@ -121,8 +121,6 @@ public class ByYearDay extends ByRuleIntegerAbstract<ByYearDay>
     
     public static ByYearDay parse(String content)
     {
-        ByYearDay element = new ByYearDay();
-        element.parseContent(content);
-        return element;
+    	return ByYearDay.parse(new ByYearDay(), content);
     }
 }

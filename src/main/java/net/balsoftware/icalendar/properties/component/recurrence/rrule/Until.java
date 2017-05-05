@@ -84,8 +84,6 @@ public class Until extends RRulePartBase<Temporal, Until>
 
     public static Until parse(String content)
     {
-        Until element = new Until();
-        element.parseContent(content);
-        return element;
+    	return Until.parse(new Until(), content);
     }
 }

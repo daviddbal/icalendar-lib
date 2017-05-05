@@ -38,10 +38,8 @@ public class DateTimeCompleted extends PropBaseUTC<DateTimeCompleted>
         super();
     }
 
-    public static DateTimeCompleted parse(String value)
+    public static DateTimeCompleted parse(String content)
     {
-        DateTimeCompleted property = new DateTimeCompleted();
-        property.parseContent(value);
-        return property;
+    	return DateTimeCompleted.parse(new DateTimeCompleted(), content);
     }
 }

@@ -58,10 +58,8 @@ public class Priority extends VPropertyBase<Integer, Priority>
         return ((getValue() < 0) || (getValue() > 9)) ? false : super.isValid();
     }
 
-    public static Priority parse(String propertyContent)
+    public static Priority parse(String content)
     {
-        Priority property = new Priority();
-        property.parseContent(propertyContent);
-        return property;
+    	return Priority.parse(new Priority(), content);
     }
 }

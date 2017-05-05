@@ -62,8 +62,6 @@ public class WeekStart extends RRulePartBase<DayOfWeek, WeekStart>
     
     public static WeekStart parse(String content)
     {
-    	WeekStart element = new WeekStart();
-    	element.parseContent(content);
-        return element;
+    	return WeekStart.parse(new WeekStart(), content);
     }
 }

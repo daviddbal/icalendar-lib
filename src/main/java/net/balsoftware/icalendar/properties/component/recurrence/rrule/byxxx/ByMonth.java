@@ -120,8 +120,6 @@ public class ByMonth extends ByRuleAbstract<Month, ByMonth>
     
     public static ByMonth parse(String content)
     {
-        ByMonth element = new ByMonth();
-        element.parseContent(content);
-        return element;
+    	return ByMonth.parse(new ByMonth(), content);
     }
 }

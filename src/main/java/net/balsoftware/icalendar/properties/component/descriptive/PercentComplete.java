@@ -38,10 +38,8 @@ public class PercentComplete extends VPropertyBase<Integer, PercentComplete>
         super();
     }
     
-    public static PercentComplete parse(String propertyContent)
+    public static PercentComplete parse(String content)
     {
-        PercentComplete property = new PercentComplete();
-        property.parseContent(propertyContent);
-        return property;
+    	return PercentComplete.parse(new PercentComplete(), content);
     }
 }

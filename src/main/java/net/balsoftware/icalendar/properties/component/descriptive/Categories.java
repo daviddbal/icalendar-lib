@@ -113,11 +113,9 @@ public class Categories extends PropBaseLanguage<List<String>, Categories>
         setConverter(CONVERTER);
     }
 
-    public static Categories parse(String propertyContent)
+    public static Categories parse(String content)
     {
-        Categories property = new Categories();
-        property.parseContent(propertyContent);
-        return property;
+    	return Categories.parse(new Categories(), content);
     }
     
     @Override

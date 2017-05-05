@@ -165,10 +165,9 @@ public class Attendee extends PropertyBaseAttendee<URI, Attendee>
     }
 
     /** Create new Attendee by parsing unfolded calendar content */
-    public static Attendee parse(String unfoldedContent)
+    public static Attendee parse(String content)
     {
-        Attendee property = new Attendee();
-        property.parseContent(unfoldedContent);
+    	Attendee property = Attendee.parse(new Attendee(), content);
         URI.class.cast(property.getValue()); // ensure value class type matches parameterized type
         return property;
     }

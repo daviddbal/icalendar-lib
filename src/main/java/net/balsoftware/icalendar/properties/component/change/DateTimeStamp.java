@@ -1,13 +1,11 @@
 package net.balsoftware.icalendar.properties.component.change;
 
 import java.time.ZonedDateTime;
-import java.time.temporal.Temporal;
 
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.PropBaseUTC;
-import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 
 /**
  * DTSTAMP
@@ -54,9 +52,10 @@ public class DateTimeStamp extends PropBaseUTC<DateTimeStamp>
         super(source);
     }
         
-    public static DateTimeStamp parse(String value)
+    public static DateTimeStamp parse(String content)
     {
-        Temporal t = DateTimeUtilities.temporalFromString(value);
-        return new DateTimeStamp((ZonedDateTime) t);
+    	return DateTimeStamp.parse(new DateTimeStamp(), content);
+//        Temporal t = DateTimeUtilities.temporalFromString(value);
+//        return new DateTimeStamp((ZonedDateTime) t);
     }
 }

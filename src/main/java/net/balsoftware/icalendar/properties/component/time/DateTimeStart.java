@@ -45,16 +45,13 @@ public class DateTimeStart extends PropBaseDateTime<Temporal, DateTimeStart>
      * ensure parameterized type is the same as date-time represented by String parameter */
     public static DateTimeStart parse(String value)
     {
-        DateTimeStart property = new DateTimeStart();
-        property.parseContent(value);
-        return property;
+    	return DateTimeStart.parse(new DateTimeStart(), value);
     }
     
     /** Parse string with Temporal class explicitly provided as parameter */
     public static DateTimeStart parse(Class<? extends Temporal> clazz, String value)
     {
-        DateTimeStart property = new DateTimeStart();
-        property.parseContent(value);
+        DateTimeStart property = DateTimeStart.parse(new DateTimeStart(), value);
         clazz.cast(property.getValue()); // class check
         return property;
     }

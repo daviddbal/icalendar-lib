@@ -67,11 +67,9 @@ public class Action extends VPropertyBase<ActionType, Action>
       setConverter(CONVERTER);
     }
     
-    public static Action parse(String value)
+    public static Action parse(String content)
     {
-        Action property = new Action();
-        property.parseContent(value);
-        return property;
+    	return Action.parse(new Action(), content);
     }
     
     public enum ActionType

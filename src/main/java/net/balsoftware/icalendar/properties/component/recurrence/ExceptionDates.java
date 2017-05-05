@@ -49,18 +49,15 @@ public class ExceptionDates extends PropertyBaseRecurrence<ExceptionDates>
 
     /** Parse string to Temporal.  Not type safe.  Implementation must
      * ensure parameterized type is the same as date-time represented by String parameter */
-    public static ExceptionDates parse(String value)
+    public static ExceptionDates parse(String content)
     {
-        ExceptionDates property = new ExceptionDates();
-        property.parseContent(value);
-        return property;
+    	return ExceptionDates.parse(new ExceptionDates(), content);
     }
     
     /** Parse string with Temporal class Exceptions provided as parameter */
-    public static  ExceptionDates parse(Class<? extends Temporal> clazz, String value)
+    public static  ExceptionDates parse(Class<? extends Temporal> clazz, String content)
     {
-        ExceptionDates property = new ExceptionDates();
-        property.parseContent(value);
+        ExceptionDates property = ExceptionDates.parse(new ExceptionDates(), content);
         clazz.cast(property.getValue().iterator().next()); // class check
         return property;
     }

@@ -125,10 +125,8 @@ public class Sequence extends VPropertyBase<Integer, Sequence>
         }
     }
 
-    public static Sequence parse(String propertyContent)
+    public static Sequence parse(String content)
     {
-        Sequence property = new Sequence();
-        property.parseContent(propertyContent);
-        return property;
+    	return Sequence.parse(new Sequence(), content);
     }
 }

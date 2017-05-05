@@ -61,10 +61,8 @@ public class RelatedTo extends VPropertyBase<String, RelatedTo> implements PropR
         super();
     }
     
-    public static RelatedTo parse(String propertyContent)
+    public static RelatedTo parse(String content)
     {
-        RelatedTo property = new RelatedTo();
-        property.parseContent(propertyContent);
-        return property;
+    	return RelatedTo.parse(new RelatedTo(), content);
     }
 }

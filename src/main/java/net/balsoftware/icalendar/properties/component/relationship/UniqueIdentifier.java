@@ -56,10 +56,8 @@ public class UniqueIdentifier extends VPropertyBase<String, UniqueIdentifier>
         super();
     }
 
-    public static UniqueIdentifier parse(String propertyContent)
+    public static UniqueIdentifier parse(String content)
     {
-        UniqueIdentifier property = new UniqueIdentifier();
-        property.parseContent(propertyContent);
-        return property;
+    	return UniqueIdentifier.parse(new UniqueIdentifier(), content);
     }
 }

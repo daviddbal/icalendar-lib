@@ -42,16 +42,14 @@ public class RecurrenceRule extends VPropertyBase<RecurrenceRuleValue, Recurrenc
         super(source);
     }
 
-    public static RecurrenceRule parse(String propertyContent)
-    {
-        RecurrenceRule property = new RecurrenceRule();
-        property.parseContent(propertyContent);
-        return property;
-    }
-    
     @Override
     protected RecurrenceRuleValue copyValue(RecurrenceRuleValue source)
     {
         return new RecurrenceRuleValue(source);
+    }
+
+    public static RecurrenceRule parse(String content)
+    {
+    	return RecurrenceRule.parse(new RecurrenceRule(), content);
     }
 }

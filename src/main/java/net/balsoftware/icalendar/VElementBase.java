@@ -151,7 +151,7 @@ public abstract class VElementBase implements VElement
      */
     protected static <T extends VElementBase> T parse(T element, String valueContent)
     {
-//    	if (valueContent == null) return null;
+    	if (valueContent == null) return null;
     	boolean isContentValid = element.isContentValid(valueContent);
     	if (! isContentValid)
 		{
@@ -168,8 +168,8 @@ public abstract class VElementBase implements VElement
      */
 	protected boolean isContentValid(String valueContent)
 	{
-//		return true;
-		return valueContent != null; // override in subclasses
+		return true;
+//		return valueContent != null; // override in subclasses
 	}
 
 	/**

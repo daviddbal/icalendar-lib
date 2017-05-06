@@ -2,6 +2,7 @@ package net.balsoftware.icalendar.property.component;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -75,10 +76,10 @@ public class SummaryTest
         assertEquals(null, madeProperty.getValue());
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test
     public void canCreateEmptySummary()
     {
         String content = null;
-        Summary.parse(content);
+        assertNull(Summary.parse(content));
     }
 }

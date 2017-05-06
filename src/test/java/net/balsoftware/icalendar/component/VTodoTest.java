@@ -1,6 +1,7 @@
 package net.balsoftware.icalendar.component;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -78,9 +79,9 @@ public class VTodoTest
         assertEquals(expectedDates, madeDates);
     }
     
-    @Test (expected = IllegalArgumentException.class)
+    @Test
     public void canParseNullVTodo()
     {
-        VTodo.parse(null);
+        assertNull(VTodo.parse(null));
     } 
 }

@@ -9,10 +9,9 @@ import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
@@ -95,9 +94,9 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
      * 
      * Each BYxxx rule can only occur once
      *  */
-    public Set<ByRule<?>> getByRules() { return byRules; }
-    private Set<ByRule<?>> byRules;
-    public void setByRules(Set<ByRule<?>> byRules)
+    public List<ByRule<?>> getByRules() { return byRules; }
+    private List<ByRule<?>> byRules;
+    public void setByRules(List<ByRule<?>> byRules)
     {
     	if (this.byRules != null)
     	{
@@ -117,7 +116,7 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     {
     	if (getByRules() == null)
     	{
-    		setByRules(new LinkedHashSet<>());
+    		setByRules(new ArrayList<>());
     	}
     	getByRules().addAll(byRules);
     	if (byRules != null)
@@ -456,16 +455,54 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
         List<String> errors = super.errors();
         if (getFrequency() == null)
         {
-            errors.add("FREQ is not present.  FREQ is REQUIRED and MUST NOT occur more than once");
+            errors.add(name() + ":" + "FREQ is not present.  FREQ is REQUIRED and MUST NOT occur more than once");
+        }
+        if (getByRules() != null)
+        {
+        	getByRules().stream().collect(Collectors.groupingBy(ByRule::getClass, Collectors.counting()));
         }
         boolean isUntilPresent = getUntil() != null;
         boolean isCountPresent = getCount() != null;
         if (isUntilPresent && isCountPresent)
         {
-            errors.add("UNTIL and COUNT are both present.  UNTIL or COUNT rule parts are OPTIONAL, but they MUST NOT both occur.");
+            errors.add(name() + ":" + "UNTIL and COUNT are both present.  UNTIL or COUNT rule parts are OPTIONAL, but they MUST NOT both occur.");
         }
+		List<ByRule<?>> byRules = (getByRules() == null) ? Collections.emptyList() : new ArrayList<>(getByRules());
+		List<String> duplicateByRuleMessages = byRules.stream()
+				.collect(Collectors.groupingBy(ByRule::getClass, Collectors.counting()))
+				.entrySet()
+				.stream()
+				.filter(e -> e.getValue() > 1)
+				.map(e -> name() + ":" + e.getKey().getSimpleName() + " can only occur once in a RRULE.")
+				.collect(Collectors.toList());
+		errors.addAll(duplicateByRuleMessages);
         return errors;
     }
+    
+	@Override
+	protected boolean checkChild(List<Message> messages, String content, String elementName, VChild newChild)
+	{
+		boolean isSuperOk = super.checkChild(messages, content, elementName, newChild);
+		if (newChild instanceof ByRule)
+		{
+			List<ByRule<?>> byRules = (getByRules() == null) ? new ArrayList<>() : new ArrayList<>(getByRules());
+			byRules.add((ByRule<?>) newChild);
+//			System.out.println("byRules:" + byRules + " " + newChild);
+			List<Message> duplicateByRuleMessages = byRules.stream()
+				.collect(Collectors.groupingBy(ByRule::getClass, Collectors.counting()))
+				.entrySet()
+				.stream()
+				.filter(e -> e.getValue() > 1)
+				.map(e -> new Message(this,
+						newChild.getClass().getSimpleName() + " can only occur once in a calendar component.",
+						MessageEffect.MESSAGE_ONLY))
+				.collect(Collectors.toList());
+			boolean isDuplicateByRulePresent = duplicateByRuleMessages.isEmpty();
+			messages.addAll(duplicateByRuleMessages);
+			return isSuperOk && isDuplicateByRulePresent;
+		}
+		return isSuperOk;
+	}
 
     public static RecurrenceRuleValue parse(String content)
     {

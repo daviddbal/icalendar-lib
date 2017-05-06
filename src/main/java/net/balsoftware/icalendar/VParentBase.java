@@ -115,7 +115,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	public boolean removeChild(VChild child)
 	{
 		Method setter = getSetter(child);
-		boolean isList = Collection.class.isAssignableFrom(setter.getParameters()[0].getType());
+		boolean isList = List.class.isAssignableFrom(setter.getParameters()[0].getType());
 		try {
 			if (isList)
 			{
@@ -251,7 +251,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	                child = (VElementBase) VElementBase.newEmptyVElement(multilineChildClass, childName);
 	                List<Message> myMessages = ((VParentBase<?>) child).parseContent(unfoldedLineIterator); // recursively parse child parent
 	                messages.addAll(myMessages);
-	        		checkAndAddChild(messages, unfoldedLine, childName, (VChild) child);
+	        		addChildInternal(messages, unfoldedLine, childName, (VChild) child);
 				}
             } else
             { // single line element (e.g. property, parameter, rrule value)
@@ -269,7 +269,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 	                // don't add single-line children with info or error messages - they have problems and should be ignored
 	                if (myMessages.isEmpty())
 	                {
-	            		checkAndAddChild(messages, unfoldedLine, childName, (VChild) child);                	
+	            		addChildInternal(messages, unfoldedLine, childName, (VChild) child);                	
 	                } else
 	                {
 	                	messages.addAll(myMessages);
@@ -297,7 +297,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         {
         	List<Message> myMessages = ((VElementBase) newChild).parseContent(childName + "=" + content);
 	        messages.addAll(myMessages);
-			checkAndAddChild(messages, content, childName, newChild);
+			addChildInternal(messages, content, childName, newChild);
         } else
         {
         	messages.add(new Message(this,
@@ -305,15 +305,16 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
         			MessageEffect.MESSAGE_ONLY));
         }
 	}
-
-	protected void checkAndAddChild(List<Message> messages, String content, String elementName, VChild newChild) {
+	
+	protected boolean checkChild(List<Message> messages, String content, String elementName, VChild newChild)
+	{
+		int initialMessageSize = messages.size();
 		if (newChild == null)
 		{
 			Message message = new Message(this,
 					"Ignored invalid element:" + content,
 					MessageEffect.MESSAGE_ONLY);
 			messages.add(message);
-			return;
 		}
 		Method getter = getGetter(newChild);
 		boolean isChildAllowed = getter != null;
@@ -333,7 +334,7 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 		}
 		if (currentParameter instanceof Collection)
 		{
-			isChildAlreadyPresent = ((Collection<?>) currentParameter).contains(newChild); // TOSO contains is expensive - try to find a way to avoid
+			isChildAlreadyPresent = ((Collection<?>) currentParameter).contains(newChild); // TODO contains is expensive - try to find a way to avoid
 		} else
 		{
 			isChildAlreadyPresent = currentParameter != null;			
@@ -345,7 +346,13 @@ public abstract class VParentBase<T> extends VElementBase implements VParent
 					MessageEffect.MESSAGE_ONLY);
 			messages.add(message);
 		}
-		if (isChildAllowed && ! isChildAlreadyPresent)
+		return messages.size() == initialMessageSize;
+	}
+
+	protected void addChildInternal(List<Message> messages, String content, String elementName, VChild newChild)
+	{
+		boolean isOK = checkChild(messages, content, elementName, newChild);
+		if (isOK)
 		{
 			addChild(newChild);
 		}

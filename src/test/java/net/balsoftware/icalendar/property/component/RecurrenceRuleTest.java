@@ -210,7 +210,7 @@ public class RecurrenceRuleTest
     {
         RecurrenceRule r = new RecurrenceRule(new RecurrenceRuleValue()); // value can't be null
         List<String> errors = r.errors();
-        List<String> expected = Arrays.asList("FREQ is not present.  FREQ is REQUIRED and MUST NOT occur more than once");
+        List<String> expected = Arrays.asList("RRULE:FREQ is not present.  FREQ is REQUIRED and MUST NOT occur more than once");
         assertEquals(expected, errors);
     }
     
@@ -220,7 +220,7 @@ public class RecurrenceRuleTest
         RecurrenceRuleValue r = new RecurrenceRuleValue(); // value can't be null
         assertEquals(0, r.childrenUnmodifiable().size());
         List<String> errors = r.errors();
-        List<String> expected = Arrays.asList("FREQ is not present.  FREQ is REQUIRED and MUST NOT occur more than once");
+        List<String> expected = Arrays.asList("RRULE:FREQ is not present.  FREQ is REQUIRED and MUST NOT occur more than once");
         assertEquals(expected, errors);
     }
 }

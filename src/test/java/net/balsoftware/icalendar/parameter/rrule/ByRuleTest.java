@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.DayOfWeek;
 import java.util.Arrays;
-import java.util.HashSet;
 
 import org.junit.Test;
 
@@ -21,6 +20,6 @@ public class ByRuleTest
     	RecurrenceRuleValue r = new RecurrenceRuleValue()
         	.withFrequency(FrequencyType.DAILY)
         	.withByRules(b);
-    	assertEquals(new HashSet<>(Arrays.asList(b)), r.getByRules());
+    	assertEquals(Arrays.asList(b), r.getByRules());
     }
 }

@@ -8,6 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.components.DaylightSavingTime;
+import net.balsoftware.icalendar.components.StandardTime;
+import net.balsoftware.icalendar.components.VPrimary;
+import net.balsoftware.icalendar.components.VRepeatable;
+import net.balsoftware.icalendar.components.VRepeatableBase;
 import net.balsoftware.icalendar.properties.component.recurrence.PropertyBaseRecurrence;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;

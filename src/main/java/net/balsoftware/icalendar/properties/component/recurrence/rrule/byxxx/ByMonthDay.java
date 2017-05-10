@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonthDay;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRuleIntegerAbstract;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 
 /**

@@ -6,6 +6,16 @@ import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VElement;
+import net.balsoftware.icalendar.components.DaylightSavingTime;
+import net.balsoftware.icalendar.components.StandardTime;
+import net.balsoftware.icalendar.components.VAlarm;
+import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VComponentElement;
+import net.balsoftware.icalendar.components.VEvent;
+import net.balsoftware.icalendar.components.VFreeBusy;
+import net.balsoftware.icalendar.components.VJournal;
+import net.balsoftware.icalendar.components.VTimeZone;
+import net.balsoftware.icalendar.components.VTodo;
 
 /**
  * <p>Enumerated type containing all the {@link VComponent} elements that can be in a {@link VCalendar}</p>

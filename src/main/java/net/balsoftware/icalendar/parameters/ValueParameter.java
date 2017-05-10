@@ -1,5 +1,7 @@
 package net.balsoftware.icalendar.parameters;
 
+import net.balsoftware.icalendar.parameters.ParameterEnumBasedWithUnknown;
+import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.ValueType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 

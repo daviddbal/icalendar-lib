@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.components.VCommon;
+import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VComponentBase;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 
 /**

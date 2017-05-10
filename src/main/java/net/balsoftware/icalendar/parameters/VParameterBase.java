@@ -6,6 +6,9 @@ import java.util.List;
 
 import net.balsoftware.icalendar.VElementBase;
 import net.balsoftware.icalendar.VParent;
+import net.balsoftware.icalendar.parameters.VParameter;
+import net.balsoftware.icalendar.parameters.VParameterBase;
+import net.balsoftware.icalendar.parameters.VParameterElement;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**

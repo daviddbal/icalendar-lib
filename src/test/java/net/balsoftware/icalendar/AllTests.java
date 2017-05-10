@@ -14,6 +14,7 @@ import net.balsoftware.icalendar.calendar.VCalendarRecurrenceIDTest;
 import net.balsoftware.icalendar.component.BaseTest;
 import net.balsoftware.icalendar.component.ComponentStatusTest;
 import net.balsoftware.icalendar.component.CopyComponentTest;
+import net.balsoftware.icalendar.component.DateTimeEndComponentTest;
 import net.balsoftware.icalendar.component.DaylightSavingsTimeTest;
 import net.balsoftware.icalendar.component.DescribableTest;
 import net.balsoftware.icalendar.component.DisplayableTest;
@@ -148,7 +149,7 @@ import net.balsoftware.icalendar.property.component.UniqueIdentifierTest;
         BaseTest.class,
         ComponentStatusTest.class,
         CopyComponentTest.class,
-        DateTimeEndTest.class,
+        DateTimeEndComponentTest.class,
         DaylightSavingsTimeTest.class,
         DescribableTest.class,
         DisplayableTest.class,

@@ -1,8 +1,7 @@
 package net.balsoftware.icalendar.properties;
 
-import org.junit.experimental.categories.Categories;
-
 import net.balsoftware.icalendar.parameters.Language;
+import net.balsoftware.icalendar.properties.component.descriptive.Categories;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneName;
 
 /**

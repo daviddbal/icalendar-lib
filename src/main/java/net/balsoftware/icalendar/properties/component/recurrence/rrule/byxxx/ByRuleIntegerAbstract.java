@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRuleAbstract;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRuleIntegerAbstract;
 
 public abstract class ByRuleIntegerAbstract<U> extends ByRuleAbstract<Integer, U>
 {

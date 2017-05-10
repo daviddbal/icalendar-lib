@@ -2,6 +2,8 @@ package net.balsoftware.icalendar.utilities;
 
 import java.io.Serializable;
 
+import net.balsoftware.icalendar.utilities.Pair;
+
  /**
   * <p>A convenience class to represent name-value pairs.</p>
   * Copied from JavaFx for use in Java EE environments

@@ -7,6 +7,7 @@ import net.balsoftware.icalendar.parameters.GroupMembership;
 import net.balsoftware.icalendar.parameters.ParticipationRole;
 import net.balsoftware.icalendar.parameters.ParticipationStatus;
 import net.balsoftware.icalendar.parameters.RSVP;
+import net.balsoftware.icalendar.properties.PropCalendarUser;
 import net.balsoftware.icalendar.properties.component.relationship.PropertyBaseAttendee;
 
 /**

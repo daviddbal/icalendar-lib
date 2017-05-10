@@ -3,6 +3,9 @@ package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 import java.util.Collections;
 import java.util.List;
 
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Interval;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePartBase;
+
 /**
  * INTERVAL
  * RFC 5545 iCalendar 3.3.10, page 40

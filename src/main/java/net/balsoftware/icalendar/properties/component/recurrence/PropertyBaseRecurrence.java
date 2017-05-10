@@ -14,9 +14,12 @@ import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.properties.PropBaseDateTime;
 import net.balsoftware.icalendar.properties.ValueType;
+import net.balsoftware.icalendar.properties.component.recurrence.ExceptionDates;
+import net.balsoftware.icalendar.properties.component.recurrence.PropertyBaseRecurrence;
+import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
-import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 import net.balsoftware.icalendar.utilities.StringConverter;
+import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 
 /**
  * Abstract class for Exceptions and Recurrences

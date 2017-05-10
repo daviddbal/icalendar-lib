@@ -1,5 +1,9 @@
 package net.balsoftware.icalendar;
 
+import net.balsoftware.icalendar.VChild;
+import net.balsoftware.icalendar.VElement;
+import net.balsoftware.icalendar.VParent;
+
 /**
  * A child calendar component that has a {@link VParent}
  * 

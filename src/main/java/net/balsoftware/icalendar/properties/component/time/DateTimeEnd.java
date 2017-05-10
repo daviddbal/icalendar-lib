@@ -8,6 +8,8 @@ import net.balsoftware.icalendar.parameters.NonStandardParameter;
 import net.balsoftware.icalendar.parameters.TimeZoneIdentifierParameter;
 import net.balsoftware.icalendar.properties.PropBaseDateTime;
 import net.balsoftware.icalendar.properties.ValueType;
+import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
+import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
 
 /**
  * <h2> RFC 5545, 3.8.2.2.  Date-Time End</h2>

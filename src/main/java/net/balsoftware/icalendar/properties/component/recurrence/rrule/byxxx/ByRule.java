@@ -5,6 +5,17 @@ import java.time.temporal.Temporal;
 import java.util.stream.Stream;
 
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByHour;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMinute;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonth;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonthDay;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRule;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRuleAbstract;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.BySecond;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.BySetPosition;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByWeekNumber;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByYearDay;
 
 /**
  * Interface for a rule that applies a modification to a Stream of start date/times, such

@@ -3,6 +3,7 @@ package net.balsoftware.icalendar.properties;
 import net.balsoftware.icalendar.parameters.CommonName;
 import net.balsoftware.icalendar.parameters.DirectoryEntry;
 import net.balsoftware.icalendar.parameters.SentBy;
+import net.balsoftware.icalendar.properties.PropLanguage;
 import net.balsoftware.icalendar.properties.component.relationship.Attendee;
 import net.balsoftware.icalendar.properties.component.relationship.Organizer;
 import net.balsoftware.icalendar.properties.component.relationship.PropertyBaseCalendarUser;

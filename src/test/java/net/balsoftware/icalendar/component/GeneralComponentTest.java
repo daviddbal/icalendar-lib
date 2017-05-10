@@ -10,8 +10,8 @@ import net.balsoftware.icalendar.ICalendarStaticComponents;
 import net.balsoftware.icalendar.components.VAlarm;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.component.descriptive.Categories;
-import net.balsoftware.icalendar.properties.component.descriptive.Classification.ClassificationType;
 import net.balsoftware.icalendar.properties.component.descriptive.Description;
+import net.balsoftware.icalendar.properties.component.descriptive.Classification.ClassificationType;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
 
 public class GeneralComponentTest

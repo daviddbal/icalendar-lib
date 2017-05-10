@@ -17,6 +17,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.VChild;
+import net.balsoftware.icalendar.VElement;
+import net.balsoftware.icalendar.VElementBase;
+import net.balsoftware.icalendar.VParent;
+import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.content.ContentLineStrategy;
 import net.balsoftware.icalendar.content.Orderer;

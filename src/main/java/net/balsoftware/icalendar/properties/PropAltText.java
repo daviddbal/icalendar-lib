@@ -3,6 +3,8 @@ package net.balsoftware.icalendar.properties;
 import javax.annotation.Resources;
 
 import net.balsoftware.icalendar.parameters.AlternateText;
+import net.balsoftware.icalendar.properties.PropBaseAltText;
+import net.balsoftware.icalendar.properties.PropLanguage;
 import net.balsoftware.icalendar.properties.component.relationship.Contact;
 
 /**

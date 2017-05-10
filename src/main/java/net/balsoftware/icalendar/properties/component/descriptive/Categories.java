@@ -119,7 +119,6 @@ public class Categories extends PropBaseLanguage<List<String>, Categories>
     }
     
     @Override
-    @Deprecated // is this necessary?
     protected List<String> copyValue(List<String> source)
     {
         return new ArrayList<>(source);

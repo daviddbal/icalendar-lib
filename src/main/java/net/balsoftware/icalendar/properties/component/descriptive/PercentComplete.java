@@ -2,6 +2,7 @@ package net.balsoftware.icalendar.properties.component.descriptive;
 
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.VPropertyBase;
+import net.balsoftware.icalendar.properties.component.descriptive.PercentComplete;
 
 /**
  * PERCENT-COMPLETE

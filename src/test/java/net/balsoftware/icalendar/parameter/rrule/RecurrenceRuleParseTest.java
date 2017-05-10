@@ -13,10 +13,10 @@ import org.junit.Test;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.FrequencyType;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay;
-import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay.ByDayPair;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonth;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonthDay;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByWeekNumber;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay.ByDayPair;
 
 public class RecurrenceRuleParseTest
 {

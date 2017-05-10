@@ -2,6 +2,9 @@ package net.balsoftware.icalendar;
 
 import java.util.List;
 
+import net.balsoftware.icalendar.VChild;
+import net.balsoftware.icalendar.VElement;
+
 /**
  * <p>Parent calendar components (e.g. VCALENDAR, VEVENT, SUMMARY, RRULE value).  Parent components can have children.</p>
  * 

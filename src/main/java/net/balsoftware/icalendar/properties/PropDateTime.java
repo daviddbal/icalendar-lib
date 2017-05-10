@@ -1,6 +1,8 @@
 package net.balsoftware.icalendar.properties;
 
 import net.balsoftware.icalendar.parameters.TimeZoneIdentifierParameter;
+import net.balsoftware.icalendar.properties.PropBaseDateTime;
+import net.balsoftware.icalendar.properties.VProperty;
 import net.balsoftware.icalendar.properties.component.misc.UnknownProperty;
 
 /**

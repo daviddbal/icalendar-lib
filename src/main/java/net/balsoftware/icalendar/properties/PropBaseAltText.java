@@ -5,6 +5,12 @@ import java.net.URI;
 import javax.annotation.Resources;
 
 import net.balsoftware.icalendar.parameters.AlternateText;
+import net.balsoftware.icalendar.properties.PropAltText;
+import net.balsoftware.icalendar.properties.PropBaseAltText;
+import net.balsoftware.icalendar.properties.PropBaseLanguage;
+import net.balsoftware.icalendar.properties.component.descriptive.Comment;
+import net.balsoftware.icalendar.properties.component.descriptive.Description;
+import net.balsoftware.icalendar.properties.component.descriptive.Location;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 import net.balsoftware.icalendar.properties.component.relationship.Contact;
 import net.balsoftware.icalendar.utilities.StringConverter;

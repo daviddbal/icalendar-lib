@@ -3,6 +3,8 @@ package net.balsoftware.icalendar.parameters;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.balsoftware.icalendar.parameters.Range;
+import net.balsoftware.icalendar.parameters.VParameterBase;
 import net.balsoftware.icalendar.parameters.Range.RangeType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 

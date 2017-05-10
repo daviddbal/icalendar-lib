@@ -1,5 +1,7 @@
 package net.balsoftware.icalendar.parameters;
 
+import net.balsoftware.icalendar.parameters.FormatType;
+import net.balsoftware.icalendar.parameters.VParameterBase;
 import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
 import net.balsoftware.icalendar.utilities.StringConverter;
 import net.balsoftware.icalendar.utilities.StringConverters;

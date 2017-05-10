@@ -4,6 +4,7 @@ import java.time.ZonedDateTime;
 
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.PropBaseUTC;
+import net.balsoftware.icalendar.properties.component.time.DateTimeCompleted;
 
 /**
  * COMPLETED

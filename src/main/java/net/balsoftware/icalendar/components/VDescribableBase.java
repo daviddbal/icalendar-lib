@@ -2,6 +2,10 @@ package net.balsoftware.icalendar.components;
 
 import java.util.List;
 
+import net.balsoftware.icalendar.components.VCommon;
+import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VDescribable;
+import net.balsoftware.icalendar.components.VDescribableBase;
 import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 

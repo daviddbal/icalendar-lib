@@ -4,16 +4,20 @@ import java.net.URI;
 import java.util.List;
 
 import net.balsoftware.icalendar.parameters.CalendarUser;
-import net.balsoftware.icalendar.parameters.CalendarUser.CalendarUserType;
 import net.balsoftware.icalendar.parameters.Delegatees;
 import net.balsoftware.icalendar.parameters.Delegators;
 import net.balsoftware.icalendar.parameters.GroupMembership;
 import net.balsoftware.icalendar.parameters.ParticipationRole;
-import net.balsoftware.icalendar.parameters.ParticipationRole.ParticipationRoleType;
 import net.balsoftware.icalendar.parameters.ParticipationStatus;
-import net.balsoftware.icalendar.parameters.ParticipationStatus.ParticipationStatusType;
 import net.balsoftware.icalendar.parameters.RSVP;
+import net.balsoftware.icalendar.parameters.CalendarUser.CalendarUserType;
+import net.balsoftware.icalendar.parameters.ParticipationRole.ParticipationRoleType;
+import net.balsoftware.icalendar.parameters.ParticipationStatus.ParticipationStatusType;
 import net.balsoftware.icalendar.properties.PropAttendee;
+import net.balsoftware.icalendar.properties.component.relationship.Attendee;
+import net.balsoftware.icalendar.properties.component.relationship.Organizer;
+import net.balsoftware.icalendar.properties.component.relationship.PropertyBaseAttendee;
+import net.balsoftware.icalendar.properties.component.relationship.PropertyBaseCalendarUser;
 
 /**
  * Abstract class for Attendee and unknown properties

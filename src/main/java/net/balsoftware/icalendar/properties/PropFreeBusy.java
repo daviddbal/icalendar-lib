@@ -1,6 +1,7 @@
 package net.balsoftware.icalendar.properties;
 
 import net.balsoftware.icalendar.parameters.FreeBusyType;
+import net.balsoftware.icalendar.properties.VProperty;
 
 public interface PropFreeBusy<T> extends VProperty<T>
 {

@@ -2,6 +2,8 @@ package net.balsoftware.icalendar.parameters;
 
 import java.time.ZoneId;
 
+import net.balsoftware.icalendar.parameters.TimeZoneIdentifierParameter;
+import net.balsoftware.icalendar.parameters.VParameterBase;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**

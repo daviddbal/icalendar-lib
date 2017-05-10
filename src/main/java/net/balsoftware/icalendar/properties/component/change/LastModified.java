@@ -8,6 +8,7 @@ import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.PropBaseUTC;
+import net.balsoftware.icalendar.properties.component.change.LastModified;
 
 /**
  * LAST-MODIFIED

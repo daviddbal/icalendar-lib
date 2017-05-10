@@ -1,5 +1,7 @@
 package net.balsoftware.icalendar.utilities;
 
+import net.balsoftware.icalendar.utilities.StringConverter;
+
 /**
  * <p>{@link StringConverter} implementation for {@link Integer}
  * (and int primitive) values.</p>

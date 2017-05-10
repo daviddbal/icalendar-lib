@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.balsoftware.icalendar.parameters.ParameterEnumBasedWithUnknown;
+import net.balsoftware.icalendar.parameters.ParticipationRole;
 import net.balsoftware.icalendar.parameters.ParticipationRole.ParticipationRoleType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 

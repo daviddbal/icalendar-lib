@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.components.VDateTimeEnd;
+import net.balsoftware.icalendar.components.VFreeBusy;
+import net.balsoftware.icalendar.components.VPersonal;
 import net.balsoftware.icalendar.properties.component.relationship.Contact;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.FreeBusyTime;

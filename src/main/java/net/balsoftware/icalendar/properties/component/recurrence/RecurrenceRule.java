@@ -6,6 +6,7 @@ import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.VPropertyBase;
+import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 
 /**

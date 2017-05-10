@@ -5,6 +5,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePartBase;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
+
 /**
  * Week Start
  * WKST:

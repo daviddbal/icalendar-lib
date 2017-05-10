@@ -4,6 +4,7 @@ import java.time.temporal.Temporal;
 
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.PropBaseDateTime;
+import net.balsoftware.icalendar.properties.component.time.DateTimeDue;
 
 /**
  * DUE

@@ -8,6 +8,17 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePartBase;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByHour;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMinute;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonth;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMonthDay;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRule;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRuleAbstract;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.BySecond;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.BySetPosition;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByWeekNumber;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByYearDay;
 
 /**
  * BYxxx rule that modify frequency rule (see RFC 5545, iCalendar 3.3.10 Page 42)

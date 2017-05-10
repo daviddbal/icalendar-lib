@@ -9,6 +9,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.VChild;
+import net.balsoftware.icalendar.VElement;
+import net.balsoftware.icalendar.VElementBase;
 import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VComponentElement;
 import net.balsoftware.icalendar.parameters.VParameter;

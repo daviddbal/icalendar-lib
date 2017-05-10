@@ -9,6 +9,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import net.balsoftware.icalendar.utilities.Pair;
+
 /**
  * Static utility methods used throughout iCalendar
  * 

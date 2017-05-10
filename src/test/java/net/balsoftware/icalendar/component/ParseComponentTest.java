@@ -12,8 +12,8 @@ import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship;
 import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship.AlarmTriggerRelationshipType;
-import net.balsoftware.icalendar.properties.component.alarm.Action.ActionType;
 import net.balsoftware.icalendar.properties.component.alarm.Trigger;
+import net.balsoftware.icalendar.properties.component.alarm.Action.ActionType;
 
 public class ParseComponentTest extends ICalendarTestAbstract
 {           

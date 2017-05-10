@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.properties.VPropertyBase;
+import net.balsoftware.icalendar.properties.component.time.TimeTransparency;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency.TimeTransparencyType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 

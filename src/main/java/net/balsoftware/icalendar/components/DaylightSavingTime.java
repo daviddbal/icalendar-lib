@@ -1,5 +1,8 @@
 package net.balsoftware.icalendar.components;
 
+import net.balsoftware.icalendar.components.DaylightSavingTime;
+import net.balsoftware.icalendar.components.StandardOrDaylight;
+import net.balsoftware.icalendar.components.VTimeZone;
 import net.balsoftware.icalendar.properties.component.descriptive.Comment;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceDates;

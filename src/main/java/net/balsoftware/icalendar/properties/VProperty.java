@@ -6,6 +6,7 @@ import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.parameters.NonStandardParameter;
 import net.balsoftware.icalendar.parameters.ValueParameter;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 
 /**
  * top-level interface for all iCalendar properties

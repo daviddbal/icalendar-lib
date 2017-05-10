@@ -8,6 +8,9 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRuleIntegerAbstract;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.BySetPosition;
+
 public class BySetPosition extends ByRuleIntegerAbstract<BySetPosition>
 {
     public BySetPosition()

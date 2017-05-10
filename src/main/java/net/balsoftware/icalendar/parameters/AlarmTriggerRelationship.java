@@ -1,5 +1,7 @@
 package net.balsoftware.icalendar.parameters;
 
+import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship;
+import net.balsoftware.icalendar.parameters.VParameterBase;
 import net.balsoftware.icalendar.parameters.AlarmTriggerRelationship.AlarmTriggerRelationshipType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 

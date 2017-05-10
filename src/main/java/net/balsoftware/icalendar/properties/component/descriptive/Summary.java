@@ -8,6 +8,7 @@ import net.balsoftware.icalendar.parameters.AlternateText;
 import net.balsoftware.icalendar.parameters.Language;
 import net.balsoftware.icalendar.parameters.NonStandardParameter;
 import net.balsoftware.icalendar.properties.PropBaseAltText;
+import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 
 /**
 <h2>3.8.1.12.  Summary</h2>

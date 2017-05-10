@@ -2,6 +2,8 @@ package net.balsoftware.icalendar.parameters;
 
 import java.net.URI;
 
+import net.balsoftware.icalendar.parameters.SentBy;
+import net.balsoftware.icalendar.parameters.VParameterBase;
 import net.balsoftware.icalendar.utilities.StringConverter;
 import net.balsoftware.icalendar.utilities.StringConverters;
 

@@ -7,6 +7,9 @@ import net.balsoftware.icalendar.parameters.DirectoryEntry;
 import net.balsoftware.icalendar.parameters.SentBy;
 import net.balsoftware.icalendar.properties.PropBaseLanguage;
 import net.balsoftware.icalendar.properties.PropCalendarUser;
+import net.balsoftware.icalendar.properties.component.relationship.Attendee;
+import net.balsoftware.icalendar.properties.component.relationship.Organizer;
+import net.balsoftware.icalendar.properties.component.relationship.PropertyBaseCalendarUser;
 
 /**
  * Abstract class for properties with a CAL-ADDRESS value.

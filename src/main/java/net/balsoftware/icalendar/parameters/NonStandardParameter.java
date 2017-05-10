@@ -3,6 +3,8 @@ package net.balsoftware.icalendar.parameters;
 import java.util.Collections;
 import java.util.List;
 
+import net.balsoftware.icalendar.parameters.NonStandardParameter;
+import net.balsoftware.icalendar.parameters.VParameterBase;
 import net.balsoftware.icalendar.utilities.StringConverter;
 import net.balsoftware.icalendar.utilities.StringConverters;
 

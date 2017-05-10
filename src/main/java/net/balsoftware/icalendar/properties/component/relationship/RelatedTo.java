@@ -7,6 +7,7 @@ import net.balsoftware.icalendar.parameters.Relationship;
 import net.balsoftware.icalendar.parameters.Relationship.RelationshipType;
 import net.balsoftware.icalendar.properties.PropRelationship;
 import net.balsoftware.icalendar.properties.VPropertyBase;
+import net.balsoftware.icalendar.properties.component.relationship.RelatedTo;
 
 /**
  * RELATED-TO

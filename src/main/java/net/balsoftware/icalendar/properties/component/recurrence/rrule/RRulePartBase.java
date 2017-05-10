@@ -5,6 +5,9 @@ import java.util.List;
 
 import net.balsoftware.icalendar.VElementBase;
 import net.balsoftware.icalendar.VParent;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePartBase;
 
 abstract public class RRulePartBase<T, U> extends VElementBase implements RRulePart<T>
 {

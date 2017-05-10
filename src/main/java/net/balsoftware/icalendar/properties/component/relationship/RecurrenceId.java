@@ -9,6 +9,7 @@ import net.balsoftware.icalendar.parameters.Range;
 import net.balsoftware.icalendar.parameters.Range.RangeType;
 import net.balsoftware.icalendar.properties.PropBaseDateTime;
 import net.balsoftware.icalendar.properties.PropRecurrenceID;
+import net.balsoftware.icalendar.properties.component.relationship.RecurrenceId;
 
 /**
  * RECURRENCE-ID

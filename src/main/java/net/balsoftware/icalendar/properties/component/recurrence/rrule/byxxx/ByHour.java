@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByHour;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRuleIntegerAbstract;
+
 /**
  * By Hour 
  * BYHOUR

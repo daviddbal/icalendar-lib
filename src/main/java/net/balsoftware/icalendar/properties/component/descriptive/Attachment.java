@@ -8,12 +8,13 @@ import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.parameters.Encoding;
-import net.balsoftware.icalendar.parameters.Encoding.EncodingType;
 import net.balsoftware.icalendar.parameters.FormatType;
 import net.balsoftware.icalendar.parameters.ValueParameter;
+import net.balsoftware.icalendar.parameters.Encoding.EncodingType;
 import net.balsoftware.icalendar.properties.PropAttachment;
 import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.ValueType;
+import net.balsoftware.icalendar.properties.component.descriptive.Attachment;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 
 /**

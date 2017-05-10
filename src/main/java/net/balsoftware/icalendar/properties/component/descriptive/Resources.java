@@ -9,6 +9,7 @@ import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.PropBaseAltText;
 import net.balsoftware.icalendar.properties.ValueType;
+import net.balsoftware.icalendar.properties.component.descriptive.Resources;
 import net.balsoftware.icalendar.utilities.StringConverter;
 
 /**

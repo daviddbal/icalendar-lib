@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VElement;
+import net.balsoftware.icalendar.properties.VProperty;
+import net.balsoftware.icalendar.properties.VPropertyElement;
+import net.balsoftware.icalendar.properties.ValueType;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
 import net.balsoftware.icalendar.properties.calendar.Version;

@@ -1,5 +1,8 @@
 package net.balsoftware.icalendar.components;
 
+import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VDescribable;
+import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.properties.component.descriptive.Description;
 import net.balsoftware.icalendar.properties.component.descriptive.Summary;
 

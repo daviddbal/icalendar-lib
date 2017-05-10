@@ -14,6 +14,8 @@ import java.util.stream.Stream;
 
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByRuleIntegerAbstract;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByWeekNumber;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 
 /** 

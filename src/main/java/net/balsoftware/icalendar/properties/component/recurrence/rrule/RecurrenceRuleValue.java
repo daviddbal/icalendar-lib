@@ -24,6 +24,14 @@ import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
 import net.balsoftware.icalendar.properties.component.recurrence.RecurrenceRule;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Count;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Frequency;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.FrequencyType;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Interval;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Until;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByHour;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMinute;
@@ -34,8 +42,8 @@ import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByR
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.BySecond;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByYearDay;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
-import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;
+import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 
 /**
  * RRULE
@@ -199,8 +207,14 @@ public class RecurrenceRuleValue extends VParentBase<RecurrenceRuleValue> implem
     	orderChild(this.frequency, frequency);
     	this.frequency = frequency;
 	}
-    public void setFrequency(String frequency) { setFrequency(Frequency.parse(frequency)); }
-    public void setFrequency(FrequencyType frequency) { setFrequency(new Frequency(frequency)); }
+    public void setFrequency(String frequency)
+    {
+    	setFrequency(Frequency.parse(frequency));
+	}
+    public void setFrequency(FrequencyType frequency)
+    {
+    	setFrequency(new Frequency(frequency));
+	}
     public RecurrenceRuleValue withFrequency(Frequency frequency)
     {
         setFrequency(frequency);

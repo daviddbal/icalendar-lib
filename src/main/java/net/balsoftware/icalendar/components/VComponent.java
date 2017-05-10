@@ -3,11 +3,11 @@ package net.balsoftware.icalendar.components;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import junit.runner.Version;
 import net.balsoftware.icalendar.VChild;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
+import net.balsoftware.icalendar.properties.calendar.Version;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 
 /**

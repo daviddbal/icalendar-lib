@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VDateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;

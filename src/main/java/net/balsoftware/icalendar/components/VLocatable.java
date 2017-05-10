@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.components.VAlarm;
+import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VDescribable2;
+import net.balsoftware.icalendar.components.VDisplayable;
+import net.balsoftware.icalendar.components.VDuration;
+import net.balsoftware.icalendar.components.VLocatable;
 import net.balsoftware.icalendar.properties.component.descriptive.Description;
 import net.balsoftware.icalendar.properties.component.descriptive.GeographicPosition;
 import net.balsoftware.icalendar.properties.component.descriptive.Location;

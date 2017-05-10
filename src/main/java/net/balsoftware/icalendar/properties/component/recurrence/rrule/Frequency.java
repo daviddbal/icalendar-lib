@@ -6,6 +6,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Frequency;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.FrequencyType;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePartBase;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RecurrenceRuleValue;
+
 /**
  * FREQUENCY
  * FREQ

@@ -2,6 +2,7 @@ package net.balsoftware.icalendar.components;
 
 import java.time.ZonedDateTime;
 
+import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.properties.component.change.LastModified;
 
 public interface VLastModified<T> extends VComponent

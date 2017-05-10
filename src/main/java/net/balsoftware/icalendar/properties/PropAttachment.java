@@ -2,6 +2,7 @@ package net.balsoftware.icalendar.properties;
 
 import net.balsoftware.icalendar.parameters.Encoding;
 import net.balsoftware.icalendar.parameters.FormatType;
+import net.balsoftware.icalendar.properties.VProperty;
 
 public interface PropAttachment<T> extends VProperty<T>
 {

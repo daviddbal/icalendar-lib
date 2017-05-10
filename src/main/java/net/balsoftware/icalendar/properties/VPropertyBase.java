@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import junit.runner.Version;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
@@ -18,6 +17,7 @@ import net.balsoftware.icalendar.parameters.VParameter;
 import net.balsoftware.icalendar.parameters.ValueParameter;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.ProductIdentifier;
+import net.balsoftware.icalendar.properties.calendar.Version;
 import net.balsoftware.icalendar.properties.component.misc.NonStandardProperty;
 import net.balsoftware.icalendar.properties.component.relationship.UniqueIdentifier;
 import net.balsoftware.icalendar.utilities.ICalendarUtilities;

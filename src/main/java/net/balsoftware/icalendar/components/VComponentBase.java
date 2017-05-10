@@ -2,6 +2,9 @@ package net.balsoftware.icalendar.components;
 
 import net.balsoftware.icalendar.VParent;
 import net.balsoftware.icalendar.VParentBase;
+import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VComponentBase;
+import net.balsoftware.icalendar.components.VComponentElement;
 import net.balsoftware.icalendar.content.MultiLineContent;;
 
 /**

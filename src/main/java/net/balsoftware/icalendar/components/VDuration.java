@@ -2,6 +2,7 @@ package net.balsoftware.icalendar.components;
 
 import java.time.temporal.TemporalAmount;
 
+import net.balsoftware.icalendar.components.VComponent;
 import net.balsoftware.icalendar.properties.component.time.DurationProp;
 
 /**

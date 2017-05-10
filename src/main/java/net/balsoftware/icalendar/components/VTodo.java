@@ -11,6 +11,9 @@ import java.util.Collections;
 import java.util.List;
 
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.components.VDescribable2;
+import net.balsoftware.icalendar.components.VLocatable;
+import net.balsoftware.icalendar.components.VTodo;
 import net.balsoftware.icalendar.properties.component.descriptive.PercentComplete;
 import net.balsoftware.icalendar.properties.component.time.DateTimeCompleted;
 import net.balsoftware.icalendar.properties.component.time.DateTimeDue;

@@ -19,6 +19,8 @@ import net.balsoftware.icalendar.parameters.ParticipationRole;
 import net.balsoftware.icalendar.parameters.ParticipationStatus;
 import net.balsoftware.icalendar.parameters.RSVP;
 import net.balsoftware.icalendar.parameters.SentBy;
+import net.balsoftware.icalendar.properties.component.relationship.Attendee;
+import net.balsoftware.icalendar.properties.component.relationship.PropertyBaseAttendee;
 
 /**
  * <h2>3.8.4.1.  Attendee</h2>

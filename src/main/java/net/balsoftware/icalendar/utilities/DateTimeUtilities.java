@@ -33,6 +33,9 @@ import java.util.stream.Collectors;
 import net.balsoftware.icalendar.components.VEvent;
 import net.balsoftware.icalendar.parameters.VParameterElement;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency.TimeTransparencyType;
+import net.balsoftware.icalendar.utilities.DateTimeUtilities;
+import net.balsoftware.icalendar.utilities.ICalendarUtilities;
+import net.balsoftware.icalendar.utilities.Pair;
 
 
 /**

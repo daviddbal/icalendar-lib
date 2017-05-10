@@ -10,6 +10,14 @@ import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VChild;
+import net.balsoftware.icalendar.components.DaylightSavingTime;
+import net.balsoftware.icalendar.components.StandardOrDaylight;
+import net.balsoftware.icalendar.components.StandardTime;
+import net.balsoftware.icalendar.components.VCommon;
+import net.balsoftware.icalendar.components.VComponent;
+import net.balsoftware.icalendar.components.VComponentElement;
+import net.balsoftware.icalendar.components.VLastModified;
+import net.balsoftware.icalendar.components.VTimeZone;
 import net.balsoftware.icalendar.properties.component.change.LastModified;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneIdentifier;
 import net.balsoftware.icalendar.properties.component.timezone.TimeZoneURL;

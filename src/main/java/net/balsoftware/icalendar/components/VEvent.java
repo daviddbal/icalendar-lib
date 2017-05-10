@@ -7,6 +7,11 @@ import java.util.Collections;
 import java.util.List;
 
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.components.VDateTimeEnd;
+import net.balsoftware.icalendar.components.VDescribable2;
+import net.balsoftware.icalendar.components.VEvent;
+import net.balsoftware.icalendar.components.VLocatable;
+import net.balsoftware.icalendar.components.VRepeatable;
 import net.balsoftware.icalendar.properties.component.time.DateTimeEnd;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency;
 import net.balsoftware.icalendar.properties.component.time.TimeTransparency.TimeTransparencyType;

@@ -3,6 +3,9 @@ package net.balsoftware.icalendar.properties.component.recurrence.rrule;
 import java.util.Collections;
 import java.util.List;
 
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Count;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePartBase;
+
 /**
  * COUNT:
  * RFC 5545 iCalendar 3.3.10, page 41

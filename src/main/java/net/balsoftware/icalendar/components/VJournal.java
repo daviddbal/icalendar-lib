@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VCalendar;
+import net.balsoftware.icalendar.components.VDisplayable;
+import net.balsoftware.icalendar.components.VJournal;
 import net.balsoftware.icalendar.properties.component.descriptive.Description;
 
 /**

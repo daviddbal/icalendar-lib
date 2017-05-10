@@ -3,6 +3,7 @@ package net.balsoftware.icalendar.properties.calendar;
 import net.balsoftware.icalendar.VCalendar;
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.properties.VPropertyBase;
+import net.balsoftware.icalendar.properties.calendar.CalendarScale;
 import net.balsoftware.icalendar.properties.calendar.CalendarScale.CalendarScaleType;
 import net.balsoftware.icalendar.utilities.StringConverter;
 

@@ -8,6 +8,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.components.VCommon;
+import net.balsoftware.icalendar.components.VFreeBusy;
+import net.balsoftware.icalendar.components.VPrimary;
+import net.balsoftware.icalendar.components.VTimeZone;
 import net.balsoftware.icalendar.properties.component.descriptive.Comment;
 import net.balsoftware.icalendar.properties.component.time.DateTimeStart;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;

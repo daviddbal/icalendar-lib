@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.utilities.StringConverter;
+import net.balsoftware.icalendar.utilities.StringConverters;
+
 public class StringConverters
 {
     public static StringConverter<String> defaultStringConverterWithQuotes()

@@ -8,6 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.balsoftware.icalendar.components.VAttendee;
+import net.balsoftware.icalendar.components.VFreeBusy;
+import net.balsoftware.icalendar.components.VPersonal;
+import net.balsoftware.icalendar.components.VPrimary;
 import net.balsoftware.icalendar.properties.component.change.DateTimeStamp;
 import net.balsoftware.icalendar.properties.component.misc.RequestStatus;
 import net.balsoftware.icalendar.properties.component.relationship.Attendee;

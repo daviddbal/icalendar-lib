@@ -5,6 +5,9 @@ import java.time.temporal.Temporal;
 import java.util.Collections;
 import java.util.List;
 
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePartBase;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Until;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities.DateTimeType;
 

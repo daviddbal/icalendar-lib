@@ -7,6 +7,13 @@ import java.util.stream.Collectors;
 
 import net.balsoftware.icalendar.VElement;
 import net.balsoftware.icalendar.parameters.VParameterElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Count;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Frequency;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Interval;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRuleElement;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.RRulePart;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.Until;
+import net.balsoftware.icalendar.properties.component.recurrence.rrule.WeekStart;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByDay;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByHour;
 import net.balsoftware.icalendar.properties.component.recurrence.rrule.byxxx.ByMinute;

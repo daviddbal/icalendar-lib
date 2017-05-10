@@ -4,6 +4,8 @@ import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import net.balsoftware.icalendar.properties.PropBaseUTC;
+import net.balsoftware.icalendar.properties.VPropertyBase;
 import net.balsoftware.icalendar.properties.component.change.DateTimeCreated;
 import net.balsoftware.icalendar.properties.component.change.DateTimeStamp;
 import net.balsoftware.icalendar.properties.component.time.DateTimeCompleted;

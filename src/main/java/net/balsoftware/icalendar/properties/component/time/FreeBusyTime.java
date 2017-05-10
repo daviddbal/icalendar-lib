@@ -13,6 +13,7 @@ import net.balsoftware.icalendar.parameters.FreeBusyType;
 import net.balsoftware.icalendar.parameters.FreeBusyType.FreeBusyTypeEnum;
 import net.balsoftware.icalendar.properties.PropFreeBusy;
 import net.balsoftware.icalendar.properties.VPropertyBase;
+import net.balsoftware.icalendar.properties.component.time.FreeBusyTime;
 import net.balsoftware.icalendar.utilities.DateTimeUtilities;
 import net.balsoftware.icalendar.utilities.Pair;
 import net.balsoftware.icalendar.utilities.StringConverter;

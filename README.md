@@ -98,7 +98,7 @@ rrule.streamRecurrences(LocalDate.of(2017, 1, 2))
 </ul>
 <h3>Export iCalendar</h3>
 <p>The API does not specifically provide a mechanism to export iCalendar data.  However, the <em>toContent </em>method provides a string containing the calendar content.  That string can easily exported by the client program.</p>
-<p>See <a href="icalendaragenda.htm">iCalendarAgenda</a>, a JavaFx Control that displays and edits iCalendar VCALENDAR objects.</p>
+<p>See <a href="https://github.com/JFXtras/jfxtras/tree/9.0/jfxtras-icalendaragenda">iCalendarAgenda</a>, a JavaFx Control that displays and edits iCalendar VCALENDAR objects.</p>
 
 <p>For more information please see my YouTube videos:</p>
 
@@ -109,7 +109,7 @@ rrule.streamRecurrences(LocalDate.of(2017, 1, 2))
 
 <p style="text-align: center;"><a href="https://github.com/daviddbal/icalendar-lib"><img title="iCalendar-lib at GitHub" src="GitHub-Mark-64px.png" alt="iCalendar-lib at GibHub" width="64" height="64" /></a></p>
 <p style="text-align: center;"><a href="https://github.com/daviddbal/icalendar-lib"><strong>iCalendar-lib at GitHub</strong></a></p>
-
+<p>See the <a href="http://balsoftware.net/rrule/">RRULE calculator</a> that uses this library as an example of it's capabilities</p>
 </body>
 </html>
 
